@@ -1,0 +1,64 @@
+{
+  "mid_semester_test": {
+    "format": {
+      "total_marks": 10,
+      "weight_percentage": 10,
+      "coverage": "Up to Week 6",
+      "conditions": "Closed book",
+      "allowed_materials": "Only blank working sheets",
+      "complexity_definition": "Worst-case complexity unless otherwise specified"
+    },
+    "question_types": {
+      "essay_questions": {
+        "description": "Describe algorithms in plain English or pseudocode depending on instructions",
+        "rules": [
+          "If asked to describe an algorithm: write in plain English",
+          "If asked to write pseudocode: use structured pseudocode similar to seminar slides or Python"
+        ]
+      },
+      "mcq_single_answer": {
+        "description": "Select the one correct answer",
+        "example": {
+          "question": "What is the capital of Australia?",
+          "options": ["Sydney", "Melbourne", "Canberra", "Brisbane"],
+          "correct_answer": "Canberra"
+        }
+      },
+      "mcq_multiple_answers": {
+        "description": "Select all correct choices and nothing else",
+        "example": {
+          "question": "Which of these cities are state capitals?",
+          "options": ["Newcastle", "Melbourne", "Gold Coast", "Brisbane"],
+          "correct_answers": ["Melbourne", "Brisbane"]
+        },
+        "scoring_rules": [
+          "Each correct choice gives positive marks",
+          "Each wrong choice deducts marks",
+          "Overall mark per question cannot be below 0",
+          "Avoid guessing if unsure"
+        ]
+      },
+      "short_answer": {
+        "description": "Type only the numerical answer",
+        "example": {
+          "question": "What is the square root of 36?",
+          "answer": 6
+        }
+      },
+      "matching_question": {
+        "description": "For each part, select the correct answer from a drop-down menu"
+      }
+    },
+    "non_examinable_content": {
+      "definition": "Anything marked 'not examinable' in unit materials is excluded from the test"
+    },
+    "preparation_suggestions": [
+      "Understand how each algorithm works",
+      "Practice writing pseudocode for each algorithm",
+      "Understand complexity analysis",
+      "Avoid confusing similar algorithms",
+      "Review seminar slides, unit notes, and applied class sheets",
+      "Practice solving problems, especially from applied class and supplementary materials"
+    ]
+  }
+}

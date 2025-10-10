@@ -1,0 +1,160 @@
+## Consolidated Examinable Topics and Concepts
+
+*(Translated for Computer/LLM Use)*
+
+---
+
+### 1. Analysis of Algorithms
+
+#### 1.1 Program Verification
+
+* **Arguing Correctness:**
+  Understanding how to prove that an algorithm solves the intended problem correctly (preconditions, postconditions, loop invariants).
+* **Arguing Termination:**
+  Methods for proving that an algorithm eventually halts (e.g., using a decreasing measure or variant function).
+
+#### 1.2 Complexity Analysis
+
+* Determining how runtime and memory usage scale with input size.
+* Includes deriving exact and asymptotic runtime using counting, recurrence relations, and loop analysis.
+
+##### 1.2.1 Common Recurrence Relations
+
+* Standard recurrence patterns:
+
+  * ( T(n) = T(n/2) + O(1) ) → O(log n)
+  * ( T(n) = 2T(n/2) + O(n) ) → O(n log n)
+  * ( T(n) = T(n-1) + O(1) ) → O(n)
+* Master theorem, recursion tree method, substitution method.
+
+#### 1.3 Asymptotic Notation
+
+* Big-O, Big-Θ, Big-Ω definitions and relationships.
+* Best, average, and worst-case analysis.
+* Comparing growth rates.
+
+#### 1.4 Measures of Complexity
+
+* Time complexity vs. space complexity.
+* Input size considerations (number of elements, bits, edges, vertices).
+* Amortized analysis (e.g., array resizing).
+
+#### 1.5 Analysis of Basic Sorting Algorithms
+
+* **Selection Sort:** iterative selection of minimum; O(n²).
+* **Insertion Sort:** incremental insertion; O(n²) worst, O(n) best (sorted).
+* **Algorithms’ Properties:**
+
+  * Stability
+  * In-place vs. not in-place
+  * Adaptivity
+  * Deterministic vs. randomized.
+
+---
+
+### 2. Divide and Conquer
+
+* **Karatsuba’s Multiplication:** Sublinear integer multiplication O(n^1.585).
+* **Merge Sort (Revision):** Divide-and-conquer sorting; recurrence T(n)=2T(n/2)+O(n)=O(n log n).
+* **Counting Inversions:** Counting out-of-order pairs using modified merge sort.
+
+---
+
+### 3. Fast Sorting Algorithms
+
+* **Heapsort (Revision):**
+
+  * Uses binary heap.
+  * O(n log n) time, O(1) space.
+  * Not stable.
+
+* **Quicksort:**
+
+  * Partition-based sorting.
+  * Average O(n log n), worst-case O(n²).
+  * Randomized pivot selection to avoid worst case.
+
+* **Complexity Lower Bounds for Sorting:**
+
+  * Decision tree proof: any comparison-based sorting requires Ω(n log n).
+
+* **Sorting Integers Fast:**
+
+  * **Counting Sort:** O(n + k), uses frequency counting; stable.
+  * **Radix Sort:** multi-pass stable sorting using Counting Sort on digits; O(d(n + k)).
+
+---
+
+### 4. Order Statistics and Selection
+
+* **Order Statistics Problem:** Find the k-th smallest element.
+* **Quickselect Algorithm:**
+
+  * Partition-based selection.
+  * Average O(n), worst O(n²).
+* **Randomized Pivot Selection:** Random pivot to improve expected time.
+* **Median of Medians:** Deterministic O(n) selection algorithm.
+
+---
+
+### 5. Graph Basics
+
+#### 5.1 Modelling with Graphs
+
+* Definitions: vertex, edge, directed/undirected, weighted/unweighted.
+* Representing real-world relationships (roads, dependencies).
+
+#### 5.2 Representation and Storage
+
+* **Adjacency matrix:** O(V²) space.
+* **Adjacency list:** O(V + E) space.
+* Trade-offs in efficiency.
+
+#### 5.3 Graph Traversal and Applications
+
+* **Depth-First Search (DFS):**
+  Recursive/backtracking traversal; used for connectivity and cycle detection.
+* **Finding Connected Components:**
+  Using DFS or BFS to label components in undirected graphs.
+* **Cycle Finding:**
+  Detect cycles in directed/undirected graphs via DFS.
+* **Breadth-First Search (BFS):**
+  Level-order traversal; O(V + E).
+
+#### 5.4 Shortest Paths
+
+* **Properties:** triangle inequality, optimal substructure.
+* **Variants:** single-source, all-pairs, unweighted, weighted.
+* **Unweighted Shortest Paths:**
+  BFS gives minimum hop count.
+
+#### 5.5 Topological Sorting
+
+* **Kahn’s Algorithm:** Queue-based approach using indegrees.
+* **DFS-based Topological Sort:** Post-order traversal on DAGs.
+
+#### 5.6 Incremental Graph Connectivity
+
+* **Union-Find Disjoint Set:**
+
+  * Union by rank and path compression.
+  * Applications: Kruskal’s MST, connectivity queries.
+
+---
+
+### 6. Greedy Algorithms
+
+#### 6.1 Shortest Path (Non-negative Weights)
+
+* **Dijkstra’s Algorithm:**
+
+  * Greedy single-source shortest path.
+  * O((V + E) log V) with priority queue.
+
+#### 6.2 Minimum Spanning Trees
+
+* **Prim’s Algorithm:** Greedy growth from start node; O(E log V).
+* **Kruskal’s Algorithm:** Sort edges and add if no cycle (Union-Find); O(E log V).
+
+---
+

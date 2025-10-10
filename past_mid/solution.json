@@ -1,0 +1,116 @@
+Here’s a **machine-readable JSON** version of your full message, preserving all structure and meaning for LLM use (ideal for ingestion, retrieval, or structured reference):
+
+```json
+{
+  "mid_semester_test_feedback": {
+    "general_feedback": {
+      "message_1": {
+        "context": "Initial feedback before final grading release",
+        "notes": [
+          "Grades will be released after manual marking of 2 questions.",
+          "Performance in the 3 automatically marked questions was poor.",
+          "Low engagement with applied classes is a major factor.",
+          "Students who don’t regularly engage have a high chance of failing."
+        ],
+        "recommendations": [
+          "Attend and engage with applied classes regularly.",
+          "Revisit unit materials and practice solving recurrence relations."
+        ]
+      }
+    },
+    "questions": {
+      "question_1": {
+        "topic": "Recurrence relation",
+        "recurrence": {
+          "T(n=0)": "b",
+          "T(n=1)": "b",
+          "T(n>1)": "T(n-2) + c * n^2 + d"
+        },
+        "correct_answer": "Θ(n^3)",
+        "recommendation": "Revisit materials from the first weeks and practice solving recurrence relations."
+      },
+      "question_2": {
+        "topic": "Two-colourability (BFS/DFS application)",
+        "reference_materials": [
+          "Week 5 Applied Problems 1 and 2"
+        ],
+        "solution_summary": "Graph not two-colourable as one connected component was not two-colourable. Therefore, answer = 0.",
+        "performance_comment": "Average performance was very poor."
+      },
+      "question_3": {
+        "topic": "Quickselect and Median of Medians algorithm",
+        "concepts": [
+          "Pivot selection via Median of Medians",
+          "Worst-case O(n) time complexity proof"
+        ],
+        "reference_materials": [
+          "Seminar 3 slides",
+          "Week 4 Applied"
+        ],
+        "feedback": {
+          "common_issues": [
+            "Students did not explain why MoM achieves O(n) for Quickselect.",
+            "Lack of geometric series or recurrence explanation.",
+            "No justification that finding the MoM adds no asymptotic overhead.",
+            "Merely stating the recurrence relation without explanation.",
+            "Inconsistent ratios (e.g., 60% vs 75%) and mathematical errors.",
+            "Incorrectly referring to sorting entire list or confusing MoM with Quicksort.",
+            "Explaining MoM steps instead of answering the complexity question."
+          ]
+        }
+      },
+      "question_4": {
+        "topic": "Variant of insertion sort",
+        "reference_materials": [
+          "Problem 11 of Week 3 Applied sheet"
+        ]
+      },
+      "question_5": {
+        "topic": "Graph clustering and Minimum Spanning Tree (MST)",
+        "problem_description": {
+          "graph_type": "Fully connected undirected graph",
+          "edges": "n(n-1)/2 edges, each weighted by pairwise distance"
+        },
+        "solution_summary": {
+          "approach_1": "Run Kruskal's algorithm with early stopping when there are k connected components (k clusters).",
+          "approach_2": "Compute full MST via Prim's or Kruskal's, then remove k-1 heaviest edges to form k clusters."
+        },
+        "feedback": {
+          "common_issues": [
+            "Using max spanning tree is incorrect.",
+            "Lack of justification for algorithm choice or its relevance to clustering.",
+            "Mentioning multiple unrelated algorithms hoping for partial credit.",
+            "Describing Kruskal's/Prim's steps instead of applying them to clustering."
+          ]
+        }
+      }
+    },
+    "grade_update": {
+      "message_2": {
+        "context": "Follow-up announcement",
+        "notes": [
+          "Grades should now be visible on Moodle under 'Mid-Semester Test' in the Grades page."
+        ]
+      }
+    },
+    "additional_feedback": {
+      "context": "Post-release summary of marker comments (Questions 3 and 5)",
+      "reference_link": "https://edstem.org/au/courses/25561/discussion/2916726"
+    },
+    "sign_off": {
+      "team": "FIT2004 Teaching Team",
+      "closing": "All the best"
+    }
+  }
+}
+```
+
+✅ **Features:**
+
+* Clean structure by **question**
+* Separates **context**, **feedback**, **references**, and **recommendations**
+* Handles multiple instructor messages
+* Fully **lossless** — no semantic information omitted
+* Ideal for fine-tuning, retrieval, or automated summarization tasks
+
+Would you like me to convert this into a downloadable `.json` file?

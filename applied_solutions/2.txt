@@ -1,0 +1,208 @@
+
+```
+WEEK 2 APPLIED SHEET (SOLUTIONS)
+
+=============================
+GENERAL ADVICE
+=============================
+The following solutions pertain to the theoretical problems given in the applied classes. You are strongly advised to attempt the problems thoroughly before looking at these solutions. Simply reading the solutions without thinking about the problems will rob you of the practice required to solve complicated problems on your own. You will perform poorly on the exam if you simply attempt to memorise solutions to these problems. Thinking about a problem, even if you do not solve it, will greatly increase your understanding of the underlying concepts.
+
+Solutions are typically not provided for Python implementation questions. In some cases, pseudocode may be provided where it illustrates a particular useful concept.
+
+=============================
+PROBLEMS AND SOLUTIONS
+=============================
+
+PROBLEM 1:
+Find a closed form for the following recurrence relation:
+T(n) = 2T(n−1) + a , if n > 0,
+T(0) = b.
+
+SOLUTION:
+We use telescoping:
+
+T(n) = 2T(n−1) + a
+= 2(2T(n−2) + a) + a = 2²T(n−2) + (1 + 2)a
+= 2²(2T(n−3) + a) + 3a = 2³T(n−3) + (1 + 2 + 4)a
+... pattern emerges:
+
+T(n) = 2^k T(n−k) + (1 + 2 + ... + 2^{k−1})a, for 0 ≤ k ≤ n.
+
+Sum: 1 + 2 + ... + 2^{k−1} = 2^k − 1,
+thus:
+
+T(n) = 2^k T(n−k) + (2^k − 1)a.
+
+Set k = n:
+T(n) = 2^n T(0) + (2^n − 1)a
+= 2^n b + (2^n − 1)a.
+
+Verification by substitution confirms correctness.
+
+---
+
+PROBLEM 2:
+Let F(n) denote the n-th Fibonacci number:
+F(n) = F(n−1) + F(n−2),
+F(0) = 0, F(1) = 1.
+
+(a) Prove by induction:
+```
+
+[ [1, 1], [1, 0] ]^n =
+[ [F(n+1), F(n)], [F(n), F(n−1)] ].
+
+```
+
+(b) Prove:
+F(2k) = F(k)[2F(k+1) − F(k)],
+F(2k+1) = F(k+1)² + F(k)².
+
+SOLUTION:
+(a) Base case n=1: verified.
+Inductive step: assume holds for k, prove for k+1 using matrix multiplication. Done.
+
+(b) Use part (a), substituting n = 2k, with matrix products and Fibonacci definitions. Remove unwanted term via F(k+1) = F(k) + F(k−1). This gives desired identities.
+
+---
+
+PROBLEM 3:
+Merge sort recurrence:
+T(n) = 2T(n/2) + cn,
+T(1) = b.
+
+SOLUTION:
+Telescoping:
+T(n) = 2^k T(n/2^k) + kcn.
+
+Set k = log₂(n):
+T(n) = nT(1) + cn log₂(n)
+= nb + cn log₂(n).
+
+Thus: T(n) = Θ(n log n).
+
+---
+
+PROBLEM 4:
+Prove by induction:
+T(n) = T(n/2) + c, n > 1; T(1) = b.
+Solution: T(n) = b + c log₂(n) for n = 2^k.
+
+Induction base: n=1, true.
+Induction step: assume for n=m, prove for n=2m. True via log₂ property.
+
+---
+
+PROBLEM 5:
+Recursive POWER(x, p):
+```
+
+if p == 0: return 1
+if p == 1: return x
+if p even: return POWER(x, p/2) * POWER(x, p/2)
+else: return POWER(x, p/2) * POWER(x, p/2) * x
+
+```
+
+TIME COMPLEXITY:
+Recurrence: T(p) = 2T(p/2) + c.
+Binary tree analysis → Θ(p).
+
+IMPROVEMENT:
+Call POWER(x, p/2) once and square the result.
+Recurrence: T(p) = T(p/2) + c → Θ(log p).
+
+---
+
+PROBLEM 6:
+Counting inversions in array V of size n.
+
+ALGORITHM (O(n log n)):
+Adapt Merge Sort:
+- Recursively count inversions in subarrays.
+- Merge while counting split inversions.
+
+PSEUDOCODE:
+```
+
+function SORT-AND-COUNTINV(array[lo..hi])
+if lo == hi: return (array[lo], 0)
+mid = floor((lo + hi)/2)
+(left, InvL) = SORT-AND-COUNTINV(array[lo..mid])
+(right, InvH) = SORT-AND-COUNTINV(array[mid+1..hi])
+(merged, InvS) = MERGE-AND-COUNTSPLITINV(left, right)
+return (merged, InvL + InvH + InvS)
+
+function MERGE-AND-COUNTSPLITINV(A, B)
+...
+// merge while counting inversions
+
+```
+
+---
+
+PROBLEM 7:
+Find a local maximum in n×n grid in O(n).
+
+ALGORITHM:
+Divide-and-conquer using “cross” of middle row and column.
+Recursively choose submatrix containing a neighbour larger than cross maximum.
+Termination: local maximum found.
+
+TIME COMPLEXITY: Θ(n).
+
+---
+
+PROBLEM 8:
+Python function for F(n) using Problem 2(b) recurrence.
+
+TIME COMPLEXITY: O(n) (with reuse),
+SPACE COMPLEXITY: O(log n).
+
+---
+
+PROBLEM 9:
+T(n) = 2T(n/2) + n, T(1) = 1.
+
+Solution:
+Telescoping → T(n) = n + n log₂(n),
+Growth: O(n log n).
+
+---
+
+PROBLEM 10:
+T(n) = T(n−1) + an, T(0) = b.
+
+Solution:
+Telescoping → T(n) = b + a n(n+1)/2,
+Growth: O(n²).
+
+---
+
+PROBLEM 11:
+T(n) = 3T(n/2) + n², T(1) = 1.
+
+Solution:
+Telescoping → T(n) = n^log₂(3) + O(n²),
+Growth: O(n²).
+
+---
+
+PROBLEM 12:
+Divide-and-conquer master theorem:
+```
+
+T(n) = aT(n/b) + f(n)
+
+```
+Three cases:
+1. f(n) = O(n^c), c < log_b(a) → T(n) = Θ(n^log_b(a)).
+2. f(n) = Θ(n^c), c = log_b(a) → T(n) = Θ(n^c log n).
+3. f(n) = Ω(n^c), c > log_b(a) and regularity condition → T(n) = Θ(f(n)).
+```
+
+(a) Apply theorem to previous problems where applicable.
+(b) Telescoping approach also applies to certain recurrences.
+
+```
+

@@ -1,0 +1,119 @@
+{
+  "meta": {
+    "title": "Algorithms & Complexity Questions (formatted for LLM)",
+    "author": "user",
+    "notes": "All constants (b, c, d) are positive where stated. Preserve option labels. Use this JSON as input to an LLM solver."
+  },
+  "questions": [
+    {
+      "id": "recurrence_01",
+      "topic": "Recurrence relation complexity",
+      "statement": "For positive constants b, c, and d, consider the recurrence relation:\nT(n) = b, if n = 0\nT(n) = b, if n = 1\nT(n) = T(n-2) + c * n^2 + d, if n > 1\nWhich of the following statements is TRUE?",
+      "given": {
+        "constants": {
+          "b": "positive constant",
+          "c": "positive constant",
+          "d": "positive constant"
+        },
+        "recurrence": "T(n) = T(n-2) + c * n^2 + d  for n>1; base cases T(0)=b, T(1)=b"
+      },
+      "task": "Determine the asymptotic growth of T(n) and select the correct option.",
+      "options": [
+        { "label": "a", "text": "T(n) = O(n * n * log n)" },
+        { "label": "b", "text": "T(n) = O(n^2)" },
+        { "label": "c", "text": "T(n) = O(n^3)" },
+        { "label": "d", "text": "T(n) = O(n * n * log n * log n)" },
+        { "label": "e", "text": "T(n) = O(n^*)" }
+      ],
+      "answer_type": "single_choice",
+      "solution": {
+        "choice": "",
+        "explanation": ""
+      }
+    },
+    {
+      "id": "quickselect_01",
+      "topic": "Selection algorithm worst-case",
+      "statement": "The Quickselect algorithm can be run in worst-case time complexity O(N), provided we have an O(N) algorithm to find a median. In your own words, justify why Quickselect using the median of medians algorithm to pick the pivots can still achieve worst-case time complexity O(N).",
+      "given": {
+        "algorithm": "Quickselect with median-of-medians pivot selection",
+        "assumption": "There exists an O(N) median-finding subroutine (median-of-medians)."
+      },
+      "task": "Provide a clear, self-contained justification (in your own words) that Quickselect with median-of-medians achieves worst-case O(N) time.",
+      "answer_type": "open_response",
+      "solution": {
+        "explanation": ""
+      }
+    },
+    {
+      "id": "insertion_binarysearch_01",
+      "topic": "Sorting algorithm with binary search insertion",
+      "statement": "Consider this sorting algorithm:\n1: function SORT(A[1..n])\n2: for i = 2 to n do\n3:     Set key = A[i]\n4:     Binary search to find max k < i such that A[k] ≤ key\n5:     for j = i downto k + 1 do\n6:         A[j] = A[j-1]\n7:     A[k+1] = key\nSelect all the correct statements about this algorithm.",
+      "given": {
+        "algorithm_description": "Insertion sort variant that uses binary search to locate the insertion position then shifts elements to insert key."
+      },
+      "options": [
+        { "label": "a", "text": "The worst-case number of comparisons is O(n)." },
+        { "label": "b", "text": "The worst-case number of comparisons is O(n log n)." },
+        { "label": "c", "text": "The worst-case number of comparisons is O(n^2)." },
+        { "label": "d", "text": "The worst-case time complexity is O(n)." },
+        { "label": "e", "text": "The worst-case time complexity is O(n log n)." },
+        { "label": "f", "text": "The worst-case time complexity is O(n^2)." }
+      ],
+      "task": "Choose all correct options and justify each choice briefly (count comparisons vs. total time considering shifts).",
+      "answer_type": "multiple_choice",
+      "solution": {
+        "choices": [],
+        "justifications": {}
+      }
+    },
+    {
+      "id": "clustering_01",
+      "topic": "Clustering (maximizing minimum inter-cluster distance)",
+      "statement": "There are n elements v1, v2, ..., vn and a distance function dist that is a metric (dist(v_i, v_i)=0, positivity: dist(v_i,v_j)>0 for i≠j, symmetry). For a value 1 < k < n, we want to partition the elements into k non-empty clusters C1, C2, ..., Ck so that the minimum distance between any pair of elements assigned to distinct clusters is as large as possible.\nDescribe a method with time complexity O(n ? log n) for finding an optimal solution and justify why it works.",
+      "given": {
+        "elements": "v1..vn",
+        "distance": "metric",
+        "goal": "maximize the minimum inter-cluster distance (i.e., find clustering that maximizes the minimum distance between points in different clusters)"
+      },
+      "task": "Describe an algorithm that finds an optimal clustering and has time complexity of the form O(n^? log n). Explain why it is correct and why the runtime holds.",
+      "hints": [
+        "Think about constructing a minimum spanning tree (MST) of the complete graph where edge weights are distances and then cutting the (k-1) largest edges to form k clusters.",
+        "Compute MST using Kruskal's or Prim's algorithm, then remove (k-1) largest edges."
+      ],
+      "answer_type": "open_response",
+      "solution": {
+        "algorithm_description": "",
+        "proof_sketch": "",
+        "time_complexity": ""
+      }
+    },
+    {
+      "id": "graph_coloring_01",
+      "topic": "Graph coloring",
+      "statement": "What is the number of distinct, valid two colourings of the following undirected graph?",
+      "given": {
+        "graph": {
+          "nodes": ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k"],
+          "edges": [
+            ["a", "b"], ["a", "c"], ["a", "e"], ["b", "c"], ["b", "d"],
+            ["b", "e"], ["c", "d"], ["d", "e"]
+          ]
+        }
+      },
+      "options": {
+        "type": "numerical",
+        "answer_placeholder": "write your answer here"
+      },
+      "additional_info": {
+        "unsure_checkbox": true
+      },
+      "answer_type": "numerical",
+      "solution": {
+        "answer": "",
+        "explanation": ""
+      }
+    }
+  ],
+  "usage_instructions": "Feed each question object to the LLM solver. For MCQ items supply 'choices' and brief 'justifications'. For open-response items return clear, step-by-step explanations and any recurrences solved symbolically. Use LaTeX in explanation strings where helpful."
+}
