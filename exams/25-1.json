@@ -1,0 +1,237 @@
+{
+  "exam_feedback": {
+    "unit": "FIT2004 - Algorithms and Data Structures",
+    "exam_year": 2025,
+    "semester": 1,
+    "post_title": "Final Grades, Exam Feedback, etc #609",
+    "date_posted": "2025-07-14",
+    "cohorts": ["Clayton", "Malaysia"],
+    "highest_scores": {
+      "exam": 46.5,
+      "final": 93
+    },
+    "supplementary_assessment": {
+      "format": "Supplementary exam (Deferred Final Assessment period: 4–8 August 2025)",
+      "eligibility_link": "https://www.monash.edu/students/admin/assessments/supplementary",
+      "requirement_to_pass": "Score at least 50% on supplementary exam to convert final grade to 50 P"
+    },
+    "exam_viewing": {
+      "clayton": {
+        "deadline": "Monday, 28 July 2025",
+        "notes": "Apply online before deadline; viewing sessions will likely be midweek."
+      },
+      "malaysia": {
+        "application_link": "https://sors.monash.edu.my/",
+        "notes": "Apply through SORS platform."
+      }
+    },
+    "questions": [
+      {
+        "id": 1,
+        "topic": "Recurrence Relations",
+        "subtopics": ["recursion", "divide and conquer", "non-master theorem"],
+        "question_type": "analysis",
+        "difficulty_estimate": "medium",
+        "feedback": "Simple recurrence relation unsolvable by Master’s Theorem; required intuitive reasoning.",
+        "common_pitfalls": [
+          "Over-reliance on Master’s theorem.",
+          "Lack of hands-on practice testing different recurrences."
+        ],
+        "advice": "Practice solving recurrences manually and test variations to develop intuition.",
+        "solution": ""
+      },
+      {
+        "id": 2,
+        "topic": "Complexity Analysis of Recursive Function",
+        "subtopics": ["recursion", "space complexity", "time complexity"],
+        "question_type": "complexity analysis",
+        "difficulty_estimate": "easy",
+        "feedback": "Direct analysis similar to assignment tasks; did not require recurrence solving.",
+        "advice": "Focus on recursion depth and call structure; unnecessary to formalize recurrences.",
+        "solution": ""
+      },
+      {
+        "id": 3,
+        "topic": "Insertion Sort",
+        "subtopics": ["sorting", "stability", "loop invariants"],
+        "question_type": "algorithm analysis",
+        "difficulty_estimate": "easy",
+        "feedback": "Straightforward analysis of time complexity, invariants, and stability.",
+        "advice": "Use sorting algorithms to strengthen reasoning about algorithmic properties.",
+        "solution": ""
+      },
+      {
+        "id": "4-5",
+        "topic": "Binary Search Correctness and Preconditions",
+        "subtopics": ["binary search", "loop invariants", "correctness proof", "preconditions"],
+        "question_type": "correctness proof",
+        "difficulty_estimate": "medium",
+        "feedback": "Relatively simple but many students got preconditions wrong (Q5).",
+        "common_pitfalls": [
+          "Incorrect precondition formulation.",
+          "Weak understanding of correctness reasoning."
+        ],
+        "advice": "Code and trace binary search manually; understand loop invariants and termination.",
+        "solution": ""
+      },
+      {
+        "id": "6-7",
+        "topic": "QuickSelect Algorithm and Average Case Complexity",
+        "subtopics": ["selection algorithm", "randomization", "average case"],
+        "question_type": "correctness and complexity analysis",
+        "difficulty_estimate": "medium",
+        "feedback": "Covered correctness and average case reasoning for QuickSelect.",
+        "advice": "Code and step through QuickSelect to understand partition behavior and pivot selection.",
+        "solution": ""
+      },
+      {
+        "id": 8,
+        "topic": "Graph Representations and Algorithm Complexity (Dijkstra)",
+        "subtopics": ["graphs", "adjacency list", "Dijkstra", "complexity analysis"],
+        "question_type": "reasoning and analysis",
+        "difficulty_estimate": "medium",
+        "feedback": "Rewarded reasoning about complexity changes over memorization.",
+        "advice": "Understand representation tradeoffs; recall that Dijkstra’s was implemented in Assignment 1.",
+        "solution": ""
+      },
+      {
+        "id": 9,
+        "topic": "Prim’s and Kruskal’s Algorithms",
+        "subtopics": ["minimum spanning tree", "correctness", "algorithm comparison"],
+        "question_type": "correctness and reasoning",
+        "difficulty_estimate": "medium",
+        "feedback": "Tested understanding of MST algorithms and correctness reasoning.",
+        "common_pitfalls": ["Failure to justify correctness or handle variants properly."],
+        "advice": "Compare algorithms conceptually; trace edge inclusion logic for both Prim and Kruskal.",
+        "solution": ""
+      },
+      {
+        "id": 10,
+        "topic": "Dynamic Programming vs Greedy Algorithms",
+        "subtopics": ["optimization", "algorithm design", "comparison"],
+        "question_type": "conceptual comparison",
+        "difficulty_estimate": "medium",
+        "feedback": "Asked to distinguish DP and Greedy paradigms conceptually.",
+        "common_pitfalls": ["Failing to differentiate optimal substructure and greedy choice property."],
+        "advice": [
+          "Attempt applied DP problems to identify recurrence patterns.",
+          "Create a comparison table between DP and Greedy approaches."
+        ],
+        "solution": ""
+      },
+      {
+        "id": "11-13",
+        "topic": "Floyd–Warshall Algorithm",
+        "subtopics": ["graph algorithms", "shortest paths", "dynamic programming"],
+        "question_type": "algorithm tracing",
+        "difficulty_estimate": "medium",
+        "feedback": "Key insight: outer loop corresponds to intermediate vertex.",
+        "advice": "Trace algorithm carefully; identify iteration roles to avoid confusion.",
+        "solution": ""
+      },
+      {
+        "id": "14-15",
+        "topic": "Max-Flow / Min-Cut of Flow Network",
+        "subtopics": ["network flow", "residual graph", "augmenting paths"],
+        "question_type": "procedural and conceptual analysis",
+        "difficulty_estimate": "hard",
+        "feedback": "Common mistakes include missing augmenting paths or residual updates.",
+        "common_pitfalls": [
+          "Neglecting backward edges in residual graphs.",
+          "Stopping early before full augmentation."
+        ],
+        "advice": "Always draw residual networks with both forward and backward edges; practice manually.",
+        "solution": ""
+      },
+      {
+        "id": 16,
+        "topic": "Circulation with Demands",
+        "subtopics": ["network flow", "circulation", "feasibility"],
+        "question_type": "application problem",
+        "difficulty_estimate": "medium",
+        "feedback": "Similar to applied and quiz problems; required solid practice.",
+        "advice": "Be comfortable transforming circulation problems into flow networks.",
+        "solution": ""
+      },
+      {
+        "id": 17,
+        "topic": "Prefix Doubling Technique",
+        "subtopics": ["suffix array", "string sorting", "doubling method"],
+        "question_type": "conceptual understanding",
+        "difficulty_estimate": "medium",
+        "feedback": "Common error: not identifying the correct value of k during 2k sorting.",
+        "advice": "Understand growth in k during iterations; visualize sorted substrings.",
+        "solution": ""
+      },
+      {
+        "id": 18,
+        "topic": "2–3 Search Tree Insertions",
+        "subtopics": ["balanced trees", "tree insertion", "B-trees"],
+        "question_type": "implementation tracing",
+        "difficulty_estimate": "medium",
+        "feedback": "New topic; straightforward once traced manually.",
+        "advice": "Perform insertion steps by hand to internalize splitting and promotion.",
+        "solution": ""
+      },
+      {
+        "id": 19,
+        "topic": "Application of QuickSelect",
+        "subtopics": ["selection algorithm", "partitioning", "analysis"],
+        "question_type": "application",
+        "difficulty_estimate": "medium",
+        "feedback": "Confusing for some; required partition reasoning.",
+        "advice": "Draw partitions manually to track element positioning relative to pivot.",
+        "solution": ""
+      },
+      {
+        "id": "20-21",
+        "topic": "Dynamic Programming Variant Problem",
+        "subtopics": ["recurrence relation", "optimal substructure"],
+        "question_type": "application",
+        "difficulty_estimate": "medium",
+        "feedback": "Slight variant of applied class DP question.",
+        "advice": "Recognize familiar DP patterns; practice small variants frequently.",
+        "solution": ""
+      },
+      {
+        "id": 22,
+        "topic": "Graph Algorithm Application and Performance",
+        "subtopics": ["graphs", "algorithm selection", "efficiency"],
+        "question_type": "conceptual reasoning",
+        "difficulty_estimate": "medium",
+        "feedback": "Required identifying the best algorithm for given situations.",
+        "advice": "Think comparatively; same reasoning used in technical interviews.",
+        "solution": ""
+      },
+      {
+        "id": "23-26",
+        "topic": "Dynamic Programming Algorithm Analysis",
+        "subtopics": ["dynamic programming", "algorithm design", "recurrence"],
+        "question_type": "analysis and reasoning",
+        "difficulty_estimate": "hard",
+        "feedback": "DP problem variant similar to applied session examples.",
+        "advice": "Practice classical DP problems; new ones are often simple variants.",
+        "solution": ""
+      },
+      {
+        "id": 24,
+        "topic": "Greedy vs DP in 0/1 Knapsack",
+        "subtopics": ["knapsack problem", "greedy", "dynamic programming"],
+        "question_type": "conceptual comparison",
+        "difficulty_estimate": "easy",
+        "feedback": "Asked to compare Greedy and DP for Knapsack.",
+        "advice": "Understand where Greedy fails and why DP ensures optimality.",
+        "solution": ""
+      }
+    ],
+    "general_feedback": {
+      "summary": [
+        "Understand algorithms at a conceptual and reasoning level, not just steps.",
+        "Being a year-2 ADS unit, higher cognitive reasoning is expected.",
+        "Hands-on coding and manual tracing are the best preparation methods.",
+        "Memorization alone is insufficient; focus on understanding and application."
+      ],
+      "final_message": "All the best, FIT2004 Teaching Team"
+    }
+  }
+}
