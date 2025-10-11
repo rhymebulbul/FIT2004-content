@@ -1,0 +1,100 @@
+
+{
+  "quiz": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "BFS",
+        "description": "Breadth-First Search traversal order",
+        "graph": {
+          "nodes": ["A", "B", "C", "D", "E", "F", "G", "H", "S"],
+          "edges": [
+            ["B", "A"],
+            ["C", "A"],
+            ["C", "E"],
+            ["A", "S"],
+            ["S", "H"],
+            ["S", "D"],
+            ["A", "D"],
+            ["E", "G"],
+            ["G", "F"],
+            ["H", "F"]
+          ],
+          "starting_node": "S"
+        },
+        "rules": {
+          "algorithm": "Breadth-First Search (BFS)",
+          "starting_node": "S",
+          "neighbor_processing_order": "lexicographical"
+        },
+        "questions_and_answers": [
+          {
+            "question": "3rd node to be visited",
+            "answer": "D"
+          },
+          {
+            "question": "6th node to be visited",
+            "answer": "C"
+          },
+          {
+            "question": "7th node to be visited",
+            "answer": "F"
+          },
+          {
+            "question": "8th node to be visited",
+            "answer": "E"
+          }
+        ],
+        "complete_traversal_order": ["S", "A", "D", "H", "B", "C", "F", "E", "G"]
+      },
+      {
+        "id": 2,
+        "type": "DFS",
+        "description": "Depth-First Search traversal order",
+        "graph": {
+          "nodes": ["A", "B", "C", "D", "E", "F", "G", "H", "S"],
+          "edges": [
+            ["B", "A"],
+            ["C", "E"],
+            ["A", "S"],
+            ["S", "E"],
+            ["S", "H"],
+            ["A", "D"],
+            ["E", "G"],
+            ["G", "F"],
+            ["H", "F"]
+          ],
+          "starting_node": "S"
+        },
+        "rules": {
+          "algorithm": "Depth-First Search (DFS)",
+          "starting_node": "S",
+          "neighbor_processing_order": "lexicographical"
+        },
+        "questions_and_answers": [
+          {
+            "question": "5th node to be visited",
+            "answer": "E"
+          },
+          {
+            "question": "6th node to be visited",
+            "answer": "C"
+          },
+          {
+            "question": "8th node to be visited",
+            "answer": "F"
+          },
+          {
+            "question": "9th node to be visited",
+            "answer": "H"
+          }
+        ],
+        "complete_traversal_order": ["S", "A", "B", "D", "E", "C", "G", "F", "H"]
+      }
+    ],
+    "metadata": {
+      "graph_type": "undirected, unweighted",
+      "instruction": "Assuming that node S is the starting point and that whenever a node has multiple neighbours that need to be processed by the algorithm the neighbours would be processed in lexicographical order"
+    }
+  }
+}

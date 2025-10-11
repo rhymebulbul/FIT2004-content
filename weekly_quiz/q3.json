@@ -1,0 +1,176 @@
+{
+  "quiz": [
+    {
+      "id": 1,
+      "title": "Determine partitioning scheme (Naive 3-way vs Hoare) for given pivots",
+      "note": "0-indexing. 'Naive 3-way partitioning' means concatenating < pivot, = pivot, > pivot (stable by original order).",
+      "initial_array": [7, 9, 14, 1, 8, 2, 4, 12, 5, 6, 10],
+      "cases": [
+        {
+          "case_id": 1,
+          "pivot_index": 7,
+          "pivot_value": 12,
+          "resulting_partition": [7, 9, 1, 8, 2, 4, 5, 6, 10, 12, 14],
+          "correct_scheme": "Naive 3-way partitioning",
+          "verified": true,
+          "explanation": "All items <12 appear first in the same relative order as the original array, then 12, then items >12. This matches naive 3-way (stable concatenation)."
+        },
+        {
+          "case_id": 2,
+          "pivot_index": 9,
+          "pivot_value": 6,
+          "resulting_partition": [2, 5, 4, 1, 6, 8, 14, 12, 9, 7, 10],
+          "correct_scheme": "Hoare's partitioning",
+          "verified": true,
+          "explanation": "The left-group elements are not in their original relative order (unstable) and the arrangement matches an in-place swapping partition (Hoare style)."
+        },
+        {
+          "case_id": 3,
+          "pivot_index": 8,
+          "pivot_value": 5,
+          "resulting_partition": [1, 2, 4, 5, 7, 9, 14, 8, 12, 6, 10],
+          "correct_scheme": "Naive 3-way partitioning",
+          "verified": true,
+          "explanation": "Elements <5 appear first in original order, then 5, then elements >5 — exactly the naive 3-way concatenation pattern."
+        }
+      ],
+      "summary_feedback": "The correct classification is: Case 1 = Naive 3-way, Case 2 = Hoare, Case 3 = Naive 3-way. (Case 2 was identified correctly in the original attempt.)"
+    },
+
+
+
+{"id": 2,
+  "question": "QuickSelect using FIT2004 hybrid Hoare partition — show steps and evaluate options after 2 rounds",
+  "notes": "0-indexing throughout. FIT2004 hybrid: pivot moved to front (if not already), then L moves right until A[L] > pivot, R moves left until A[R] <= pivot, swap A[L] and A[R] while L < R; after crossing, swap pivot with A[R].",
+  "initial_array": [2, 3, 7, 8, 4, 9, 1, 10, 6, 5],
+  "task": "Find the 4th order statistic (k_index = 3) using QuickSelect with the FIT2004 hybrid partition; show step-by-step swaps/pivots for two partition rounds (or until statistic found).",
+  "sorted_array_reference": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+  "k_index": 3,
+  "kth_value_reference": 4,
+  "algorithm": {
+    "name": "FIT2004 hybrid Hoare partition",
+    "description": "Pivot (chosen as first element of subarray) is placed at front, L = low+1, R = high. Move L right until A[L] > pivot. Move R left until A[R] <= pivot. If L < R swap A[L], A[R] and continue. When L >= R, swap pivot (A[low]) with A[R] and return R (pivot final index)."
+  },
+  "rounds": [
+    {
+      "round": 1,
+      "subarray_indices": [0, 9],
+      "pivot": { "initial_index": 0, "initial_value": 2 },
+      "actions": [
+        {
+          "action": "start_partition",
+          "array_before": [2, 3, 7, 8, 4, 9, 1, 10, 6, 5]
+        },
+        {
+          "action": "find_L_R",
+          "L_index_found": 1,
+          "A_at_L": 3,
+          "stop_reason_L": "A[L] > pivot",
+          "R_index_found": 6,
+          "A_at_R": 1,
+          "stop_reason_R": "A[R] <= pivot"
+        },
+        {
+          "action": "swap_L_R",
+          "swap_indices": [1, 6],
+          "swap_values_before": [3, 1],
+          "array_after_swap": [2, 1, 7, 8, 4, 9, 3, 10, 6, 5]
+        },
+        {
+          "action": "next_find_L_R",
+          "L_index_found": 2,
+          "A_at_L": 7,
+          "stop_reason_L": "A[L] > pivot (or L passed previous)",
+          "R_index_found": 1,
+          "A_at_R": 2,
+          "stop_reason_R": "R moved left until A[R] <= pivot; now L >= R -> stop"
+        },
+        {
+          "action": "swap_pivot_with_A[R]",
+          "swap_indices": [0, 1],
+          "swap_values_before": [2, 1],
+          "array_after_swap": [1, 2, 7, 8, 4, 9, 3, 10, 6, 5],
+          "pivot_final_index": 1
+        }
+      ],
+      "result_array_after_round": [1, 2, 7, 8, 4, 9, 3, 10, 6, 5],
+      "pivot_final_index": 1,
+      "note": "After round 1, pivot 2 ended at index 1. QuickSelect compares k_index (3) with pivot index (1) and continues on right subarray [2..9]."
+    },
+    {
+      "round": 2,
+      "subarray_indices": [2, 9],
+      "pivot": { "initial_index": 2, "initial_value": 7 },
+      "actions": [
+        {
+          "action": "start_partition",
+          "array_before": [1, 2, 7, 8, 4, 9, 3, 10, 6, 5]
+        },
+        {
+          "action": "find_L_R",
+          "L_index_found": 3,
+          "A_at_L": 8,
+          "stop_reason_L": "A[L] > pivot",
+          "R_index_found": 9,
+          "A_at_R": 5,
+          "stop_reason_R": "A[R] <= pivot"
+        },
+        {
+          "action": "swap_L_R",
+          "swap_indices": [3, 9],
+          "swap_values_before": [8, 5],
+          "array_after_swap": [1, 2, 7, 5, 4, 9, 3, 10, 6, 8]
+        },
+        {
+          "action": "find_L_R",
+          "L_index_found": 5,
+          "A_at_L": 9,
+          "stop_reason_L": "A[L] > pivot",
+          "R_index_found": 8,
+          "A_at_R": 6,
+          "stop_reason_R": "A[R] <= pivot"
+        },
+        {
+          "action": "swap_L_R",
+          "swap_indices": [5, 8],
+          "swap_values_before": [9, 6],
+          "array_after_swap": [1, 2, 7, 5, 4, 6, 3, 10, 9, 8]
+        },
+        {
+          "action": "next_find_L_R",
+          "L_index_found": 7,
+          "A_at_L": 10,
+          "stop_reason_L": "A[L] > pivot (or L passed previous)",
+          "R_index_found": 6,
+          "A_at_R": 3,
+          "stop_reason_R": "R moved left until A[R] <= pivot; now L >= R -> stop"
+        },
+        {
+          "action": "swap_pivot_with_A[R]",
+          "swap_indices": [2, 6],
+          "swap_values_before": [7, 3],
+          "array_after_swap": [1, 2, 3, 5, 4, 6, 7, 10, 9, 8],
+          "pivot_final_index": 6
+        }
+      ],
+      "result_array_after_round": [1, 2, 3, 5, 4, 6, 7, 10, 9, 8],
+      "pivot_final_index": 6,
+      "note": "After round 2 pivot 7 ended at index 6. The 4th order statistic (k_index=3) is within the left side of this pivot; its value can now be read at index 4 of the current array (see below)."
+    }
+  ],
+  "final_array_after_2_rounds": [1, 2, 3, 5, 4, 6, 7, 10, 9, 8],
+  "option_checks": {
+    "a": { "statement": "A[3] = 5", "truth": true, "value_at_index": 5 },
+    "b": { "statement": "A[8] = 6", "truth": false, "value_at_index": 9 },
+    "c": { "statement": "A[9] = 8", "truth": true, "value_at_index": 8 },
+    "d": { "statement": "A[0] = 2", "truth": false, "value_at_index": 1 },
+    "e": { "statement": "A[4] = 4", "truth": true, "value_at_index": 4 },
+    "f": { "statement": "A[5] = 7", "truth": false, "value_at_index": 6 }
+  },
+  "correct_answers": ["a", "c", "e"],
+  "explanation_summary": "Using the FIT2004 hybrid partition rules (L stops at > pivot, R stops at <= pivot, swap until L >= R, then swap pivot with A[R]) yields the arrays shown round-by-round. After two rounds the array is [1,2,3,5,4,6,7,10,9,8], so options a, c and e are true while b, d and f are false. The 4th order statistic (k_index=3) equals 4 (located at index 4 in the current array after round 2)."
+}
+
+
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "quiz": [
+    {
+      "question_id": 1,
+      "question_text": "Consider the following algorithm, where A[1..n] is an array of numbers:\n\nfunc(A[1..n]):\n    for i = 1 to n-1:\n        for j = n to i+1:\n            if (A[j] < A[j-1]):\n                swap(A[j], A[j-1])\n        ### Loop Invariant ###\n    return A\n\nConsider the following partially specified invariant. Fill in the missing blanks to form an invariant that is correct and helps prove the correctness of the algorithm.\n\nLoop Invariant: elements in A[ Blank 1 ... Blank 2 ] are Blank 3 .",
+      "type": "fill_in_the_blank",
+      "algorithm_type": "Bubble Sort",
+      "solution": {
+        "Blank 1": "1",
+        "Blank 2": "i",
+        "Blank 3": "in their final sorted position"
+      },
+      "explanation": "This is the bubble sort algorithm. After each outer loop iteration i, the largest i−1 elements are already bubbled to the end of the array in sorted order. Therefore, the subarray A[i..n] is sorted in increasing order and contains the largest elements."
+    },
+    {
+      "question_id": 2,
+      "question_text": "Consider the following array of numbers with the idea of sorting them using radix sort:\n\nA = [38, 956, 2462, 182, 9410, 5041, 6, 1081]\n\nNow consider the state of the array after the first two iterations of the main loop in radix sort (ascending order, 0-indexed). Select all the correct statements based on the state of the resulting array.",
+      "type": "multiple_select",
+      "options": [
+        "A[4] = 956",
+        "A[7] = 1081",
+        "A[5] = 956",
+        "A[6] = 9410",
+        "A[3] = 5041",
+        "A[2] = 38"
+      ],
+      "correct_answers": [
+        "A[4] = 956",
+        "A[3] = 5041",
+        "A[2] = 38"
+      ],
+      "explanation": "Radix sort processes digits from least significant to most significant. After two iterations (units and tens places), the ordering stabilizes for numbers sharing the same last two digits. The given array ordering satisfies A[4] = 956 and A[7] = 1081 after two passes, consistent with the feedback that the answer was fully correct."
+    }
+  ]
+}

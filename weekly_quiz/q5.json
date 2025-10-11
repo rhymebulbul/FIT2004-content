@@ -1,0 +1,102 @@
+
+{
+  "quiz": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "Prim's Algorithm",
+        "description": "Prim's algorithm for computing a minimum spanning tree using node S as the source node",
+        "graph": {
+          "nodes": ["A", "B", "C", "D", "E", "F", "G", "H", "S"],
+          "edges": [
+            {"nodes": ["B", "C"], "weight": 6},
+            {"nodes": ["C", "E"], "weight": 1},
+            {"nodes": ["B", "A"], "weight": 2},
+            {"nodes": ["C", "A"], "weight": 9},
+            {"nodes": ["C", "G"], "weight": 5},
+            {"nodes": ["E", "G"], "weight": 7},
+            {"nodes": ["S", "G"], "weight": 11},
+            {"nodes": ["A", "D"], "weight": 12},
+            {"nodes": ["A", "H"], "weight": 4},
+            {"nodes": ["G", "H"], "weight": 8},
+            {"nodes": ["G", "F"], "weight": 3},
+            {"nodes": ["H", "F"], "weight": 10}
+          ],
+          "starting_node": "S"
+        },
+        "algorithm": {
+          "name": "Prim's Algorithm",
+          "source_node": "S"
+        },
+        "question": "In which order are the edges added to the solution?",
+        "answer": {
+          "edge_addition_order": [
+            {"position": 1, "edge": ["G", "S"], "weight": 11},
+            {"position": 2, "edge": ["F", "G"], "weight": 3},
+            {"position": 3, "edge": ["C", "G"], "weight": 5},
+            {"position": 4, "edge": ["C", "E"], "weight": 1},
+            {"position": 5, "edge": ["B", "C"], "weight": 6},
+            {"position": 6, "edge": ["A", "B"], "weight": 2},
+            {"position": 7, "edge": ["A", "H"], "weight": 4},
+            {"position": 8, "edge": ["A", "D"], "weight": 12}
+          ],
+          "total_mst_weight": 44,
+          "status": "correct"
+        }
+      },
+      {
+        "id": 2,
+        "type": "Kruskal's Algorithm",
+        "description": "Kruskal's algorithm for computing a minimum spanning tree",
+        "graph": {
+          "nodes": ["A", "B", "C", "D", "E", "F", "G", "H", "S"],
+          "edges": [
+            {"nodes": ["B", "C"], "weight": 6},
+            {"nodes": ["C", "E"], "weight": 1},
+            {"nodes": ["B", "A"], "weight": 2},
+            {"nodes": ["C", "A"], "weight": 9},
+            {"nodes": ["C", "G"], "weight": 5},
+            {"nodes": ["E", "G"], "weight": 7},
+            {"nodes": ["S", "G"], "weight": 11},
+            {"nodes": ["A", "D"], "weight": 12},
+            {"nodes": ["A", "H"], "weight": 4},
+            {"nodes": ["G", "H"], "weight": 8},
+            {"nodes": ["G", "F"], "weight": 3},
+            {"nodes": ["H", "F"], "weight": 10}
+          ]
+        },
+        "algorithm": {
+          "name": "Kruskal's Algorithm"
+        },
+        "question": "In which order are the edges added to the solution?",
+        "answer": {
+          "edge_addition_order": [
+            {"position": 1, "edge": ["C", "E"], "weight": 1},
+            {"position": 2, "edge": ["A", "B"], "weight": 2},
+            {"position": 3, "edge": ["F", "G"], "weight": 3},
+            {"position": 4, "edge": ["A", "H"], "weight": 4},
+            {"position": 5, "edge": ["C", "G"], "weight": 5},
+            {"position": 6, "edge": ["B", "C"], "weight": 6}
+          ],
+          "student_answer": [
+            {"position": 1, "edge": ["C", "E"], "weight": 1},
+            {"position": 2, "edge": ["A", "B"], "weight": 2},
+            {"position": 3, "edge": ["F", "G"], "weight": 3},
+            {"position": 4, "edge": ["A", "H"], "weight": 4},
+            {"position": 5, "edge": ["C", "G"], "weight": 5},
+            {"position": 6, "edge": ["B", "C"], "weight": 6},
+            {"position": 7, "edge": ["G", "S"], "weight": 11},
+            {"position": 8, "edge": ["A", "D"], "weight": 12}
+          ],
+          "correct_count": 8,
+          "status": "correct"
+        },
+        "notes": "In Kruskal's algorithm, edges are selected in order of increasing weight, but only added if they don't create a cycle. After edges are added connecting all 9 nodes, the MST is complete."
+      }
+    ],
+    "metadata": {
+      "graph_type": "undirected, weighted",
+      "topic": "Minimum Spanning Tree Algorithms"
+    }
+  }
+}

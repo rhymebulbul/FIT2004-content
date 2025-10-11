@@ -1,0 +1,624 @@
+{
+  "course": "Algorithm Analysis & Data Structures",
+  "topics": [
+    {
+      "topic": "Mathematical Foundations",
+      "subtopics": [
+        {
+          "name": "Logarithm Properties",
+          "problems": [
+            {
+              "id": "prereq_p1a",
+              "question": "Show that log₂((k+1)/2) + 1 = log₂(k+1)",
+              "solution": "Using log₂(a) + log₂(b) = log₂(ab) and log₂(2) = 1:\nlog₂((k+1)/2) + 1 = log₂((k+1)/2) + log₂(2)\n= log₂((k+1)/2 × 2)\n= log₂(k+1)",
+              "concepts": ["logarithm properties", "algebraic manipulation"],
+              "difficulty": "easy"
+            },
+            {
+              "id": "prereq_p1b",
+              "question": "Prove that a^(log_b(n)) = n^(log_b(a)) for any base b > 1",
+              "solution": "Since a = b^(log_b(a)), we can write:\na^(log_b(n)) = (b^(log_b(a)))^(log_b(n))\nUsing (x^p1)^p2 = x^(p1·p2):\n= b^(log_b(a)·log_b(n))\n= b^(log_b(n)·log_b(a))\n= (b^(log_b(n)))^(log_b(a))\n= n^(log_b(a))",
+              "concepts": ["logarithm properties", "exponent laws"],
+              "difficulty": "medium"
+            }
+          ]
+        },
+        {
+          "name": "Mathematical Induction - Summations",
+          "problems": [
+            {
+              "id": "prereq_p2",
+              "question": "Prove by induction: Σ(i=1 to n) i = n(n+1)/2 for n ≥ 1",
+              "solution": "Base Case: n=1: L(1) = 1 = 1(1+1)/2 = 1 ✓\nInductive Hypothesis: Assume Σ(i=1 to k) i = k(k+1)/2\nInductive Step: Prove for k+1:\nL(k+1) = Σ(i=1 to k+1) i = [Σ(i=1 to k) i] + (k+1)\n= k(k+1)/2 + (k+1)\n= k(k+1)/2 + 2(k+1)/2\n= (k(k+1) + 2(k+1))/2\n= (k+1)(k+2)/2\n= (k+1)((k+1)+1)/2 ✓",
+              "concepts": ["mathematical induction", "summation formulas"],
+              "difficulty": "medium"
+            },
+            {
+              "id": "prereq_p3",
+              "question": "Prove by induction: Σ(i=0 to n) r^i = (r^(n+1) - 1)/(r - 1) for all n ≥ 0, r ≠ 1",
+              "solution": "Base Case: n=0: (r^1 - 1)/(r-1) = (r-1)/(r-1) = 1 = r^0 ✓\nInductive Hypothesis: Assume Σ(i=0 to k) r^i = (r^(k+1) - 1)/(r-1)\nInductive Step:\nL(k+1) = Σ(i=0 to k+1) r^i = [Σ(i=0 to k) r^i] + r^(k+1)\n= (r^(k+1) - 1)/(r-1) + r^(k+1)\n= (r^(k+1) - 1)/(r-1) + r^(k+1)(r-1)/(r-1)\n= (r^(k+1) + r^(k+1)(r-1) - 1)/(r-1)\n= (r^(k+1)(1 + r - 1) - 1)/(r-1)\n= (r^(k+1)·r - 1)/(r-1)\n= (r^(k+2) - 1)/(r-1) ✓",
+              "concepts": ["mathematical induction", "geometric series"],
+              "difficulty": "medium"
+            },
+            {
+              "id": "prereq_p4",
+              "question": "Using Problem 3, show that Σ(i=0 to n) (1/2)^i < 2 for all n ≥ 1",
+              "solution": "Set r = 1/2 in the geometric series formula:\nΣ(i=0 to n) (1/2)^i = ((1/2)^(n+1) - 1)/(1/2 - 1)\n= ((1/2)^n - 2)/(-1)\n= 2 - (1/2)^n\nSince (1/2)^n > 0 for all n ≥ 1:\n2 - (1/2)^n < 2 ✓",
+              "concepts": ["geometric series application", "inequalities"],
+              "difficulty": "easy"
+            },
+            {
+              "id": "prereq_p6",
+              "question": "Prove by induction: Σ(i=0 to n) 2^i = 2^(n+1) - 1 for all n ≥ 0",
+              "solution": "Base Case: n=0: 2^1 - 1 = 2 - 1 = 1 = 2^0 ✓\nInductive Hypothesis: Assume Σ(i=0 to k) 2^i = 2^(k+1) - 1\nInductive Step:\nL(k+1) = Σ(i=0 to k+1) 2^i = [Σ(i=0 to k) 2^i] + 2^(k+1)\n= (2^(k+1) - 1) + 2^(k+1)\n= 2·2^(k+1) - 1\n= 2^(k+2) - 1\n= 2^((k+1)+1) - 1 ✓",
+              "concepts": ["mathematical induction", "powers of 2"],
+              "difficulty": "medium"
+            }
+          ]
+        },
+        {
+          "name": "Harmonic Numbers",
+          "problems": [
+            {
+              "id": "prereq_p5",
+              "question": "The harmonic numbers H(n) = Σ(i=1 to n) 1/i. Prove: (a) H(n) > log(n), (b) H(n) ≤ log(n) + 1, (c) H(n) = Θ(log(n))",
+              "solution": "(a) Consider f(x) = 1/x. H(n) equals the area of rectangles above the curve. The area under the curve from 1 to n+1 is ∫₁^(n+1) 1/x dx = log(n+1). Since rectangles are above curve: H(n) > log(n+1) > log(n) ✓\n\n(b) Shift rectangles 1 unit left. Leftmost rectangle has area 1, others are below curve. Area under curve from 1 to n is ∫₁ⁿ 1/x dx = log(n). Therefore: H(n) ≤ 1 + log(n) ✓\n\n(c) From (a) and (b): log(n) < H(n) ≤ log(n) + 1\nThis means H(n) is both O(log(n)) and Ω(log(n)), therefore H(n) = Θ(log(n)) ✓",
+              "concepts": ["harmonic series", "integral bounds", "asymptotic analysis"],
+              "difficulty": "hard",
+              "visualization": "Use rectangles vs. curve comparison"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "topic": "Asymptotic Analysis",
+      "subtopics": [
+        {
+          "name": "Big-O, Big-Theta, Big-Omega",
+          "problems": [
+            {
+              "id": "prereq_p7",
+              "question": "For T(n) = 3n² + 15log(n) + 100n, determine if: (a) T(n) = O(n³), (b) T(n) = Θ(n³), (c) T(n) = Ω(n)",
+              "solution": "(a) TRUE. Big-O requires upper bound. Can choose c=10, n₀=4 where T(n) ≤ 10n³ for all n ≥ 4.\n\n(b) FALSE. While T(n) = O(n³), it is NOT Ω(n³). No choice of c, n₀ exists where T(n) ≥ c·n³ for all n ≥ n₀. For large n, c·n³ dominates T(n).\n\n(c) TRUE. Big-Ω requires lower bound. Can choose c=5, n₀=2 where T(n) ≥ 5n for all n ≥ 2.",
+              "concepts": ["Big-O", "Big-Theta", "Big-Omega", "bounds"],
+              "difficulty": "medium"
+            },
+            {
+              "id": "prereq_p8",
+              "question": "Find Big-Θ for: (a) 3n³ + 100n² + n, (b) n³log(n) + 0.5n⁴ + 100n², (c) 5√n + 10log(n), (d) log(n) + log(log(n)) + log(log(log(n))), (e) 2n·log(n) + 8n·log(n²), (f) 3n·log(n) + 5n·(log(n))², (g) log(n) + 2log²(n), (h) 3log(n) + (log(log(n)))²",
+              "solution": "(a) Θ(n³) - n³ dominates n² and n\n(b) Θ(n⁴) - n⁴ dominates n³log(n) and n²\n(c) Θ(√n) - n^(1/2) dominates log(n) for any k > 0\n(d) Θ(log(n)) - nested logs smaller than single log\n(e) Θ(n·log(n)) - since log(n²) = 2log(n), both terms same magnitude\n(f) Θ(n·(log(n))²) - (log(n))² dominates log(n)\n(g) Θ(log²(n)) - log²(n) means (log(n))²\n(h) Θ(log(n)) - log(n) dominates (log(log(n)))². Substitute n=2^(2^k) to get 2^k vs k²",
+              "concepts": ["dominant term analysis", "growth rates"],
+              "difficulty": "medium"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "topic": "Recurrence Relations",
+      "subtopics": [
+        {
+          "name": "Deriving Recurrences",
+          "problems": [
+            {
+              "id": "week2_p1",
+              "question": "Derive the recurrence relation for FACTORIAL(n): if n=0 return 1; else return n × FACTORIAL(n-1)",
+              "solution": "T(n) = { T(n-1) + c, if n > 0\n         b,          if n = 0 }\nwhere b and c are constants representing base case and recursive call overhead.",
+              "concepts": ["recurrence relations", "recursion"],
+              "difficulty": "easy"
+            },
+            {
+              "id": "week2_p2",
+              "question": "Derive recurrence for IS_POWER_OF_TWO(n): if n=1 return true; else if n<1 return false; else return IS_POWER_OF_TWO(n/2)",
+              "solution": "T(n) = { T(n/2) + c, if n > 1\n         b,          if n ≤ 1 }\nwhere b and c are constants.",
+              "concepts": ["recurrence relations", "divide by constant"],
+              "difficulty": "easy"
+            },
+            {
+              "id": "week2_p3",
+              "question": "Derive recurrence for FIND_MIN(arr[1..n]): if n=1 return arr[1]; else potentialMin=FIND_MIN(arr[2..n]); return min(arr[1], potentialMin)",
+              "solution": "T(n) = { T(n-1) + c, if n > 1\n         b,          if n = 1 }\nwhere n is array length, b and c are constants.",
+              "concepts": ["recurrence relations", "array reduction"],
+              "difficulty": "easy"
+            }
+          ]
+        },
+        {
+          "name": "Solving Recurrences by Telescoping",
+          "problems": [
+            {
+              "id": "week2_p4",
+              "question": "Find closed form for: T(n) = T(n-1) + c if n>0; T(0) = b",
+              "solution": "Telescoping:\nT(n) = T(n-1) + c\nT(n) = T(n-2) + 2c\nT(n) = T(n-3) + 3c\nPattern: T(n) = T(n-k) + k·c\nSet k=n: T(n) = T(0) + n·c = b + n·c\n\nVerification: T(n) = n·c + b = (n-1)·c + b + c = T(n-1) + c ✓\nT(0) = b + 0 = b ✓",
+              "concepts": ["telescoping", "closed form", "linear recurrence"],
+              "difficulty": "medium"
+            },
+            {
+              "id": "week2_p5",
+              "question": "Find closed form for: T(n) = 3T(n-1) if n>0; T(0) = c",
+              "solution": "Telescoping:\nT(n) = 3T(n-1)\nT(n) = 3(3T(n-2)) = 3²T(n-2)\nT(n) = 3²(3T(n-3)) = 3³T(n-3)\nPattern: T(n) = 3^k·T(n-k)\nSet k=n: T(n) = 3^n·T(0) = c·3^n\n\nVerification: 3T(n-1) = 3(c·3^(n-1)) = c·3^n = T(n) ✓\nT(0) = c·3^0 = c ✓",
+              "concepts": ["telescoping", "exponential growth"],
+              "difficulty": "medium"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "topic": "Algorithm Correctness",
+      "subtopics": [
+        {
+          "name": "Loop Invariants",
+          "problems": [
+            {
+              "id": "week3_p1",
+              "question": "For MINIMUM_ELEMENT(A[1..n]) with loop 'for i=2 to n: if A[i]<min then min=A[i]', identify and prove a loop invariant.",
+              "solution": "Invariant: At start of each iteration, min is the minimum element in A[1..i-1].\n\nInitialization: Before first iteration (i=2), min=A[1], which is minimum of A[1..1] ✓\n\nMaintenance: Assume invariant holds at start of iteration i (min is min of A[1..i-1]). If A[i]<min, then A[i] is min of A[1..i], so setting min=A[i] preserves invariant. If A[i]≥min, then min is still min of A[1..i]. Either way, invariant holds at start of iteration i+1 ✓\n\nTermination: Loop ends when i=n+1. Invariant says min is minimum of A[1..n], which is entire array ✓",
+              "concepts": ["loop invariants", "correctness proofs"],
+              "difficulty": "medium"
+            },
+            {
+              "id": "week3_p2",
+              "question": "For LINEAR_SEARCH(A[1..n], target) with loop 'for i=1 to n: if A[i]=target then index=i', identify loop invariant at END of each iteration.",
+              "solution": "Invariant: At end of iteration i, index equals the largest j≤i such that A[j]=target, or null if target not in A[1..i].\n\nAt end of last iteration (i=n), index equals some j where A[j]=target (largest such j), or null if target not in A[1..n]. This is correct behavior ✓",
+              "concepts": ["loop invariants", "search algorithms"],
+              "difficulty": "medium"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "topic": "Sorting Algorithms",
+      "subtopics": [
+        {
+          "name": "Radix Sort",
+          "problems": [
+            {
+              "id": "week3_p3",
+              "question": "Show steps of radix sort on: 4329, 5169, 4321, 3369, 2121, 2099",
+              "solution": "Step 1 (ones digit): 4321, 2121, 4329, 5169, 3369, 2099\nStep 2 (tens digit): 4321, 2121, 4329, 5169, 3369, 2099\nStep 3 (hundreds): 2099, 2121, 5169, 4321, 4329, 3369\nStep 4 (thousands): 2099, 2121, 3369, 4321, 4329, 5169",
+              "concepts": ["radix sort", "stable sorting"],
+              "difficulty": "easy"
+            }
+          ]
+        },
+        {
+          "name": "Quicksort Analysis",
+          "problems": [
+            {
+              "id": "week4_p1",
+              "question": "What are worst-case complexities of Quicksort with pivot choices: (a) first element, (b) minimum element, (c) median element, (d) 10th percentile element. Describe worst-case inputs.",
+              "solution": "(a) First element: Θ(n²) worst case. Worst input: already sorted array. Pivot has no left elements, all others on right, giving recurrences of size n-1, n-2, ...\n\n(b) Minimum element: Θ(n²) best AND worst case! Always puts all elements on right side. ANY input causes worst behavior.\n\n(c) Median element: Θ(n·log(n)) worst case. Median splits perfectly in half, giving log(n) recursion depth. ANY input gives this performance.\n\n(d) 10th percentile: Θ(n·log(n)) worst case. After k recursions, size is 0.9^k·n. Reaching base case requires 0.9^k·n=1, so k=log_(10/9)(n)=Θ(log(n)). ANY input gives this performance.",
+              "concepts": ["quicksort", "pivot selection", "worst-case analysis"],
+              "difficulty": "hard"
+            }
+          ]
+        },
+        {
+          "name": "Partitioning Algorithms",
+          "problems": [
+            {
+              "id": "week4_p3",
+              "question": "Partition [7,1,12,9,3,3,10,6,7,14,4] using first element as pivot with: (a) Naive 3-way, (b) Hoare's partitioning",
+              "solution": "(a) Naive 3-way: Create three arrays:\nLess than 7: [1,3,3,6,4]\nEqual to 7: [7,7]\nGreater than 7: [12,9,10,14]\nResult: [1,3,3,6,4,7,7,12,9,10,14]\n\n(b) Hoare's: Swap pivot to front (already there). Use two pointers:\n[7,1,12,9,3,3,10,6,7,14,4] - lo at 12, hi at 4, swap\n[7,1,4,9,3,3,10,6,7,14,12] - lo at 9, hi at 7, swap\n[7,1,4,7,3,3,10,6,9,14,12] - lo at 10, hi at 6, swap\n[7,1,4,7,3,3,6,10,9,14,12] - pointers cross\nSwap pivot with hi position: [6,1,4,7,3,3,7,10,9,14,12]\nNote: Not stable, duplicates scattered",
+              "concepts": ["partitioning", "in-place algorithms", "stability"],
+              "difficulty": "hard"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "topic": "Selection Algorithms",
+      "subtopics": [
+        {
+          "name": "Quicksort vs Quickselect",
+          "problems": [
+            {
+              "id": "week4_p2",
+              "question": "What are similarities and differences between Quicksort and Quickselect?",
+              "solution": "SIMILARITIES:\n- Both use Θ(n) partitioning to place pivot in final position\n- Both partition so smaller elements left, larger right\n- Both use recursion\n\nDIFFERENCES:\n- Purpose: Quicksort sorts entire array; Quickselect finds kth smallest element\n- Recursion: Quicksort recurses BOTH sides; Quickselect recurses ONE side only\n- Time complexity:\n  * Quicksort: Θ(n·log(n)) average, Θ(n²) worst (Θ(n·log(n)) worst with median-of-medians)\n  * Quickselect: Θ(n) average, Θ(n²) worst (Θ(n) worst with median-of-medians)\n- Space: Both Θ(log(n)) average auxiliary space (recursion stack), Θ(n) worst",
+              "concepts": ["quicksort", "quickselect", "algorithm comparison"],
+              "difficulty": "medium"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "topic": "Complexity Analysis",
+      "subtopics": [
+        {
+          "name": "Array Operations with Bit Counting",
+          "problems": [
+            {
+              "id": "prereq_p9",
+              "question": "CountTotalBits calls CountBits(arr[i]) for each element. CountBits(x) counts bits by dividing by 2 until x≤1. Find complexity when: (a) arr length n, 0≤arr[i]≤2^m-1, (b) 1≤n≤1000000, 0≤arr[i]≤2^m-1, (c) arr length n, 0≤arr[i]≤2^32-1",
+              "solution": "(a) Θ(m·n). CountBits costs Θ(m) since max m bits. Called n times. Total: Θ(m·n).\n\n(b) Θ(m). CountBits still costs Θ(m). But n≤1000000 is O(1) (constant bound), so n calls = O(1)·m = Θ(m).\n\n(c) Θ(n). CountBits now costs O(1) since max 32 bits (constant). Called n times. Total: Θ(n).",
+              "concepts": ["time complexity", "parameterized analysis", "bit operations"],
+              "difficulty": "hard"
+            }
+          ]
+        },
+        {
+          "name": "Fibonacci Implementations",
+          "problems": [
+            {
+              "id": "prereq_p10",
+              "question": "F(n)=F(n-1)+F(n-2), F(1)=F(2)=1. Write (a) iterative implementation and analyze, (b) recursive implementation and analyze. Consider assumptions carefully.",
+              "solution": "(a) Iterative: Use loop storing last two values.\nTime: Θ(n) - loop runs n times\nSpace: Θ(1) auxiliary space - only stores 3 variables\nNote: Assumes arithmetic operations are O(1). For very large n, Fibonacci numbers exceed machine integers, requiring big integer arithmetic.\n\n(b) Recursive: Direct translation of recurrence.\nTime: Θ(φ^n) where φ=(1+√5)/2≈1.618 (exponential!)\nSpace: Θ(n) - recursion depth is n (call stack)\nReason: Each call spawns 2 calls, creating exponential tree of calls. Many values recomputed.\n\nNote: Memoized recursive or DP approach achieves Θ(n) time like iterative.",
+              "concepts": ["iteration vs recursion", "space-time tradeoffs", "fibonacci"],
+              "difficulty": "medium"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "topic": "Graph Algorithms",
+      "subtopics": [
+        {
+          "name": "Graph Traversal",
+          "problems": [
+            {
+              "id": "week5_p1",
+              "question": "Label vertices in traversal order for DFS and BFS from source s on given graph (see original for graph structure)",
+              "solution": "DFS (two valid orders depending on edge traversal order):\nOrder 1: s(1), then 2,3,4,5,8,9,7,6\nOrder 2: s(1), then 8,9,2,3,4,5,7,6\n\nBFS (two valid orders):\nOrder 1: s(1), then level1: 2,4,6,7, then level2: 3,5,9,8\nOrder 2: swaps nodes 2↔3 and 4↔5\n\nKey: DFS explores deeply before backtracking; BFS explores level-by-level",
+              "concepts": ["DFS", "BFS", "traversal order"],
+              "difficulty": "easy"
+            },
+            {
+              "id": "week5_p2",
+              "question": "Write O(V+E) algorithm to return all vertices reachable from source s in directed graph",
+              "solution": "REACHABLE(G=(V,E), s):\n  visited[1..n] = False\n  DFS(s)\n  reachable = empty array\n  for u=1 to n:\n    if visited[u]: reachable.append(u)\n  return reachable\n\nDFS(u):\n  visited[u] = True\n  for each v adjacent to u:\n    if not visited[v]: DFS(v)\n\nComplexity: O(V+E) since DFS visits each vertex once and examines each edge once.",
+              "concepts": ["DFS", "reachability", "graph traversal"],
+              "difficulty": "medium"
+            }
+          ]
+        },
+        {
+          "name": "Dijkstra's Algorithm",
+          "problems": [
+            {
+              "id": "week6_p1",
+              "question": "Use Dijkstra's algorithm to find shortest paths from s to all vertices in weighted graph (see original for graph)",
+              "solution": "Visit order: s, y, x, v, w, u, t, z, q, r, p\n\nDistances from s:\ns:0, y:3, x:8, v:13, w:16, u:18, t:19, z:22, q:23, r:24, p:28\n\nShortest path tree shown with edges:\ns→y(3), y→x(5), x→v(5), v→w(3), v→u(5), u→t(1), t→z(3), z→q(1), u→r(6), z→p(6)\n\nKey: Always select unvisited vertex with minimum distance. Update distances to neighbors.",
+              "concepts": ["Dijkstra", "shortest paths", "greedy algorithms"],
+              "difficulty": "medium"
+            }
+          ]
+        },
+        {
+          "name": "Minimum Spanning Tree",
+          "problems": [
+            {
+              "id": "week6_p2",
+              "question": "Show steps for Prim's (root=a) and Kruskal's algorithms for MST on given graph",
+              "solution": "PRIM'S (from vertex a):\nEdge selection order: (a,d), (d,f), (a,b), (b,e), (e,c), (e,g)\nMST edges with weights: a-d(2), d-f(4), a-b(5), b-e(1), e-c(4), e-g(9)\nTotal weight: 25\n\nKRUSKAL'S:\nSort edges by weight, add if no cycle.\nEdge selection order: (b,e), (a,d), (d,f), (e,c), (a,b), (e,g)\nNote: (d,f) and (e,c) could swap (both weight 4)\nSame MST as Prim's, total weight: 25\n\nKey: Both algorithms produce same MST (may differ if multiple edges same weight). Prim's grows from root; Kruskal's adds globally minimum edges without cycles.",
+              "concepts": ["Prim's algorithm", "Kruskal's algorithm", "MST"],
+              "difficulty": "medium"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "topic": "Union-Find Data Structure",
+      "subtopics": [
+        {
+          "name": "Union-Find with Union-by-Size",
+          "problems": [
+            {
+              "id": "week6_p3",
+              "question": "Start with 10 singleton sets (parent[i]=-1 for i=0..9). Apply union-by-size for operations: union(1,5), union(2,7), union(4,8), union(5,8), union(6,7), union(6,0), union(2,3), union(4,0), union(8,3), union(9,0). Show table and forest after each.",
+              "solution": "Using parent array where negative values at roots represent size:\n\n(a) union(1,5): Same size, choose first arg. parent[5]=1, parent[1]=-2\n(b) union(2,7): parent[7]=2, parent[2]=-2\n(c) union(4,8): parent[8]=4, parent[4]=-2\n(d) union(5,8): roots are 1(size 2) and 4(size 2). parent[4]=1, parent[1]=-4\n(e) union(6,7): root 2 has size 2, 6 is singleton. parent[6]=2, parent[2]=-3\n(f) union(6,0): root 2 has size 3, 0 is singleton. parent[0]=2, parent[2]=-4\n(g```json
+(g) union(2,3): root 2 has size 4, 3 is singleton. parent[3]=2, parent[2]=-5\n(h) union(4,0): root of 4 is 1(size 4), root of 0 is 2(size 5). parent[1]=2, parent[2]=-9\n(i) union(8,3): Both have root 2, already in same set. No change.\n(j) union(9,0): root of 0 is 2(size 9), 9 is singleton. parent[9]=2, parent[2]=-10\n\nFinal tree height: 3\nFinal parent array: [2,2,-10,2,1,1,2,2,4,2]\n\nKey insight: Union-by-size keeps trees balanced, ensuring O(log n) height.",
+              "concepts": ["union-find", "union-by-size", "disjoint sets"],
+              "difficulty": "hard",
+              "visualization": "Trees grow from roots, smaller attaches to larger"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "key_concepts": {
+    "proof_techniques": {
+      "mathematical_induction": {
+        "steps": ["Base case: verify for smallest n", "Inductive hypothesis: assume true for n=k", "Inductive step: prove true for n=k+1"],
+        "common_applications": ["summation formulas", "recursive algorithm correctness", "data structure properties"]
+      },
+      "loop_invariants": {
+        "steps": ["State invariant (what's true at loop boundary)", "Initialization: prove true before first iteration", "Maintenance: if true before iteration i, prove true before i+1", "Termination: use invariant to prove correctness when loop ends"],
+        "timing": ["Can be stated for start or end of iteration", "Must be consistent throughout proof"]
+      },
+      "telescoping": {
+        "description": "Repeatedly substitute recurrence into itself to find pattern",
+        "steps": ["Expand T(n) in terms of T(n-k) for increasing k", "Identify pattern", "Set k to reach base case", "Verify solution satisfies recurrence"]
+      }
+    },
+    "asymptotic_notation": {
+      "big_o": {
+        "definition": "f(n) = O(g(n)) if ∃c,n₀: f(n) ≤ c·g(n) ∀n≥n₀",
+        "meaning": "Upper bound (at most this fast growing)"
+      },
+      "big_omega": {
+        "definition": "f(n) = Ω(g(n)) if ∃c,n₀: f(n) ≥ c·g(n) ∀n≥n₀",
+        "meaning": "Lower bound (at least this fast growing)"
+      },
+      "big_theta": {
+        "definition": "f(n) = Θ(g(n)) if f(n) = O(g(n)) AND f(n) = Ω(g(n))",
+        "meaning": "Tight bound (exactly this growth rate)"
+      },
+      "common_orders": {
+        "increasing_growth": ["O(1)", "O(log log n)", "O(log n)", "O(√n)", "O(n)", "O(n log n)", "O(n²)", "O(n³)", "O(2ⁿ)", "O(n!)"],
+        "key_relationships": [
+          "n^a dominates n^b when a > b",
+          "n^k dominates log^m(n) for any k>0, m",
+          "log^k(n) dominates log(log(n)) for any k",
+          "nested logs grow slower than single log"
+        ]
+      }
+    },
+    "algorithm_paradigms": {
+      "divide_and_conquer": {
+        "pattern": "Break into subproblems, solve recursively, combine",
+        "examples": ["merge sort", "quicksort", "binary search"],
+        "typical_recurrence": "T(n) = aT(n/b) + f(n)"
+      },
+      "greedy": {
+        "pattern": "Make locally optimal choice at each step",
+        "examples": ["Dijkstra's", "Prim's", "Kruskal's"],
+        "key_property": "Greedy choice property + optimal substructure"
+      },
+      "decrease_and_conquer": {
+        "pattern": "Reduce problem size by constant/factor, solve smaller",
+        "examples": ["binary search", "quickselect"],
+        "typical_recurrence": "T(n) = T(n-k) + f(n) or T(n) = T(n/k) + f(n)"
+      }
+    },
+    "data_structures": {
+      "arrays": {
+        "access": "O(1)",
+        "search_unsorted": "O(n)",
+        "search_sorted": "O(log n) with binary search",
+        "insert_delete": "O(n) worst case"
+      },
+      "union_find": {
+        "operations": ["find(x): return representative of x's set", "union(x,y): merge sets containing x and y"],
+        "optimizations": {
+          "union_by_size": "Attach smaller tree to larger root, ensures height ≤ log n",
+          "path_compression": "Make nodes point directly to root during find"
+        },
+        "complexity": "Nearly O(1) amortized with both optimizations (inverse Ackermann function)"
+      }
+    },
+    "sorting_algorithms": {
+      "comparison_sorts": {
+        "quicksort": {
+          "time_average": "Θ(n log n)",
+          "time_worst": "Θ(n²)",
+          "space": "Θ(log n) average, Θ(n) worst (recursion stack)",
+          "stable": "No",
+          "pivot_strategies": {
+            "random": "Good average case",
+            "median": "Optimal O(n log n) worst case",
+            "first": "Bad for sorted input",
+            "median_of_medians": "Guarantees O(n log n) but high constant"
+          }
+        },
+        "merge_sort": {
+          "time": "Θ(n log n) all cases",
+          "space": "Θ(n) auxiliary",
+          "stable": "Yes"
+        }
+      },
+      "non_comparison_sorts": {
+        "radix_sort": {
+          "time": "Θ(d·n) where d = number of digits/characters",
+          "space": "Θ(n + k) where k = range of digit values",
+          "stable": "Yes (if underlying sort is stable)",
+          "requirement": "Keys can be broken into digits"
+        }
+      },
+      "partitioning": {
+        "naive_3way": {
+          "description": "Create 3 arrays: less, equal, greater than pivot",
+          "space": "Θ(n) auxiliary",
+          "stable": "Yes"
+        },
+        "hoare": {
+          "description": "Two pointers from ends, swap violations",
+          "space": "O(1) auxiliary",
+          "stable": "No",
+          "note": "Duplicates scattered"
+        },
+        "dutch_national_flag": {
+          "description": "Extension of Hoare's, maintains region of equal elements",
+          "space": "O(1) auxiliary",
+          "regions": "less than, equal to, greater than pivot"
+        }
+      }
+    },
+    "graph_algorithms": {
+      "traversal": {
+        "dfs": {
+          "data_structure": "Stack (or recursion)",
+          "order": "Depth-first: explore deeply before backtracking",
+          "time": "O(V + E)",
+          "space": "O(V) for visited array + O(h) stack where h=height",
+          "applications": ["cycle detection", "topological sort", "connected components"]
+        },
+        "bfs": {
+          "data_structure": "Queue",
+          "order": "Level-by-level from source",
+          "time": "O(V + E)",
+          "space": "O(V)",
+          "applications": ["shortest path in unweighted graph", "level-order traversal"]
+        }
+      },
+      "shortest_paths": {
+        "dijkstra": {
+          "algorithm": "Greedy: always visit unvisited vertex with minimum distance",
+          "time": "O((V+E) log V) with min-heap",
+          "requirement": "Non-negative edge weights",
+          "produces": "Shortest path tree from source"
+        }
+      },
+      "minimum_spanning_tree": {
+        "prim": {
+          "algorithm": "Grow tree from root, always add minimum-weight edge connecting tree to non-tree vertex",
+          "time": "O((V+E) log V) with min-heap",
+          "greedy_choice": "Minimum edge from tree to non-tree"
+        },
+        "kruskal": {
+          "algorithm": "Sort edges by weight, add edge if doesn't create cycle",
+          "time": "O(E log E) for sorting + O(E α(V)) for union-find ≈ O(E log E)",
+          "data_structure": "Union-Find to detect cycles",
+          "greedy_choice": "Globally minimum edge without cycle"
+        },
+        "note": "Both produce same total weight MST (may differ structurally if ties)"
+      }
+    }
+  },
+  "common_mistakes": [
+    {
+      "mistake": "Confusing O (upper bound) with Θ (tight bound)",
+      "correction": "O gives upper bound only. To prove Θ, must show both O and Ω"
+    },
+    {
+      "mistake": "Forgetting to verify base case in induction",
+      "correction": "Always explicitly check base case before inductive step"
+    },
+    {
+      "mistake": "Assuming Quicksort is always O(n log n)",
+      "correction": "Worst case is O(n²) with bad pivot. Use randomization or median-of-medians"
+    },
+    {
+      "mistake": "Claiming in-place algorithms have O(1) space",
+      "correction": "Recursive algorithms use O(h) stack space where h=recursion depth"
+    },
+    {
+      "mistake": "Not considering which loop boundary (start/end) invariant applies to",
+      "correction": "Be explicit: 'at start of iteration i' or 'at end of iteration i'"
+    },
+    {
+      "mistake": "Forgetting that Hoare's partition is not stable",
+      "correction": "Use 3-way or Dutch National Flag if stability required"
+    },
+    {
+      "mistake": "Thinking DFS and BFS have different time complexity",
+      "correction": "Both are O(V+E), they differ in order and applications"
+    },
+    {
+      "mistake": "Confusing union-by-size with union-by-rank",
+      "correction": "Size: attach smaller to larger. Rank: uses upper bound on height"
+    }
+  ],
+  "exam_strategies": {
+    "proof_problems": [
+      "State what you're proving clearly",
+      "For induction: label base case, hypothesis, and inductive step",
+      "Show all algebraic steps, don't skip",
+      "Verify solution satisfies original recurrence/property"
+    ],
+    "complexity_analysis": [
+      "Identify input size parameter clearly",
+      "Count dominant operations in loops",
+      "For recursion: write recurrence then solve",
+      "Consider best, average, worst cases separately",
+      "Don't forget space complexity (stack space!)"
+    ],
+    "algorithm_design": [
+      "Consider what data structure fits operations needed",
+      "Think about invariants that must hold",
+      "For graphs: adjacency list usually better than matrix",
+      "Greedy: verify greedy choice + optimal substructure"
+    ],
+    "trace_problems": [
+      "Write out state after each step",
+      "For sorting: show array after each pass",
+      "For graphs: show visited order/distances",
+      "For union-find: update parent array incrementally"
+    ]
+  },
+  "formula_sheet": {
+    "summations": {
+      "arithmetic": "1+2+...+n = n(n+1)/2 = Θ(n²)",
+      "geometric": "1+r+r²+...+rⁿ = (r^(n+1)-1)/(r-1)",
+      "harmonic": "1+1/2+1/3+...+1/n = Θ(log n)",
+      "powers_of_2": "1+2+4+...+2ⁿ = 2^(n+1)-1 = Θ(2ⁿ)"
+    },
+    "logarithms": {
+      "product": "log(ab) = log(a) + log(b)",
+      "quotient": "log(a/b) = log(a) - log(b)",
+      "power": "log(a^k) = k·log(a)",
+      "base_change": "log_b(a) = log_c(a)/log_c(b)",
+      "exponent_log": "a^(log_b(n)) = n^(log_b(a))"
+    },
+    "recurrence_solutions": {
+      "linear_decrease": "T(n)=T(n-1)+c → T(n)=Θ(n)",
+      "exponential_decrease": "T(n)=aT(n-1) → T(n)=Θ(aⁿ)",
+      "binary_divide": "T(n)=T(n/2)+c → T(n)=Θ(log n)",
+      "merge_sort": "T(n)=2T(n/2)+Θ(n) → T(n)=Θ(n log n)"
+    }
+  },
+  "problem_patterns": {
+    "prove_by_induction": {
+      "trigger_words": ["prove", "show that", "for all n"],
+      "structure": "Base → Hypothesis → Inductive step → Conclusion",
+      "common_targets": ["summation formulas", "divisibility", "inequalities"]
+    },
+    "find_complexity": {
+      "trigger_words": ["time complexity", "Big-O", "how fast"],
+      "approach": ["Write recurrence if recursive", "Count loop iterations", "Identify dominant term"],
+      "remember": ["Space complexity too", "Best/average/worst cases"]
+    },
+    "prove_correctness": {
+      "trigger_words": ["prove correct", "show algorithm works"],
+      "approach": ["State loop invariant", "Prove initialization/maintenance/termination"],
+      "alternative": ["Use induction on input size"]
+    },
+    "trace_algorithm": {
+      "trigger_words": ["show steps", "trace execution"],
+      "approach": ["Write state after each iteration", "Follow algorithm literally", "Show intermediate values"]
+    },
+    "compare_algorithms": {
+      "trigger_words": ["similarities", "differences", "compare"],
+      "structure": ["Purpose/goal", "Approach/method", "Time complexity", "Space complexity", "Stability/other properties"]
+    }
+  },
+  "quick_reference": {
+    "when_to_use": {
+      "dfs": ["Cycle detection", "Topological sort", "Path finding (any path)", "Connected components"],
+      "bfs": ["Shortest path (unweighted)", "Level-order traversal", "Minimum steps problems"],
+      "dijkstra": ["Shortest path (weighted, non-negative)"],
+      "prim": ["MST when graph is dense (many edges)"],
+      "kruskal": ["MST when graph is sparse (few edges)", "When edges already sorted"],
+      "quicksort": ["General purpose sorting, average case matters"],
+      "merge_sort": ["Need stable sort", "Worst-case guarantee", "External sorting"],
+      "radix_sort": ["Integer keys with limited range", "String sorting"]
+    },
+    "complexity_cheat_sheet": {
+      "sorting": {
+        "quicksort_avg": "Θ(n log n)",
+        "quicksort_worst": "Θ(n²)",
+        "merge_sort": "Θ(n log n) always",
+        "radix_sort": "Θ(d·n)"
+      },
+      "graphs": {
+        "dfs_bfs": "O(V + E)",
+        "dijkstra": "O((V+E) log V)",
+        "prim": "O((V+E) log V)",
+        "kruskal": "O(E log E)"
+      },
+      "data_structures": {
+        "union_find": "O(α(n)) ≈ O(1) amortized",
+        "array_access": "O(1)",
+        "array_search": "O(n) unsorted, O(log n) sorted"
+      }
+    }
+  }
+}

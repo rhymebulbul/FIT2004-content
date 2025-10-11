@@ -1,0 +1,84 @@
+{
+  "quiz": {
+    "title": "Recurrence Relations and Time Complexity",
+    "questions": [
+      {
+        "id": 1,
+        "type": "multiple_choice",
+        "question_text": "Given the following pseudocode, derive the recurrence relation that represents its time complexity.",
+        "code": "def power(x, n):\n    if n == 0:\n        return 1\n    return x * power(x, n - 1)",
+        "additional_context": "Let b and c represent constant values. What is the base case and recurrence step?",
+        "options": [
+          {
+            "id": "A",
+            "text": "T(n) = T(n-1) + c\nT(0) = b",
+            "is_correct": true
+          },
+          {
+            "id": "B",
+            "text": "T(x,n) = x * T(x,n-1) + c\nT(0) = b",
+            "is_correct": false
+          },
+          {
+            "id": "C",
+            "text": "T(n) = n * T(n-1) + c\nT(0) = b",
+            "is_correct": false
+          }
+        ],
+        "correct_answer": "A",
+        "feedback": "Your answer is correct."
+      },
+      {
+        "id": 2,
+        "type": "multiple_choice",
+        "question_text": "Solve, in big-θ, the following recurrence relation",
+        "recurrence_relation": "T(n) = T(n-2) + c, where n >= 2\nT(n) = b, where n < 2",
+        "additional_context": "for constants b and c.",
+        "options": [
+          {
+            "id": "A",
+            "text": "θ(1)",
+            "is_correct": false
+          },
+          {
+            "id": "B",
+            "text": "θ(log n)",
+            "is_correct": false
+          },
+          {
+            "id": "C",
+            "text": "θ(n)",
+            "is_correct": true
+          },
+          {
+            "id": "D",
+            "text": "θ(n log n)",
+            "is_correct": false
+          },
+          {
+            "id": "E",
+            "text": "θ(n^2)",
+            "is_correct": false
+          },
+          {
+            "id": "F",
+            "text": "θ(n^3)",
+            "is_correct": false
+          },
+          {
+            "id": "G",
+            "text": "θ(2^n)",
+            "is_correct": false
+          },
+          {
+            "id": "H",
+            "text": "θ(n!)",
+            "is_correct": false
+          }
+        ],
+        "correct_answer": "C",
+        "feedback": "Your answer is correct."
+      }
+    ]
+  }
+}
