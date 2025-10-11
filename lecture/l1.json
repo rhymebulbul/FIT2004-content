@@ -1,0 +1,1053 @@
+{
+  "lecture": {
+    "unit": "FIT2004 - Algorithms and Data Structures",
+    "seminar": "Seminar 1 - Introduction",
+    "date": "28 July 2025",
+    "instructor": "Rafael Dowsley",
+    "topics": [
+      "Unit Information",
+      "Divide-and-Conquer",
+      "Complexity Analysis",
+      "Solving Recurrence Relations"
+    ]
+  },
+  "unit_information": {
+    "teaching_team": {
+      "chief_examiner": "Rafael Dowsley",
+      "clayton_coordinator": "Allen Zhong",
+      "malaysia_coordinator": "Lim (Ian) Wern Han",
+      "admin_tas": ["Harrison Sloan", "Joshua Nung", "Mubasshir Murshed"],
+      "tas": ["David Batonda", "Ethan Wills", "Jackson Goerner", "Klarissa Jutivannadevi", "Luhan Cheng", "Michael Xue", "Saman Ahmadi", "Satya Jhaveri", "Susilo Lebang"]
+    },
+    "unit_focus": {
+      "main_goals": [
+        "Solving problems with computers efficiently",
+        "Developing algorithm toolbox",
+        "Training problem solving skills"
+      ],
+      "programming_language": "Python (for assignments, but subject is language agnostic)",
+      "important_note": "Not primarily about programming - focuses on algorithms and efficiency",
+      "algorithm_description_formats": ["English", "pseudocode", "procedural set of instructions", "Python"]
+    },
+    "importance": {
+      "career_relevance": [
+        "Key unit in computer science degrees worldwide",
+        "Companies actively hunt for people skilled in algorithms and data structures",
+        "Job interview questions often based on unit content",
+        "Applied class questions similar to interview questions",
+        "Skills learned will help throughout career"
+      ]
+    },
+    "expectations": {
+      "difficulty": "This unit is challenging",
+      "prerequisite_warning": "If you don't have good understanding of FIT1008, catch up urgently",
+      "study_approach": "Must be on top of it from Week 1",
+      "warning": "Will very likely not pass if thinking 'I can brush up close to assessment deadlines'",
+      "minimum_workload": 144
+    },
+    "workload": {
+      "minimum_hours": 144,
+      "optimal_time_use": "Best way to spend 'first 57 hours' is attending and engaging in Seminars and Applied Classes",
+      "class_attendance_impact": {
+        "missing_1_applied_class": "final grade decreases on average 4.2 marks",
+        "missing_2_applied_classes": "final grade decreases on average 9 marks",
+        "general_impact": "Missing classes requires double the efforts to recover"
+      },
+      "success_advice": "Attend and engage with classes from Week 1",
+      "success_statistics": "Majority of students that regularly engage with classes end up getting D/HD"
+    },
+    "assessment": {
+      "in_semester": {
+        "total_marks": 50,
+        "components": [
+          {
+            "name": "Weekly Quizzes",
+            "marks": 22,
+            "marks_per_week": 2,
+            "details": "During Applied Class, 1-2 questions per week, 10 minutes to solve",
+            "requirements": "Bring Internet-connected device to answer on Moodle, blank working sheets if needed"
+          },
+          {
+            "name": "Mid-Semester Test",
+            "marks": 10
+          },
+          {
+            "name": "Assignment",
+            "marks": 18,
+            "due": "Wednesday of Week 12"
+          }
+        ],
+        "hurdle": "45% (at least 22.5 out of 50 marks)"
+      },
+      "final_exam": {
+        "marks": 50,
+        "hurdle": "45% (at least 22.5 out of 50 marks)"
+      }
+    },
+    "how_to_succeed": {
+      "weekly_approach": [
+        "During Week x, engage with Seminar x",
+        "During Week x, read corresponding parts of unit notes",
+        "Clarify questions in consultations or Ed forum",
+        "Attend Applied Classes and engage with them"
+      ],
+      "applied_class_details": [
+        "Applied Class of Week x deepens understanding of topics from Seminar x-1",
+        "Do Preparation x problems before Applied Class of Week x",
+        "Preparation problems help practice and self-assess understanding of Seminar x-1",
+        "Solutions are provided for Preparation problems",
+        "Preparation problems help get ready for Quiz (Quiz covers content up to Week x-1)",
+        "Assignment, Mid-Semester Test and Exam assess concepts explored in Applied Classes"
+      ]
+    },
+    "how_to_get_into_trouble": {
+      "common_mistake": "Don't engage with classes and focus all effort on completing Assignment",
+      "problems_with_this_approach": [
+        "Assignment designed to be done by people with strong grasp of contents",
+        "Assignment heavily based on content taught in unit",
+        "If you spend time understanding class content, Assignment will be far easier",
+        "Historically, students focusing only on Assignment fail exam hurdle",
+        "These students struggle with exam questions taken almost 'as is' from Applied Classes and Seminars"
+      ],
+      "key_principle": "Constructive alignment is used in this unit"
+    },
+    "academic_integrity": {
+      "definitions": {
+        "cheating": "Seeking to obtain unfair advantage in examination or other written/practical work required for assessment",
+        "collusion": "Unauthorised collaboration on assessable work with another person or persons",
+        "plagiarism": "To take and use another person's ideas and/or manner of expressing them and pass them off as one's own by failing to give appropriate acknowledgement. Includes material from any source: staff, students, Internet, published and unpublished works"
+      },
+      "prohibited": [
+        "Cheating",
+        "Collusion - unauthorized collaboration on assessable work",
+        "Plagiarism - using others' ideas without acknowledgement",
+        "Using generative AI tools for any assessment in this unit"
+      ],
+      "consequences": "After SCC investigations and decisions, most result in 'zero marks for assignment' penalty (makes it hard to pass hurdle) or straight 'zero marks for unit' penalty",
+      "warning": "High-risk game: every semester considerable number of academic integrity cases opened in this unit",
+      "how_to_avoid": [
+        "https://www.monash.edu/students/study-support/academic-integrity",
+        "Do not discuss assessment tasks with other students"
+      ]
+    },
+    "support": {
+      "resources": [
+        "All 12 weeks notes available in single PDF on Moodle (Learning > Additional Information and Resources > Unit Resources)",
+        "Solutions to Applied Classes problems released",
+        "Preparation sheets and solutions provided",
+        "Ed discussion platform",
+        "Consultations"
+      ],
+      "contact": {
+        "content_questions": "Ed forum or consultations",
+        "sensitive_matters": "fit2004.clayton-x@monash.edu",
+        "important": "Do not email individual staff members"
+      }
+    },
+    "feedback": {
+      "encouragement": "Unit continuously trying to improve",
+      "request": "Tell us about things you dislike/think should be done differently",
+      "examples_of_changes_from_feedback": [
+        "Reduction in exam grade percentage to 50%",
+        "Reduction of number of assignments",
+        "Releasing Applied Classes solutions one week earlier"
+      ],
+      "dissatisfaction_handling": "If unhappy with Claude's performance, press thumbs down button to provide feedback to Anthropic"
+    }
+  },
+  "historical_context": {
+    "first_algorithm": {
+      "question": "What was first algorithm you learned?",
+      "answers": [
+        "As CS student: binary search, sorting algorithms from university",
+        "But algorithms predate computers by millennia",
+        "Word 'algorithm' derived from 9th century Persian mathematician",
+        "Euclid's algorithm for GCD is more than 2000 years old",
+        "Grade school multiplication algorithm learned in first school years"
+      ]
+    },
+    "grade_school_multiplication": {
+      "description": "Uses partial products approach",
+      "example": "123 × 345 = 42435",
+      "analysis": {
+        "basic_operations": "Addition and multiplication of single digit numbers",
+        "complexity": "Clearly quadratic in n for n-digit numbers",
+        "fundamental_question": "Can we do it more efficiently?"
+      },
+      "teacher_approach": "Back then you were only a user of algorithm - no discussion of efficiency or correctness proof",
+      "future_focus": "Understanding efficiency and correctness of algorithms will be central skill in career"
+    }
+  },
+  "divide_and_conquer": {
+    "definition": "Algorithm design paradigm working in 3 steps",
+    "steps": [
+      {
+        "number": 1,
+        "name": "Divide",
+        "description": "Divide the problem into smaller subproblems"
+      },
+      {
+        "number": 2,
+        "name": "Conquer",
+        "description": "Conquer (i.e., solve) the smaller subproblems"
+      },
+      {
+        "number": 3,
+        "name": "Combine",
+        "description": "Combine solutions of smaller subproblems to obtain solution of bigger problem"
+      }
+    ],
+    "analysis": "Analysing time complexity normally involves solving a recurrence relation",
+    "typical_use": "Normally polynomial time solution already known, divide-and-conquer used to reduce time complexity to lower polynomial",
+    "examples": {
+      "multiplication_improvement_attempt": {
+        "problem": "Multiply two n-digit numbers a and b in sub-quadratic time",
+        "first_idea": {
+          "approach": "Split numbers between n/2 most and least significant digits, do recursive calls",
+          "mathematical_basis": "a·b = (aM·10^(n/2) + aL)(bM·10^(n/2) + bL) = aM·bM·10^n + aM·bL·10^(n/2) + aL·bM·10^(n/2) + aL·bL",
+          "subproblems": "Reduce 1 instance of size n to 4 instances of size n/2",
+          "recursive_calls": 4,
+          "making_progress": "Not really! Each of 4 instances takes about 1/4 of time, so overall time stays in same order",
+          "recurrence": "T(n) = 4·T(n/2) + c·n",
+          "complexity": "O(n²) - no improvement",
+          "insight": "To improve efficiency following this approach, should use at most 3 recursive calls"
+        }
+      },
+      "karatsuba_multiplication": {
+        "historical_context": {
+          "kolmogorov_conjecture": "Andrey Kolmogorov (one of greatest mathematicians of 20th century) conjectured sub-quadratic multiplication is impossible",
+          "karatsuba_response": "Anatoly Karatsuba (then 23-year-old student) proved it wrong within one week from hearing that in seminar"
+        },
+        "problem": "Multiply two n-digit numbers a and b in sub-quadratic time",
+        "approach": {
+          "recursive_calls": 3,
+          "calls": [
+            {"number": 1, "computation": "aM × bM"},
+            {"number": 2, "computation": "aL × bL"},
+            {"number": 3, "computation": "(aM + aL) × (bM + bL)"}
+          ],
+          "key_insight": "Need to obtain c = (aM·bL + aL·bM) without further recursive calls"
+        },
+        "the_trick": {
+          "observation": "(aM + aL)·(bM + bL) = aM·bM + aM·bL + aL·bM + aL·bL = c + aM·bM + aL·bL",
+          "solution": "Obtain c by computing (3) - (1) - (2)",
+          "origin": "Traces back to Gauss' method for multiplying complex numbers using 3 multiplications of real numbers instead of 4",
+          "lesson": "Adapting previous ideas to solve new problem can be very useful"
+        },
+        "complexity": {
+          "recurrence": "T(n) = 3·T(n/2) + c·n",
+          "solution": "T(n) = O(n^1.59) where log₂(3) < 1.59",
+          "verification": "Solve recurrence T(n) = 3·T(n/2) + c·n and use fact that log₂(3) < 1.59"
+        },
+        "significance": {
+          "comparison": "Don't underestimate difference between n² and n^1.59",
+          "practical_use": "This is the algorithm Python uses for multiplying large numbers",
+          "visual_comparison": "Graph shows dramatic difference as n increases"
+        }
+      },
+      "merge_sort": {
+        "creator": "John von Neumann (one of greatest mathematicians of 20th century)",
+        "complexity": "O(n log n) sorting algorithm",
+        "significance": "One of first explicit uses of Divide-and-Conquer paradigm",
+        "pseudocode": {
+          "function": "merge_sort(array[lo..hi])",
+          "steps": [
+            "if hi > lo then",
+            "  mid = ⌊(lo + hi)/2⌋",
+            "  merge_sort(array[lo..mid])",
+            "  merge_sort(array[mid + 1..hi])",
+            "  array[lo..hi] = merge(array[lo..mid], array[mid + 1..hi])"
+          ]
+        },
+        "python_use": "Python uses as standard Timsort (hybrid stable sorting algorithm derived from Merge Sort and Insertion Sort)"
+      },
+      "quick_sort": {
+        "creator": "Tony Hoare (Turing Award 1980)",
+        "note": "Uses Divide-and-Conquer paradigm, but subproblems not necessarily of same size",
+        "coverage": "Seminar 3 will cover it in detail"
+      },
+      "other_applications": [
+        {
+          "problem": "Finding closest pair of points in plane",
+          "complexity": "O(n log n)"
+        },
+        {
+          "problem": "Counting inversions",
+          "complexity": "O(n log n)",
+          "note": "Applied Class next week"
+        },
+        {
+          "problem": "Matrix multiplication",
+          "algorithm": "Strassen's algorithm"
+        },
+        {
+          "problem": "Fast Fourier Transform",
+          "history": "Published by James Cooley and John Tukey in 1965",
+          "significance": "One of most influential algorithms with wide range of applications in engineering, music, science, mathematics",
+          "note": "Can be traced back to unpublished work by Gauss"
+        }
+      ]
+    }
+  },
+  "complexity_analysis": {
+    "time_complexity": {
+      "definition": "Amount of time taken by algorithm to run as function of input size",
+      "types": [
+        {
+          "name": "Worst-case complexity",
+          "note": "Our main focus"
+        },
+        {
+          "name": "Best-case complexity"
+        },
+        {
+          "name": "Average-case complexity"
+        }
+      ]
+    },
+    "asymptotic_notation": {
+      "big_o": {
+        "notation": "f(n) = O(g(n))",
+        "definition": "There are constants c and n₀ such that f(n) ≤ c·g(n) for all n ≥ n₀",
+        "meaning": "Upper bound",
+        "pronunciation": "Big-O"
+      },
+      "big_omega": {
+        "notation": "f(n) = Ω(g(n))",
+        "definition": "There are constants c and n₀ such that f(n) ≥ c·g(n) for all n ≥ n₀",
+        "meaning": "Lower bound",
+        "pronunciation": "Big-Omega"
+      },
+      "big_theta": {
+        "notation": "f(n) = Θ(g(n))",
+        "definition": "If and only if f(n) = O(g(n)) and f(n) = Ω(g(n))",
+        "meaning": "Tight bound (both upper and lower)",
+        "pronunciation": "Big-Theta"
+      }
+    },
+    "space_complexity": {
+      "space_complexity": {
+        "definition": "Total amount of space taken by algorithm as function of input size"
+      },
+      "auxiliary_space_complexity": {
+        "definition": "Amount of space taken by algorithm EXCLUDING space taken by input",
+        "important_note": "Many textbooks and online resources do not distinguish and use term 'space complexity' when referring to auxiliary space complexity",
+        "unit_convention": "In this unit, we use these two terms to differentiate between them"
+      },
+      "in_place_algorithm": {
+        "definition": "Has O(1) auxiliary space complexity",
+        "meaning": "Only requires constant space in addition to space taken by input",
+        "important_note": "Some books use different definition (e.g., space taken by recursion may be ignored). For this unit, we use above definition",
+        "examples": {
+          "merging": "Not in-place as it needs to create output list which is size n"
+        }
+      }
+    },
+    "output_sensitive_complexity": {
+      "definition": "Time complexity that also depends on size of output",
+      "when_relevant": "Only relevant when output size may vary (e.g., not relevant for sorting, finding minimum value)",
+      "example": {
+        "problem": "Given sorted array of n unique numbers and two values x and y, print all numbers between x and y",
+        "algorithm": "Binary search to find smallest number greater than x. Linear scan from x until next number is ≥ y",
+        "time_complexity_traditional": "O(n) because all numbers may be between x and y",
+        "observation": "Really depends on output",
+        "output_sensitive_complexity": "O(w + log n) where w is number of values in range",
+        "note": "w may be n in worst-case",
+        "example_array": "[1, 5, 8, 17, 22, 27, 31, 32, 36, 41] with x=23, y=35"
+      }
+    },
+    "examples": {
+      "binary_search": {
+        "pseudocode": {
+          "function": "binary_search(array[1..n], key)",
+          "steps": [
+            "lo = 1 and hi = n + 1",
+            "while lo < hi - 1 do",
+            "  mid = ⌊(lo + hi)/2⌋",
+            "  if key ≥ array[mid] then lo = mid",
+            "  else hi = mid",
+            "if array[lo] = key then return lo",
+            "else return null"
+          ]
+        },
+        "worst_case_time": {
+          "analysis": [
+            "Search space at start: n",
+            "After 1st iteration: n/2",
+            "After 2nd iteration: n/4",
+            "...",
+            "After x iterations: 1",
+            "How many iterations? Set n/2^x = 1, so x = log n"
+          ],
+          "complexity": "O(log n)"
+        },
+        "best_case_time": "O(1)",
+        "space_complexity": "O(n)",
+        "auxiliary_space": "O(1)",
+        "in_place": true
+      },
+      "power_functions": {
+        "power1_recursive": {
+          "pseudocode": {
+            "function": "power1(x, n)",
+            "steps": [
+              "if n = 0 then return 1",
+              "else if n = 1 then return x",
+              "else return x · power1(x, n - 1)"
+            ]
+          },
+          "approach": "x · power1(x, n-1)",
+          "time_complexity_analysis": {
+            "base_case": "T(1) = b for constant b",
+            "general_case": "T(n) = T(n-1) + c for constant c",
+            "expansion": [
+              "T(n) = T(n-2) + 2c",
+              "T(n) = T(n-3) + 3c",
+              "Pattern: T(n) = T(n-k) + c·k",
+              "Set k = n-1 to get base case"
+            ],
+            "solution": "T(n) = b + c·(n-1) = c·n + b - c = O(n)",
+            "verification_base": "T(1) = c·1 + b - c = b ✓",
+            "verification_general": "T(n-1) + c = c·(n-1) + b - c + c = c·n + b - c = T(n) ✓"
+          },
+          "space_complexity": {
+            "analysis": "Total space = local space * maximum recursion depth = O(1) * O(n)",
+            "complexity": "O(n)"
+          },
+          "auxiliary_space": "O(n) - recursion depth",
+          "in_place": false
+        },
+        "power2_iterative": {
+          "pseudocode": {
+            "function": "power2(x, n)",
+            "steps": [
+              "result = 1",
+              "for i ← 1 to n do",
+              "  result = result · x",
+              "return result"
+            ]
+          },
+          "approach": "Loop multiplying result by x",
+          "time_complexity": "O(n)",
+          "auxiliary_space": "O(1)",
+          "in_place": true,
+          "comparison": "Iterative version power2(x,n) is in-place, while power1(x,n) is not"
+        },
+        "power3_divide_conquer": {
+          "pseudocode": {
+            "function": "power3(x, n)",
+            "steps": [
+              "if n = 0 then return 1",
+              "else if n = 1 then return x",
+              "y = power3(x · x, ⌊n/2⌋)",
+              "if n even then return y",
+              "else return x · y"
+            ]
+          },
+          "approach": "power3(x·x, ⌊n/2⌋)",
+          "time_complexity_analysis": {
+            "base_case": "T(1) = b for constant b",
+            "general_case": "T(n) = T(n/2) + c for constant c",
+            "expansion": [
+              "T(n) = T(n/4) + 2c",
+              "T(n) = T(n/8) + 3c",
+              "Pattern: T(n) = T(n/2^k) + c·k",
+              "Set k = log n to get base case"
+            ],
+            "solution": "T(n) = b + c·log n = O(log n)",
+            "verification_base": "T(1) = b + c·log 1 = b ✓",
+            "verification_general": "T(n/2) + c = b + c·log(n/2) + c = b + c·(log n - log 2) + c = b + c·log n = T(n) ✓"
+          },
+          "space_complexity": "O(log n)"
+        },
+        "tail_recursion_note": "Will not discuss tail-recursion in this unit because it is language specific (e.g., Python doesn't utilise tail-recursion)"
+      }
+    }
+  },
+  "recurrence_relations": {
+    "definition": "An equation that recursively defines a sequence of values, and one or more base cases are given",
+    "example": "T(n) = { T(n-1) + c, if n > 1; b, if n = 1 }",
+    "purpose": "Complexity of recursive algorithms can be analysed by writing recurrence relation and then solving it",
+    "solving_method": {
+      "goal": "Reduce general case to be in terms of base case",
+      "steps": [
+        "Identify cost when at base case",
+        "Write cost for general case",
+        "Expand recurrence to find pattern",
+        "Set variable to reach base case",
+        "Simplify to get solution"
+      ],
+      "verification": "Check solution by substitution back into original recurrence"
+    },
+    "common_recurrences": {
+      "linear_decrease_constant_work": {
+        "recurrence": "T(n) = { T(n-1) + c, if n > 1; b, if n = 1 }",
+        "solution": "T(n) = c·n + b - c = O(n)",
+        "examples": ["Linear search", "power1"],
+        "pattern": "Decrease by 1 each time, do constant work"
+      },
+      "logarithmic_divide_constant_work": {
+        "recurrence": "T(n) = { T(n/2) + c, if n > 1; b, if n = 1 }",
+        "solution": "T(n) = b + c·log n = O(log n)",
+        "examples": ["Binary search", "power3"],
+        "pattern": "Divide by 2 each time, do constant work"
+      },
+      "merge_sort_pattern": {
+        "recurrence": "T(n) = { 2·T(n/2) + c·n, if n > 1; b, if n = 1 }",
+        "solution": "O(n log n)",
+        "examples": ["Merge Sort"],
+        "pattern": "Two subproblems of half size, linear work to combine"
+      },
+      "selection_sort_pattern": {
+        "recurrence": "T(n) = { T(n-1) + c·n, if n > 1; b, if n = 1 }",
+        "solution": "O(n²)",
+        "examples": ["Selection Sort"],
+        "pattern": "One subproblem of size n-1, linear work each level"
+      },
+      "exponential_doubling": {
+        "recurrence": "T(n) = { 2·T(n-1) + c, if n > 1; b, if n ∈ {0,1} }",
+        "solution": "O(2^n)",
+        "examples": ["Naive recursive Fibonacci"],
+        "pattern": "Two subproblems each of size n-1, constant work"
+      },
+      "failed_multiplication_attempt": {
+        "recurrence": "T(n) = { 4·T(n/2) + c·n, if n > 1; b, if n = 1 }",
+        "solution": "O(n²)",
+        "note": "No improvement - 4 recursive calls is too many"
+      },
+      "karatsuba": {
+        "recurrence": "T(n) = { 3·T(n/2) + c·n, if n > 1; b, if n = 1 }",
+        "solution": "O(n^log₂(3)) ≈ O(n^1.59)",
+        "note": "Reducing from 4 to 3 recursive calls makes the difference"
+      }
+    },
+    "recurrence_to_algorithm_matching": [
+      {
+        "recurrence": "T(n) = T(n/2) + c",
+        "algorithm": "Binary search",
+        "complexity": "O(log n)"
+      },
+      {
+        "recurrence": "T(n) = T(n-1) + c",
+        "algorithm": "Linear search",
+        "complexity": "O(n)"
+      },
+      {
+        "recurrence": "T(n) = 2·T(n/2) + c·n",
+        "algorithm": "Merge Sort",
+        "complexity": "O(n log n)"
+      },
+      {
+        "recurrence": "T(n) = T(n-1) + c·n",
+        "algorithm": "Selection Sort",
+        "complexity": "O(n²)"
+      },
+      {
+        "recurrence": "T(n) = 2·T(n-1) + c",
+        "algorithm": "Naive recursive Fibonacci",
+        "complexity": "O(2^n)"
+      }
+    ]
+  },
+  "key_insights": {
+    "historical_lessons": [
+      "Algorithms predate computers by millennia - word 'algorithm' from 9th century Persian mathematician",
+      "Grade school multiplication (2000+ years old) can still be improved",
+      "Even great mathematicians (Kolmogorov) can be wrong about impossibility",
+      "Young researchers can make groundbreaking discoveries (Karatsuba at 23)",
+      "Adapting previous ideas (Gauss' complex number trick) to solve new problems is powerful approach"
+    ],
+    "algorithmic_lessons": [
+      "Reducing recursive calls from 4 to 3 makes dramatic difference (n² vs n^1.59)",
+      "Don't underestimate difference between polynomial complexities",
+      "Small improvements in exponent have huge practical impact",
+      "Divide-and-conquer normally used when polynomial solution exists but want lower polynomial",
+      "Solving recurrence relation is key to analysing divide-and-conquer algorithms"
+    ],
+    "practical_lessons": [
+      "Constructive alignment: focus on understanding class content, not just assignment",
+      "Assignment designed for people with strong grasp of content - will be far easier if you understand classes",
+      "Students focusing only on Assignment historically fail exam hurdle",
+      "Missing classes has measurable negative impact on grades (4.2 marks for 1 class, 9 marks for 2 classes)",
+      "Missing classes requires double the effort to recover",
+      "Majority of students regularly engaging with classes get D/HD",
+      "Must be on top of material from Week 1",
+      "Unit is challenging - if lacking prerequisite knowledge, catch up urgently"
+    ],
+    "complexity_insights": [
+      "Worst-case complexity is main focus (but know other types exist)",
+      "Space complexity vs auxiliary space complexity - unit distinguishes these",
+      "In-place means O(1) auxiliary space (including recursion space in this unit)",
+      "Output-sensitive complexity only relevant when output size varies",
+      "Best way to verify recurrence solution is substitution back into original"
+    ]
+  },
+  "preparation_for_next_week": {
+    "topics": [
+      "Analysis of algorithms",
+      "Non-comparison based sorting (Counting Sort, Radix Sort)"
+    ],
+    "required_preparation": [
+      "Revise computational complexity covered in earlier units",
+      "Complete Preparation 1 in your own time (self-assess prerequisite knowledge)",
+      "Complete Preparation 2 before Applied Class of Week 2"
+    ],
+    "quiz_note": "Quiz in Week 2 covers content from Week 1, so Preparation 2 helps get ready"
+  },
+  "recommended_textbooks": {
+    "important_note": "No required textbooks - all necessary material in course notes and lectures",
+    "warning": "All textbooks contain both less and (far) more than required for unit",
+    "instruction": "Important to not rely solely on these books - watch seminars, attend applied classes, read course notes",
+    "books": [
+      {
+        "abbreviation": "CLRS",
+        "full_name": "Introduction to Algorithms",
+        "authors": "Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, Clifford Stein",
+        "relevant_chapters": "Chapters 3 and 4"
+      },
+      {
+        "abbreviation": "KT",
+        "full_name": "Algorithm Design",
+        "authors": "Jon Kleinberg, Éva Tardos",
+        "relevant_chapters": "Chapters 2 and 5"
+      },
+      {
+        "abbreviation": "Rou",
+        "full_name": "Algorithms Illuminated",
+        "authors": "Tim Roughgarden",
+        "relevant_chapters": "Chapters 1```json
+,
+        "relevant_chapters": "Chapters 1 to 4"
+      },
+      {
+        "abbreviation": "Knu",
+        "full_name": "The Art of Computer Programming",
+        "authors": "Donald Knuth",
+        "note": "More advanced, pretty expensive; but iconic CS book"
+      }
+    ],
+    "course_notes_location": "Sections 1.2, 1.3 and 1.4, Chapter 2 (available on Moodle: Learning > Additional Information and Resources > Unit Resources)"
+  },
+  "detailed_examples_with_step_by_step": {
+    "karatsuba_multiplication_detailed": {
+      "problem": "Multiply a × b where both are n-digit numbers",
+      "grade_school_approach": {
+        "method": "Multiply each digit of one number by each digit of other",
+        "complexity": "O(n²)",
+        "visual_example": "123 × 345: multiply 5×3, 5×2, 5×1, then 4×3, 4×2, 4×1, then 3×3, 3×2, 3×1, add results"
+      },
+      "first_improvement_attempt": {
+        "idea": "Split numbers: a = aM·10^(n/2) + aL, b = bM·10^(n/2) + bL",
+        "expansion": "a·b = aM·bM·10^n + aM·bL·10^(n/2) + aL·bM·10^(n/2) + aL·bL",
+        "subproblems_needed": [
+          "aM × bM",
+          "aM × bL",
+          "aL × bM",
+          "aL × bL"
+        ],
+        "number_of_recursive_calls": 4,
+        "why_no_improvement": "4 instances each taking ~1/4 time means total time stays same order",
+        "recurrence": "T(n) = 4·T(n/2) + c·n",
+        "result": "Still O(n²) - no improvement",
+        "key_insight": "Need to use at most 3 recursive calls to improve"
+      },
+      "karatsuba_approach": {
+        "key_observation": "We need aM·bL + aL·bM, and we can compute (aM+aL)·(bM+bL)",
+        "three_recursive_calls": [
+          {"call": 1, "compute": "aM × bM", "result": "call this (1)"},
+          {"call": 2, "compute": "aL × bL", "result": "call this (2)"},
+          {"call": 3, "compute": "(aM+aL) × (bM+bL)", "result": "call this (3)"}
+        ],
+        "the_trick": {
+          "expand": "(aM+aL)·(bM+bL) = aM·bM + aM·bL + aL·bM + aL·bL",
+          "rearrange": "(aM+aL)·(bM+bL) = (aM·bL + aL·bM) + aM·bM + aL·bL",
+          "substitute": "(3) = c + (1) + (2) where c = aM·bL + aL·bM",
+          "solve_for_c": "c = (3) - (1) - (2)",
+          "result": "We get the cross terms without additional multiplication!"
+        },
+        "final_computation": "a·b = aM·bM·10^n + c·10^(n/2) + aL·bL",
+        "recurrence": "T(n) = 3·T(n/2) + c·n",
+        "complexity": "O(n^log₂(3)) ≈ O(n^1.59)",
+        "why_it_works": "3 recursive calls instead of 4 crosses the threshold for improvement"
+      },
+      "trick_origin": {
+        "mathematician": "Carl Friedrich Gauss",
+        "original_use": "Multiplying complex numbers using 3 real multiplications instead of 4",
+        "complex_numbers": "(a+bi)·(c+di) = (ac-bd) + (ad+bc)i",
+        "naive_approach": "4 real multiplications: ac, bd, ad, bc",
+        "gauss_trick": "Compute ac, bd, and (a+b)(c+d) = ac+ad+bc+bd, then ad+bc = (a+b)(c+d)-ac-bd",
+        "lesson": "Same mathematical insight applies in different contexts"
+      },
+      "significance": {
+        "improvement": "From O(n²) to O(n^1.59) is substantial",
+        "visual_comparison": "For n=1000, n² = 1,000,000 but n^1.59 ≈ 39,811",
+        "real_world_use": "Python uses Karatsuba algorithm for large integer multiplication",
+        "theoretical_importance": "Disproved conjecture about impossibility of sub-quadratic multiplication"
+      }
+    },
+    "solving_recurrence_detailed": {
+      "example_1_linear_decrease": {
+        "function": "power1(x,n) that computes x^n recursively as x · power1(x,n-1)",
+        "base_case": {
+          "condition": "n = 1",
+          "cost": "T(1) = b (some constant)",
+          "reason": "Just returning x, constant work"
+        },
+        "recursive_case": {
+          "condition": "n > 1",
+          "cost": "T(n) = T(n-1) + c",
+          "reason": "Make one recursive call, do constant work (one multiplication)"
+        },
+        "solving_steps": [
+          {
+            "step": 1,
+            "action": "Write recurrence",
+            "result": "T(n) = T(n-1) + c"
+          },
+          {
+            "step": 2,
+            "action": "Expand once",
+            "result": "T(n) = T(n-2) + c + c = T(n-2) + 2c"
+          },
+          {
+            "step": 3,
+            "action": "Expand again",
+            "result": "T(n) = T(n-3) + 3c"
+          },
+          {
+            "step": 4,
+            "action": "Identify pattern",
+            "result": "T(n) = T(n-k) + k·c"
+          },
+          {
+            "step": 5,
+            "action": "Set k to reach base case",
+            "reasoning": "Want n-k = 1, so k = n-1"
+          },
+          {
+            "step": 6,
+            "action": "Substitute",
+            "result": "T(n) = T(1) + (n-1)·c = b + (n-1)·c"
+          },
+          {
+            "step": 7,
+            "action": "Simplify",
+            "result": "T(n) = c·n + b - c"
+          },
+          {
+            "step": 8,
+            "action": "Asymptotic bound",
+            "result": "T(n) = O(n)"
+          }
+        ],
+        "verification": {
+          "check_base_case": "T(1) = c·1 + b - c = b ✓",
+          "check_recursive_case": "T(n-1) + c = c·(n-1) + b - c + c = c·n - c + b - c + c = c·n + b - c = T(n) ✓"
+        }
+      },
+      "example_2_logarithmic_divide": {
+        "function": "power3(x,n) that computes x^n as power3(x²,⌊n/2⌋) times x if odd",
+        "base_case": {
+          "condition": "n = 1",
+          "cost": "T(1) = b",
+          "reason": "Just returning x"
+        },
+        "recursive_case": {
+          "condition": "n > 1",
+          "cost": "T(n) = T(n/2) + c",
+          "reason": "One recursive call with half the exponent, constant work"
+        },
+        "solving_steps": [
+          {
+            "step": 1,
+            "action": "Write recurrence",
+            "result": "T(n) = T(n/2) + c"
+          },
+          {
+            "step": 2,
+            "action": "Expand once",
+            "result": "T(n) = T(n/4) + c + c = T(n/4) + 2c"
+          },
+          {
+            "step": 3,
+            "action": "Expand again",
+            "result": "T(n) = T(n/8) + 3c"
+          },
+          {
+            "step": 4,
+            "action": "Identify pattern",
+            "result": "T(n) = T(n/2^k) + k·c"
+          },
+          {
+            "step": 5,
+            "action": "Set k to reach base case",
+            "reasoning": "Want n/2^k = 1, so 2^k = n, thus k = log₂(n)"
+          },
+          {
+            "step": 6,
+            "action": "Substitute",
+            "result": "T(n) = T(1) + log₂(n)·c = b + c·log n"
+          },
+          {
+            "step": 7,
+            "action": "Asymptotic bound",
+            "result": "T(n) = O(log n)"
+          }
+        ],
+        "verification": {
+          "check_base_case": "T(1) = b + c·log(1) = b + 0 = b ✓",
+          "check_recursive_case": "T(n/2) + c = b + c·log(n/2) + c = b + c·(log n - log 2) + c = b + c·log n - c + c = b + c·log n = T(n) ✓"
+        },
+        "comparison": {
+          "power1": "O(n) - linear",
+          "power3": "O(log n) - logarithmic",
+          "improvement": "Dramatic - for n=1024, power1 does ~1024 multiplications, power3 does ~10"
+        }
+      }
+    },
+    "binary_search_detailed": {
+      "problem": "Find key in sorted array[1..n]",
+      "pseudocode_explained": {
+        "initialization": "lo = 1 (lower bound), hi = n+1 (upper bound)",
+        "loop_invariant": "If key exists, it's in range [lo, hi)",
+        "main_loop": "while lo < hi - 1",
+        "find_middle": "mid = ⌊(lo + hi)/2⌋",
+        "compare_and_update": {
+          "if_key_greater_equal": "key ≥ array[mid] then lo = mid (search upper half)",
+          "otherwise": "hi = mid (search lower half)"
+        },
+        "final_check": "if array[lo] = key then return lo, else return null"
+      },
+      "worst_case_analysis": {
+        "iteration_0": "Search space = n",
+        "iteration_1": "Search space = n/2",
+        "iteration_2": "Search space = n/4",
+        "iteration_3": "Search space = n/8",
+        "pattern": "Search space after k iterations = n/2^k",
+        "termination": "When n/2^k = 1, so k = log₂(n)",
+        "complexity": "O(log n) iterations, each doing O(1) work = O(log n)"
+      },
+      "best_case": {
+        "scenario": "Key found at first mid calculation",
+        "complexity": "O(1)"
+      },
+      "space_analysis": {
+        "iterative_version": {
+          "variables": "lo, hi, mid - all constant space",
+          "auxiliary_space": "O(1)",
+          "total_space": "O(n) for input array",
+          "in_place": true
+        },
+        "recursive_version_note": "Would have O(log n) auxiliary space due to recursion depth"
+      }
+    }
+  },
+  "common_pitfalls_and_clarifications": {
+    "when_to_search": {
+      "always_search": [
+        "Topics with daily/monthly changes",
+        "Recent events or current information",
+        "Queries with temporal indicators (current/latest/recent)",
+        "Information likely changed since knowledge cutoff"
+      ],
+      "never_search": [
+        "Stable information (changes yearly or slower)",
+        "Fundamental concepts and definitions",
+        "Well-established technical knowledge",
+        "Historical events before knowledge cutoff"
+      ]
+    },
+    "complexity_analysis_mistakes": {
+      "mistake_1": {
+        "error": "Confusing space complexity with auxiliary space complexity",
+        "correction": "Space complexity includes input, auxiliary space excludes it"
+      },
+      "mistake_2": {
+        "error": "Thinking in-place only means 'not creating new array'",
+        "correction": "In this unit, in-place means O(1) auxiliary space, including recursion stack"
+      },
+      "mistake_3": {
+        "error": "Forgetting recursion uses space",
+        "correction": "Recursive calls create stack frames - count this in space complexity"
+      },
+      "mistake_4": {
+        "error": "Not distinguishing worst-case from average-case",
+        "correction": "Always specify which case you're analyzing"
+      }
+    },
+    "recurrence_solving_mistakes": {
+      "mistake_1": {
+        "error": "Not finding correct pattern in expansion",
+        "correction": "Expand several times to see pattern clearly"
+      },
+      "mistake_2": {
+        "error": "Not verifying solution by substitution",
+        "correction": "Always check solution works for both base case and recursive case"
+      },
+      "mistake_3": {
+        "error": "Confusing T(n/2) with T(n-1) patterns",
+        "correction": "Division leads to logarithmic, subtraction leads to linear"
+      }
+    },
+    "divide_and_conquer_misconceptions": {
+      "misconception_1": {
+        "error": "Thinking any recursive algorithm is divide-and-conquer",
+        "correction": "Divide-and-conquer specifically divides into subproblems, solves them, combines results"
+      },
+      "misconception_2": {
+        "error": "Believing divide-and-conquer always improves complexity",
+        "correction": "Only improves if done right - need right number of recursive calls (e.g., 3 not 4 for Karatsuba)"
+      },
+      "misconception_3": {
+        "error": "Thinking subproblems must be equal size",
+        "correction": "Quick Sort is divide-and-conquer but subproblems not necessarily equal"
+      }
+    }
+  },
+  "exam_and_assessment_strategy": {
+    "quiz_strategy": {
+      "timing": "During Applied Class, 10 minutes",
+      "coverage": "Content from classes up to Week x-1",
+      "preparation": "Do Preparation x problems before class",
+      "bring": "Internet-connected device, blank working sheets if needed"
+    },
+    "assignment_strategy": {
+      "wrong_approach": "Focus all effort on assignment, skip classes",
+      "why_wrong": [
+        "Assignment designed for those with strong grasp of content",
+        "Will be far easier if you understand class material",
+        "Students who only focus on assignment typically fail exam hurdle"
+      ],
+      "right_approach": [
+        "Attend and engage with all classes",
+        "Do preparation problems",
+        "Understand concepts from seminars and applied classes",
+        "Then tackle assignment with solid foundation"
+      ]
+    },
+    "exam_strategy": {
+      "coverage": "All content from unit",
+      "question_sources": "Many questions taken almost 'as is' from Applied Classes and Seminars",
+      "hurdle": "Must get at least 22.5/50 (45%)",
+      "preparation": [
+        "Attend all seminars and applied classes",
+        "Do all preparation problems",
+        "Review seminar slides and applied class solutions",
+        "Practice similar problems"
+      ]
+    },
+    "time_management": {
+      "minimum_workload": "144 hours total",
+      "class_time": "First 57 hours best spent attending seminars and applied classes",
+      "weekly_routine": [
+        "Week x: Engage with Seminar x",
+        "Week x: Read corresponding course notes",
+        "Before Applied Class Week x: Do Preparation x problems",
+        "Week x: Attend Applied Class (covers Seminar x-1 content, take Quiz)"
+      ]
+    }
+  },
+  "success_factors": {
+    "students_who_get_d_hd": {
+      "characteristics": [
+        "Regularly engage with classes",
+        "Do preparation problems",
+        "Start from Week 1",
+        "Ask questions when unclear",
+        "Use Ed forum and consultations"
+      ],
+      "statistics": "Majority of regularly engaging students get D/HD"
+    },
+    "students_who_struggle": {
+      "characteristics": [
+        "Miss classes (each missed class = ~4.5 marks lost on average)",
+        "Focus only on assignment",
+        "Try to cram before assessments",
+        "Don't do preparation problems",
+        "Work in isolation without asking questions"
+      ],
+      "consequences": [
+        "Often fail exam hurdle",
+        "Struggle with 'easy' questions from applied classes",
+        "Find assignment very difficult"
+      ]
+    },
+    "recovery_from_behind": {
+      "if_missing_prerequisites": "Catch up urgently - don't wait",
+      "if_miss_one_class": "Requires double effort to recover",
+      "if_miss_multiple_classes": "Very difficult to recover - impact compounds",
+      "prevention": "Stay on track from Week 1"
+    }
+  },
+  "historical_figures_mentioned": {
+    "andrey_kolmogorov": {
+      "description": "One of the greatest mathematicians of the 20th century",
+      "contribution": "Conjectured sub-quadratic multiplication is impossible",
+      "lesson": "Even great mathematicians can be wrong"
+    },
+    "anatoly_karatsuba": {
+      "description": "23-year-old student when made discovery",
+      "contribution": "Proved Kolmogorov wrong within one week, invented O(n^1.59) multiplication algorithm",
+      "lesson": "Young researchers can make groundbreaking discoveries"
+    },
+    "carl_friedrich_gauss": {
+      "description": "Legendary mathematician",
+      "contributions": [
+        "Method for multiplying complex numbers with 3 real multiplications",
+        "Unpublished work on Fast Fourier Transform"
+      ],
+      "lesson": "Fundamental mathematical insights have applications across different problems"
+    },
+    "john_von_neumann": {
+      "description": "One of the greatest mathematicians of the 20th century",
+      "contribution": "Created Merge Sort, one of first explicit uses of Divide-and-Conquer",
+      "impact": "O(n log n) sorting algorithm still influential today"
+    },
+    "tony_hoare": {
+      "description": "Turing Award winner (1980)",
+      "contribution": "Created Quick Sort",
+      "note": "Will be covered in detail in Seminar 3"
+    },
+    "donald_knuth": {
+      "contribution": "Wrote 'The Art of Computer Programming'",
+      "description": "Iconic CS book series",
+      "note": "More advanced and expensive, but highly regarded"
+    }
+  },
+  "mathematical_foundations": {
+    "logarithm_properties": {
+      "log_of_quotient": "log(n/2) = log(n) - log(2)",
+      "log_of_product": "log(a·b) = log(a) + log(b)",
+      "change_of_base": "log_b(n) = log(n)/log(b)",
+      "log_2_relationship": "log₂(3) ≈ 1.59",
+      "solving_exponential": "If 2^k = n, then k = log₂(n)"
+    },
+    "summation_formulas": {
+      "arithmetic_series": "1 + 2 + 3 + ... + n = n(n+1)/2 = O(n²)",
+      "geometric_series": "1 + 2 + 4 + ... + 2^k = 2^(k+1) - 1 = O(2^k)",
+      "logarithmic_sum": "log(1) + log(2) + ... + log(n) = log(n!) = O(n log n)"
+    },
+    "important_inequalities": {
+      "log_vs_linear": "log(n) << n for large n",
+      "linear_vs_nlogn": "n << n·log(n) for large n",
+      "nlogn_vs_quadratic": "n·log(n) << n² for large n",
+      "quadratic_vs_exponential": "n² << 2^n for large n"
+    }
+  },
+  "practical_coding_considerations": {
+    "recursion_depth_limits": {
+      "python_default": "~1000 recursion depth limit",
+      "implication": "Deep recursion may hit limit even if theoretically correct",
+      "solution": "Use iterative version or increase recursion limit (not recommended for this unit)"
+    },
+    "integer_overflow": {
+      "python_advantage": "Arbitrary precision integers",
+      "other_languages": "May need to handle overflow in multiplication",
+      "karatsuba_benefit": "Fewer operations means less chance of intermediate overflow"
+    },
+    "practical_constants": {
+      "karatsuba_crossover": "For small n, grade school multiplication may be faster due to constants",
+      "python_implementation": "Python switches between algorithms based on number size",
+      "lesson": "Big-O hides constants, but constants matter in practice"
+    }
+  }

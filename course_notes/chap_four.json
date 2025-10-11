@@ -1,0 +1,268 @@
+{
+  "chapter": 4,
+  "title": "Order Statistics and Selection",
+  "summary": "Given a sequence of numbers, order statistics deals with finding the k-th smallest element. Special cases include finding minimum, maximum, or median elements.",
+
+  "sections": [
+    {
+      "section": "4.1",
+      "title": "Order Statistics and the Selection Problem",
+      "key_concepts": {
+        "order_statistic": {
+          "definition": "The k-th order statistic of a sequence of n elements is the k-th smallest element",
+          "examples": [
+            "1st order statistic = minimum element",
+            "n-th order statistic = maximum element",
+            "median = ⌈(n+1)/2⌉-th order statistic"
+          ]
+        },
+        "selection_problem": {
+          "definition": "Find the k-th smallest element of a sequence",
+          "naive_solution": {
+            "approach": "Sort the sequence and select the k-th element",
+            "complexity": "O(n log(n))"
+          },
+          "goal": "Find faster algorithms than sorting"
+        }
+      }
+    },
+
+    {
+      "section": "4.1.1",
+      "title": "Finding Minimums and Maximums",
+      "key_concepts": {
+        "finding_minimum": {
+          "approach": "Iterate through sequence tracking minimum found so far",
+          "complexity": "O(n)",
+          "lower_bound": "n-1 comparisons (cannot do better)",
+          "reasoning": "Each comparison can only rule out one element as not being minimum"
+        },
+
+        "finding_both_min_and_max": {
+          "naive_approach": {
+            "comparisons": "2n - 2",
+            "method": "Find min in n-1 comparisons, find max in n-1 comparisons"
+          },
+          "clever_approach": {
+            "comparisons": "~1.5n",
+            "method": "Consider pairs: compare higher with current max, lower with current min",
+            "optimization": "Eliminates 1/4 of unnecessary comparisons"
+          },
+          "lower_bound": "1.5n comparisons is optimal in worst case"
+        }
+      }
+    },
+
+    {
+      "section": "4.2",
+      "title": "The Quickselect Algorithm",
+      "key_concepts": {
+        "main_idea": {
+          "relationship_to_quicksort": "Based on Quicksort algorithm",
+          "key_observation": "After partitioning, only need to recurse on the half containing the k-th element",
+          "optimization": "Skip sorting the half that doesn't contain the answer"
+        },
+
+        "algorithm_structure": {
+          "steps": [
+            "Select a pivot element",
+            "Partition array around pivot using PARTITION function",
+            "If k < mid: recurse on left half",
+            "If k > mid: recurse on right half",
+            "If k = mid: return array[k]"
+          ]
+        },
+
+        "complexity": {
+          "worst_case": {
+            "time": "O(n²)",
+            "occurs_when": "Pivot is always minimum or maximum (like Quicksort)",
+            "levels_of_recursion": "O(n)"
+          },
+          "note": "Performance depends entirely on pivot selection strategy"
+        },
+
+        "pivot_selection_strategies": [
+          {
+            "name": "Random pivot selection",
+            "expected_time": "O(n)",
+            "empirical_performance": "Fastest in practice"
+          },
+          {
+            "name": "Median of medians",
+            "worst_case_time": "O(n)",
+            "empirical_performance": "Slower in practice but guaranteed worst-case"
+          }
+        ]
+      }
+    },
+
+    {
+      "section": "4.3",
+      "title": "Randomised Pivot Selection",
+      "key_concepts": {
+        "strategy": "Select pivot uniformly at random from array elements",
+
+        "theorem": {
+          "statement": "Quickselect with randomised pivot selection has expected runtime O(n)",
+          "proof_technique": "Mathematical induction on problem size",
+          "proof_outline": {
+            "recurrence": "E[T(n)] = n + 1 + (2/n)∑(i=n/2 to n-1) E[T(i)]",
+            "proof_method": "Show E[T(n)] ≤ Cn for some constant C",
+            "base_case": "T(1) = 2 ≤ C for any C ≥ 2",
+            "inductive_step": "Assume true for all i < n, prove for n",
+            "key_inequality": "E[T(n)] ≤ (3C/4 + 1)n + 1 - C/2",
+            "conclusion": "Choose C = 4 gives E[T(n)] ≤ 4n"
+          }
+        },
+
+        "key_insight": "Even with occasional bad pivots, expected performance is linear"
+      }
+    },
+
+    {
+      "section": "4.4",
+      "title": "Median of Medians",
+      "key_concepts": {
+        "motivation": {
+          "goal": "Deterministic linear-time selection (not just expected)",
+          "challenge": "Finding true median requires solving the original problem",
+          "solution": "Find approximate median that's 'good enough'"
+        },
+
+        "algorithm_steps": [
+          {
+            "step": 1,
+            "action": "Divide n elements into ⌈n/5⌉ groups of size at most 5"
+          },
+          {
+            "step": 2,
+            "action": "Find median of each group (sort each group of 5)"
+          },
+          {
+            "step": 3,
+            "action": "Recursively find true median of the ⌈n/5⌉ medians using Quickselect",
+            "note": "This is the approximate median used as pivot"
+          }
+        ],
+
+        "pivot_quality": {
+          "key_property": "Selected pivot is between 30th and 70th percentile",
+          "reasoning": {
+            "groups_with_median_less_than_pivot": "n/10 groups",
+            "elements_per_group_less_than_median": "3 elements",
+            "total_elements_less_than_pivot": "3n/10 elements",
+            "similarly": "3n/10 elements greater than pivot",
+            "conclusion": "Pivot is in 30th-70th percentile range"
+          }
+        },
+
+        "complexity_analysis": {
+          "recurrence": "T(n) = an + T(0.2n) + T(0.7n) for some constant a",
+          "explanation": {
+            "an_term": "Linear work: partitioning and finding medians of groups",
+            "T_0.2n_term": "Recursive call to find median of ⌈n/5⌉ medians",
+            "T_0.7n_term": "Worst-case recursive call after partitioning (70% of elements)"
+          },
+          "solution": {
+            "claim": "T(n) ≤ Cn for some constant C ≥ 10a",
+            "proof_method": "Induction",
+            "base_case": "T(0) = 0 ≤ C×0",
+            "inductive_step": {
+              "assume": "T(i) ≤ Ci for all i < n",
+              "show": "T(n) ≤ an + 0.2Cn + 0.7Cn = an + 0.9Cn",
+              "with_C_constraint": "an + 0.9Cn ≤ 0.1Cn + 0.9Cn = Cn when C ≥ 10a"
+            },
+            "conclusion": "T(n) = O(n)"
+          }
+        },
+
+        "practical_considerations": {
+          "theoretical_advantage": "Guaranteed O(n) worst-case",
+          "practical_disadvantage": "Higher constant factors than randomised selection",
+          "empirical_performance": "Slower than random pivot selection in practice"
+        }
+      }
+    },
+
+    {
+      "section": "4.4.1",
+      "title": "Improving Quicksort",
+      "key_concepts": {
+        "balanced_quicksort": {
+          "idea": "Use median-of-medians to select pivot for Quicksort",
+          "advantage": "Guarantees worst-case O(n log(n)) performance",
+          "comparison": "Same worst-case as heapsort and mergesort",
+          "practical_note": "Random pivot selection still faster in practice"
+        },
+
+        "recursion_depth": {
+          "with_median_pivot": "O(log(n)) guaranteed",
+          "benefit": "Minimum possible recursion depth achieved"
+        }
+      }
+    }
+  ],
+
+  "key_algorithms": [
+    {
+      "name": "SELECT_MIN",
+      "purpose": "Find minimum element",
+      "complexity": "O(n) time, O(1) space",
+      "comparisons": "n-1 (optimal)"
+    },
+    {
+      "name": "SELECT_MINMAX",
+      "purpose": "Find both minimum and maximum",
+      "complexity": "O(n) time, O(1) space",
+      "comparisons": "~1.5n (optimal)"
+    },
+    {
+      "name": "QUICKSELECT",
+      "purpose": "Find k-th smallest element",
+      "worst_case": "O(n²)",
+      "expected_case": "O(n) with random pivots",
+      "deterministic_version": "O(n) with median-of-medians"
+    },
+    {
+      "name": "MEDIAN_OF_MEDIANS",
+      "purpose": "Select good pivot for Quickselect",
+      "complexity": "O(n)",
+      "guarantee": "Pivot in 30th-70th percentile"
+    }
+  ],
+
+  "important_theorems": [
+    {
+      "theorem": "Average-case Quickselect",
+      "statement": "Quickselect with random pivot selection has expected time O(n)",
+      "proof_technique": "Probabilistic analysis and induction"
+    },
+    {
+      "theorem": "Median of Medians",
+      "statement": "Quickselect using median-of-medians pivot selection has worst-case time O(n)",
+      "proof_technique": "Recurrence relations and induction"
+    },
+    {
+      "theorem": "Min-Max Lower Bound",
+      "statement": "Finding both minimum and maximum requires at least 1.5n comparisons in worst case",
+      "note": "Algorithm in section 4.1 is optimal"
+    }
+  ],
+
+  "key_insights": [
+    "Order statistics can be solved faster than sorting for special cases",
+    "Random pivot selection gives expected O(n) with excellent practical performance",
+    "Deterministic O(n) is achievable but with higher constant factors",
+    "Approximate median (30th-70th percentile) is sufficient for linear time",
+    "Partition-based selection (like Quicksort) is more efficient than sorting for selection",
+    "The magic number 5 in median-of-medians ensures recurrence solves to O(n)"
+  ],
+
+  "practical_notes": [
+    "Use random pivot Quickselect for best empirical performance",
+    "Median-of-medians is mainly of theoretical interest",
+    "Finding min and max together is provably better than finding separately",
+    "Balanced Quicksort can achieve O(n log(n)) worst-case but slower than random version"
+  ]
+}

@@ -1,0 +1,330 @@
+{
+  "chapter": 3,
+  "title": "Fast Sorting Algorithms",
+  "summary": {
+    "topics": [
+      "The heapsort algorithm (revision)",
+      "Complexity lower bounds for sorting",
+      "The Quicksort algorithm",
+      "Sorting integers in linear time: counting sort and radix sort"
+    ]
+  },
+  "sections": [
+    {
+      "section": "3.1",
+      "title": "Heapsort (Revision)",
+      "concepts": {
+        "binary_heap_definition": {
+          "description": "A complete binary tree where every element in a max heap is no smaller than its children (maximum element at top)",
+          "properties": [
+            "Can be represented as flat array array[1..n] where root is array[1]",
+            "For node array[i], children are array[2i] and array[2i+1]",
+            "Can convert existing array to heap in place in O(n) time",
+            "Insert new item in O(log(n)) time",
+            "Remove maximum element in O(log(n)) time"
+          ]
+        },
+        "heapsort_algorithm": {
+          "description": "Converts sequence into max heap, then successively removes maximum element and places at back of array",
+          "steps": [
+            "HEAPIFY(array[1..n])",
+            "For i = n to 1: array[i] = EXTRACT_MAX(array[1..i])"
+          ]
+        },
+        "complexity": {
+          "time": {
+            "best_case": "O(n) - when all elements identical",
+            "average_case": "O(n log(n))",
+            "worst_case": "O(n log(n))"
+          },
+          "space": {
+            "auxiliary": "O(1) - in place"
+          },
+          "explanation": "One HEAPIFY takes O(n), n invocations of EXTRACT_MAX take O(log(n)) each"
+        },
+        "properties": {
+          "online": false,
+          "stable": false,
+          "in_place": true
+        },
+        "heap_operations": {
+          "heapify": "Convert array to heap, O(n) time",
+          "insert": "Add element to heap, O(log(n)) time",
+          "extract_max": "Remove and return maximum, O(log(n)) time",
+          "rise": "Move element up until heap property satisfied",
+          "fall": "Move element down until heap property satisfied"
+        }
+      }
+    },
+    {
+      "section": "3.2",
+      "title": "Quicksort",
+      "concepts": {
+        "key_ideas": [
+          "Select pivot element",
+          "Partition array: items < pivot on left, items = pivot in middle, items > pivot on right",
+          "Quicksort left part (elements < pivot)",
+          "Quicksort right part (elements > pivot)"
+        ],
+        "partitioning_algorithms": {
+          "naive_3way": {
+            "description": "Uses three temporary arrays for <pivot, =pivot, >pivot",
+            "time": "O(n)",
+            "space": "O(n)",
+            "stable": true,
+            "in_place": false
+          },
+          "hoare": {
+            "description": "Original scheme by C.A.R. Hoare using two indices from start and end",
+            "approach": "Move indices toward each other, swapping elements on wrong side",
+            "time": "O(n)",
+            "space": "O(1)",
+            "stable": false,
+            "in_place": true,
+            "note": "Assumes pivot is first element, swap pivot to front first"
+          },
+          "dutch_national_flag": {
+            "description": "Three-way partition by Dijkstra handling many equal elements efficiently",
+            "invariant": {
+              "array[1..lo-1]": "red items (< pivot)",
+              "array[lo..mid-1]": "white items (= pivot)",
+              "array[mid..hi]": "unknown items",
+              "array[hi+1..n]": "blue items (> pivot)"
+            },
+            "cases": {
+              "red": "swap(array[mid], array[lo]), increment lo and mid",
+              "white": "increment mid only",
+              "blue": "swap(array[mid], array[hi]), decrement hi only"
+            },
+            "time": "O(n)",
+            "space": "O(1)",
+            "stable": false,
+            "in_place": true
+          }
+        },
+        "complexity": {
+          "time": {
+            "best_case": {
+              "value": "O(n log(n))",
+              "condition": "Pivot is median, resulting in balanced partitions",
+              "levels": "log₂(n) levels of recursion",
+              "work_per_level": "O(n) for partitioning"
+            },
+            "worst_case": {
+              "value": "O(n²)",
+              "condition": "Pivot is smallest/largest element",
+              "subproblems": "Size 0 and n-1",
+              "levels": "O(n) levels of recursion"
+            },
+            "average_case": {
+              "value": "O(n log(n))",
+              "proof_methods": [
+                {
+                  "method": "coin_flip_argument",
+                  "good_pivot_definition": "Pivot in middle 50% (25th to 75th percentile)",
+                  "probability": "50% chance of selecting good pivot",
+                  "depth_with_good_pivots": "log₄/₃(n) = O(log(n))",
+                  "expected_depth": "2 × log₄/₃(n) = O(log(n))",
+                  "conclusion": "Expected O(n log(n)) time"
+                },
+                {
+                  "method": "recurrence_relations",
+                  "recurrence": "E[T(n)] = n + 1 + (2/n)Σ(E[T(k-1)])",
+                  "solution": "E[T(n)] = O(n log(n))",
+                  "uses": "Harmonic numbers approximation"
+                }
+              ]
+            }
+          },
+          "space": {
+            "worst_case_naive": "O(n) - linear recursive calls",
+            "optimized": "O(log(n)) - sort smallest half first",
+            "optimization": "Always sort smallest partition first, then largest (tail recursion)"
+          }
+        },
+        "properties": {
+          "stable": "Depends on partition scheme (naive=yes, Hoare/DNF=no)",
+          "in_place": "Depends on partition scheme and definition of in-place",
+          "online": false
+        }
+      }
+    },
+    {
+      "section": "3.3",
+      "title": "Complexity Lower Bounds for Sorting",
+      "concepts": {
+        "comparison_model": {
+          "description": "Only valid operations are comparisons (<, >, ≥, ≤, =, ≠)",
+          "lower_bound": "Ω(n log(n)) in worst case"
+        },
+        "decision_tree": {
+          "description": "Models knowledge about order after comparing elements",
+          "properties": [
+            "Each node represents set of potential sorted orders",
+            "Leaf nodes represent fully determined sorted order",
+            "Height of tree = worst-case number of comparisons"
+          ]
+        },
+        "proof": {
+          "key_facts": [
+            "n! possible sorted orders for n elements",
+            "Each must appear as leaf in decision tree",
+            "Binary tree of height h has at most 2^h leaves"
+          ],
+          "inequality": "n! ≤ 2^h",
+          "therefore": "h ≥ log₂(n!)",
+          "lower_bound_derivation": [
+            "log₂(n!) = log₂(1) + log₂(2) + ... + log₂(n)",
+            "≥ log₂(n/2) + log₂(n/2+1) + ... + log₂(n)",
+            "≥ (n/2)log₂(n/2)",
+            "= (n/2)(log₂(n) - 1)",
+            "= Ω(n log(n))"
+          ],
+          "conclusion": "Any comparison-based sort requires Ω(n log(n)) time"
+        }
+      }
+    },
+    {
+      "section": "3.4",
+      "title": "Sorting Integers Fast",
+      "subsections": [
+        {
+          "section": "3.4.1",
+          "title": "Counting Sort",
+          "concepts": {
+            "applicability": "Arrays containing only integers in fixed universe U (e.g., 0 to u-1)",
+            "key_idea": [
+              "Count occurrences of each number",
+              "Compute start position for each value",
+              "Place elements in correct positions"
+            ],
+            "algorithm_steps": [
+              "Count occurrences: counter[x] = number of times x appears",
+              "Compute positions: position[y] = 1 + Σ(counter[x]) for x < y",
+              "Place elements maintaining stability"
+            ],
+            "complexity": {
+              "time": {
+                "all_cases": "O(n + u)",
+                "explanation": "Two passes over input (O(n)), maintain counter array (O(u))"
+              },
+              "space": {
+                "all_cases": "O(n + u)",
+                "explanation": "Counter array size u, temp array size n"
+              },
+              "linear_condition": "u = O(n)"
+            },
+            "bit_width_analysis": {
+              "w_bit_integers": "Universe size u = 2^w - 1",
+              "complexity": "O(n + 2^w)",
+              "linear_condition": "w = log(n) + O(1)"
+            },
+            "properties": {
+              "stable": true,
+              "in_place": false,
+              "online": false
+            }
+          }
+        },
+        {
+          "section": "3.4.2",
+          "title": "Radix Sort",
+          "concepts": {
+            "description": "Least Significant Digit (LSD) radix sort - sorts one digit at a time from rightmost to leftmost",
+            "key_ideas": [
+              "Sort array one digit at a time, least to most significant",
+              "For each digit: sort using stable sorting algorithm (counting sort)",
+              "Can use any base/radix, not just decimal"
+            ],
+            "parameters": {
+              "n": "Number of integers",
+              "k": "Number of digits in base-b",
+              "b": "Base/radix used",
+              "w": "Bit width of integers"
+            },
+            "complexity": {
+              "time": {
+                "general": "O(k(n + b))",
+                "explanation": "k passes, each pass does counting sort in O(n + b)",
+                "relationship": "k = w/log(b) for w-bit integers"
+              },
+              "space": {
+                "general": "O(n + b)",
+                "explanation": "Space for counting sort"
+              }
+            },
+            "optimization": {
+              "base_selection": {
+                "goal": "Minimize k(n + b) = (w/log(b))(n + b)",
+                "optimal_base": "b = O(n)",
+                "reasoning": "Makes counting sort O(n), minimizes number of passes"
+              },
+              "optimized_complexity": {
+                "time": "O((w/log(n))n) for base-n",
+                "linear_condition": "w = O(log(n)) - integers up to O(n^c)",
+                "space": "O(n)"
+              }
+            },
+            "comparison_to_counting_sort": {
+              "counting_sort": "Linear for O(n) sized integers",
+              "radix_sort": "Linear for O(n^c) sized integers with c·log(n) bits",
+              "advantage": "Radix sort handles larger integers in linear time"
+            },
+            "properties": {
+              "stable": "Standard implementation is stable",
+              "in_place": "Standard implementation not in place",
+              "online": false
+            },
+            "complexity_table": {
+              "sparse": "O((w/log(n))n)",
+              "dense": "O((w/log(n))n)"
+            }
+          }
+        }
+      ],
+      "comparison_table": {
+        "description": "All-pairs shortest path algorithms comparison",
+        "algorithms": {
+          "repeated_bfs": {
+            "sparse": "O(|V|²)",
+            "dense": "O(|V|³)",
+            "notes": "Unweighted graphs only"
+          },
+          "repeated_dijkstra": {
+            "sparse": "O(|V|² log(|V|))",
+            "dense": "O(|V|³ log(|V|))",
+            "notes": "Non-negative weights"
+          },
+          "repeated_bellman_ford": {
+            "sparse": "O(|V|³)",
+            "dense": "O(|V|⁴)",
+            "notes": "Handles negative weights"
+          },
+          "johnson": {
+            "sparse": "O(|V|² log(|V|))",
+            "dense": "O(|V|³ log(|V|))",
+            "notes": "Uses potential method for negative weights"
+          },
+          "radix_sort": {
+            "sparse": "O(|V|³)",
+            "dense": "O(|V|³)",
+            "notes": "Dense graphs optimal"
+          }
+        }
+      },
+      "advanced_note": {
+        "signature_sort": "Linear time for w ≥ Ω(log^(2+ε)(n)) bit integers",
+        "best_known": "O(n√(log(log(n)))) randomized, O(n log(log(n))) deterministic for any width w",
+        "open_problem": "Whether any width integers can be sorted in linear time"
+      }
+    }
+  ],
+  "key_takeaways": [
+    "Heapsort, Merge sort, and Quicksort all achieve O(n log(n)) average time",
+    "Comparison-based sorting has Ω(n log(n)) lower bound",
+    "Integer sorting can break this barrier with counting sort and radix sort",
+    "Counting sort is O(n + u) - linear when u = O(n)",
+    "Radix sort with optimal base is O((w/log(n))n) - linear when w = O(log(n))",
+    "Trade-offs exist between stability, in-place property, and time complexity"
+  ]
+}

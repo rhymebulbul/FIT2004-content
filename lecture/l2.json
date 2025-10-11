@@ -1,0 +1,263 @@
+{
+  "course": "FIT2004 - Algorithms and Data Structures",
+  "week": 2,
+  "lecture_title": "Analysis of Algorithms - Seminar 2",
+  "topics": {
+    "proving_correctness": {
+      "core_concepts": {
+        "importance": "Testing cannot guarantee correctness for all inputs (infinitely many possible inputs). Logic can prove an algorithm is always correct.",
+        "two_parts": [
+          "Show the program produces correct results",
+          "Show the program always terminates"
+        ],
+        "loop_invariant": {
+          "definition": "A statement about an algorithm's loop that must be true at three points",
+          "three_points": [
+            "Before the loop starts (initialization)",
+            "During each loop iteration (maintenance)",
+            "After the loop terminates (termination)"
+          ],
+          "usage_tip": "Consider the invariant just before the loop condition is checked"
+        }
+      },
+      "example_algorithms": {
+        "finding_minimum": {
+          "invariant": "min equals the minimum value in array[1...index-1]",
+          "termination_proof": "When index = N+1, min contains minimum of array[1...N]"
+        },
+        "binary_search": {
+          "key_fix": "Use 'while (lo < hi - 1)' instead of 'while (lo < hi)' to ensure termination",
+          "invariant": "key in array[1...N] if and only if key in array[lo...hi-1]",
+          "critical_detail": "Use >= comparison instead of > to handle duplicate values correctly"
+        }
+      }
+    },
+    "comparison_based_sorting": {
+      "definition": "Algorithms that sort by comparing items with each other",
+      "examples": ["Selection Sort", "Insertion Sort", "Quick Sort", "Merge Sort", "Heap Sort"],
+      "comparison_cost": {
+        "string_comparison": "O(L) where L is number of characters in smaller string",
+        "number_comparison": "O(1) for machine-word sized numbers, O(digits) for very large numbers",
+        "default_assumption": "Comparison cost is O(1) unless specified otherwise"
+      },
+      "lower_bound": {
+        "value": "Ω(N log N)",
+        "meaning": "No comparison-based sorting algorithm can do better than O(N log N) in worst case",
+        "note": "Proof in Section 3.3 (not examinable)"
+      }
+    },
+    "selection_sort": {
+      "algorithm": {
+        "description": "Find minimum element in unsorted portion, swap with first element of unsorted portion",
+        "pseudocode": "for(i = 1; i < N; i++) { j = index of minimum in arr[i...N]; swap(arr[i], arr[j]) }"
+      },
+      "loop_invariant": "arr[1...i-1] is sorted AND arr[1...i-1] <= arr[i...N]",
+      "complexity": {
+        "time_best": "O(N²)",
+        "time_worst": "O(N²)",
+        "space": "O(N) total",
+        "auxiliary_space": "O(1)"
+      },
+      "properties": {
+        "stable": false,
+        "in_place": true
+      },
+      "why_stronger_invariant": "Selection sort needs 'arr[1...i-1] <= arr[i...N]' not just 'arr[1...i-1] is sorted' because it doesn't maintain sortedness when swapping"
+    },
+    "non_comparison_sorting": {
+      "definition": "Algorithms that don't require comparing items with each other",
+      "examples": ["Counting Sort", "Radix Sort", "Bucket Sort"],
+      "counting_sort": {
+        "definition": "A non-comparison-based sorting algorithm that sorts elements by counting the number of occurrences of each distinct element and using this information to place each element directly into its correct position in the output array.",
+        "algorithm_steps": [
+          "1. Initialize an array 'count' of size U (where U is the domain of the input) to zeros.",
+          "2. Iterate over the input and increment count[value] for each occurrence of a value.",
+          "3. Create an output array.",
+          "4. For each index i in count, append count[i] copies of i to the output array."
+        ],
+        "key_requirement": "Works when values have limited range",
+        "complexity": {
+          "time": "O(N + U)",
+          "space": "O(N + U)",
+          "auxiliary_space": "O(U)"
+        },
+        "properties": {
+          "stability": "Unstable in its basic form because it does not preserve the order of elements with the same key.",
+          "data_association": "Loses data associated with values (e.g., (3,a) vs (3,b)) unless modified."
+        },
+        "example": "Input: (3,a), (1,p), (3,c), (7,f), (5,g), (3,b), (7,d), (8,w)",
+        "exam_focus": [
+          "Understand how count array is constructed.",
+          "Explain why it’s O(N + U) and not O(N log N).",
+          "Recognize that basic counting sort is not stable.",
+          "Be able to identify cases where counting sort is inefficient (e.g., large U relative to N)."
+        ]
+      },
+      "stable_counting_sort": {
+        "purpose": "To make counting sort stable and preserve associated data.",
+        "key_idea": "Compute cumulative positions from counts to determine where each key should go in the output array.",
+        "steps": [
+          "1. Construct count array: count[key] += 1 for each key.",
+          "2. Construct position array: position[1] = 1, then position[i] = position[i-1] + count[i-1].",
+          "3. For each (key, value) in input, place it at output[position[key]], then increment position[key]."
+        ],
+        "output": "Stable output that preserves input order for equal keys.",
+        "complexity": {
+          "time": "O(N + U)",
+          "space": "O(N + U)"
+        },
+        "stability": "Stable",
+        "pros_and_cons": {
+          "pros": "Stable, preserves key-value associations, efficient when U = O(N).",
+          "cons": "Inefficient for sparse or large domains (e.g., U >> N)."
+        },
+        "exam_focus": [
+          "Be able to trace how the position array is computed.",
+          "Explain why stable counting sort is stable.",
+          "Write pseudocode for stable counting sort.",
+          "Understand how to modify counting sort for stability."
+        ]
+      },
+      "radix_sort": {
+        "definition": "A non-comparison-based sorting algorithm that sorts numbers (or strings) by processing individual digits from least significant to most significant using a stable sorting algorithm such as counting sort.",
+        "key_principle": "Sort digits from least to most significant using a stable sort to ensure overall correctness.",
+        "steps": [
+          "1. Assume each number has k digits (in base b).",
+          "2. For each digit position from least significant to most significant, use stable counting sort to sort by that digit."
+        ],
+        "importance_of_stability": "If the intermediate sort is not stable, the final result will not be correctly sorted.",
+        "complexity": {
+          "assumptions": "Each number has k digits, and counting sort runs in O(N + U).",
+          "time": "O(k * (N + U))",
+          "space": "O(k * (N + U))"
+        },
+        "variable_base_analysis": {
+          "base_b": "If numbers are represented in base b, the number of digits per number is O(log_b M), where M is the largest number.",
+          "time_complexity": "O((log_b M) * (N + b))",
+          "optimization": "Choosing b = O(N) minimizes total cost to O(N log_N M). When M = O(N^c), total cost becomes O(N)."
+        },
+        "practical_notes": [
+          "Choosing base as a power of 2 improves performance.",
+          "Cache and memory access patterns affect real-world speed."
+        ],
+        "exam_focus": [
+          "Derive O(k(N + U)) complexity.",
+          "Understand relationship between base b, M, and number of digits.",
+          "Explain why radix sort requires stable counting sort.",
+          "Understand implications of processing digits left-to-right vs right-to-left.",
+          "Apply radix sort to strings and explain ASCII mapping."
+        ]
+      }
+    },
+    "sorting_strings": {
+      "concept": "Apply radix/counting sort to strings where each character is treated as a digit.",
+      "character_mapping": "Use ASCII or Unicode ordinal values (e.g., ord('A') = 65, ord('B') = 66).",
+      "radix": "Typically 26 (for letters) or 256 (for full ASCII).",
+      "exam_focus": [
+        "Explain how string sorting works using radix/counting sort.",
+        "Relate string character positions to digit positions in radix sort.",
+        "Understand stability requirement for lexicographic order."
+      ]
+    },
+    "algorithm_properties": {
+      "stability": {
+        "algorithm_properties": {
+          "stability": {
+            "definition": "Maintains relative ordering of elements with equal keys",
+            "example": "If two elements have same value, stable sort keeps them in original order"
+          },
+          "in_place": {
+            "definition": "Uses O(1) auxiliary space",
+            "note": "Algorithm modifies input array directly"
+          }
+        },
+        "lower_bound_complexity": {
+          "definition": "Lowest possible complexity ANY algorithm can achieve for a problem",
+          "importance": "Gives theoretical bound on what is best possible",
+          "examples": {
+            "finding_minimum": "Ω(N) - must look at every element",
+            "comparison_sorting": "Ω(N log N)"
+          },
+          "optimal_algorithm": "If algorithm matches lower bound, it's optimal"
+        },
+        "summary_table": {
+          "sorting_algorithms": {
+            "Selection_Sort": {
+              "best": "O(N²)",
+              "worst": "O(N²)",
+              "stable": false,
+              "in_place": true
+            },
+            "Insertion_Sort": {
+              "best": "O(N)",
+              "worst": "O(N²)",
+              "stable": true,
+              "in_place": true
+            },
+            "Heap_Sort": {
+              "best": "O(N)",
+              "worst": "O(N log N)",
+              "stable": false,
+              "in_place": true
+            },
+            "Merge_Sort": {
+              "best": "O(N log N)",
+              "worst": "O(N log N)",
+              "stable": true,
+              "in_place": false
+            }
+          }
+        }
+      },
+      "exam_tips": {
+        "proving_correctness": [
+          "Always show both termination and correct results",
+          "Use loop invariants with three steps: initialization, maintenance, termination",
+          "Be careful with boundary conditions (< vs <=, N vs N+1)"
+        ],
+        "complexity_analysis": [
+          "Consider best, worst, and average cases",
+          "Don't forget space complexity and auxiliary space",
+          "Remember comparison cost assumptions"
+        ],
+        "sorting_properties": [
+          "Know which algorithms are stable/unstable",
+          "Know which are in-place",
+          "Understand why lower bound is Ω(N log N) for comparison sorts"
+        ],
+        "common_mistakes": [
+          "Binary search: forgetting to handle termination properly",
+          "Selection sort: using weak loop invariant instead of strong one",
+          "Counting sort: forgetting it only works for limited range values"
+        ]
+      },
+      "summary_points": {
+        "comparison_vs_noncomparison": "Counting and radix sorts are non-comparison-based and can achieve O(N) under specific conditions unlike comparison-based sorts which are bounded by O(N log N).",
+        "key_exam_questions": [
+          "Explain step-by-step how counting sort works.",
+          "Differentiate between stable and unstable counting sort.",
+          "Analyze time and space complexity of counting sort and radix sort.",
+          "Explain why radix sort depends on stability of sub-sort.",
+          "Apply radix sort to strings or numbers and discuss complexity tradeoffs."
+        ],
+        "references": {
+          "course_notes": [
+            "Sections 1.1",
+            "1.5",
+            "3.1",
+            "3.3",
+            "3.4"
+          ],
+          "textbooks": [
+            "CLRS Section 2.1",
+            "Chapter 8",
+            "Rou Section 5.6"
+          ]
+        },
+        "implementation_recommendations": [
+          "Practice writing counting sort and stable counting sort code.",
+          "Implement radix sort and test with variable base sizes.",
+          "Understand examples of inefficient cases (large U relative to N)."
+        ]
+      }
+    }}}

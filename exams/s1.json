@@ -1,0 +1,1131 @@
+{
+  "exam_metadata": {
+    "code": "FIT2004",
+    "title": "Algorithms and data structures",
+    "duration": "2 hours 10 mins",
+    "institution": "Monash University",
+    "faculty": "Faculty of Information Technology",
+    "exam_type": "Past Exam 1",
+    "authorized_materials": {
+      "calculators": false,
+      "dictionaries": false,
+      "notes": false,
+      "working_sheets": true,
+      "permitted_items": false
+    }
+  },
+  "questions": [
+    {
+      "question_number": 1,
+      "marks": 2,
+      "topic": "Correctness and Complexity",
+      "question_type": "multiple_choice",
+      "question_text": "For constants b and c, consider the recurrence relation given by:\n• T(n) = b, if n=1\n• T(n) = 2 * T(n/2) + c * n³, if n>1\n\nWhich of the following statements is true?",
+      "options": {
+        "a": "T(n) = Θ(n³ * log n)",
+        "b": "T(n) = Θ(n⁴)",
+        "c": "T(n) = Θ(n³)",
+        "d": "T(n) = Θ(n⁶ * log n)",
+        "e": "T(n) = Θ(n³ * log n * log n * log n)"
+      },
+      "correct_answer": "c",
+      "solution": {
+        "answer": "C: T(n) = Θ(n³)",
+        "explanation": "This recurrence can be solved using telescoping, Master's theorem, or recursion trees. Using telescoping method:\n\n1. Start with T(n) = 2·T(n/2) + c·n³\n2. Substitute T(n/2) = 2·T(n/4) + c·(n/2)³\n3. Get T(n) = 2²·T(n/4) + c·n³(1 + 1/4)\n4. Continue for k iterations: T(n) = 2^k·T(n/2^k) + c·n³·Σ(1/4)^i for i=0 to k-1\n5. This becomes: T(n) = 2^k·T(n/2^k) + (4/3)·c·n³(1 - (1/4)^k)\n6. Setting k = log₂(n) gives: T(n) = b - (4/3)·c·n + (4/3)·c·n³ = Θ(n³)\n\nKey insight: The n³ term dominates because the recursive calls decrease faster than the work at each level.",
+        "key_concepts": [
+          "Recurrence relations",
+          "Telescoping method",
+          "Master's theorem application",
+          "Asymptotic complexity analysis",
+          "Geometric series summation"
+        ]
+      }
+    },
+    {
+      "question_number": 2,
+      "marks": 4,
+      "topic": "Correctness and Complexity",
+      "question_type": "proof",
+      "question_text": "Consider the following algorithm, which returns True if and only if m is a factor of sum(L), where L is a list of integers.\n\ndef sum_factor(L, m):\n    n = len(L)\n    s = 0\n    for i in range(n):\n        s = (s + L[i]) % m\n    return s == 0\n\n(a) Write down a useful invariant for this algorithm.\n(b) Show that the invariant you wrote is true on loop entry, and each time the loop runs.\n(c) Now use your invariant to argue that the algorithm is correct.",
+      "correct_answer": null,
+      "solution": {
+        "part_a": {
+          "answer": "s = sum(L[0..i-1]) % m at the beginning of loop i",
+          "explanation": "The invariant states that at the start of the i-th iteration, s holds the remainder when the sum of the first i-1 elements is divided by m."
+        },
+        "part_b": {
+          "answer": "Proof by induction",
+          "explanation": "Loop entry (i=0): L[0..i-1] is empty, so sum is 0. Since 0%m = 0 and s=0, invariant holds.\n\nInductive step: Assume invariant holds at start of iteration i, so s = sum(L[0..i-1])%m.\nAfter the loop body executes:\ns = (s + L[i]) % m\n  = (sum(L[0..i-1])%m + L[i]) % m\n  = (sum(L[0..i-1]) + L[i]) % m  [by modular arithmetic property]\n  = sum(L[0..i]) % m\n\nThis is exactly what the invariant requires at the start of iteration i+1."
+        },
+        "part_c": {
+          "answer": "Correctness argument using loop termination",
+          "explanation": "The for loop terminates when i=n. At this point, by the invariant:\ns = sum(L[0..n-1]) % m = sum(L) % m\n\nThe function returns (s == 0), which is True if and only if sum(L) % m == 0, meaning m divides sum(L). This matches the specification exactly."
+        },
+        "key_concepts": [
+          "Loop invariants",
+          "Proof by induction",
+          "Modular arithmetic properties",
+          "Algorithm correctness",
+          "Loop termination analysis"
+        ]
+      }
+    },
+    {
+      "question_number": 3,
+      "marks": 2,
+      "topic": "Sorting",
+      "question_type": "multiple_choice_multiple_answer",
+      "question_text": "Consider an input with N elements. Please select all correct statements regarding comparison-based sorting algorithms.",
+      "options": {
+        "a": "The best-case complexity of insertion sort is O(N).",
+        "b": "The best-case complexity of merge sort is O(N).",
+        "c": "Heap sort is stable.",
+        "d": "Selection sort is stable.",
+        "e": "The average-case complexity of selection sort is θ(N²)."
+      },
+      "correct_answer": ["a", "e"],
+      "solution": {
+        "answer": "A and E are correct",
+        "explanation": {
+          "option_a": "TRUE: Insertion sort has O(N) best-case complexity when the input is already sorted. It simply compares each element with the previous one without moving anything.",
+          "option_b": "FALSE: Merge sort always performs O(N log N) operations regardless of input, as it always divides the array and merges the halves.",
+          "option_c": "FALSE: Heap sort is NOT stable because the heap operations (particularly swapping elements with the root) can change the relative order of equal elements.",
+          "option_d": "FALSE: Selection sort is NOT stable. When it finds the minimum and swaps it to the front, it can move equal elements past each other, breaking stability.",
+          "option_e": "TRUE: Selection sort always performs N iterations, and in each iteration finds the minimum from the remaining elements, taking O(N) time. Total: θ(N²) for all cases."
+        },
+        "key_concepts": [
+          "Time complexity analysis",
+          "Best-case vs worst-case vs average-case",
+          "Sorting algorithm stability",
+          "Insertion sort properties",
+          "Selection sort properties",
+          "Merge sort properties",
+          "Heap sort properties"
+        ]
+      }
+    },
+    {
+      "question_number": 4,
+      "marks": 2,
+      "topic": "Quickselect and Median of Medians",
+      "question_type": "short_answer",
+      "question_text": "The Quickselect algorithm can be run in O(N), provided we have an O(N) algorithm to find a median pivot. In your own words, explain why the median of medians algorithm can be used for this purpose, even though it only gives an approximation of the median value.",
+      "correct_answer": null,
+      "solution": {
+        "answer": "The median of medians guarantees a 'good enough' pivot that ensures linear time complexity",
+        "explanation": "For Quickselect to achieve O(N) time complexity, we need a pivot selection strategy that guarantees at least a constant fraction of the array is eliminated in each recursive call. The median of medians algorithm:\n\n1. Always chooses a pivot within the 30th to 70th percentile\n2. This means at worst, 30% of elements are eliminated per recursion\n3. Leading to recursion: T(N) = T(0.7N) + O(N)\n4. This forms a geometric series: O(N) + O(0.7N) + O(0.49N) + ... = O(N)\n\nKey insight: We don't need the exact median - any pivot selection that guarantees eliminating a fixed fraction (even just 1%) of the array in each step will result in O(N) total time, as the geometric series converges.\n\nMore formally: If we always eliminate at least fraction α of the array, the recurrence T(N) = T((1-α)N) + O(N) solves to O(N) for any constant 0 < α < 1.",
+        "key_concepts": [
+          "Quickselect algorithm",
+          "Median of medians",
+          "Pivot selection strategies",
+          "Geometric series convergence",
+          "Worst-case analysis",
+          "Approximate vs exact solutions",
+          "Amortized complexity"
+        ]
+      }
+    },
+    {
+      "question_number": 5,
+      "marks": 3,
+      "topic": "Quickselect and Median of Medians",
+      "question_type": "algorithm_design",
+      "question_text": "You are interviewing applicants for a job. There are three rounds of interviews. For the first round, each applicant is assigned a unique suitability ranking as (name, rank) where rank is a float from 0-100.\n\nAfter the first round:\n• Bottom 50% (lowest rankings) are unsuccessful\n• Top 20% (highest rankings) skip round 2, go to round 3\n• Remaining 30% progress to round 2\n\nDescribe an efficient algorithm using Quickselect to determine applicants for rounds 2 and 3. Your algorithm should run in O(N) time, assuming access to O(N) Quickselect.",
+      "correct_answer": null,
+      "solution": {
+        "answer": "Use two Quickselect calls to find threshold values, then partition",
+        "algorithm": [
+          "Step 1: Use Quickselect to find the (N/2)-th order statistic (median) - this is the threshold between unsuccessful and successful candidates. Time: O(N)",
+          "Step 2: Use Quickselect to find the (4N/5)-th order statistic - this is the threshold between round 2 and round 3 candidates. Time: O(N)",
+          "Step 3: Partition the list into three groups based on these two threshold values:",
+          "  - Rank ≤ median value → unsuccessful (bottom 50%)",
+          "  - median < rank ≤ (4N/5)-th value → round 2 (middle 30%)",
+          "  - rank > (4N/5)-th value → round 3 (top 20%)",
+          "Step 4: Extract names from the round 2 and round 3 groups. Time: O(N)"
+        ],
+        "total_complexity": "O(N) + O(N) + O(N) = O(N)",
+        "explanation": "The key insight is that we need to find two pivot values to create three partitions. Quickselect efficiently finds the k-th order statistic in O(N) time. By finding the 50th percentile and 80th percentile, we can partition all candidates appropriately. The final linear scan to extract names doesn't affect the overall O(N) complexity.",
+        "key_concepts": [
+          "Quickselect application",
+          "Order statistics",
+          "Array partitioning",
+          "Multi-way partitioning",
+          "Linear time algorithms",
+          "Percentile calculations"
+        ]
+      }
+    },
+    {
+      "question_number": 6,
+      "marks": 2,
+      "topic": "Graph Structure and Traversal",
+      "question_type": "complexity_matching",
+      "question_text": "For a directed weighted graph G, determine the worst-case big-Θ complexity for each operation. V = vertices, E = edges, N(A) = neighbors of vertex A. Assume interior lists in adjacency list representation are unsorted.\n\n1. Time to obtain all incoming edges for vertex A in adjacency matrix\n2. Time to determine if edge from A to B exists in adjacency list\n3. Time to determine if edge from A to B exists in adjacency matrix\n4. Time to obtain all incoming edges for vertex A in adjacency list",
+      "options": ["Θ(log V)", "Θ(V)", "Θ(V²)", "Θ(N(A))", "Θ(V+E)", "Θ(log E)", "Θ(1)", "Θ(E)"],
+      "correct_answer": {
+        "1": "Θ(V)",
+        "2": "Θ(N(A))",
+        "3": "Θ(1)",
+        "4": "Θ(V+E)"
+      },
+      "solution": {
+        "operation_1": {
+          "answer": "Θ(V)",
+          "explanation": "In an adjacency matrix, to find all incoming edges to A, you must check the A-th column across all V rows. Each row check is O(1), giving Θ(V) total."
+        },
+        "operation_2": {
+          "answer": "Θ(N(A))",
+          "explanation": "In an adjacency list, to check if edge A→B exists, you must scan A's adjacency list. Since the list is unsorted, worst case requires checking all N(A) neighbors of A."
+        },
+        "operation_3": {
+          "answer": "Θ(1)",
+          "explanation": "In an adjacency matrix, checking if edge A→B exists is simply accessing matrix[A][B], which is a direct array access in constant time."
+        },
+        "operation_4": {
+          "answer": "Θ(V+E)",
+          "explanation": "In an adjacency list representation of a directed graph, edges are stored as outgoing edges. To find incoming edges to A, you must scan all vertices' adjacency lists looking for edges pointing to A. This requires examining all V vertices and potentially all E edges in the worst case."
+        },
+        "key_concepts": [
+          "Graph representations",
+          "Adjacency matrix properties",
+          "Adjacency list properties",
+          "Time complexity analysis",
+          "Trade-offs between representations",
+          "Directed graph operations"
+        ]
+      }
+    },
+    {
+      "question_number": 7,
+      "marks": 1,
+      "topic": "Graph Structure and Traversal",
+      "question_type": "graph_traversal",
+      "question_text": "Perform a depth-first search on the given weighted undirected graph starting from node A. Break ties in ascending alphabetical order. Ignore edge weights. Associate each node with its visiting order position.",
+      "graph_structure": {
+        "vertices": ["A", "B", "C", "D", "E", "F", "G", "H"],
+        "edges": [
+          {"from": "A", "to": "B", "weight": 2},
+          {"from": "A", "to": "E", "weight": 2},
+          {"from": "A", "to": "G", "weight": 4},
+          {"from": "B", "to": "C", "weight": 3},
+          {"from": "C", "to": "D", "weight": 1},
+          {"from": "C", "to": "F", "weight": 2},
+          {"from": "D", "to": "H", "weight": 10},
+          {"from": "E", "to": "F", "weight": 5},
+          {"from": "F", "to": "C", "weight": 3},
+          {"from": "F", "to": "G", "weight": 2},
+          {"from": "G", "to": "H", "weight": 2}
+        ]
+      },
+      "correct_answer": {
+        "1st": "A",
+        "2nd": "B",
+        "3rd": "C",
+        "4th": "D",
+        "5th": "F",
+        "6th": "E",
+        "7th": "H",
+        "8th": "G"
+      },
+      "solution": {
+        "answer": "A, B, C, D, F, E, H, G",
+        "explanation": "DFS traversal from A (alphabetical tie-breaking):\n1. Start at A (visited: {A})\n2. From A, neighbors are {B, E, G}. Choose B (alphabetical). (visited: {A, B})\n3. From B, unvisited neighbors are {C}. Choose C. (visited: {A, B, C})\n4. From C, unvisited neighbors are {D, F}. Choose D (alphabetical). (visited: {A, B, C, D})\n5. From D, unvisited neighbors are {H}. Choose H. But H connects to G which we haven't visited. Backtrack or continue - need to follow standard DFS. Actually from D, neighbors include {C, H}. C is visited. Go to H? No, H not adjacent. Check graph: D connects to C and H. Since C visited, would backtrack. But D also connects to F via C. Let me re-trace.\n\nActual DFS with proper neighbor ordering:\n1. A → neighbors: B, E, G → visit B\n2. B → neighbors: A, C → visit C  \n3. C → neighbors: B, D, F → visit D\n4. D → neighbors: C, H → visit H? But wait, need to check graph structure.\n\nLet me use the actual graph edges provided:\n- From D: C(visited), H\n- But looking at edges: C-D and D-H exist\n- However, F-C exists, so from C we can reach F\n\nCorrect DFS: A → B → C → D → (backtrack to C) → F → E → (backtrack) → H → G\n\nBut this gives: A(1), B(2), C(3), D(4), F(5), E(6), H(7), G(8)",
+        "step_by_step": [
+          "Visit A (1st)",
+          "From A: neighbors {B, E, G}, choose B",
+          "Visit B (2nd)",
+          "From B: unvisited neighbors {C}, choose C",
+          "Visit C (3rd)",
+          "From C: unvisited neighbors {D, F}, choose D",
+          "Visit D (4th)",
+          "From D: unvisited neighbors {H}, but backtrack first to check other paths from C",
+          "Back to C: try F",
+          "Visit F (5th)",
+          "From F: unvisited neighbors {E, G}, choose E",
+          "Visit E (6th)",
+          "Backtrack to F, then continue to find H",
+          "Visit H (7th)",
+          "Visit G (8th)"
+        ],
+        "key_concepts": [
+          "Depth-first search (DFS)",
+          "Graph traversal",
+          "Stack-based exploration",
+          "Tie-breaking rules",
+          "Backtracking",
+          "Visited set maintenance"
+        ]
+      }
+    },
+    {
+      "question_number": 8,
+      "marks": 1,
+      "topic": "Graph Structure and Traversal",
+      "question_type": "graph_traversal",
+      "question_text": "Perform a breadth-first search on the same graph starting from node A. Break ties in ascending alphabetical order. What is the maximum height of the resulting BFS tree? Ignore edge weights.",
+      "correct_answer": "3",
+      "solution": {
+        "answer": "3",
+        "explanation": "BFS traversal from A (level-by-level, alphabetical tie-breaking):\n\nLevel 0: {A}\nLevel 1: From A, add neighbors {B, E, G}\nLevel 2: From B add {C}, from E add {F}, from G add {H}\nLevel 3: From C add {D}, from F (already visited via other paths)\n\nBFS tree structure:\n       A (level 0)\n      /||\\\n     B E G (level 1)\n     | | |\n     C F H (level 2)\n     |\n     D (level 3)\n\nThe longest path from root to leaf is A → B → C → D, which has height 3 (3 edges, 4 nodes).",
+        "tree_structure": {
+          "level_0": ["A"],
+          "level_1": ["B", "E", "G"],
+          "level_2": ["C", "F", "H"],
+          "level_3": ["D"]
+        },
+        "key_concepts": [
+          "Breadth-first search (BFS)",
+          "Level-order traversal",
+          "Queue-based exploration",
+          "Tree height definition",
+          "Shortest paths in unweighted graphs"
+        ]
+      }
+    },
+    {
+      "question_number": 9,
+      "marks": 2,
+      "topic": "Dynamic Programming",
+      "question_type": "backtracking",
+      "question_text": "Variant of house-selling problem: If you sell to house i, you cannot sell to houses i-2, i-1, i+1, or i+2.\n\nGiven DP array where DP[i] = max profit from first i houses:\ni:     1   2   3   4   5   6   7    8    9   10   11   12\nDP[i]: 12  12  35  35  35  65  65  110  112  120  120  120\n\nUsing backtracking, determine which houses to sell to (valid for any house-profit array producing this DP). Format: comma-separated ascending indices (e.g., 7,8,9)",
+      "correct_answer": "3,6,10",
+      "solution": {
+        "answer": "3,6,10",
+        "explanation": "Backtracking analysis:\n\n1. DP[12] = 120 = DP[11] = DP[10]: Houses 11 and 12 don't improve solution, exclude them\n\n2. DP[10] = 120 > DP[9] = 112: House 10 was selected (profit increased)\n   Add house 10 to solution\n   Cannot consider houses 8, 9, 11, 12 due to constraint\n\n3. Look at DP[7] = 65: Must skip to house 7 or earlier\n   DP[7] = 65 = DP[6] = 65: House 7 doesn't improve, skip it\n\n4. DP[6] = 65 > DP[5] = 35: House 6 was selected\n   Add house 6 to solution  \n   Cannot consider houses 4, 5, 7, 8\n\n5. Look at DP[3] = 35 > DP[2] = 12: House 3 was selected\n   Add house 3 to solution\n   Cannot consider houses 1, 2, 4, 5\n\n6. All houses before house 1 have been accounted for\n\nFinal solution: houses 3, 6, 10\n\nVerification: These houses are spaced appropriately (3 houses apart), satisfying the constraint that you cannot sell to houses within 2 positions of a selected house.",
+        "key_concepts": [
+          "Dynamic programming backtracking",
+          "Optimal substructure",
+          "DP array interpretation",
+          "Constraint satisfaction",
+          "Greedy choice in backtracking",
+          "Solution reconstruction"
+        ]
+      }
+    },
+    {
+      "question_number": 10,
+      "marks": 3,
+      "topic": "Shortest Path",
+      "question_type": "algorithm_execution",
+      "question_text": "Consider the Bellman-Ford algorithm on a directed graph with source S. If edges are relaxed in order: (S,A), (S,B), (B,A), (B,D), (D,E), (A,D), (A,C), (D,C), (E,F), (B,C), (C,E), what is dist[E] + dist[F] after the first iteration of the outer loop?\n\nGraph has vertices {S, A, B, C, D, E, F} with various weighted edges (all weights = -1 in the diagram).",
+      "options": {
+        "a": "dist[E]+dist[F]=-7",
+        "b": "dist[E]+dist[F]=-9",
+        "c": "dist[E]+dist[F]=-11",
+        "d": "dist[E]+dist[F]=-8",
+        "e": "dist[E]+dist[F]=∞",
+        "f": "dist[E]+dist[F]=-10"
+      },
+      "correct_answer": "b",
+      "solution": {
+        "answer": "B: dist[E]+dist[F]=-9",
+        "explanation": "Bellman-Ford initialization: dist[S]=0, all others=∞\n\nFirst iteration edge relaxations (all edges have weight -1 based on diagram):\n\n1. Relax (S,A): dist[A] = min(∞, 0+(-1)) = -1\n2. Relax (S,B): dist[B] = min(∞, 0+(-1)) = -1\n3. Relax (B,A): dist[A] = min(-1, -1+(-1)) = -2\n4. Relax (B,D): dist[D] = min(∞, -1+(-1)) = -2\n5. Relax (D,E): dist[E] = min(∞, -2+(-1)) = -3\n6. Relax (A,D): dist[D] = min(-2, -2+(-1)) = -3\n7. Relax (A,C): dist[C] = min(∞, -2+(-1)) = -3\n8. Relax (D,C): dist[C] = min(-3, -3+(-1)) = -4\n9. Relax (E,F): dist[F] = min(∞, -3+(-1)) = -4\n10. Relax (B,C): dist[C] = min(-4, -1+(-1)) = -4 (no change)\n11. Relax (C,E): dist[E] = min(-3, -4+(-1)) = -5\n\nAfter first iteration:\ndist[S]=0, dist[A]=-2, dist[B]=-1, dist[C]=-4, dist[D]=-3, dist[E]=-5, dist[F]=-4\n\nTherefore: dist[E] + dist[F] = -5 + (-4) = -9",
+        "key_concepts": [
+          "Bellman-Ford algorithm",
+          "Edge relaxation",
+          "Shortest path updates",
+          "Distance array maintenance",
+          "Single-source shortest paths",
+          "Negative edge weights"
+        ]
+      }
+    },
+    {
+      "question_number": 11,
+      "marks": 2,
+      "topic": "Shortest Path",
+      "question_type": "multiple_choice_multiple_answer",
+      "question_text": "Consider the Floyd-Warshall distance matrix result (showing shortest paths between all pairs). Select correct observations:\n\nMatrix shows distances between vertices {A,B,C,D,E,F,G,H} with some None entries and various positive/negative values.",
+      "options": {
+        "a": "There is a negative cycle in the graph",
+        "b": "There is a cycle including vertices A and G",
+        "c": "There is an edge from vertex B to vertex E with a distance of 49",
+        "d": "There is a path from vertex C to vertex F with a distance of -6"
+      },
+      "correct_answer": ["b", "d"],
+      "solution": {
+        "answer": "B and D are correct",
+        "option_a": {
+          "correct": false,
+          "explanation": "No negative cycle exists because there are no negative values on the diagonal. A negative diagonal entry dist[i][i] < 0 would indicate a negative cycle through vertex i."
+        },
+        "option_b": {
+          "correct": true,
+          "explanation": "There is a path from A to G (dist[A][G]=20) and a path from G to A (dist[G][A]=32). Since paths exist in both directions, there must be a cycle involving both vertices."
+        },
+        "option_c": {
+          "correct": false,
+          "explanation": "The matrix shows dist[B][E]=49, but this represents the shortest PATH from B to E, not necessarily a direct edge. The path could traverse intermediate vertices."
+        },
+        "option_d": {
+          "correct": true,
+          "explanation": "The matrix clearly shows dist[C][F]=-6, indicating there is indeed a path from C to F with total distance -6."
+        },
+        "key_concepts": [
+          "Floyd-Warshall algorithm",
+          "All-pairs shortest paths",
+          "Negative cycle detection",
+          "Path vs edge distinction",
+          "Distance matrix interpretation",
+          "Cycle detection in graphs"
+        ]
+      }
+    },
+    {
+      "question_number": 12,
+      "marks": 1,
+      "topic": "Network Flow",
+      "question_type": "calculation",
+      "question_text": "What is the maximum possible flow for the given flow network? The network shows current flow/capacity notation on edges (e.g., 3/5 means flow=3, capacity=5).",
+      "current_state": {
+        "edges": [
+          {"from": "s", "to": "a", "flow": 3, "capacity": 5},
+          {"from": "s", "to": "b", "flow": 3, "capacity": 3},
+          {"from": "a", "to": "c", "flow": 3, "capacity": 4},
+          {"from": "a", "to": "b", "flow": 0, "capacity": 3},
+          {"from": "b", "to": "c", "flow": 0, "capacity": 2},
+          {"from": "b", "to": "d", "flow": 3, "capacity": 4},
+          {"from": "c", "to": "d", "flow": 0, "capacity": 2},
+          {"from": "c", "to": "t", "flow": 3, "capacity": 3},
+          {"from": "d", "to": "t", "flow": 3, "capacity": 6}
+        ]
+      },
+      "correct_answer": "7",
+      "solution": {
+        "answer": "7",
+        "explanation": "Current flow into sink t: 3 (from c) + 3 (from d) = 6\n\nTo find maximum flow, look for augmenting paths in residual network:\n\nAugmenting path: s → a → c → d → t\n- s→a: residual capacity = 5-3 = 2\n- a→c: residual capacity = 4-3 = 1  \n- c→d: residual capacity = 2-0 = 2\n- d→t: residual capacity = 6-3 = 3\n- Bottleneck: min(2,1,2,3) = 1\n\nAfter augmenting by 1 unit, total flow = 6 + 1 = 7\n\nVerify no more augmenting paths exist:\n- s→a is now 4/5\n- a→c is now 4/4 (saturated)\n- All paths through c are blocked or saturated\n- No other augmenting paths from s to t\n\nMaximum flow = 7",
+        "key_concepts": [
+          "Maximum flow problem",
+          "Ford-Fulkerson method",
+          "Augmenting paths",
+          "Residual network",
+          "Bottleneck capacity",
+          "Flow conservation",
+          "Network capacity constraints"
+        ]
+      }
+    },
+    {
+      "question_number": 13,
+      "marks": 1,
+      "topic": "Network Flow",
+      "question_type": "multiple_choice_multiple_answer",
+      "question_text": "A cut partitions vertices into S (source side) and T (sink side). Consider the minimum cut of the flow network from Q12. Select vertices in S:",
+      "options": {
+        "a": "s",
+        "b": "a",
+        "c": "b",
+        "d": "c",
+        "e": "d",
+        "f": "t"
+      },
+      "correct_answer": ["a", "b"],
+      "solution": {
+        "answer": "A and B (vertices s and a)",
+        "explanation": "When Ford-Fulkerson terminates at maximum flow, the minimum cut is found by determining which vertices are reachable from s in the residual network.\n\nResidual network after maximum flow of 7:\n- From s: can reach a (residual capacity 1 remaining on s→a)\n- From a: cannot reach c (edge a→c is saturated 4/4)\n- Cannot reach b from s or a with positive residual capacity\n- Therefore, only s and a are in S\n\nMinimum cut edges (from S to T):\n- s→b: capacity 3\n- a→c: capacity 4\n- Total cut capacity: 3 + 4 = 7 ✓ (equals max flow)\n\nBy max-flow min-cut theorem, this confirms the minimum cut.",
+        "key_concepts": [
+          "Minimum cut",
+          "Max-flow min-cut theorem",
+          "Residual network analysis",
+          "Cut capacity calculation",
+          "S-T partition",
+          "Reachability in residual graph"
+        ]
+      }
+    },
+    {
+      "question_number": 14,
+      "marks": 3,
+      "topic": "Network Flow",
+      "question_type": "multiple_choice",
+      "question_text": "Two circulation with demands problems are shown. Each vertex has a demand value (positive = supply, negative = demand). Each edge has a capacity. Which problems have feasible solutions?",
+      "problem_1": {
+        "vertices": {
+          "x": {"demand": -3},
+          "u": {"demand": -6},
+          "v": {"demand": 2},
+          "w": {"demand": 7}
+        },
+        "edges": [
+          {"from": "x", "to": "u", "capacity": 3},
+          {"from": "x", "to": "v", "capacity": 1},
+          {"from": "u", "to": "v", "capacity": 3},
+          {"from": "u", "to": "w", "capacity": 4},
+          {"from": "v", "to": "w", "capacity": 3}
+        ]
+      },
+      "problem_2": {
+        "vertices": {
+          "x": {"demand": -4},
+          "u": {"demand": -3},
+          "v": {"demand": 3},
+          "w": {"demand": 5}
+        },
+        "edges": [
+          {"from": "x", "to": "u", "capacity": 3},
+          {"from": "x", "to": "v", "capacity": 3},
+          {"from": "u", "to": "v", "capacity": 2},
+          {"from": "u", "to": "w", "capacity": 3},
+          {"from": "v", "to": "w", "capacity": 2}
+        ]
+      },
+      "options": {
+        "a": "Neither Problem 1 nor Problem 2 has a feasible solution",
+        "b": "Both Problem 1 and Problem 2 have feasible solutions",
+        "c": "Only Problem 1 has a feasible solution",
+        "d": "Only Problem 2 has a feasible solution"
+      },
+      "correct_answer": "a",
+      "solution": {
+        "answer": "A: Neither problem has a feasible solution",
+        "problem_1_analysis": {
+          "demand_sum": "-3 + (-6) + 2 + 7 = 0 ✓",
+          "explanation": "Sum of demands equals zero (necessary condition), but this is not sufficient. When reduced to a flow network:\n- Add supersource connected to supply vertices (v:2, w:7)\n- Add supersink from demand vertices (x:3, u:6)\n- For feasible solution, all edges from supersource and to supersink must be saturated\n- Running max-flow shows this is not achievable given the capacity constraints\n- Bottleneck: cannot push enough flow from sources to sinks through the network"
+        },
+        "problem_2_analysis": {
+          "demand_sum": "-4 + (-3) + 3 + 5 = 1 ≠ 0 ✗",
+          "explanation": "Sum of demands = 1 ≠ 0. This violates the fundamental necessary condition for circulation with demands. Total supply (3+5=8) does not equal total demand (4+3=7). Immediately infeasible without needing to check capacities."
+        },
+        "key_concepts": [
+          "Circulation with demands",
+          "Feasibility conditions",
+          "Supply-demand balance",
+          "Capacity constraints",
+          "Flow conservation",
+          "Reduction to max-flow problem",
+          "Necessary vs sufficient conditions"
+        ]
+      }
+    },
+    {
+      "question_number": 15,
+      "marks": 2,
+      "topic": "Efficient Lookup Structures",
+      "question_type": "multiple_choice_multiple_answer",
+      "question_text": "Consider the AVL tree shown (root=50, children 25 and 75, with 25 having children 10 and 30, 10 having child 15, and 75 having child 60). Which statements are true?",
+      "tree_structure": {
+        "root": 50,
+        "left": {
+          "value": 25,
+          "left": {"value": 10, "right": {"value": 15}},
+          "right": {"value": 30}
+        },
+        "right": {
+          "value": 75,
+          "left": {"value": 60}
+        }
+      },
+      "options": {
+        "a": "Just deleting 10 without performing rotations would keep the tree balanced",
+        "b": "Just deleting 30 without performing rotations would keep the tree balanced",
+        "c": "The AVL tree is unbalanced",
+        "d": "Just inserting 12 without performing rotations would make the tree unbalanced",
+        "e": "Just inserting 88 without performing rotations would make the tree unbalanced"
+      },
+      "correct_answer": ["a", "d"],
+      "solution": {
+        "answer": "A and D are correct",
+        "current_balance_factors": {
+          "node_50": "balance = height(left:25) - height(right:75) = 3 - 2 = 1 ✓",
+          "node_25": "balance = height(left:10) - height(right:30) = 2 - 1 = 1 ✓",
+          "node_10": "balance = height(left:null) - height(right:15) = 0 - 1 = -1 ✓",
+          "node_75": "balance = height(left:60) - height(right:null) = 1 - 0 = 1 ✓"
+        },
+        "option_a": {
+          "correct": true,
+          "explanation": "Deleting 10: Node 15 would become the left child of 25. New heights:\n- Node 25: height(15)=1, height(30)=1, balance=0 ✓\n- Node 50: height(25)=2, height(75)=2, balance=0 ✓\nTree remains balanced without rotations."
+        },
+        "option_b": {
+          "correct": false,
+          "explanation": "Deleting 30: Node 25 would only have left child (subtree with 10,15). Heights:\n- Node 25: height(left)=2, height(right)=0, balance=2 ✗\nThis violates AVL property (|balance| ≤ 1), requiring rotation."
+        },
+        "option_c": {
+          "correct": false,
+          "explanation": "The tree is currently balanced. All balance factors are in {-1, 0, 1}, satisfying AVL property."
+        },
+        "option_d": {
+          "correct": true,
+          "explanation": "Inserting 12: Would be placed as left child of 15 (12 < 15). Chain: 10→15→12.\n- Node 10: balance = 0 - 2 = -2 ✗\nThis violates AVL property, requiring rotation (right-left double rotation)."
+        },
+        "option_e": {
+          "correct": false,
+          "explanation": "Inserting 88: Would be placed as right child of 75. Heights:\n- Node 75: height(60)=1, height(88)=1, balance=0 ✓\n- Node 50: height(25)=3, height(75)=2, balance=1 ✓\nTree remains balanced without rotations."
+        },
+        "key_concepts": [
+          "AVL tree properties",
+          "Balance factor calculation",
+          "Height computation",
+          "AVL insertion analysis",
+          "AVL deletion analysis",
+          "Rotation requirements",
+          "Tree balancing conditions"
+        ]
+      }
+    },
+    {
+      "question_number": 16,
+      "marks": 2,
+      "topic": "Efficient Lookup Structures",
+      "question_type": "multiple_choice_multiple_answer",
+      "question_text": "Consider a hash table with N items using separate chaining. Which data structures for chains would cause worst-case Θ(N) insert complexity?",
+      "options": {
+        "a": "Binary search tree",
+        "b": "Unsorted array",
+        "c": "AVL tree",
+        "d": "Sorted array"
+      },
+      "correct_answer": ["a", "b", "d"],
+      "solution": {
+        "answer": "A, B, and D",
+        "worst_case_scenario": "All N items hash to the same position, forming a single chain with N elements",
+        "option_a": {
+          "correct": true,
+          "explanation": "Binary search tree (unbalanced): If elements are inserted in sorted (or reverse sorted) order, the BST degenerates into a linked list with height O(N). Insert requires traversing to the bottom: Θ(N) worst-case."
+        },
+        "option_b": {
+          "correct": true,
+          "explanation": "Unsorted array: Before inserting, must check if element already exists (to avoid duplicates or update existing). This requires linear search through the array: Θ(N) worst-case. Even if duplicates are allowed, insertion at specific positions requires shifting: still Θ(N)."
+        },
+        "option_c": {
+          "correct": false,
+          "explanation": "AVL tree: Maintains balance through rotations. Even if all N items are in one chain, AVL tree guarantees O(log N) height. Insert operation: Θ(log N) worst-case, not Θ(N)."
+        },
+        "option_d": {
+          "correct": true,
+          "explanation": "Sorted array: Finding insertion position requires O(log N) using binary search, BUT inserting requires shifting up to N elements to maintain sorted order: Θ(N) worst-case."
+        },
+        "key_concepts": [
+          "Hash table collision resolution",
+          "Separate chaining",
+          "Worst-case analysis",
+          "Data structure operation complexities",
+          "BST vs AVL tree differences",
+          "Array insertion complexity",
+          "Hash table performance"
+        ]
+      }
+    },
+    {
+      "question_number": 17,
+      "marks": 2,
+      "topic": "Retrieval Data Structures for Strings",
+      "question_type": "complexity_matching",
+      "question_text": "Assume alphabet size M and string S of length N. Nodes use an array of size M for children. What is the worst-case space complexity for:\n\n1. A suffix trie\n2. A suffix tree (with [start,end] or [start,length] edge representation)",
+      "options": ["Θ(N log M)", "Θ(N M²)", "Θ(NM)", "Θ(N)", "Θ(N log N)", "Θ(N+M)", "Θ(N²M)", "Θ(M)"],
+      "correct_answer": {
+        "suffix_trie": "Θ(N²M)",
+        "suffix_tree": "Θ(NM)"
+      },
+      "solution": {
+        "suffix_trie": {
+          "answer": "Θ(N²M)",
+          "explanation": "Suffix trie analysis:\n- String of length N has N suffixes\n- Suffix i has length (N-i+1)\n- Total number of characters across all suffixes: Σ(N-i+1) for i=1 to N = N(N+1)/2 = Θ(N²)\n- Each character could potentially create a new node\n- Worst case: Θ(N²) nodes in the trie\n- Each node stores an array of M pointers for children\n- Total space: Θ(N²) × Θ(M) = Θ(N²M)"
+        },
+        "suffix_tree": {
+          "answer": "Θ(NM)",
+          "explanation": "Suffix tree analysis:\n- Suffix tree compresses paths with single children\n- Number of leaves = N (one per suffix)\n- Internal nodes have ≥2 children, so number of internal nodes ≤ N-1\n- Total nodes = O(N)\n- Each node stores:\n  * Array of M pointers: Θ(M) space\n  * Edge labels as [start,end]: Θ(1) space (just two integers)\n- Total space: Θ(N) nodes × Θ(M) per node = Θ(NM)\n\nKey insight: Compact edge representation ([start,end] instead of storing full strings) keeps space linear in N, but the M-sized array per node dominates when M is not constant."
+        },
+        "key_concepts": [
+          "Suffix trie structure",
+          "Suffix tree structure",
+          "Space complexity analysis",
+          "Path compression",
+          "Compact edge representation",
+          "Alphabet size impact",
+          "Trie vs tree trade-offs"
+        ]
+      }
+    },
+    {
+      "question_number": 18,
+      "marks": 3,
+      "topic": "Retrieval Data Structures for Strings",
+      "question_type": "algorithm_execution",
+      "question_text": "Constructing suffix array using prefix doubling. Already sorted suffixes by first 2 characters with rank array:\n\nID:   1  2  3  4  5  6  7  8  9  10  11\nRank: 11 10 2  7  2  7  2  9  5  6   1\n\nNow sorting on first 4 characters. For suffixes ID5 and ID7, describe in detail how to compare them on first 4 characters in O(1) and what the result would be.",
+      "correct_answer": null,
+      "solution": {
+        "answer": "ID5 < ID7 (ID5 should come before ID7 in sorted order)",
+        "detailed_steps": [
+          "Step 1: Observe that both ID5 and ID7 have rank=2, meaning their first 2 characters are identical",
+          "Step 2: To compare first 4 characters, we need to compare their last 2 characters (positions 3-4 of each suffix)",
+          "Step 3: Key insight of prefix doubling: The last 2 characters of a 4-character prefix starting at position i are the first 2 characters starting at position i+2",
+          "Step 4: For ID5: The last 2 chars of ID5[1:4] are ID5[3:4] = suffix starting at position (5+2)=7",
+          "Step 5: For ID7: The last 2 chars of ID7[1:4] are ID7[3:4] = suffix starting at position (7+2)=9",
+          "Step 6: Look up ranks: Rank[7]=2, Rank[9]=5",
+          "Step 7: Compare: 2 < 5, therefore ID5 < ID7",
+          "Step 8: This comparison used only two array lookups and one integer comparison: O(1)"
+        ],
+        "general_formula": "To compare suffixes i and j on first 2k characters (when k-length comparison is a tie):\n1. Check if Rank[i] = Rank[j] (first k characters are equal)\n2. If yes, compare Rank[i+k] vs Rank[j+k] (next k characters)\n3. All operations are O(1) array accesses",
+        "key_concepts": [
+          "Suffix array construction",
+          "Prefix doubling algorithm",
+          "Rank array usage",
+          "O(1) suffix comparison",
+          "Doubling paradigm",
+          "String sorting optimization",
+          "Indirect comparison technique"
+        ]
+      }
+    },
+    {
+      "question_number": 19,
+      "marks": 3,
+      "topic": "Applications",
+      "question_type": "algorithm_design",
+      "question_text": "You are the transport minister. A disaster devastated the road network connecting key locations. Plan optimal roads based on:\n• Connect all key locations (not necessarily directly)\n• Given: importance of connecting each pair (higher = more important)\n• Given: cost of connecting each pair\n• No redundant roads: only one path between any pair\n• Maximize importance of connections\n• If tied on importance, minimize cost\n\nDescribe how to model as a graph and solve algorithmically.",
+      "correct_answer": null,
+      "solution": {
+        "answer": "Model as maximum spanning tree problem",
+        "graph_modeling": {
+          "vertices": "Each key location is a vertex",
+          "edges": "Each potential road connection is an edge",
+          "edge_weights": "Importance value (primary), cost value (tie-breaker)",
+          "goal": "Find spanning tree (connects all vertices, no cycles) that maximizes total importance"
+        },
+        "algorithm_approaches": [
+          {
+            "method": "Modified Kruskal's Algorithm",
+            "steps": [
+              "Sort all edges by importance (descending), using cost as tie-breaker (ascending)",
+              "Initialize disjoint-set (union-find) data structure for cycle detection",
+              "Process edges in sorted order:",
+              "  - If edge connects two different components (no cycle), add to solution",
+              "  - Otherwise, skip edge",
+              "Continue until (V-1) edges are selected"
+            ],
+            "complexity": "O(E log E) for sorting + O(E α(V)) for union-find ≈ O(E log E)"
+          },
+          {
+            "method": "Modified Prim's Algorithm",
+            "steps": [
+              "Use max-heap instead of min-heap (priority by importance, then cost)",
+              "Start from arbitrary vertex",
+              "Repeatedly add edge with maximum importance connecting tree to non-tree vertex",
+              "Continue until all vertices are included"
+            ],
+            "complexity": "O(E log V) with binary heap, O(E + V log V) with Fibonacci heap"
+          },
+          {
+            "method": "Edge Weight Transformation",
+            "steps": [
+              "Transform: new_weight = -importance (or MAX_VALUE - importance)",
+              "For tie-breaking: new_weight = -(importance × LARGE_CONSTANT + (MAX_COST - cost))",
+              "Run standard MST algorithm (Kruskal or Prim) to find minimum spanning tree",
+              "Result is maximum spanning tree of original graph"
+            ],
+            "complexity": "Same as underlying MST algorithm"
+          }
+        ],
+        "correctness_justification": "The problem specifies exactly one path between any locations (tree structure) while optimizing a weight function (importance). This is precisely the spanning tree problem. Maximizing importance is equivalent to minimizing negative importance, allowing use of standard MST algorithms with modifications.",
+        "key_concepts": [
+          "Graph modeling",
+          "Spanning tree",
+          "Maximum spanning tree",
+          "Kruskal's algorithm",
+          "Prim's algorithm",
+          "Greedy algorithms",
+          "Union-find data structure",
+          "Priority queue applications",
+          "Problem reduction"
+        ]
+      }
+    },
+    {
+      "question_number": 20,
+      "marks": 3,
+      "topic": "Applications",
+      "question_type": "algorithm_design",
+      "question_text": "You manage a supercomputer receiving N time-frame allocation requests. Request i specifies start time s_i and finish time f_i. A subset is compatible if no time overlap exists. Give a high-level O(N log N) algorithm to choose a compatible subset of maximal size.",
+      "correct_answer": null,
+      "solution": {
+        "answer": "Greedy algorithm: earliest finish time first",
+        "algorithm": {
+          "name": "Unweighted Interval Scheduling",
+          "steps": [
+            "Step 1: Sort all N requests by finish time f_i in ascending order - O(N log N)",
+            "Step 2: Initialize empty set ACCEPTED = {}",
+            "Step 3: Initialize last_finish_time = -∞",
+            "Step 4: For each request r in sorted order:",
+            "  - If r.start_time ≥ last_finish_time:",
+            "    * Add r to ACCEPTED",
+            "    * Update last_finish_time = r.finish_time",
+            "  - Else: skip r (conflicts with previously accepted request)",
+            "Step 5: Return ACCEPTED"
+          ],
+          "total_complexity": "O(N log N) for sorting + O(N) for greedy selection = O(N log N)"
+        },
+        "correctness_proof": {
+          "greedy_choice": "Among all compatible requests, choosing the one with earliest finish time is always optimal",
+          "reasoning": "Choosing earliest finish time leaves maximum room for future requests. Any other choice either conflicts or finishes later, reducing future options",
+          "exchange_argument": "If optimal solution O doesn't include earliest-finish request r, we can replace O's first request with r without reducing solution size (since r finishes no later), proving greedy choice is optimal"
+        },
+        "alternative_dp_approach": {
+          "description": "Dynamic programming solution for weighted version (generalizes to unweighted by setting all weights=1)",
+          "steps": [
+            "Sort requests by finish time: O(N log N)",
+            "Define DP[i] = maximum weight achievable using requests from sorted[1..i]",
+            "For each request i:",
+            "  - Option 1: Skip request i → DP[i] = DP[i-1]",
+            "  - Option 2: Accept request i → DP[i] = weight[i] + DP[j] where j is largest index with finish[j] ≤ start[i]",
+            "  - Find j using binary search: O(log N)",
+            "  - DP[i] = max(Option 1, Option 2)",
+            "Return DP[N]"
+          ],
+          "complexity": "O(N log N) for sorting + O(N log N) for DP = O(N log N)"
+        },
+        "key_concepts": [
+          "Interval scheduling",
+          "Greedy algorithms",
+          "Sorting as preprocessing",
+          "Optimal substructure",
+          "Greedy choice property",
+          "Exchange argument",
+          "Dynamic programming alternative",
+          "Binary search application",
+          "Compatibility constraints"
+        ]
+      }
+    },
+    {
+      "question_number": 21,
+      "marks": 2,
+      "topic": "Applications",
+      "question_type": "algorithm_design",
+      "question_text": "You coordinate a final year project unit with 123 students and 25 topics:\n• Each student selects up to 4 preferred topics, assigned to only 1\n• Each topic can have at most 5 students\n• Goal: Satisfy preferences of as many students as possible\n\nDescribe how to model as a maximum flow problem solved using Ford-Fulkerson.",
+      "correct_answer": null,
+      "solution": {
+        "answer": "Model as bipartite matching with capacities",
+        "graph_construction": {
+          "vertices": [
+            "Super-source s",
+            "123 student nodes {st_1, st_2, ..., st_123}",
+            "25 topic nodes {tp_1, tp_2, ..., tp_25}",
+            "Super-sink t"
+          ],
+          "edges": [
+            {
+              "type": "Source to students",
+              "edges": "s → st_i for all i ∈ [1,123]",
+              "capacity": 1,
+              "meaning": "Each student can be assigned to at most 1 topic"
+            },
+            {
+              "type": "Students to preferred topics",
+              "edges": "st_i → tp_j if student i prefers topic j",
+              "capacity": 1,
+              "meaning": "Represents preference relationship, allows assignment"
+            },
+            {
+              "type": "Topics to sink",
+              "edges": "tp_j → t for all j ∈ [1,25]",
+              "capacity": 5,
+              "meaning": "Each topic can accept at most 5 students"
+            }
+          ]
+        },
+        "algorithm_execution": {
+          "steps": [
+            "Construct the flow network as described above",
+            "Run Ford-Fulkerson algorithm to find maximum flow from s to t",
+            "The maximum flow value = maximum number of students that can be assigned to preferred topics",
+            "Extract assignments: For each edge st_i → tp_j with flow=1, assign student i to topic j",
+            "Students with no outgoing flow remain unassigned to any preferred topic"
+          ],
+          "complexity": "O(V·E²) for Ford-Fulkerson with integer capacities, but since capacities are small (max 5), practical performance is good"
+        },
+        "correctness": {
+          "flow_conservation": "Flow into each student = flow out (0 or 1), ensuring each assigned to ≤1 topic",
+          "capacity_constraints": "Edge capacities ensure: students get ≤1 topic, topics get ≤5 students",
+          "optimality": "Max-flow finds maximum number of satisfied assignments given constraints",
+          "integer_flows": "All capacities are integers, so Ford-Fulkerson returns integer-valued flow, representing actual assignments"
+        },
+        "extensions": {
+          "preference_priorities": "To prioritize certain preferences, use min-cost max-flow with costs on preference edges (lower cost = higher priority)",
+          "must_assign_all": "If all students must be assigned, add edges from students to all topics (lower priority/higher cost)"
+        },
+        "key_concepts": [
+          "Maximum flow problem",
+          "Bipartite matching",
+          "Ford-Fulkerson method",
+          "Flow network construction",
+          "Capacity constraints modeling",
+          "Integer flow property",
+          "Assignment problem",
+          "Graph reduction",
+          "Flow extraction for solution"
+        ]
+      }
+    },
+    {
+      "question_number": 22,
+      "marks": 4,
+      "topic": "Applications",
+      "question_type": "optimization_problem",
+      "question_text": "Testing phone prototype drop resistance. Unknown integer 0 ≤ x ≤ 150 where phone survives drops ≤ x meters but breaks at ≥ (x+1) meters. You have 2 prototypes. Once broken, cannot reuse. Design algorithm A to determine x. Let Drop(A,x) = number of drops needed for threshold x. Let Drop(A) = worst-case max over all x ∈ [0,150]. For optimal A minimizing Drop(A), what is Drop(A)?",
+      "correct_answer": "17",
+      "solution": {
+        "answer": "17",
+        "strategy": "Square root decomposition with optimal interval sizing",
+        "algorithm_description": {
+          "key_insight": "With 2 prototypes, can afford to break first prototype multiple times, but must be very careful with second prototype (can only do linear search)",
+          "approach": "Use first prototype to test at intervals of size k, then use second prototype for linear search within interval",
+          "optimal_k_calculation": "If Drop(A) = d drops worst-case, and we use first prototype for d drops at intervals of size k, then:\n- First prototype checks: 0, k, 2k, 3k, ..., up to ⌈150/k⌉ checks\n- If breaks at height ik, must linearly check (i-1)k+1, (i-1)k+2, ..., ik-1 with second prototype\n- Worst case linear search: (k-1) drops\n- Total drops: ⌈150/k⌉ + (k-1)\n- Minimize: Take derivative, set to zero, get k ≈ √150 ≈ 12.25"
+          },
+          "optimal_strategy": {
+            "description": "Variable interval sizes that decrease after each drop",
+            "rationale": "First drop should cover maximum height, then subsequent drops cover decreasing heights to balance worst-case drops",
+            "formula": "If we make d drops total, and first drop is at height h₁:\n- If breaks: need (h₁-1) drops with second prototype → total = 1 + (h₁-1) = h₁ drops\n- If doesn't break: have (d-1) drops remaining, can cover more height\n- Optimally: h₁ + h₂ + h₃ + ... + h_d ≥ 151 where h_i = d - i + 1\n- This gives: d + (d-1) + (d-2) + ... + 1 = d(d+1)/2 ≥ 151\n- Solving: d(d+1)/2 ≥ 151 → d ≥ 17.03 → d = 17"
+          }
+        },
+        "detailed_algorithm": {
+          "drops_sequence": [
+            "Drop 1 at height 17 (if breaks, linear search 0-16: max 17 total drops)",
+            "Drop 2 at height 17+16=33 (if breaks, linear search 18-32: 1+15=16 ≤17 total)",
+            "Drop 3 at height 33+15=48 (if breaks, linear search 34-47: 2+14=16 ≤17 total)",
+            "Drop 4 at height 48+14=62 (if breaks, linear search 49-61: 3+13=16 ≤17 total)",
+            "Continue pattern: heights 17, 33, 48, 62, 75, 87, 98, 108, 117, 125, 132, 138, 143, 147, 150",
+            "Maximum drops needed: 17 (worst case when x=16, breaks at first drop, need 16 more)"
+          ],
+          "verification": "Sum: 17+16+15+14+13+12+11+10+9+8+7+6+5+4+3 = 17×18/2 = 153 ≥ 151 ✓"
+        },
+        "why_not_16": "With 16 drops: 16×17/2 = 136 < 151, cannot cover all heights 0-150",
+        "why_not_18": "With 18 drops: 18×19/2 = 171 > 151, but 17 drops suffice, so 18 is not optimal",
+        "key_concepts": [
+          "Optimization problem",
+          "Worst-case analysis",
+          "Square root decomposition",
+          "Variable interval strategy","Triangle number formula",
+          "Resource constraints (limited prototypes)",
+          "Binary search limitations with constraints",
+          "Dynamic programming intuition",
+          "Egg drop problem variant"
+        ]
+      }
+    }
+  ],
+  "exam_summary": {
+    "total_questions": 22,
+    "total_marks": 50,
+    "topics_covered": [
+      "Correctness and Complexity (Q1-Q2)",
+      "Sorting (Q3)",
+      "Quickselect and Median of Medians (Q4-Q5)",
+      "Graph Structure and Traversal (Q6-Q8)",
+      "Dynamic Programming (Q9)",
+      "Shortest Path (Q10-Q11)",
+      "Network Flow (Q12-Q14)",
+      "Efficient Lookup Structures (Q15-Q16)",
+      "Retrieval Data Structures for Strings (Q17-Q18)",
+      "Applications (Q19-Q22)"
+    ],
+    "key_algorithmic_concepts": [
+      "Recurrence relations and asymptotic analysis",
+      "Loop invariants and correctness proofs",
+      "Sorting algorithm properties (stability, complexity)",
+      "Selection algorithms and pivot strategies",
+      "Graph representations and traversals (DFS, BFS)",
+      "Dynamic programming and backtracking",
+      "Shortest path algorithms (Bellman-Ford, Floyd-Warshall)",
+      "Maximum flow and minimum cut",
+      "Circulation with demands",
+      "AVL trees and balanced search trees",
+      "Hash tables with collision resolution",
+      "Suffix tries and suffix trees",
+      "Suffix arrays with prefix doubling",
+      "Spanning tree algorithms",
+      "Interval scheduling",
+      "Bipartite matching",
+      "Optimization under constraints"
+    ],
+    "problem_solving_patterns": [
+      "Proof by induction for correctness",
+      "Telescoping method for recurrences",
+      "Geometric series analysis",
+      "Greedy algorithm design and proof",
+      "Graph modeling of real-world problems",
+      "Reduction to known problems",
+      "Time-space complexity trade-offs",
+      "Worst-case vs average-case analysis"
+    ]
+  },
+  "study_notes": {
+    "recurrence_relations": {
+      "telescoping_method": "Repeatedly substitute recurrence to expose pattern, then use base case",
+      "masters_theorem": "For T(n)=aT(n/b)+f(n), compare f(n) with n^(log_b(a))",
+      "common_patterns": {
+        "divide_conquer": "T(n)=2T(n/2)+O(n) → O(n log n)",
+        "decrease_conquer": "T(n)=T(n-1)+O(1) → O(n)",
+        "binary_search": "T(n)=T(n/2)+O(1) → O(log n)"
+      }
+    },
+    "loop_invariants": {
+      "structure": "State property true at loop start for each iteration",
+      "proof_steps": [
+        "Initialization: Show invariant holds before first iteration",
+        "Maintenance: Show if true before iteration i, remains true before i+1",
+        "Termination: Use invariant at loop end to prove correctness"
+      ],
+      "tips": "Invariant should relate current state to problem goal"
+    },
+    "sorting_algorithms": {
+      "stability": "Stable sorts preserve relative order of equal elements",
+      "comparison_sorts": {
+        "insertion_sort": "O(n) best, O(n²) average/worst, stable",
+        "merge_sort": "O(n log n) all cases, stable, O(n) extra space",
+        "quicksort": "O(n log n) average, O(n²) worst, unstable, in-place",
+        "heap_sort": "O(n log n) all cases, unstable, in-place",
+        "selection_sort": "O(n²) all cases, unstable, in-place"
+      },
+      "lower_bound": "Comparison-based sorting has Ω(n log n) lower bound"
+    },
+    "selection_algorithms": {
+      "quickselect": "Expected O(n), worst O(n²) with random pivot",
+      "median_of_medians": "Guarantees O(n) by choosing good pivot (30th-70th percentile)",
+      "key_insight": "Don't need exact median, just 'good enough' to eliminate constant fraction"
+    },
+    "graph_representations": {
+      "adjacency_matrix": {
+        "space": "Θ(V²)",
+        "edge_check": "Θ(1)",
+        "neighbors": "Θ(V)",
+        "best_for": "Dense graphs, frequent edge queries"
+      },
+      "adjacency_list": {
+        "space": "Θ(V+E)",
+        "edge_check": "Θ(degree) or Θ(log degree) if sorted",
+        "neighbors": "Θ(degree)",
+        "best_for": "Sparse graphs, traversals"
+      }
+    },
+    "graph_traversals": {
+      "dfs": {
+        "implementation": "Stack (or recursion)",
+        "applications": "Topological sort, cycle detection, connected components",
+        "time": "O(V+E)",
+        "space": "O(V)"
+      },
+      "bfs": {
+        "implementation": "Queue",
+        "applications": "Shortest path in unweighted graphs, level-order",
+        "time": "O(V+E)",
+        "space": "O(V)"
+      }
+    },
+    "shortest_paths": {
+      "dijkstra": "O((V+E) log V), non-negative weights, single-source",
+      "bellman_ford": "O(VE), handles negative weights, detects negative cycles, single-source",
+      "floyd_warshall": "O(V³), all-pairs, detects negative cycles",
+      "key_differences": "Dijkstra fastest for non-negative; Bellman-Ford for negative edges; Floyd-Warshall for all-pairs"
+    },
+    "network_flow": {
+      "max_flow_min_cut": "Maximum flow value equals minimum cut capacity",
+      "ford_fulkerson": "Iteratively find augmenting paths, increase flow by bottleneck capacity",
+      "residual_network": "Shows remaining capacity and flow that can be pushed back",
+      "integer_flows": "If capacities are integers, Ford-Fulkerson returns integer flow",
+      "applications": "Bipartite matching, assignment problems, circulation with demands"
+    },
+    "dynamic_programming": {
+      "requirements": "Optimal substructure + overlapping subproblems",
+      "approach": [
+        "Define subproblems and DP array meaning",
+        "Identify base cases",
+        "Derive recurrence relation",
+        "Determine computation order",
+        "Extract solution (possibly with backtracking)"
+      ],
+      "backtracking": "Work backwards from DP[n] to reconstruct solution path"
+    },
+    "balanced_trees": {
+      "avl_trees": {
+        "balance_factor": "height(left) - height(right) ∈ {-1, 0, 1}",
+        "rotations": "Single (LL, RR) or double (LR, RL) to restore balance",
+        "operations": "O(log n) search, insert, delete"
+      },
+      "applications": "Databases, file systems, memory management"
+    },
+    "hashing": {
+      "collision_resolution": {
+        "separate_chaining": "Each bucket has linked structure (list, BST, etc.)",
+        "open_addressing": "Probe sequence to find empty slot"
+      },
+      "load_factor": "α = n/m where n=elements, m=buckets",
+      "expected_time": "O(1) for α=O(1), O(n) worst-case if all hash to same bucket"
+    },
+    "string_structures": {
+      "suffix_trie": "Θ(N²) nodes worst-case, simple but space-inefficient",
+      "suffix_tree": "Θ(N) nodes, path compression, complex construction",
+      "suffix_array": "Θ(N) space, O(N log N) construction with prefix doubling",
+      "applications": "Pattern matching, longest common substring, DNA analysis"
+    },
+    "greedy_algorithms": {
+      "when_to_use": "Problem has greedy choice property + optimal substructure",
+      "proof_techniques": [
+        "Exchange argument: Show greedy choice can replace any other choice",
+        "Staying ahead: Show greedy maintains advantage at each step"
+      ],
+      "examples": "Activity selection, Huffman coding, MST (Kruskal, Prim)"
+    },
+    "problem_reduction": {
+      "technique": "Transform problem A into known problem B, solve B, convert back",
+      "examples": [
+        "Maximum spanning tree → negate weights → minimum spanning tree",
+        "Assignment problem → maximum flow → bipartite matching",
+        "Interval scheduling → sorting + greedy selection"
+      ]
+    }
+  },
+  "common_pitfalls": [
+    {
+      "pitfall": "Confusing path vs edge in graphs",
+      "example": "Floyd-Warshall result shows shortest path distance, not necessarily direct edge",
+      "tip": "Always clarify whether answer requires direct edge or any path"
+    },
+    {
+      "pitfall": "Forgetting stability in sorting",
+      "example": "Heap sort and selection sort are NOT stable despite seeming straightforward",
+      "tip": "Check if algorithm ever moves equal elements past each other"
+    },
+    {
+      "pitfall": "Off-by-one errors in DP backtracking",
+      "example": "Forgetting that selecting house i excludes i-2, i-1, i+1, i+2",
+      "tip": "Carefully track which indices are affected by each decision"
+    },
+    {
+      "pitfall": "Assuming alphabet size is O(1)",
+      "example": "Suffix trie space is Θ(N²M) when M is variable",
+      "tip": "Always clarify whether alphabet size is constant or part of input"
+    },
+    {
+      "pitfall": "Circulation with demands: forgetting sum must be zero",
+      "example": "Problem 2 in Q14 has demand sum = 1, immediately infeasible",
+      "tip": "Check sum of demands/supplies first before attempting solution"
+    },
+    {
+      "pitfall": "Confusing worst-case analysis across all inputs vs for specific input",
+      "example": "Hash table O(1) expected but O(n) worst-case if all collide",
+      "tip": "Distinguish between average-case, expected, and worst-case complexities"
+    },
+    {
+      "pitfall": "Maximum flow: forgetting integer flow property",
+      "example": "Ford-Fulkerson with integer capacities guarantees integer-valued flows",
+      "tip": "This property is crucial for assignment/matching problems"
+    },
+    {
+      "pitfall": "Graph traversal: incorrect tie-breaking",
+      "example": "Alphabetical ordering must be applied consistently at each decision point",
+      "tip": "When problem specifies tie-breaking rule, apply it meticulously"
+    }
+  ],
+  "exam_tips": [
+    "Read questions carefully - marks don't indicate difficulty or solution length",
+    "For multiple-choice, eliminate obviously wrong answers first",
+    "In algorithm design, clearly state assumptions and complexity analysis",
+    "For correctness proofs, use structured approach: base case, inductive step, conclusion",
+    "Draw diagrams for graph problems to visualize structure",
+    "In DP problems, clearly define what DP[i] represents",
+    "For complexity questions, consider worst-case unless stated otherwise",
+    "Check your work: does the answer make intuitive sense?",
+    "Time management: don't spend too long on any single question",
+    "Show working even for numerical answers - partial credit may be awarded"
+  ]
+}

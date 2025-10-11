@@ -1,0 +1,196 @@
+{
+  "chapter": 6,
+  "title": "Greedy Algorithms",
+  "summary": "Study of greedy algorithms that make locally optimal choices at each stage. Focus on important greedy algorithms for graph problems including Dijkstra's algorithm and minimum spanning tree algorithms.",
+
+  "main_topics": [
+    {
+      "topic": "Shortest Path in Graphs with Non-negative Weights",
+      "key_concepts": {
+        "edge_relaxation": {
+          "definition": "Technique of updating distance estimates by checking if a path through an edge provides a shorter route",
+          "purpose": "Core operation used in shortest path algorithms to continuously improve path estimates",
+          "algorithm": "If dist[v] > dist[u] + w(u,v), then update dist[v] = dist[u] + w(u,v) and pred[v] = u"
+        },
+
+        "dijkstras_algorithm": {
+          "purpose": "Find shortest paths from source vertex to all other vertices in graphs with non-negative edge weights",
+
+          "key_ideas": [
+            "With non-negative weights, any sub-path s→u of a longer path s→v has length ≤ entire path",
+            "If we know minimum distances to all vertices in set S and relax all edges leaving S, the vertex v∉S with minimum estimate δ(s,u) + w(u,v) is guaranteed optimal",
+            "Visits nodes in order of distance from source (greedy approach, similar to weighted BFS)"
+          ],
+
+          "implementation_details": {
+            "data_structure": "Priority queue (min-heap) to serve vertices in order of current distance estimate",
+            "process": [
+              "Initialize dist[s] = 0, all other distances = ∞",
+              "Insert all vertices into priority queue with key = dist[v]",
+              "While queue not empty:",
+              "  - Extract vertex u with minimum distance",
+              "  - For each edge (u,v): relax the edge",
+              "  - Update priority queue keys when distances improve"
+            ]
+          },
+
+          "complexity": {
+            "general_form": "O(|E| × T_update + |V| × T_find)",
+            "array_implementation": "O(|V|²) - good for dense graphs",
+            "binary_heap_implementation": "O(|E|log|V|) - good for sparse graphs",
+            "fibonacci_heap_implementation": "O(|E| + |V|log|V|) - theoretically optimal but often slower in practice"
+          },
+
+          "correctness": {
+            "theorem": "Given graph G=(V,E) with non-negative weights and source s, Dijkstra's correctly finds shortest paths to each vertex v∈V",
+            "proof_approach": "Induction on set S of vertices removed from queue. When vertex u is removed with dist[u], this distance is correct because any alternative path would only get longer due to non-negative weights"
+          },
+
+          "practical_implementation": {
+            "standard_approach": "Most libraries don't support decrease-key operation",
+            "alternative": [
+              "Start with only source s in priority queue",
+              "When edge relaxed, insert target vertex with new distance estimate",
+              "When vertex popped, check if key is outdated (key > dist[u])",
+              "If outdated, ignore it (multiple entries allowed for same vertex)"
+            ],
+            "complexity_note": "Still O(|E|log|V|) since log(|E|) = O(log|V|²) = O(2log|V|) = O(log|V|)"
+          }
+        }
+      }
+    },
+
+    {
+      "topic": "Minimum Spanning Trees",
+      "key_concepts": {
+        "spanning_tree": {
+          "definition": "Subgraph T of G=(V,E) with all vertices V and subset E'⊂E such that T is a tree (connected and acyclic)",
+          "weighted_spanning_tree": "Spanning tree where edges have weights",
+          "minimum_spanning_tree": "Weighted spanning tree with minimum total weight w(T) = Σ w(u,v) for all edges in T"
+        },
+
+        "mst_properties": {
+          "global_problem": "Minimize total weight of tree",
+          "local_structure": "Despite global nature, MSTs have local structure enabling greedy algorithms",
+          "assumption": "Graph G is connected (otherwise no spanning trees exist)"
+        }
+      },
+
+      "algorithms": {
+        "prims_algorithm": {
+          "approach": "Build tree T by adding edges one at a time, starting from arbitrary source vertex",
+          "greedy_choice": "At each iteration, add lightest weight edge connecting current tree T to new vertex v not yet in tree",
+
+          "similarity_to_dijkstra": "Almost identical to Dijkstra's algorithm",
+          "key_difference": "Key for vertex v is weight w(u,v) of lightest edge connecting v to tree (not total distance from source)",
+
+          "algorithm_steps": [
+            "Initialize: T = ({r}, ∅) for arbitrary root r",
+            "Set dist[r] = 0, all others = ∞",
+            "Priority queue Q contains all vertices with key = dist[v]",
+            "While Q not empty:",
+            "  - u = Q.pop_min()",
+            "  - Add u to T and edge (parent[u], u) to T",
+            "  - For each edge (u,v) adjacent to u:",
+            "    - If v∉T and dist[v] > w(u,v):",
+            "      - dist[v] = w(u,v)",
+            "      - parent[v] = u",
+            "      - Update v's key in Q"
+          ],
+
+          "complexity": {
+            "binary_heap": "O(|E|log|V|)",
+            "same_as_dijkstra": "Time complexity analysis identical to Dijkstra's"
+          },
+
+          "correctness": {
+            "invariant": "At every iteration, current set of selected edges T is subset of some MST of G",
+            "proof_approach": [
+              "Initially T empty, so subset of some MST",
+              "Let e=(u,v) be lightest edge connecting u∈T to v∉T",
+              "If MST M contains e, then T∪{e} still subset of MST",
+              "If M doesn't contain e:",
+              "  - M has path p from u to v",
+              "  - First edge (x,y) on p not in T where x∈T, y∉T",
+              "  - Removing (x,y) from M disconnects into M₁, M₂",
+              "  - Adding (u,v) creates new spanning tree M' = M∪{(u,v)}\\{(x,y)}",
+              "  - Since (u,v) lightest edge, w(u,v) ≤ w(x,y)",
+              "  - Therefore w(M') ≤ w(M), so M' also MST",
+              "  - T∪{e} is subset of M'"
+            ],
+            "conclusion": "When algorithm terminates, T is spanning tree and subset of some MST, therefore T itself is MST"
+          }
+        },
+
+        "kruskals_algorithm": {
+          "approach": "Maintain forest F of minimum weight subtrees, greedily select minimum weight edges that don't induce cycles",
+          "greedy_choice": "At each iteration, select lightest weight edge that connects two currently disconnected subtrees",
+
+          "data_structure": "Union-find disjoint sets to quickly check connectivity and merge components",
+
+          "algorithm_steps": [
+            "Sort all edges E in ascending order of weight",
+            "Initialize forest = UnionFind with n separate vertices",
+            "Initialize T = (V, ∅)",
+            "For each edge (u,v) in sorted order:",
+            "  - If forest.FIND(u) ≠ forest.FIND(v):",
+            "    - forest.UNION(u,v)",
+            "    - Add edge (u,v) to T",
+            "Return T"
+          ],
+
+          "complexity": {
+            "sorting": "O(|E|log|E|)",
+            "union_find_operations": "O(|E|log|V|) using union-find with path compression and union by rank",
+            "total": "O(|E|log|E|) = O(|E|log|V|) since log|E| = O(log|V|²) = O(log|V|) in simple graph"
+          },
+
+          "correctness": {
+            "invariant": "At every iteration, current set of selected edges T is subset of some MST of G",
+            "proof_approach": [
+              "Initially T empty, so subset of some MST",
+              "Let e=(u,v) be lightest edge connecting two disconnected vertices in T",
+              "Proof identical to Prim's:",
+              "  - If MST M contains e, done",
+              "  - If not, can construct alternative MST M' containing T∪{e}",
+              "  - Since e is lightest edge connecting disconnected components, w(e) ≤ w(any alternative edge)",
+              "  - Therefore M' has weight ≤ M, so also MST"
+            ],
+            "cycle_prevention": "T never contains cycle since union-find prevents connecting already-connected vertices",
+            "connectedness": "T connected since G connected and Kruskal's selects edges connecting components",
+            "conclusion": "When terminates, T is spanning tree and subset of some MST, therefore T is MST"
+          }
+        }
+      }
+    }
+  ],
+
+  "comparison": {
+    "prims_vs_kruskals": {
+      "prim": {
+        "strategy": "Grow single tree from starting vertex",
+        "edge_selection": "Select minimum edge connecting tree to new vertex",
+        "data_structure": "Priority queue",
+        "best_for": "Dense graphs (many edges)"
+      },
+      "kruskal": {
+        "strategy": "Maintain forest of subtrees, merge smallest disconnected pairs",
+        "edge_selection": "Select globally minimum edge that doesn't create cycle",
+        "data_structure": "Union-find disjoint sets",
+        "best_for": "Sparse graphs or when edges already sorted"
+      },
+      "complexity": "Both O(|E|log|V|) with appropriate implementations",
+      "correctness": "Both maintain same invariant: selected edges always subset of some MST"
+    }
+  },
+
+  "important_notes": {
+    "negative_weights": "Dijkstra's algorithm does NOT work with negative edge weights. Negative weights invalidate the greedy property that once vertex is processed, its distance is optimal",
+    "mst_uniqueness": "MST may not be unique if multiple edges have same weight. Both Prim's and Kruskal's will find some MST",
+    "practical_considerations": [
+      "For Dijkstra's: practical implementations often allow duplicate entries in priority queue rather than implementing decrease-key",
+      "For Kruskal's: can use edge list representation since edges need to be sorted",
+      "For Prim's: adjacency list representation more natural"
+    ]
+  }
+}

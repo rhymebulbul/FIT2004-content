@@ -1,0 +1,483 @@
+```json
+{
+  "chapter": 5,
+  "title": "Graphs Basics",
+  "summary": {
+    "topics": [
+      "Modelling real-world problems with graphs and formal descriptions of graphs",
+      "Representation and storage techniques for graphs",
+      "Graph traversal algorithms with applications",
+      "The concept of shortest paths",
+      "The topological sorting problem of directed acyclic graphs (DAGs)",
+      "The incremental connectivity problem",
+      "The union-find linked list data structure"
+    ]
+  },
+  "sections": [
+    {
+      "section": "5.1",
+      "title": "Modelling with Graphs",
+      "concepts": [
+        {
+          "name": "Graph Definition",
+          "description": "Graphs model relationships between pairs of objects. A graph G is defined by a pair of sets V and E",
+          "components": {
+            "V": "The set of vertices/nodes",
+            "E": "The set of edges/arcs, where an edge e connects two nodes u and v"
+          },
+          "notation": {
+            "vertices": "|V|, n, or N represents the number of vertices",
+            "edges": "|E|, m, or M represents the number of edges"
+          }
+        },
+        {
+          "name": "Graph Types",
+          "types": [
+            {
+              "type": "Directed vs Undirected",
+              "directed": "Edges (u,v) and (v,u) represent different things (e.g., one-way streets)",
+              "undirected": "Edges (u,v) and (v,u) are equivalent"
+            },
+            {
+              "type": "Weighted vs Unweighted",
+              "weighted": "Edges have associated quantities w(u,v) representing distance, bandwidth, cost, etc.",
+              "unweighted": "All edges are equal"
+            },
+            {
+              "type": "Multigraphs",
+              "description": "Graphs that contain multiple edges between the same pair of vertices"
+            },
+            {
+              "type": "Loops",
+              "description": "Edges that connect a vertex to itself"
+            },
+            {
+              "type": "Simple Graph",
+              "description": "A graph with no loops or multiple edges between the same pair of vertices"
+            }
+          ]
+        },
+        {
+          "name": "Directed Acyclic Graph (DAG)",
+          "definition": "A directed graph that contains no cycles",
+          "applications": [
+            "Course prerequisites",
+            "Project task dependencies"
+          ],
+          "key_problems": [
+            "Topological sorting problem",
+            "Critical path problem"
+          ]
+        },
+        {
+          "name": "Graph Problems",
+          "examples": [
+            {
+              "problem": "Connected Components",
+              "description": "Groups of mutual friends or vertices with connections"
+            },
+            {
+              "problem": "Diameter",
+              "description": "Longest distance between any two vertices in the graph"
+            },
+            {
+              "problem": "Articulation Point/Cut Point",
+              "description": "Vertices whose removal would disconnect mutual friends"
+            },
+            {
+              "problem": "Shortest Path",
+              "description": "Shortest route connecting two vertices"
+            },
+            {
+              "problem": "Minimum Spanning Tree",
+              "description": "Shortest subset of edges keeping all vertices connected"
+            },
+            {
+              "problem": "Cycle Detection",
+              "description": "Finding cycles in directed or undirected graphs"
+            },
+            {
+              "problem": "Topological Ordering",
+              "description": "Valid order to complete tasks satisfying all prerequisites"
+            },
+            {
+              "problem": "Critical Path",
+              "description": "Longest chain of prerequisites in a DAG"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "section": "5.2",
+      "title": "Representation and Storage of Graphs",
+      "concepts": [
+        {
+          "name": "Graph Density",
+          "definitions": {
+            "maximum_edges": {
+              "directed_with_loops": "|V|²",
+              "directed_without_loops": "|V|(|V|-1)",
+              "undirected_with_loops": "(|V|+1)/2",
+              "undirected_without_loops": "|V| choose 2"
+            },
+            "dense_graph": "|E| ≈ |V|²",
+            "sparse_graph": "|E| << |V|²"
+          }
+        },
+        {
+          "name": "Adjacency Matrix",
+          "description": "Matrix A of size |V| × |V|",
+          "space_complexity": "O(|V|²)",
+          "representation": {
+            "unweighted": "a[i,j] = 1 if edge exists, 0 otherwise",
+            "weighted": "a[i,j] = w(i,j) if edge exists, 0 or ∞ otherwise",
+            "multigraphs": "a[i,j] = k where k is number of edges"
+          },
+          "properties": {
+            "undirected": "Matrix is symmetric",
+            "adjacency_check": "O(1) time",
+            "space_optimization": "Only store upper triangular entries for undirected graphs"
+          },
+          "best_for": "Dense graphs"
+        },
+        {
+          "name": "Adjacency List",
+          "description": "List of lists where each list stores adjacent vertices for a given vertex",
+          "space_complexity": "O(|V| + |E|)",
+          "properties": {
+            "adjacency_check": "O(|E|) time in worst case, can be improved to O(log|E|) with BST",
+            "iteration": "Efficient for iterating over existing edges only"
+          },
+          "variants": {
+            "list": "Standard implementation",
+            "balanced_bst": "O(log|E|) adjacency checks, higher memory usage"
+          },
+          "best_for": "Sparse graphs"
+        },
+        {
+          "name": "Edge List",
+          "description": "Simple list containing all edges in no particular order",
+          "space_complexity": "O(|E|)",
+          "properties": {
+            "adjacency_check": "Not efficient",
+            "iteration": "Not efficient for specific vertex adjacencies"
+          },
+          "best_for": "Kruskal's minimum spanning tree algorithm (for sorting edges)"
+        }
+      ]
+    },
+    {
+      "section": "5.3",
+      "title": "Graph Traversal and Applications",
+      "subsections": [
+        {
+          "subsection": "5.3.1",
+          "title": "Depth-First Search",
+          "concepts": [
+            {
+              "name": "DFS Overview",
+              "description": "Searches graph by following paths as deep as possible before backtracking",
+              "properties": {
+                "visits_all_reachable": "Visits every node reachable from source",
+                "no_cycles_in_path": "Never visits same node twice",
+                "forms_tree": "Edges travelled form a depth-first search tree"
+              },
+              "time_complexity": "O(|V| + |E|)",
+              "implementation": "Uses recursion naturally"
+            },
+            {
+              "name": "DFS Applications",
+              "applications": [
+                {
+                  "name": "Finding Connected Components",
+                  "description": "Maximal connected subgraphs (mutually connected vertices)"
+                },
+                {
+                  "name": "Two-Colouring",
+                  "description": "Assign colours to vertices such that no adjacent vertices share same colour (bipartite test)"
+                },
+                {
+                  "name": "Cycle Finding",
+                  "description": "Find cycles in directed or undirected graphs"
+                },
+                {
+                  "name": "Topological Ordering",
+                  "description": "Order vertices of DAG satisfying prerequisite relationships"
+                },
+                {
+                  "name": "Bridges and Cut-Points",
+                  "description": "Find edges/vertices whose removal disconnects components"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "subsection": "5.3.2",
+          "title": "Finding Connected Components",
+          "concepts": [
+            {
+              "name": "Connected Components",
+              "definition": "Maximal connected subgraphs - subsets of vertices that are mutually connected directly or indirectly",
+              "algorithm": "Run DFS from each unvisited vertex; each DFS discovers one component",
+              "time_complexity": "O(|V| + |E|)",
+              "invariant": {
+                "property_1": "array[1..i-1] corresponds to vertices assigned to components",
+                "property_2": "Each DFS call visits precisely one connected component"
+              }
+            }
+          ]
+        },
+        {
+          "subsection": "5.3.3",
+          "title": "Cycle Finding",
+          "concepts": [
+            {
+              "name": "Cycle Detection",
+              "definition": "A cycle is a path of distinct, adjacent edges that begins and ends at the same vertex",
+              "algorithm": "During DFS, if we find an edge to an already visited vertex (not parent), we found a cycle",
+              "key_consideration": "Must track parent vertex to avoid detecting false cycles from the edge we just came from",
+              "time_complexity": "O(|V| + |E|)"
+            }
+          ]
+        },
+        {
+          "subsection": "5.3.4",
+          "title": "Breadth-First Search",
+          "concepts": [
+            {
+              "name": "BFS Overview",
+              "description": "Visits nearby vertices first and further vertices later",
+              "property": "Always visits every vertex at distance k before visiting vertices at distance k+1",
+              "produces": "Shortest path tree - every path from source is a shortest path",
+              "time_complexity": "O(|V| + |E|)",
+              "implementation": "Uses queue to maintain vertices to visit"
+            },
+            {
+              "name": "BFS vs DFS",
+              "differences": {
+                "visit_order": "BFS visits by distance; DFS visits depth-first",
+                "tree_produced": "BFS produces shortest path tree; DFS produces DFS tree",
+                "data_structure": "BFS uses queue; DFS uses recursion/stack"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "section": "5.4",
+      "title": "Shortest Paths",
+      "concepts": [
+        {
+          "name": "Shortest Path Definition",
+          "informal": "Path between vertices minimizing total weight of edges used",
+          "notation": "δ(s,v) denotes length of shortest path from s to v",
+          "note": "Usually 'a shortest path' not 'the shortest path' as multiple may exist"
+        },
+        {
+          "name": "Properties of Shortest Paths",
+          "properties": [
+            {
+              "property": "Optimal Sub-structure",
+              "description": "All sub-paths of a shortest path are themselves shortest paths",
+              "reasoning": "If sub-path wasn't shortest, we could replace it with shorter one"
+            },
+            {
+              "property": "Triangle Inequality",
+              "formula": "δ(s,v) ≤ δ(s,u) + w(u,v)",
+              "description": "Can't find path shorter than shortest path by going through intermediate vertex"
+            },
+            {
+              "property": "Cycles Can Be Disregarded",
+              "cases": [
+                "Positive weight cycle: Can remove to decrease total weight",
+                "Negative weight cycle: Can traverse indefinitely for arbitrarily short paths",
+                "Zero weight cycle: Can remove without changing total weight"
+              ],
+              "conclusion": "Shortest paths can be assumed to be simple (no cycles)"
+            }
+          ]
+        },
+        {
+          "name": "Shortest Path Problem Variants",
+          "variants": [
+            {
+              "name": "Single-Pair Shortest Path",
+              "description": "Find shortest path between specific vertices u and v",
+              "note": "Usually no easier than single-source"
+            },
+            {
+              "name": "Single-Source Shortest Path",
+              "description": "Find shortest paths from source s to all other vertices",
+              "note": "More general but often same complexity as single-pair"
+            },
+            {
+              "name": "All-Pairs Shortest Path",
+              "description": "Find shortest paths between every pair of vertices"
+            }
+          ]
+        },
+        {
+          "name": "Unweighted Shortest Paths",
+          "algorithm": "Use BFS which visits vertices in distance order",
+          "data_structures": {
+            "dist[u]": "Distance of vertex u from source s",
+            "pred[u]": "Predecessor of u on shortest path from s"
+          },
+          "time_complexity": "O(|V| + |E|)",
+          "path_reconstruction": "Backtrack through pred array from destination to source"
+        }
+      ]
+    },
+    {
+      "section": "5.5",
+      "title": "The Topological Sorting Problem",
+      "concepts": [
+        {
+          "name": "Topological Ordering",
+          "definition": "Permutation of vertices such that for any directed edge (u,v), vertex u occurs before v",
+          "interpretation": "Valid order to complete tasks satisfying all prerequisites",
+          "applicable_to": "Directed Acyclic Graphs (DAGs) only"
+        },
+        {
+          "name": "Kahn's Algorithm",
+          "description": "Maintains queue of vertices ready to be completed (no incoming edges)",
+          "steps": [
+            "Initialize queue with all vertices having no incoming edges",
+            "Repeatedly remove vertex from queue and add to ordering",
+            "Remove outgoing edges of removed vertex",
+            "Add vertices with no remaining incoming edges to queue"
+          ],
+          "time_complexity": "O(|V| + |E|)",
+          "implementation_note": "Don't actually delete edges; maintain in-degree array and decrement"
+        },
+        {
+          "name": "DFS-Based Topological Sort",
+          "key_idea": "Add each vertex to array after visiting all its descendants",
+          "result": "Produces reverse topological order",
+          "time_complexity": "O(|V| + |E|)",
+          "advantage": "No need to know topological ordering of subproblem dependencies"
+        }
+      ]
+    },
+    {
+      "section": "5.6",
+      "title": "Incremental Graph Connectivity",
+      "concepts": [
+        {
+          "name": "Connectivity Problem",
+          "description": "Determine whether two vertices u,v are connected (path exists between them)",
+          "simple_solution": "Find connected components once in O(|V|+|E|), then O(1) per query"
+        },
+        {
+          "name": "Dynamic/Incremental Connectivity",
+          "dynamic": "Allow both edge additions and deletions",
+          "incremental": "Allow only edge additions (not deletions)",
+          "challenge": "Maintain connectivity efficiently with modifications"
+        },
+        {
+          "name": "Union-Find Disjoint-Set Data Structure",
+          "description": "Data structure for maintaining collection of n elements, each belonging to single set",
+          "representative": "Each set identified by arbitrary element called representative",
+          "operations": [
+            {
+              "operation": "FIND(u)",
+              "description": "Determine which set element u is in (return representative)"
+            },
+            {
+              "operation": "UNION(u,v)",
+              "description": "Join contents of sets containing u and v into single set"
+            }
+          ],
+          "relation_to_connectivity": "Each set represents connected component; UNION adds edge; FIND checks connectivity"
+        },
+        {
+          "name": "Disjoint Set Forests",
+          "representation": "Each set represented by rooted tree",
+          "root": "Root node is representative element",
+          "storage": "Store parent pointer for each node; root points to itself",
+          "find_operation": "Follow parent pointers until reaching root",
+          "union_operation": "Point root of one tree to root of other tree",
+          "naive_complexity": "O(n) per operation in worst case (long chains)"
+        },
+        {
+          "name": "Path Compression Optimization",
+          "technique": "During FIND, update parent pointers to point directly at root",
+          "effect": "Flattens tree and removes long chains",
+          "complexity": "O(m log n) for m operations with path compression alone"
+        },
+        {
+          "name": "Union-by-Rank Optimization",
+          "technique": "Maintain rank (upper bound on height) for each tree",
+          "strategy": "Make tree with smaller rank child of tree with larger rank",
+          "effect": "Produces more balanced trees",
+          "complexity": "O(m log n) for m operations with union-by-rank alone"
+        },
+        {
+          "name": "Combined Optimizations",
+          "techniques": "Path compression + union-by-rank together",
+          "complexity": "O(m α(n)) where α(n) is inverse Ackermann function",
+          "practical_note": "α(n) ≤ 4 for all values of n that can be written in universe",
+          "optimality": "Provably optimal - no disjoint-set structure can do better"
+        }
+      ]
+    }
+  ],
+  "key_algorithms": [
+    {
+      "name": "Depth-First Search (DFS)",
+      "type": "Graph Traversal",
+      "complexity": "O(|V| + |E|)",
+      "characteristics": "Recursive, explores depth-first, produces DFS tree"
+    },
+    {
+      "name": "Breadth-First Search (BFS)",
+      "type": "Graph Traversal",
+      "complexity": "O(|V| + |E|)",
+      "characteristics": "Uses queue, explores by distance, produces shortest path tree"
+    },
+    {
+      "name": "Connected Components",
+      "type": "Graph Analysis",
+      "complexity": "O(|V| + |E|)",
+      "approach": "Multiple DFS calls"
+    },
+    {
+      "name": "Cycle Detection",
+      "type": "Graph Analysis",
+      "complexity": "O(|V| + |E|)",
+      "approach": "DFS with parent tracking"
+    },
+    {
+      "name": "Kahn's Topological Sort",
+      "type": "DAG Ordering",
+      "complexity": "O(|V| + |E|)",
+      "approach": "Process vertices with no incoming edges"
+    },
+    {
+      "name": "DFS Topological Sort",
+      "type": "DAG Ordering",
+      "complexity": "O(|V| + |E|)",
+      "approach": "Add vertices after visiting descendants"
+    },
+    {
+      "name": "Union-Find",
+      "type": "Disjoint Sets",
+      "complexity": "O(m α(n)) for m operations",
+      "optimizations": ["Path compression", "Union-by-rank"]
+    }
+  ],
+  "important_theorems": [
+    {
+      "name": "Shortest Path Optimal Sub-structure",
+      "statement": "All sub-paths of a shortest path are themselves shortest paths"
+    },
+    {
+      "name": "Triangle Inequality for Shortest Paths",
+      "statement": "δ(s,v) ≤ δ(s,u) + w(u,v) for any edge (u,v)"
+    }
+  ]
+}
+```

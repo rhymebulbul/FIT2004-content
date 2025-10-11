@@ -1,0 +1,709 @@
+{
+  "exam_info": {
+    "code": "FIT2004",
+    "title": "Algorithms and data structures",
+    "duration": "2 hours 10 mins",
+    "total_marks": 50,
+    "exam_type": "Past Exam 3"
+  },
+  "questions": [
+    {
+      "id": "Q1",
+      "marks": 3,
+      "topic": "Analysis of Algorithms: Correctness and Complexity",
+      "question": "For constants b and c, consider the recurrence relation:\n- T(n) = b, if n=1\n- T(n) = 2 * T(n/4) + c * n, if n>1\n\nWhich statement is TRUE?",
+      "options": [
+        "T(n) = Θ(n)",
+        "T(n) = Θ(n * log n)",
+        "T(n) = Θ(1)",
+        "T(n) = Θ(n^(1/2))",
+        "T(n) = Θ(log n)"
+      ],
+      "answer": "a. T(n) = Θ(n)",
+      "solution": {
+        "method": "Telescoping",
+        "steps": [
+          "Start with T(n) = 2T(n/4) + cn",
+          "Substitute recursively: T(n) = 2²·T(n/4²) + cn(1 + 1/2)",
+          "Continue: T(n) = 2³·T(n/4³) + cn(1 + 1/2 + 1/2²)",
+          "General form: T(n) = 2^k·T(n/4^k) + cn·Σ(1/2)^i for i=0 to k-1",
+          "Set k = log₄(n) to reach base case T(1) = b",
+          "T(n) = 2^(log₄(n))·b + cn·(1 - (1/2)^(log₄(n)))/(1 - 1/2)",
+          "Simplify: T(n) = n^(1/2)·b + 2cn·(1 - n^(-1/2))",
+          "Final: T(n) = 2cn + √n(b - 2c)"
+        ],
+        "conclusion": "Clearly T(n) = Θ(n)",
+        "key_concepts": [
+          "Telescoping method for recurrence relations",
+          "Master's theorem could also be used",
+          "Recursion trees are another valid approach",
+          "Understanding log base conversions: log₄(2) = 1/2"
+        ]
+      }
+    },
+    {
+      "id": "Q2",
+      "marks": 2,
+      "topic": "Loop Invariants",
+      "question": "Given an algorithm that counts elements with factor m in list L:\n```\nfunction myFunc(L[1...n], m):\n  x = 0\n  i = 1\n  while i <= n:\n    # loop invariant here\n    if L[i] % m == 0:\n      x = x + 1\n    else:\n      x = x + 0\n    i = i + 1\n  return x\n```\nLoop invariant: 'x is the number of items with a factor of m in list L[1...i-1]'\nWhich statements are TRUE?",
+      "options": [
+        "The loop invariant should be: x is the number of items with factor m in L[1...i]",
+        "The invariant at i=n+1 implies correctness",
+        "The invariant at i=n implies correctness",
+        "The following invariant holds just before line 10: x is the number of items with factor m in L[1...i]"
+      ],
+      "answer": ["b", "d"],
+      "solution": {
+        "correct_answers": [
+          {
+            "option": "B",
+            "explanation": "At i=n+1, invariant states 'x is the number of items with factor m in L[1...n+1-1] = L[1...n]', which is the entire list, proving correctness"
+          },
+          {
+            "option": "D",
+            "explanation": "Just before line 10 (i = i + 1), we have processed L[i], so x correctly counts items in L[1...i]"
+          }
+        ],
+        "incorrect_answers": [
+          {
+            "option": "A",
+            "explanation": "At initialization (x=0, i=1), this would claim x=0 counts items in L[1], but L[1] might have factor m, making the invariant false"
+          },
+          {
+            "option": "C",
+            "explanation": "At i=n, invariant states x counts items in L[1...n-1], missing the last element"
+          }
+        ],
+        "proof_structure": {
+          "initialization": "x=0, i=1: invariant states 'x counts items in L[1...0]' (empty range), which is true",
+          "maintenance": "If invariant holds at iteration k (x counts L[1...k]), then after k+1: x correctly counts L[1...k+1]",
+          "termination": "Loop ends at i=n+1, invariant shows x counts L[1...n], proving correctness"
+        },
+        "key_concepts": [
+          "Loop invariants must hold before loop, during each iteration, and at termination",
+          "Careful attention to index ranges (i vs i-1)",
+          "Initialization check is crucial for correctness proof"
+        ]
+      }
+    },
+    {
+      "id": "Q3",
+      "marks": 2,
+      "topic": "Sorting Algorithms",
+      "question": "Describe how to sort N integers in the range 0 to N²-1 in O(N) time. Justify the time complexity.",
+      "answer": "Use Radix Sort with base N conversion",
+      "solution": {
+        "algorithm": "Radix Sort with base N",
+        "steps": [
+          "Convert all N numbers to base N",
+          "Each number has at most log_N(N²) = 5 digits in base N",
+          "Conversion costs Θ(1) per number, Θ(N) for all",
+          "Perform radix sort: sequence of 5 counting sorts",
+          "Each counting sort costs Θ(N + N) = Θ(N)",
+          "Total: 5 × Θ(N) = Θ(N)"
+        ],
+        "time_complexity": "O(N)",
+        "justification": "Since each number has constant digits (5) in base N, and counting sort on N items with range N is O(N), total is O(N)",
+        "key_concepts": [
+          "Radix sort works in O(d(n+k)) where d=digits, n=items, k=range",
+          "Base conversion: log_N(N²) = 2 digits in base N",
+          "Counting sort is O(n+k) for n items with range k",
+          "When range is bounded by polynomial in N, can achieve linear time"
+        ]
+      }
+    },
+    {
+      "id": "Q4",
+      "marks": 2,
+      "topic": "Graph Representations & Complexity",
+      "question": "For directed weighted graph G, determine worst-case big-Θ complexity:\n- V = vertices, E = edges, N(A) = neighbors of vertex A\n- Adjacency list interior is unsorted\n\n1. Total weight sum of incoming edges to vertex A (adjacency matrix)\n2. Check if edge from A to B exists (adjacency matrix)\n3. BFS from vertex A (adjacency matrix)\n4. Check if edges A→B AND B→A exist (adjacency list)",
+      "answer": {
+        "1": "Θ(V)",
+        "2": "Θ(1)",
+        "3": "Θ(V²)",
+        "4": "Θ(V)"
+      },
+      "solution": {
+        "question_1": {
+          "answer": "Θ(V)",
+          "explanation": "Must iterate over a column (or row for incoming) in the matrix and sum weights"
+        },
+        "question_2": {
+          "answer": "Θ(1)",
+          "explanation": "Direct index access: matrix[A][B] gives edge existence in constant time"
+        },
+        "question_3": {
+          "answer": "Θ(V²)",
+          "explanation": "BFS examines each vertex's outgoing edges. For each of V vertices, must iterate over entire row (V positions) in adjacency matrix"
+        },
+        "question_4": {
+          "answer": "Θ(V)",
+          "explanation": "Must iterate over edges of vertex A and edges of vertex B. In worst case with unsorted lists, each is Θ(V)"
+        },
+        "key_concepts": [
+          "Adjacency matrix: O(1) edge lookup, O(V²) space, O(V) to find all neighbors",
+          "Adjacency list: O(1) to access neighbors, O(V+E) space, O(degree) to check edge",
+          "BFS complexity depends on representation: O(V²) for matrix, O(V+E) for list",
+          "Sorted vs unsorted adjacency lists affect search complexity"
+        ]
+      }
+    },
+    {
+      "id": "Q5",
+      "marks": 2,
+      "topic": "Graph Algorithms: Dijkstra & Bellman-Ford",
+      "question": "Determine if each statement is TRUE or FALSE:\n1. Given adjacency-list of directed graph G=(V,E), computing in-degree of every vertex takes Θ(V+E)\n2. If we have directed weighted graph with negative outgoing edges from source s only, no negative cycles, can Dijkstra find correct shortest paths?\n3. If T is tree from Dijkstra's algorithm on weighted connected graph G, must T be an MST of G?",
+      "answer": {
+        "1": "TRUE",
+        "2": "TRUE",
+        "3": "FALSE"
+      },
+      "solution": {
+        "statement_1": {
+          "answer": "TRUE",
+          "explanation": "Lower bound: must access all edges and vertices (Ω(V+E)). Upper bound: iterate through adjacency list keeping counter per vertex (O(V+E)). Together: Θ(V+E)",
+          "key_concept": "In-degree requires examining all edges once"
+        },
+        "statement_2": {
+          "answer": "TRUE",
+          "explanation": "Negative edges only from source are immediately relaxed. Since no negative cycles and no other negative edges exist, distances can only increase after this point. Safe to greedily finalize paths.",
+          "important_note": "Would NOT work if negative edges existed arbitrarily in the graph"
+        },
+        "statement_3": {
+          "answer": "FALSE",
+          "explanation": "Counter-example: Source s with nodes a,b. Edges (s,a) and (s,b) weight 2, edge (a,b) weight 1. Dijkstra selects (s,a) and (s,b) with total weight 4. But MST would use (s,a) and (a,b) with weight 3.",
+          "key_concept": "Dijkstra minimizes path distance from source, MST minimizes total edge weight globally"
+        },
+        "key_concepts": [
+          "Dijkstra assumes non-negative edges for correctness",
+          "Special structure (negative edges only from source) can allow Dijkstra",
+          "Shortest path tree ≠ Minimum spanning tree",
+          "MST is undirected concept; Dijkstra produces directed tree"
+        ]
+      }
+    },
+    {
+      "id": "Q6",
+      "marks": 1,
+      "topic": "Graph Traversal",
+      "question": "Given weighted undirected graph, what is the height of BFS tree rooted at vertex A?\n[Graph with vertices A,B,C,D,E,F,G,H,I and various weighted edges]",
+      "answer": "4",
+      "solution": {
+        "explanation": "BFS explores level by level (by number of edges, not weights)",
+        "path": "A → F → D → H → I",
+        "levels": {
+          "0": ["A"],
+          "1": ["E", "F", "B", "G"],
+          "2": ["C", "D"],
+          "3": ["H"],
+          "4": ["I"]
+        },
+        "height": "4 (longest path from root to leaf)",
+        "key_concepts": [
+          "BFS tree height = maximum level",
+          "BFS uses number of edges, not edge weights",
+          "Height is measured in number of edges on longest path"
+        ]
+      }
+    },
+    {
+      "id": "Q7",
+      "marks": 2,
+      "topic": "Shortest Path Algorithms",
+      "question": "Which statements are TRUE?\na. Bellman-Ford can terminate early without running outer loop V times if no negative cycle\nb. Bellman-Ford requires Θ(V²) auxiliary space\nc. Floyd-Warshall can terminate early without running outer loop V times if no negative cycle\nd. Diagonal values in Floyd-Warshall memo-matrix cannot be negative",
+      "answer": ["a"],
+      "solution": {
+        "correct_answers": [
+          {
+            "option": "A",
+            "answer": "TRUE",
+            "explanation": "If no distances update in one iteration, they won't update in next iteration. Can terminate early."
+          }
+        ],
+        "incorrect_answers": [
+          {
+            "option": "B",
+            "answer": "FALSE",
+            "explanation": "Only need to remember latest best distance for each vertex. Only O(V) space needed."
+          },
+          {
+            "option": "C",
+            "answer": "FALSE",
+            "explanation": "Outer loop considers different intermediate vertices. Must consider every intermediate to determine all shortest paths."
+          },
+          {
+            "option": "D",
+            "answer": "FALSE",
+            "explanation": "Diagonal represents shortest distance from vertex to itself. If negative cycle exists, some vertex can return to itself with negative distance."
+          }
+        ],
+        "key_concepts": [
+          "Bellman-Ford: O(VE) time, O(V) space, handles negative edges",
+          "Early termination: if no relaxation occurs, no further changes possible",
+          "Floyd-Warshall: O(V³) time, O(V²) space, all-pairs shortest paths",
+          "Negative cycles show as negative diagonal values in Floyd-Warshall"
+        ]
+      }
+    },
+    {
+      "id": "Q8",
+      "marks": 4,
+      "topic": "Circulation with Demands",
+      "question": "Two circulation problems with demands (indicated in vertices) and capacities (on edges). Which have feasible solutions?\nProblem 1: 4 vertices with demands -6, 0, 4, 2\nProblem 2: 4 vertices with demands -3, 1, 1, 2",
+      "answer": "a. Only Problem 1 has feasible solution",
+      "solution": {
+        "problem_1": {
+          "feasible": true,
+          "explanation": "Sum of demands: -6+0+4+2 = 0 (necessary condition). Transform to max-flow problem. Max flow is 6, source edges saturated, confirming feasible solution exists."
+        },
+        "problem_2": {
+          "feasible": false,
+          "explanation": "Sum of demands: -3+1+1+2 = 1 ≠ 0. Necessary condition violated, no feasible solution possible."
+        },
+        "key_concepts": [
+          "Circulation with demands: flow conservation with demand/supply at nodes",
+          "Necessary condition: sum of all demands must equal zero",
+          "Transform to max-flow: add super source/sink with appropriate edges",
+          "Feasible iff max flow saturates all demand/supply edges"
+        ]
+      }
+    },
+    {
+      "id": "Q9",
+      "marks": 2,
+      "topic": "Minimum Spanning Trees",
+      "question": "Which statements are TRUE?\na. If graph has negative edges, cannot obtain MST using Kruskal\nb. Can obtain maximum-spanning tree using Kruskal with descending edge order\nc. Given connected weighted undirected graph, MST is always unique\nd. MST from Prim's is unique if all edge weights unique, even with different start vertex",
+      "answer": ["b", "d"],
+      "solution": {
+        "correct_answers": [
+          {
+            "option": "B",
+            "answer": "TRUE",
+            "explanation": "Processing edges in descending order makes Kruskal select largest weights possible, forming maximum spanning tree"
+          },
+          {
+            "option": "D",
+            "answer": "TRUE",
+            "explanation": "If all edge weights unique, MST is unique (provable by contradiction). Prim's will find this unique MST regardless of starting vertex",
+            "proof": "Assume two distinct MSTs A and B. Let e be smallest weight edge in one but not other. Adding e to the other creates cycle with some edge f not in first MST. Since weights unique, w(f) > w(e). Replacing f with e gives lighter tree, contradiction."
+          }
+        ],
+        "incorrect_answers": [
+          {
+            "option": "A",
+            "answer": "FALSE",
+            "explanation": "Negative edges don't affect Kruskal's correctness. Algorithm works on any weighted graph."
+          },
+          {
+            "option": "C",
+            "answer": "FALSE",
+            "explanation": "Counter-example: Triangle with all edges same weight has 3 different MSTs"
+          }
+        ],
+        "key_concepts": [
+          "Kruskal: greedy algorithm, works with any edge weights",
+          "MST uniqueness: guaranteed when all edge weights are distinct",
+          "Maximum spanning tree: reverse of MST problem",
+          "Prim's and Kruskal's both find MST, just different approaches"
+        ]
+      }
+    },
+    {
+      "id": "Q10",
+      "marks": 2,
+      "topic": "Computational Complexity",
+      "question": "Show that complexity of 0/1 knapsack problem is actually exponential.",
+      "answer": "O(CN) = O(2^B·N) where B = log₂(C+1) bits to represent capacity C",
+      "solution": {
+        "key_insight": "Capacity C can be represented with log₂(C+1) bits",
+        "notation": "Let B = number of bits to specify C, so C = 2^B",
+        "algorithm_complexity": "0/1 Knapsack runs in O(CN) where N = number of items",
+        "actual_complexity": "O(2^B·N) - exponential in input size",
+        "explanation": "Input size is B bits (for capacity) + item data. Algorithm is exponential in B, the actual input size.",
+        "key_concepts": [
+          "Pseudo-polynomial: polynomial in numeric value, exponential in input size",
+          "Input size measured in bits/digits, not numeric value",
+          "0/1 Knapsack is NP-complete",
+          "Dynamic programming doesn't always give polynomial solution"
+        ]
+      }
+    },
+    {
+      "id": "Q11",
+      "marks": 2,
+      "topic": "Dynamic Programming",
+      "question": "Select WRONG/FALSE statements about dynamic programming:\na. Bottom-up approach is asymptotically faster than top-down\nb. Running time is always Θ(n) where n = number of subproblems",
+      "answer": ["a", "b"],
+      "solution": {
+        "statement_a": {
+          "answer": "FALSE",
+          "explanation": "Different approaches may change which subproblems are solved, but bottom-up is not asymptotically faster than top-down (memoized). Both have same asymptotic complexity.",
+          "note": "Bottom-up might have better constants due to less overhead"
+        },
+        "statement_b": {
+          "answer": "FALSE",
+          "explanation": "This implies each subproblem takes O(1) to solve. However, subproblems can take longer to compute depending on the problem.",
+          "example": "Matrix chain multiplication: n² subproblems, each taking O(n) time = O(n³) total"
+        },
+        "key_concepts": [
+          "Top-down (memoization) vs bottom-up (tabulation)",
+          "Time = (number of subproblems) × (time per subproblem)",
+          "Space complexity also important in DP",
+          "Optimal substructure and overlapping subproblems are key"
+        ]
+      }
+    },
+    {
+      "id": "Q12",
+      "marks": 3,
+      "topic": "Bellman-Ford Algorithm",
+      "question": "Run Bellman-Ford from source y for 2 iterations with edge order: (v,t), (x,t), (t,z), (v,z), (t,y), (z,y), (y,x), (z,x), (t,x), (y,v).\n[Graph with vertices v,x,t,y,z and weighted edges]\nFind distance and predecessor for t, z, x, v after 2 iterations.",
+      "answer": {
+        "distances": {"t": 4, "z": 9, "x": 6},
+        "predecessors": {"t": "x", "z": "v", "v": "y"}
+      },
+      "solution": {
+        "explanation": "Bellman-Ford relaxes edges V-1 times to find shortest paths",
+        "after_2_iterations": {
+          "dist_t": 4,
+          "dist_z": 9,
+          "dist_x": 6,
+          "pred_t": "x",
+          "pred_z": "v",
+          "pred_v": "y"
+        },
+        "key_concepts": [
+          "Bellman-Ford: V-1 iterations, each relaxes all edges",
+          "Relaxation: if dist[u] + w(u,v) < dist[v], update dist[v]",
+          "Edge order matters for intermediate results",
+          "Handles negative edges, detects negative cycles"
+        ]
+      }
+    },
+    {
+      "id": "Q13",
+      "marks": 2,
+      "topic": "Hash Tables - Probing",
+      "question": "Which statements are true about probing techniques?\na. Linear probing avoids primary clustering\nb. Quadratic probing causes secondary clustering\nc. Quadratic probing causes primary clustering\nd. Quadratic probing can fail to insert even with empty locations\ne. Linear probing can fail to insert even with empty locations",
+      "answer": ["b", "d"],
+      "solution": {
+        "correct_answers": [
+          {
+            "option": "B",
+            "answer": "TRUE",
+            "explanation": "Quadratic probing causes secondary clustering: elements with same hash follow same probe sequence"
+          },
+          {
+            "option": "D",
+            "answer": "TRUE",
+            "explanation": "Quadratic probing doesn't necessarily probe all positions. Can fail to find empty slot even if one exists."
+          }
+        ],
+        "incorrect_answers": [
+          {
+            "option": "A",
+            "answer": "FALSE",
+            "explanation": "Linear probing CAUSES primary clustering: consecutive occupied slots grow"
+          },
+          {
+            "option": "C",
+            "answer": "FALSE",
+            "explanation": "Quadratic probing does NOT cause primary clustering (avoids consecutive runs)"
+          },
+          {
+            "option": "E",
+            "answer": "FALSE",
+            "explanation": "Linear probing probes all positions eventually, will find empty slot if exists"
+          }
+        ],
+        "key_concepts": [
+          "Primary clustering: long runs of occupied slots (linear probing)",
+          "Secondary clustering: elements with same hash follow same sequence (quadratic)",
+          "Linear probing: h(k,i) = (h(k) + i) mod m",
+          "Quadratic probing: h(k,i) = (h(k) + c₁i + c₂i²) mod m",
+          "Double hashing avoids both types of clustering"
+        ]
+      }
+    },
+    {
+      "id": "Q14_Q15_Q16",
+      "marks": 3,
+      "topic": "AVL Trees",
+      "question": "Starting with AVL tree (root 30, children 23 and 35), perform:\n1. Delete 25\n2. Insert 27\n3. Delete 40\nQ14: What is root value?\nQ15: What is left child of 30?\nQ16: What is left child of 23?",
+      "answer": {
+        "Q14": "23",
+        "Q15": "27",
+        "Q16": "20"
+      },
+      "solution": {
+        "initial_tree": "Root=30, Left=23 (children 20,25), Right=35 (child 40), 20 has child 10",
+        "after_delete_25": {
+          "action": "Node 23 becomes unbalanced, left-left rotation needed",
+          "result": "Root=30, Left=20 (children 10,23), Right=35 (child 40)"
+        },
+        "after_insert_27": {
+          "action": "Insert 27 as right child of 23, no rotations needed",
+          "result": "27 becomes right child of 23"
+        },
+        "after_delete_40": {
+          "action": "Node 30 becomes unbalanced, left-right rotation needed",
+          "rotation_1": "Right rotation at 20 makes 23 parent of 20",
+          "rotation_2": "Left rotation at 30 makes 23 new root",
+          "result": "Root=23, Left=20 (child 10), Right=30 (children 27,35)"
+        },
+        "key_concepts": [
+          "AVL tree: self-balancing BST with height difference ≤ 1",
+          "Four rotation types: LL, RR, LR, RL",
+          "After deletion/insertion, rebalance from affected node upward",
+          "Left-right rotation: right rotation on left child, then left rotation on parent"
+        ]
+      }
+    },
+    {
+      "id": "Q17",
+      "marks": 2,
+      "topic": "Suffix Arrays - Prefix Doubling",
+      "question": "Building suffix array using prefix doubling. After sorting by first 1 character:\nID: 1,2,3,4,5,6,7,8,9,10,11\nRank: 11,2,6,2,6,2,10,9,6,2,1\n\nNow sorting on first 2 characters. Which are TRUE?\na. Suffixes ID-4 and ID-10 will have different rank, ID-10 smaller\nb. ID-4 and ID-6 still same rank\nc. ID-3 and ID-9 still same rank\nd. ID-2 and ID-4 will have different rank, ID-4 smaller",
+      "answer": ["a", "c"],
+      "solution": {
+        "algorithm": "Prefix doubling compares suffixes on first 2k characters in O(1) using previous ranks",
+        "comparison_rule": "For suffixes at positions x and y with equal rank[x] = rank[y] after k characters, compare rank[x+k] and rank[y+k] to determine order for 2k characters",
+        "evaluations": [
+          {
+            "option": "A",
+            "answer": "TRUE",
+            "explanation": "rank[4]=2, rank[10]=2 (equal). Check rank[4+1]=6, rank[10+1]=1. Since 1<6, ID-10 gets smaller rank"
+          },
+          {
+            "option": "B",
+            "answer": "FALSE",
+            "explanation": "rank[4]=2, rank[6]=2 (equal). Check rank[4+1]=6, rank[6+1]=2. Since 2<6, different ranks"
+          },
+          {
+            "option": "C",
+            "answer": "TRUE",
+            "explanation": "rank[3]=6, rank[9]=6 (equal). Check rank[3+1]=2, rank[9+1]=2. Equal, so same rank maintained"
+          },
+          {
+            "option": "D",
+            "answer": "FALSE",
+            "explanation": "rank[2]=2, rank[4]=2 (equal). Check rank[2+1]=6, rank[4+1]=6. Equal, so same rank maintained"
+          }
+        ],
+        "key_concepts": [
+          "Suffix array: sorted array of all suffixes of string",
+          "Prefix doubling: doubles comparison length each round (1,2,4,8...)",
+          "O(1) comparison using precomputed ranks from previous round",
+          "Total complexity: O(n log n) for building suffix array",
+          "Rank array maps suffix position to its sorted order"
+        ]
+      }
+    },
+    {
+      "id": "Q18",
+      "marks": 5,
+      "topic": "Applications - Max Flow",
+      "question": "Given directed graph G with E edges and V vertices, determine maximum number of edge-disjoint paths from s to t with O(E*V) complexity. Describe algorithm, justify why it works and complexity.",
+      "answer": "Transform to max-flow problem with unit capacities",
+      "solution": {
+        "algorithm": "Max-Flow with Unit Capacities",
+        "transformation": {
+          "step_1": "Create flow network from graph G",
+          "step_2": "Set capacity of all edges to 1",
+          "step_3": "Run max-flow algorithm from s to t",
+          "step_4": "Max flow value = number of edge-disjoint paths"
+        },
+        "correctness": "Each unit of flow represents one path. Unit capacities ensure no edge used twice. Max flow gives maximum number of edge-disjoint paths.",
+        "complexity_analysis": {
+          "max_flow_algorithm": "Use Ford-Fulkerson with BFS (Edmonds-Karp)",
+          "augmenting_paths": "At most E augmenting paths (each uses ≥1 edge, unit capacities)",
+          "time_per_path": "O(V+E) using BFS",
+          "total": "O(E*(V+E)) = O(EV) since E ≥ V-1 in connected graph"
+        },
+        "key_concepts": [
+          "Edge-disjoint paths: no shared edges between paths",
+          "Max-flow min-cut theorem",
+          "Integer capacities → integer max flow",
+          "Unit capacities special case enables efficient algorithm",
+          "Menger's theorem: max edge-disjoint paths = min edge cut"
+        ],
+        "reference": "Week 9 Applied, Problem 6"
+      }
+    },
+    {
+      "id": "Q19",
+      "marks": 3,
+      "topic": "Applications - Negative Cycles",
+      "question": "Arbitrage: exploiting conversion rates between currencies. Given N currencies and best conversion rate between each pair, devise O(N³) algorithm to determine if arbitrage is possible (make profit through conversions).",
+      "answer": "Use Floyd-Warshall on logarithm of rates to detect positive cycles",
+      "solution": {
+        "key_insight": "Arbitrage exists iff there's a cycle with product > 1",
+        "transformation": {
+          "original": "Product of rates along cycle > 1",
+          "logarithm": "Sum of log(rates) along cycle > 0",
+          "negation": "Sum of -log(rates) along cycle < 0 (negative cycle)"
+        },
+        "algorithm": {
+          "step_1": "Create graph with currencies as vertices",
+          "step_2": "For each conversion rate r(i,j), create edge with weight -log(r(i,j))",
+          "step_3": "Run Floyd-Warshall algorithm O(N³)",
+          "step_4": "If any diagonal value < 0, arbitrage exists"
+        },
+        "complexity": "O(N³) for Floyd-Warshall",
+        "correctness": "Negative cycle means sum of -log(rates) < 0, so sum of log(rates) > 0, so product of rates > 1 (arbitrage possible)",
+        "key_concepts": [
+          "Convert multiplicative problem to additive using logarithms",
+          "Arbitrage = cycle with product > 1",
+          "Negative cycle detection with Floyd-Warshall",
+          "Log properties: log(a*b) = log(a) + log(b)",
+          "Alternative: Use Bellman-Ford for O(N³) or O(NE)"
+        ],
+        "reference": "Week 8 Applied, Problem 6"
+      }
+    },
+    {
+      "id": "Q20",
+      "marks": 3,
+      "topic": "Applications - Matching Problem",
+      "question": "Given box with N locks and N corresponding keys (each lock matches exactly one key), devise O(N log N) average-case algorithm to match them. Can only try key in lock to determine: larger, smaller, or fits. Cannot compare two keys or two locks directly.",
+      "answer": "Modified Quicksort approach",
+      "solution": {
+        "algorithm": "Randomized Divide and Conquer (like Quicksort)",
+        "steps": {
+          "step_1": "Choose random key k as pivot",
+          "step_2": "Partition all locks: try k in each lock to find match and classify (smaller/larger)",
+          "step_3": "Found matching lock l for key k",
+          "step_4": "Use lock l to partition all keys: try each key in l to classify (smaller/larger/match)",
+          "step_5": "Now have: smaller keys/locks, matched pair, larger keys/locks",
+          "step_6": "Recursively solve on smaller and larger sets"
+        },
+        "complexity_analysis": {
+          "partition_cost": "O(N) - try pivot key in all locks, then matching lock in all keys",
+          "recurrence": "T(N) = T(k) + T(N-k-1) + O(N), where k = size of smaller partition",
+          "average_case": "O(N log N) like Quicksort with random pivot",
+          "worst_case": "O(N²) if always unbalanced, but average is O(N log N)"
+        },
+        "correctness": "Each partition correctly separates keys/locks into smaller and larger. Recursively matching subproblems solves entire problem.",
+        "key_concepts": [
+          "Cannot compare items directly, but can compare via intermediate",
+          "Divide and conquer like Quicksort",
+          "Random pivot gives expected balanced partitions",
+          "Each level costs O(N), expected log N levels",
+          "Similar to finding pairs in two unsorted arrays"
+        ],
+        "reference": "Week 4 Applied, Problem 2"
+      }
+    },
+    {
+      "id": "Q21",
+      "marks": 3,
+      "topic": "Applications - Selection Algorithm",
+      "question": "Tennis tournament with N participants, each with Elo rating (0-3000) in unsorted list [P₁, P₂, ..., Pₙ].\n- Break into 2 categories: Professional (top 20%), Amateur (bottom 80%)\n- Each category: top 16 → playoff, rest → group stage\nDescribe efficient algorithm to group participants.",
+      "answer": "Use Quickselect algorithm multiple times",
+      "solution": {
+        "algorithm": "Multiple Applications of Quickselect",
+        "steps": {
+          "step_1": "Use Quickselect to find k = 0.8N percentile (assuming ascending order)",
+          "result_1": "Partitions array into bottom 80% (amateur) and top 20% (professional)",
+          "step_2": "For amateur group: use Quickselect to find (0.8N - 16)th element",
+          "result_2": "Partitions amateur into top 16 (playoff) and rest (group stage)",
+          "step_3": "For professional group: use Quickselect to find (0.2N - 16)th element from this group",
+          "result_3": "Partitions professional into top 16 (playoff) and rest (group stage)"
+        },
+        "complexity_analysis": {
+          "quickselect_1": "O(N) average case to split into two categories",
+          "quickselect_2": "O(0.8N) average case for amateur partition",
+          "quickselect_3": "O(0.2N) average case for professional partition",
+          "total": "O(N) + O(0.8N) + O(0.2N) = O(N) average case"
+        },
+        "key_concepts": [
+          "Quickselect: finds kth smallest element in O(N) average case",
+          "Partitions array around selected element",
+          "No need to fully sort - just partition at thresholds",
+          "Multiple Quickselect calls still O(N) if on linearly smaller inputs",
+          "Alternative: use median-of-medians for O(N) worst case"
+        ],
+        "alternative": "Could sort in O(N log N) but Quickselect more efficient"
+      }
+    },
+    {
+      "id": "Q22",
+      "marks": 2,
+      "topic": "Applications - Bipartite Matching",
+      "question": "Intergalactic defense: 300 planets, 200 superheroes. Each planet can request help from up to 10 superheroes. Each planet needs exactly 1 superhero. Each superhero can defend up to 2 planets. Model as max-flow for bipartite matching. Which model is most suitable?\n[4 options with different set assignments and capacities]",
+      "answer": "c. Set L=superheroes, Set R=planets, Source→L capacity 2, L→R capacity 1, R→Sink capacity 1",
+      "solution": {
+        "correct_answer": {
+          "option": "C",
+          "set_L": "Superheroes",
+          "set_R": "Planets",
+          "capacity_source_to_L": "2 (each hero defends up to 2 planets)",
+          "capacity_L_to_R": "1 (hero can't defend same planet multiple times)",
+          "capacity_R_to_sink": "1 (each planet needs exactly 1 hero)"
+        },
+        "why_correct": "Capacities correctly model constraints: hero limit (2), unique assignment (1), planet need (1)",
+        "incorrect_options": {
+          "option_A": "Backwards sets, wrong capacities (300, 10, 200 don't match constraints)",
+          "option_B": "R→Sink capacity 10 allows planet to get 10 heroes (wrong)",
+          "option_D": "Capacities 200, 10, 300 don't match constraints"
+        },
+        "flow_interpretation": {
+          "max_flow_value": "Number of planets that can be defended",
+          "flow_on_edge": "1 if assignment made, 0 otherwise",
+          "saturation": "If sink gets flow 300, all planets defended"
+        },
+        "additional_constraint": "Question mentions each planet can request from up to 10 heroes - this limits in-degree to planet nodes (would add edges only for valid requests)",
+        "key_concepts": [
+          "Bipartite matching via max-flow",
+          "Capacities enforce constraints",
+          "Set L (superheroes) has limited output capacity",
+          "Set R (planets) has limited input capacity",
+          "Edge existence models valid requests",
+          "Unit capacities on matching edges ensure unique assignments"
+        ]
+      }
+    }
+  ],
+  "summary": {
+    "total_questions": 22,
+    "topics_covered": [
+      "Recurrence Relations & Complexity Analysis",
+      "Loop Invariants & Correctness Proofs",
+      "Sorting Algorithms (Radix Sort, Counting Sort)",
+      "Graph Representations (Adjacency Matrix vs List)",
+      "Graph Traversal (BFS, DFS)",
+      "Shortest Path Algorithms (Dijkstra, Bellman-Ford, Floyd-Warshall)",
+      "Minimum Spanning Trees (Kruskal, Prim)",
+      "Flow Networks (Max-Flow, Circulation with Demands)",
+      "Dynamic Programming",
+      "Hash Tables (Linear Probing, Quadratic Probing)",
+      "AVL Trees (Rotations, Balancing)",
+      "Suffix Arrays (Prefix Doubling)",
+      "Selection Algorithms (Quickselect)",
+      "Computational Complexity (Pseudo-polynomial)",
+      "Applications (Bipartite Matching, Arbitrage Detection)"
+    ],
+    "key_techniques": [
+      "Telescoping method for recurrences",
+      "Loop invariant proofs (initialization, maintenance, termination)",
+      "Base conversion for sorting",
+      "Graph algorithm complexity analysis",
+      "Transformation to max-flow problems",
+      "Negative cycle detection",
+      "Divide and conquer",
+      "Greedy algorithms",
+      "Dynamic programming",
+      "Self-balancing trees"
+    ],
+    "important_complexity_results": {
+      "radix_sort": "O(d(n+k)) where d=digits, n=items, k=range",
+      "BFS_adjacency_matrix": "O(V²)",
+      "BFS_adjacency_list": "O(V+E)",
+      "bellman_ford": "O(VE) time, O(V) space",
+      "floyd_warshall": "O(V³) time, O(V²) space",
+      "dijkstra": "O((V+E) log V) with heap",
+      "quickselect": "O(n) average case",
+      "0_1_knapsack": "O(nC) pseudo-polynomial, O(2^B·n) actual exponential"
+    }
+  }
+}

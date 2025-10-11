@@ -1,0 +1,211 @@
+{
+  "chapter": 2,
+  "title": "Divide and Conquer",
+  "summary": {
+    "topics_covered": [
+      "The Divide and Conquer paradigm for algorithm design",
+      "Karatsuba's multiplication algorithm",
+      "Merge Sort algorithm (revision)",
+      "Counting inversions"
+    ]
+  },
+  "core_concepts": {
+    "divide_and_conquer_paradigm": {
+      "definition": "Algorithm design paradigm that works in 3 steps",
+      "steps": [
+        {
+          "step": 1,
+          "name": "Divide",
+          "description": "Divide the problem into smaller subproblems"
+        },
+        {
+          "step": 2,
+          "name": "Conquer",
+          "description": "Solve the smaller subproblems (often recursively)"
+        },
+        {
+          "step": 3,
+          "name": "Combine",
+          "description": "Combine the solutions of the smaller subproblems to obtain the solution of the original problem"
+        }
+      ],
+      "analysis": "Analysing the time complexity of a divide-and-conquer algorithm normally involves solving a recurrence relation",
+      "typical_use": "Normally a polynomial time solution to the problem is already known, and the divide-and-conquer strategy is used to reduce the time complexity to a lower polynomial",
+      "examples": [
+        "Karatsuba's multiplication algorithm",
+        "Merge Sort",
+        "Counting inversions",
+        "Finding the closest pair of points in a plane in O(n log n)",
+        "Strassen's sub-cubic algorithm for matrix multiplication",
+        "Fast Fourier Transform"
+      ]
+    }
+  },
+  "algorithms": {
+    "karatsubas_multiplication": {
+      "problem": "Multiply two n-digit numbers efficiently",
+      "background": {
+        "grade_school_algorithm": {
+          "complexity": "O(n²)",
+          "basic_operations": "Addition, subtraction and multiplication of single digit numbers"
+        },
+        "historical_context": {
+          "kolmogorov_conjecture": "Andrey Kolmogorov (one of the greatest mathematicians of the 20th century) conjectured that sub-quadratic multiplication was impossible",
+          "karatsubas_breakthrough": "Anatoly Karatsuba (23 years old student at the time) came up with the first sub-quadratic multiplication algorithm within one week after hearing the conjecture"
+        }
+      },
+      "naive_divide_and_conquer": {
+        "approach": "Split numbers between n/2 most significant and n/2 least significant digits",
+        "notation": {
+          "x_M": "n/2 most significant digits of x",
+          "x_L": "n/2 least significant digits of x",
+          "y_M": "n/2 most significant digits of y",
+          "y_L": "n/2 least significant digits of y"
+        },
+        "formula": "x · y = (x_M · 10^(n/2) + x_L) · (y_M · 10^(n/2) + y_L) = x_M · y_M · 10^n + x_M · y_L · 10^(n/2) + x_L · y_M · 10^(n/2) + x_L · y_L",
+        "recursive_calls": 4,
+        "recurrence": "T(n) = 4T(n/2) + c·n",
+        "complexity": "O(n²) - no improvement"
+      },
+      "karatsubas_insight": {
+        "key_idea": "Use only 3 recursive calls instead of 4",
+        "recursive_calls": [
+          "x_M · y_M",
+          "x_L · y_L",
+          "(x_M + x_L) · (y_M + y_L)"
+        ],
+        "trick": {
+          "goal": "Compute z = (x_M · y_L + x_L · y_M) using the three recursive calls",
+          "derivation": "(x_M + x_L) · (y_M + y_L) = x_M · y_M + x_M · y_L + x_L · y_M + x_L · y_L = z + x_M · y_M + x_L · y_L",
+          "formula": "z = (x_M + x_L) · (y_M + y_L) - x_M · y_M - x_L · y_L",
+          "historical_origin": "Traces back to method developed by Carl Friedrich Gauss (19th century) to multiply complex numbers using three multiplications of real numbers instead of four"
+        }
+      },
+      "complexity": {
+        "recurrence": "T(n) = 3T(n/2) + c·n",
+        "time_complexity": "O(n^log₂(3))",
+        "numeric_value": "log₂(3) < 1.59",
+        "comparison": "Significantly better than O(n²)"
+      },
+      "practical_notes": {
+        "python_implementation": "This is the algorithm used in Python to multiply large numbers",
+        "base_independence": "All techniques work the same if binary representation is used instead of decimals (or any other base)",
+        "multiplications_by_powers_of_10": "Trivial left shifts"
+      },
+      "visual_comparison": {
+        "note": "The difference between n² (blue line) and n^1.59 (green line) is substantial",
+        "reference": "See Figure 2.2 in the original notes"
+      }
+    },
+    "merge_sort": {
+      "type": "Divide-and-conquer sorting algorithm",
+      "description": "Sorts a sequence by dividing it into two halves, sorting those halves recursively, and then merging the sorted halves back together",
+      "key_components": {
+        "merge_routine": {
+          "purpose": "Takes two sorted sequences and interleaves them together to obtain a single sorted sequence",
+          "stability": "This merge routine is stable (since we write A[i] ≤ B[j], rather than <)",
+          "implementation": "Algorithm 5 in original notes"
+        },
+        "recursive_structure": {
+          "base_case": "A sequence of only one element",
+          "recursive_case": "Split sequence in half, sort each half recursively, then merge",
+          "implementation": "Algorithm 6 in original notes"
+        }
+      },
+      "complexity": {
+        "time": {
+          "recurrence": "T(n) = 2T(n/2) + O(n)",
+          "explanation": "Repeatedly splits input in half (log₂(n) levels) and merging n elements takes O(n) time at each level",
+          "best_case": "O(n log(n))",
+          "average_case": "O(n log(n))",
+          "worst_case": "O(n log(n))",
+          "note": "Performance is the same regardless of input"
+        },
+        "space": {
+          "merge_sort_routine": "Uses no extra space itself",
+          "merge_routine": "Uses O(n) extra space",
+          "auxiliary_space": "O(n)"
+        }
+      },
+      "properties": {
+        "stability": "Stable (maintains relative order of equal elements)",
+        "online": "Not an online algorithm",
+        "comparison_based": true
+      },
+      "enhancements": {
+        "bottom_up_implementation": {
+          "approach": "Eliminate recursion by iteratively merging sub-arrays of size 1, 2, 4, 8, ..., n",
+          "advantages": [
+            "Eliminates use of program stack (for recursion)",
+            "Should be slightly faster in practice"
+          ],
+          "space_requirement": "Still requires O(n) auxiliary memory"
+        },
+        "in_place_implementations": {
+          "space_requirement": "Only O(1) space",
+          "drawback": "Much more complicated",
+          "reference": "See Nicholas Pippenger, Sorting and Selecting in Rounds, SIAM Journal on Computing 1987"
+        }
+      }
+    },
+    "counting_inversions": {
+      "problem_statement": {
+        "input": "An array A of n distinct integers",
+        "output": "The number of inversions of A, i.e., the number of pairs of indices (i, j) such that i < j and A[i] > A[j]"
+      },
+      "motivation": {
+        "application": "Recommender systems using collaborative filtering",
+        "use_case": "Analyze how similar the rankings of different users are",
+        "distance_measure": "Number of inversions measures similarity between rankings"
+      },
+      "naive_approach": {
+        "method": "Exhaustive search",
+        "complexity": "O(n²)",
+        "limitation": "Too slow for large inputs"
+      },
+      "divide_and_conquer_approach": {
+        "goal": "O(n log n) solution",
+        "key_insight": "Adapt Merge Sort algorithm - each recursive call counts inversions and also sorts the elements",
+        "inversion_types": {
+          "left_inversions": "Both indices in left subarray",
+          "right_inversions": "Both indices in right subarray",
+          "split_inversions": "i belongs to left subarray, j belongs to right subarray"
+        },
+        "crucial_requirement": "Getting the elements of the subarrays sorted is key to allowing us to count split inversions in O(n) time during merging"
+      },
+      "counting_split_inversions": {
+        "during_merge": "At each step the smallest remaining element is selected",
+        "from_left_subarray": "No split inversions to count (index smaller than all indices in right subarray)",
+        "from_right_subarray": "Number of split inversions = amount of elements still to be processed in left subarray (all have smaller indices than selected element)"
+      },
+      "algorithm": {
+        "main_function": "SORT-AND-COUNTINV (Algorithm 7)",
+        "merge_function": "MERGE-AND-COUNTSPLITINV (Algorithm 8)",
+        "returns": "Tuple of (sorted array, inversion count)"
+      },
+      "complexity": {
+        "time_complexity": "O(n log n)",
+        "space_complexity": "O(n)",
+        "note": "An O(n log n) algorithm cannot look individually at each possible inversion since there are potentially Θ(n²) inversions"
+      },
+      "implementation_details": {
+        "base_case": "If lo = hi, return (array[lo], 0)",
+        "recursive_case": "Split array, count inversions in each half, count split inversions during merge",
+        "total_inversions": "Inv_L + Inv_H + Inv_S"
+      }
+    }
+  },
+  "key_takeaways": [
+    "Divide and conquer reduces one instance of size n to multiple instances of smaller size",
+    "Time complexity analysis typically involves solving recurrence relations",
+    "Subproblems in divide-and-conquer are typically independent (unlike dynamic programming where subproblems overlap)",
+    "Clever mathematical tricks (like Karatsuba's) can reduce the number of recursive calls needed",
+    "Merge sort demonstrates the power of divide-and-conquer for achieving O(n log n) sorting",
+    "Problems can be adapted (like counting inversions) to use divide-and-conquer frameworks"
+  ],
+  "important_recurrences": {
+    "T(n) = 2T(n/2) + O(n)": "O(n log n) - Merge Sort pattern",
+    "T(n) = 3T(n/2) + O(n)": "O(n^log₂(3)) ≈ O(n^1.59) - Karatsuba's algorithm",
+    "T(n) = 4T(n/2) + O(n)": "O(n²) - Naive divide and conquer multiplication"
+  }
+}

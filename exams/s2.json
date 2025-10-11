@@ -1,0 +1,725 @@
+{
+  "exam_info": {
+    "course_code": "FIT2004",
+    "title": "Algorithms and data structures",
+    "duration": "2 hours 10 mins",
+    "exam_type": "Past Exam 2",
+    "total_marks": 50,
+    "authorized_materials": {
+      "calculators": false,
+      "dictionaries": false,
+      "notes": false,
+      "working_sheets": true,
+      "permitted_items": false
+    }
+  },
+  "sections": [
+    {
+      "section_name": "Analysis of Algorithms: Correctness and Complexity",
+      "questions": [
+        {
+          "question_number": 1,
+          "marks": 3,
+          "question_text": "For constants b and c, consider the recurrence relation given by:\n- T(n) = b, if n=1\n- T(n) = 2 * T(n/2) + c * n * log n, if n>1\n\nWhich of the following statements is true?",
+          "question_type": "multiple_choice",
+          "options": [
+            "T(n) = Θ(n * log n * log n)",
+            "T(n) = Θ(n² * log n * log n)",
+            "T(n) = Θ(n * log n)",
+            "T(n) = Θ(n²)",
+            "T(n) = Θ(n² * log n)"
+          ],
+          "correct_answer": "a",
+          "answer_text": "T(n) = Θ(n * log n * log n)",
+          "solution": {
+            "method": "telescoping",
+            "detailed_steps": [
+              "Start with T(n) = 2T(n/2) + cn log₂(n)",
+              "Substitute T(n/2): T(n) = 2²T(n/2²) + cn(2 log₂(n) - log₂(2))",
+              "Continue telescoping: T(n) = 2³T(n/2³) + cn(3 log₂(n) - (1+2) log₂(2))",
+              "General form: T(n) = 2^k * T(n/2^k) + cn(k log₂(n) - k(k-1)/2 * log₂(2))",
+              "Base case when k = log₂(n): T(n/2^k) = T(1) = b",
+              "Substitute: T(n) = nb + cn log₂(n) * log₂(n) - (log₂(n) * log₂(n) - log₂(n))/2",
+              "Simplify: T(n) = nb + (cn/2) * log₂(n) * log₂(n) - (cn/2) log₂(n)",
+              "Therefore: T(n) = Θ(n * log₂(n) * log₂(n))"
+            ],
+            "key_concepts": [
+              "Recurrence relations",
+              "Telescoping method",
+              "Master's theorem alternative",
+              "Asymptotic complexity"
+            ]
+          }
+        },
+        {
+          "question_number": 2,
+          "marks": 3,
+          "question_text": "The pseudocode below finds the maximum degree of a graph G = (V,E).\n\nfunction max_degree(G = (V,E)):\n    degrees[1..n] = 0\n    for each vertex u in V:\n        for each edge (u,v):\n            degrees[u] += 1\n    return max(degrees)\n\nAssuming an adjacency list representation, what is the worst-case time complexity, total space complexity, and auxiliary space complexity of this pseudocode in terms of V and E? Justify your solution.",
+          "question_type": "written",
+          "correct_answer": {
+            "time_complexity": "O(V + E)",
+            "total_space_complexity": "O(V + E)",
+            "auxiliary_space_complexity": "O(V)"
+          },
+          "solution": {
+            "explanation": "The worst-case time complexity is O(V + E) because:\n1. Creating the degrees array takes O(V) time\n2. The nested loops iterate over all V vertices and scan outgoing edges. Although variable work per iteration, the sum of all outdegrees equals scanning each edge at most twice, giving O(E) work\n3. Finding the maximum takes O(V) time\n4. Overall: O(V + E)\n\nTotal space complexity is O(V + E) due to storing the adjacency list representation.\n\nAuxiliary space complexity is O(V) for the degrees array.",
+            "key_concepts": [
+              "Graph representations (adjacency list)",
+              "Time complexity analysis",
+              "Space complexity vs auxiliary space",
+              "Degree counting in graphs"
+            ]
+          }
+        },
+        {
+          "question_number": 3,
+          "marks": 1,
+          "question_text": "Consider the following algorithm, which returns the sum of the numbers with a factor m in the list L with n items.\n\ndef myfunc(L[1...n], m):\n    x = 0\n    loop i from 1 to n:\n        # loop invariant here\n        if L[i] % m == 0:\n            x = x + L[i]\n    return x\n\nWhat is a useful loop invariant for this algorithm?",
+          "question_type": "multiple_choice",
+          "options": [
+            "x is the sum of all numbers in list L[1...i] % m",
+            "x is the sum of all numbers in list L[1...i-1] % m",
+            "x is the sum of all numbers with factor m in list L[1...i-1]",
+            "x is the sum of all numbers with factor m in list L[1...n]",
+            "x is the sum of all numbers in list L[1...n] % m",
+            "x is the sum of all numbers with factor m in list L[1...i]"
+          ],
+          "correct_answer": "c",
+          "answer_text": "x is the sum of all numbers with factor m in list L[1...i-1]",
+          "solution": {
+            "explanation": "Option C is correct because:\n- At initialization (i=1): x=0, representing sum of L[1...0] (empty list) - TRUE\n- The invariant must hold BEFORE processing L[i] in each iteration\n- After processing, the invariant shifts to include the newly processed element\n\nOptions A, B, E are false: '%m' doesn't represent a list of remainders; x stores actual sums\nOption D is false: Doesn't include iterator, not specific to loop state\nOption F is false: At initialization, x=0 but L[1] might have factor m",
+            "key_concepts": [
+              "Loop invariants",
+              "Proof of correctness",
+              "Inductive reasoning in algorithms"
+            ]
+          }
+        },
+        {
+          "question_number": 4,
+          "marks": 2,
+          "question_text": "Justify that the loop invariant you have chosen is true each time the loop runs and when it terminates.",
+          "question_type": "written",
+          "solution": {
+            "proof_structure": {
+              "initialization": "At i=1, x=0. Invariant states 'x is sum of numbers with factor m in L[1...0]' (empty list). This is true since 0 is the sum of no numbers.",
+              "maintenance": "Assume at iteration k (i=k), invariant holds: x represents sum of numbers with factor m in L[1...k-1]. The if condition checks if L[k] has factor m. If yes, x += L[k]. If no, x unchanged. Either way, after the conditional, x represents sum of numbers with factor m in L[1...k]. When i increments to k+1, the invariant holds for the next iteration.",
+              "termination": "Loop terminates when i = n+1. At this point, x has not changed since last iteration, so invariant still holds: x represents sum of numbers with factor m in L[1...n] = L. This proves correctness of the result."
+            },
+            "key_concepts": [
+              "Loop invariant proof technique (similar to induction)",
+              "Base case verification",
+              "Inductive step",
+              "Termination correctness"
+            ]
+          }
+        },
+        {
+          "question_number": 5,
+          "marks": 3,
+          "question_text": "Recall that the Radix Sort algorithm covered in lectures works as follows, for sorting an array of integers:\n- Sort the array one digit at a time, from least significant (rightmost) digit to most significant (leftmost) digit\n- For each digit, sort using the stable version of counting sort\n\nThe integers in the array do not have to be represented in base-10. Is it a good idea to increase the base representation to be as high as possible? Why, or why not? Explain your reasoning.",
+          "question_type": "written",
+          "correct_answer": "No, it is not a good idea to increase the base as high as possible",
+          "solution": {
+            "explanation": "No, increasing the base indefinitely is not optimal. While a higher base decreases the number of digits (and thus the number of Counting Sorts performed), it increases the cost of each Counting Sort.\n\nCounting Sort complexity is O(n + u) where:\n- n = number of elements being sorted\n- u = universe size (in Radix Sort context, u = base)\n\nTrade-off:\n- Higher base → fewer digits → fewer Counting Sort passes\n- Higher base → larger universe size → more expensive per Counting Sort\n\nOptimal approach: Balance these factors. Theoretically, setting base = n is often appropriate.",
+            "key_concepts": [
+              "Radix Sort algorithm",
+              "Counting Sort complexity",
+              "Base representation trade-offs",
+              "Algorithm optimization"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "section_name": "Graphs",
+      "questions": [
+        {
+          "question_number": 6,
+          "marks": 2,
+          "question_text": "For each of the following operations, determine its worst-case big-Θ complexity.\n\nAssume:\n- V refers to the number of vertices in the graph\n- E refers to the number of edges in the graph\n- N(A) refers to the number of neighbors of vertex A\n- The graph G is a connected directed weighted graph\n- In the adjacency list representation, the interior list is unsorted",
+          "question_type": "matching",
+          "sub_questions": [
+            {
+              "part": "a",
+              "question": "Time complexity to determine if vertex B is adjacent to vertex A in an adjacency matrix representation",
+              "correct_answer": "Θ(1)"
+            },
+            {
+              "part": "b",
+              "question": "Time complexity to obtain all incoming edges for vertex A in an adjacency list representation",
+              "correct_answer": "Θ(E)"
+            },
+            {
+              "part": "c",
+              "question": "Time complexity to determine if there is an edge from vertex A to vertex B in an adjacency list representation",
+              "correct_answer": "Θ(N(A))"
+            },
+            {
+              "part": "d",
+              "question": "Time complexity to print all outgoing edges for vertex A in an adjacency list representation",
+              "correct_answer": "Θ(N(A))"
+            }
+          ],
+          "solution": {
+            "explanation": "Graph representation complexities:\n\nAdjacency Matrix:\n- Direct array access: O(1) to check if edge exists\n\nAdjacency List:\n- Outgoing edges: Stored directly, O(N(A)) to iterate\n- Incoming edges: Must scan all vertices' adjacency lists, O(E) in worst case\n- Edge existence check: Linear search through adjacency list, O(N(A))",
+            "key_concepts": [
+              "Graph representations",
+              "Adjacency matrix vs adjacency list",
+              "Time complexity trade-offs",
+              "Graph traversal operations"
+            ]
+          }
+        },
+        {
+          "question_number": 7,
+          "marks": 2,
+          "question_text": "Perform a breadth-first search on the given graph, starting from A. Whenever you have a choice between 2 vertices, break ties in ascending alphabetical order.",
+          "question_type": "ordering",
+          "correct_answer": ["A", "B", "E", "G", "H", "F", "C", "D"],
+          "solution": {
+            "explanation": "BFS explores vertices level by level using a queue. Starting from A:\n1. Visit A (start)\n2. Visit B (neighbor of A, alphabetically first)\n3. Visit E (neighbor of A)\n4. Visit G (neighbor of A and B)\n5. Visit H (neighbor of A and B)\n6. Visit F (neighbor of E)\n7. Visit C (neighbor of F)\n8. Visit D (neighbor of C and G)\n\nAlphabetical tie-breaking ensures deterministic traversal order.",
+            "key_concepts": [
+              "Breadth-First Search (BFS)",
+              "Queue data structure",
+              "Level-order traversal",
+              "Tie-breaking strategies"
+            ]
+          }
+        },
+        {
+          "question_number": 8,
+          "marks": 2,
+          "question_text": "Which of the following is true?",
+          "question_type": "multiple_choice_multiple_answers",
+          "options": [
+            "Prim's minimum spanning tree algorithm will produce a maximum spanning tree if a max-heap is used instead of a min-heap",
+            "Negating the weight of edges in a graph before running Kruskal's minimum spanning tree algorithm will indicate the edges for a maximum spanning tree",
+            "The parent-array in the union-find (with union-by-size) data structure is used in Kruskal's minimum spanning tree algorithm to indicate the edges of the minimum spanning tree",
+            "Prim's algorithm for the minimum spanning tree is a greedy algorithm that will not work if the graph has a negative edge"
+          ],
+          "correct_answers": ["a", "b"],
+          "solution": {
+            "option_a": {
+              "correct": true,
+              "explanation": "Using a max-heap will prioritize highest edge weights first. With the same cycle avoidance logic, this correctly finds the maximum spanning tree."
+            },
+            "option_b": {
+              "correct": true,
+              "explanation": "Negating edges makes largest positive weights become most negative. Sorting will select these first, resulting in a maximum spanning tree."
+            },
+            "option_c": {
+              "correct": false,
+              "explanation": "When adding edge E=(u,v), Kruskal's merges trees by updating only the root of the smaller tree to point to the root of the larger tree (union-by-size). This parent relationship doesn't correspond to an actual graph edge."
+            },
+            "option_d": {
+              "correct": false,
+              "explanation": "Prim's algorithm's greedy nature selects lowest weighted edges without tracking distances or making assumptions violated by negative weights (unlike Dijkstra's). It works correctly with negative edges."
+            },
+            "key_concepts": [
+              "Minimum/Maximum Spanning Trees",
+              "Prim's algorithm",
+              "Kruskal's algorithm",
+              "Union-Find data structure",
+              "Greedy algorithms",
+              "Negative edge weights"
+            ]
+          }
+        },
+        {
+          "question_number": 9,
+          "marks": 3,
+          "question_text": "The following pseudocode is for the generic Depth First Search algorithm covered in lectures.\n\nfunction TRAVERSE(G=(V,E))\n    visited[1..n] = false\n    for each vertex u = 1 to n do\n        if not visited[u] then\n            DFS(u)\n\nfunction DFS(u)\n    visited[u] = true\n    for each vertex v adjacent to u do\n        if not visited[v] then\n            DFS(v)\n\nHow would you modify this algorithm to perform a topological sort of the vertices in a directed acyclic graph? Explain clearly which lines you would add/remove/modify, and what the purpose of each change would be.",
+          "question_type": "written",
+          "solution": {
+            "modifications": [
+              {
+                "step": 1,
+                "location": "Beginning of TRAVERSE function",
+                "change": "Create an empty order array",
+                "purpose": "To store the topological ordering of vertices"
+              },
+              {
+                "step": 2,
+                "location": "End of DFS function",
+                "change": "Add line: append u to order array",
+                "purpose": "After visiting all descendants of u, add u to the array. This ensures descendants are added before u, creating reverse topological order"
+              },
+              {
+                "step": 3,
+                "location": "End of TRAVERSE function",
+                "change": "Add line: return reversed order array",
+                "purpose": "Reverse the array to get correct topological order"
+              }
+            ],
+            "rationale": "During DFS, all vertices that depend on a vertex are visited before completing that vertex's DFS call. By appending vertices after their DFS completes, we ensure dependencies appear first in the reversed array.",
+            "key_concepts": [
+              "Depth-First Search (DFS)",
+              "Topological sorting",
+              "Directed Acyclic Graphs (DAGs)",
+              "Post-order traversal",
+              "Algorithm modification"
+            ]
+          }
+        },
+        {
+          "question_number": 10,
+          "marks": 3,
+          "question_text": "Consider the Bellman-Ford algorithm with the given directed graph. Let S be the source node. If edges are relaxed in the following order: (C,D), (B,C), (A,B), (S,D), (S,B), (S,A), what is the value of dist[A]+dist[B]+dist[C]+dist[D] after the second iteration of the outer loop is finished?",
+          "question_type": "numerical",
+          "correct_answer": 32,
+          "solution": {
+            "iteration_1": {
+              "relaxation_order": "(C,D), (B,C), (A,B), (S,D), (S,B), (S,A)",
+              "distances_after": {
+                "S": 0,
+                "A": 1,
+                "B": 5,
+                "C": "∞",
+                "D": 20
+              }
+            },
+            "iteration_2": {
+              "distances_after": {
+                "S": 0,
+                "A": 1,
+                "B": 4,
+                "C": 7,
+                "D": 20
+              }
+            },
+            "calculation": "dist[A] + dist[B] + dist[C] + dist[D] = 1 + 4 + 7 + 20 = 32",
+            "key_concepts": [
+              "Bellman-Ford algorithm",
+              "Edge relaxation",
+              "Shortest path algorithms",
+              "Iteration-based updates",
+              "Distance estimation"
+            ]
+          }
+        },
+        {
+          "question_number": 11,
+          "marks": 3,
+          "question_text": "Consider the Floyd-Warshall algorithm with the given directed graph. After the second iteration of the outer loop of the algorithm is finished, what is the value of dist[4][3]+dist[5][4]+dist[5][6]?",
+          "question_type": "numerical",
+          "correct_answer": 46,
+          "solution": {
+            "explanation": "Floyd-Warshall computes all-pairs shortest paths by considering intermediate vertices. After k iterations, dist[i][j] contains the shortest path from i to j using only vertices {1, 2, ..., k} as intermediates. The calculation involves checking if paths through intermediate vertices are shorter than direct paths.",
+            "key_concepts": [
+              "Floyd-Warshall algorithm",
+              "All-pairs shortest paths",
+              "Dynamic programming on graphs",
+              "Intermediate vertex consideration"
+            ]
+          }
+        },
+        {
+          "question_number": 12,
+          "marks": 2,
+          "question_text": "What is the maximum possible flow for the given flow network?",
+          "question_type": "numerical",
+          "correct_answer": 8,
+          "solution": {
+            "current_flow": 6,
+            "augmenting_paths": [
+              "s → a → c → b → d → t (1 unit)",
+              "s → a → c → d → t (1 unit)"
+            ],
+            "max_flow": 8,
+            "explanation": "Current flow is 6. Two additional augmenting paths can be found, each carrying 1 unit of flow, bringing total to 8.",
+            "key_concepts": [
+              "Maximum flow problem",
+              "Ford-Fulkerson method",
+              "Augmenting paths",
+              "Flow networks"
+            ]
+          }
+        },
+        {
+          "question_number": 13,
+          "marks": 1,
+          "question_text": "A cut partitions the vertices into 2 disjoint sets S and T where S contains all vertices on the source side of the cut and T contains all vertices on the sink side. Consider the minimum cut of the flow network. Select the vertices which are in S.",
+          "question_type": "multiple_choice_multiple_answers",
+          "options": ["t", "d", "b", "s", "a", "c"],
+          "correct_answers": ["s", "a", "b", "c"],
+          "solution": {
+            "method": "Perform Ford-Fulkerson to find maximum flow, then perform BFS/DFS in residual graph from source to find reachable vertices. These form set S.",
+            "explanation": "The minimum cut corresponds to the maximum flow by the max-flow min-cut theorem. Vertices reachable from source in the residual graph after maximum flow is achieved form the S set.",
+            "key_concepts": [
+              "Minimum cut",
+              "Max-flow min-cut theorem",
+              "Residual graph",
+              "Graph reachability"
+            ]
+          }
+        },
+        {
+          "question_number": 14,
+          "marks": 4,
+          "question_text": "Consider two problems of circulation with demands, in which the demands are indicated in each vertex, and the capacity in each edge. Which of the problems have feasible solutions?",
+          "question_type": "multiple_choice",
+          "options": [
+            "Only Problem 1 has a feasible solution",
+            "Both Problem 1 and Problem 2 have feasible solutions",
+            "Only Problem 2 has a feasible solution",
+            "Neither Problem 1 nor Problem 2 has a feasible solution"
+          ],
+          "correct_answer": "a",
+          "solution": {
+            "problem_1": {
+              "demands": "dx=-4, du=-5, dv=2, dw=7",
+              "sum_of_demands": 0,
+              "feasible": true,
+              "explanation": "Sum of demands equals 0 (necessary condition). Constructing and solving the flow network shows all source/sink nodes can be saturated, so Problem 1 is feasible."
+            },
+            "problem_2": {
+              "demands": "dx=-3, du=-3, dv=3, dw=2",
+              "sum_of_demands": -1,
+              "feasible": false,
+              "explanation": "Sum of demands ≠ 0, violating the necessary condition for circulation with demands. Problem 2 is infeasible."
+            },
+            "key_concepts": [
+              "Circulation with demands",
+              "Network flow feasibility",
+              "Conservation constraints",
+              "Flow network reduction"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "section_name": "Data Structures",
+      "questions": [
+        {
+          "question_number": 15,
+          "marks": 2,
+          "question_text": "Consider the given AVL tree. You perform the following operations in order:\n1. Delete 90\n2. Insert 12\n\nSelect the resulting AVL tree after performing the operations above.",
+          "question_type": "multiple_choice",
+          "correct_answer": "b",
+          "solution": {
+            "step_1": {
+              "operation": "Delete 90",
+              "result": "No rebalancing required after deletion"
+            },
+            "step_2": {
+              "operation": "Insert 12",
+              "affected_subtree": "Tree rooted at 10",
+              "imbalance_type": "Right-Left case",
+              "rebalancing": "Perform right-left rotation",
+              "final_result": "Tree is balanced, no further rebalancing needed"
+            },
+            "key_concepts": [
+              "AVL trees",
+              "Tree rotations",
+              "Balance factor",
+              "Right-left rotation case",
+              "Tree insertion and deletion"
+            ]
+          }
+        },
+        {
+          "question_number": 16,
+          "marks": 2,
+          "question_text": "Consider a hash table implemented with separate chaining for collision resolution. For a hashtable with N items, which of the following data structures would cause the worst case time complexity of an insert operation to be Θ(log N) if the data structure is used to keep the separate chains?",
+          "question_type": "multiple_choice_multiple_answers",
+          "options": [
+            "Binary search tree",
+            "Sorted linked list",
+            "Sorted array",
+            "AVL Tree"
+          ],
+          "correct_answers": ["d"],
+          "solution": {
+            "option_a": {
+              "correct": false,
+              "worst_case": "O(N)",
+              "explanation": "BST can become unbalanced if insertions are in ascending/descending order, degenerating to a linked list with O(N) operations."
+            },
+            "option_b": {
+              "correct": false,
+              "worst_case": "O(N)",
+              "explanation": "Sorted linked list requires O(1) insertion after finding position, but O(N) to search for correct position (cannot use binary search on linked lists)."
+            },
+            "option_c": {
+              "correct": false,
+              "worst_case": "O(N)",
+              "explanation": "Sorted array requires O(N) time to shift elements when inserting in the middle."
+            },
+            "option_d": {
+              "correct": true,
+              "worst_case": "O(log N)",
+              "explanation": "AVL tree maintains balance, guaranteeing O(log N) search and insert operations even in worst case."
+            },
+            "scenario": "Worst case occurs when all N items hash to the same position, residing in a single chain.",
+            "key_concepts": [
+              "Hash tables",
+              "Separate chaining",
+              "Collision resolution",
+              "AVL trees vs BST",
+              "Worst-case complexity analysis"
+            ]
+          }
+        },
+        {
+          "question_number": 17,
+          "marks": 2,
+          "question_text": "Assume we are constructing the suffix array for a string S using the prefix doubling approach. We have already sorted the suffixes according to their first 2 characters, with the rank array shown:\n\nID:   1  2  3  4  5  6  7  8  9 10 11\nRank: 11 10 2  7  2  7  2  9  5  6  1\n\nWe are now sorting on the first 4 characters, comparing suffixes on their first 4 characters in O(1). Which statements are true?",
+          "question_type": "multiple_choice_multiple_answers",
+          "options": [
+            "Suffixes with ID4 and ID6 will have a different rank after sorting the first 4 characters where suffix ID6 would have a smaller rank than suffix ID4",
+            "Suffixes with ID5 and ID7 still have the same rank after sorting the first 4 characters",
+            "Suffixes with ID4 and ID6 will have a different rank after sorting the first 4 characters where suffix ID4 would have a smaller rank than suffix ID6",
+            "Suffixes with ID3 and ID5 still have the same rank after sorting the first 4 characters"
+          ],
+          "correct_answers": ["c", "d"],
+          "solution": {
+            "comparison_method": "We compared up to length k=2. For suffixes with IDs x and y:\n- If Rank[x] = Rank[y], compare Rank[x+k] and Rank[y+k] to determine relative rank after sorting on first 2k characters",
+            "option_a": {
+              "correct": false,
+              "ids": "4 and 6",
+              "current_ranks": "Rank[4]=7, Rank[6]=7 (equal)",
+              "next_comparison": "Rank[4+2]=Rank[6], Rank[6+2]=Rank[8]",
+              "values": "Rank[6]=7, Rank[8]=9",
+              "result": "Rank[4+2] < Rank[6+2], so ID4 will have smaller rank"
+            },
+            "option_b": {
+              "correct": false,
+              "ids": "5 and 7",
+              "current_ranks": "Rank[5]=2, Rank[7]=2 (equal)",
+              "next_comparison": "Rank[5+2]=Rank[7], Rank[7+2]=Rank[9]",
+              "values": "Rank[7]=2, Rank[9]=5",
+              "result": "Rank[5+2] ≠ Rank[7+2], so different ranks"
+            },
+            "option_c": {
+              "correct": true,
+              "explanation": "As analyzed in option A, Rank[4+2] < Rank[6+2], so ID4 will have smaller rank than ID6"
+            },
+            "option_d": {
+              "correct": true,
+              "ids": "3 and 5",
+              "current_ranks": "Rank[3]=2, Rank[5]=2 (equal)",
+              "next_comparison": "Rank[3+2]=Rank[5], Rank[5+2]=Rank[7]",
+              "values": "Rank[5]=2, Rank[7]=2",
+              "result": "Rank[3+2] = Rank[5+2], so same rank maintained"
+            },
+            "key_concepts": [
+              "Suffix arrays",
+              "Prefix doubling",
+              "String sorting",
+              "O(1) comparison using rank arrays",
+              "Doubling technique"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "section_name": "Applications",
+      "questions": [
+        {
+          "question_number": 18,
+          "marks": 3,
+          "question_text": "You are selecting a team of superheroes to save the world. You are given an unsorted list of N superheroes where each item is a tuple of (name, power level). You would want to send:\n- The 1st team: the top-10% best superheroes by power-level from that list\n- The 2nd team: the top-10% best superheroes by power-level from the remainder of the list\n\nYou would not send in the 2nd team until everyone in the 2nd team has a power level greater than or equivalent to the median of the power level of the 1st team. The 2nd team would need to train until they reach that power level.\n\nDescribe an efficient algorithm using Quickselect to determine the total power level needed to be gained during training before the 2nd team can be sent out. Your algorithm should run in O(N) time.",
+          "question_type": "written",
+          "solution": {
+            "algorithm_steps": [
+              {
+                "step": 1,
+                "operation": "Quickselect(superheroes, 0.9N)",
+                "purpose": "Find the position of the 90th percentile and partition the array",
+                "result": "Elements above position 0.9N are the top 10% (Team 1)",
+                "time_complexity": "O(N)"
+              },
+              {
+                "step": 2,
+                "operation": "Extract Team 1",
+                "purpose": "Take elements from position 0.9N to N",
+                "time_complexity": "O(N)"
+              },
+              {
+                "step": 3,
+                "operation": "Create remainder list (elements from 0 to 0.9N)",
+                "purpose": "Form the pool for Team 2 selection",
+                "time_complexity": "O(N)"
+              },
+              {
+                "step": 4,
+                "operation": "Quickselect(remainder, 0.9 * 0.9N)",
+                "purpose": "Find top 10% from remainder for Team 2",
+                "time_complexity": "O(N)"
+              },
+              {
+                "step": 5,
+                "operation": "Quickselect(Team 1, 0.5 * Team1_size)",
+                "purpose": "Find median power level of Team 1",
+                "time_complexity": "O(N)"
+              },
+              {
+                "step": 6,
+                "operation": "Loop through Team 2",
+                "purpose": "For each member, if power_level < median_team1, add (median_team1 - power_level) to total_training_needed",
+                "time_complexity": "O(N)"
+              },
+              {
+                "step": 7,
+                "operation": "Return total_training_needed",
+                "purpose": "Output the total power level gain required"
+              }
+            ],
+            "overall_complexity": "O(N)",
+            "justification": "Three Quickselect calls (each O(N)) plus O(N) loop = O(N) total time",
+            "key_concepts": [
+              "Quickselect algorithm",
+              "Selection problem",
+              "Percentile calculation",
+              "Median finding",
+              "Linear time algorithms"
+            ]
+          }
+        },
+        {
+          "question_number": 19,
+          "marks": 3,
+          "question_text": "You are coordinating an industry placement unit. There are 240 students enrolled and 30 companies to choose from.\n- Each student selects 1 to 3 companies as their preferred placement, but will only be placed in 1 company\n- Each company can accept 8 students\n- Students reject any placement not in their preferred selection\n\nYou realize not all students can be placed in their preferred company. You want to place as many students as possible in their preferred companies.\n\nDescribe how you would model this problem as a maximum flow problem, which is then solved using the Ford-Fulkerson method.",
+          "question_type": "written",
+          "solution": {
+            "network_construction": {
+              "vertices": [
+                "Source vertex (s)",
+                "240 student vertices",
+                "30 company vertices",
+                "Sink vertex (t)"
+              ],
+              "edges": [
+                {
+                  "from": "source (s)",
+                  "to": "each student vertex",
+                  "capacity": 1,
+                  "meaning": "Each student can be placed at most once"
+                },
+                {
+                  "from": "each student vertex",
+                  "to": "1-3 company vertices (their preferences)",
+                  "capacity": 1,
+                  "meaning": "Student can only be assigned to one of their preferred companies"
+                },
+                {
+                  "from": "each company vertex",
+                  "to": "sink (t)",
+                  "capacity": 8,
+                  "meaning": "Each company can accept at most 8 students"
+                }
+              ]
+            },
+            "solving_approach": {
+              "method": "Ford-Fulkerson (or any max flow algorithm)",
+              "interpretation": "The maximum flow equals the maximum number of students that can be placed in their preferred companies",
+              "optimality": "The flow through edge (student_i, company_j) indicates if student i is placed at company j"
+            },
+            "problem_type": "Bipartite matching with capacities",
+            "key_concepts": [
+              "Maximum flow problem",
+              "Bipartite matching",
+              "Ford-Fulkerson method",
+              "Flow network modeling",
+              "Capacity constraints",
+              "Assignment problems"
+            ]
+          }
+        },
+        {
+          "question_number": 20,
+          "marks": 4,
+          "question_text": "You find yourself curiously stranded on a grid (shown in the figure below), unsure of how you got there, or how to leave. Some of the cells of the grid are blocked and cannot be walked through. You are currently standing at the bottom-left corner of the grid, and are only able to move up (to the next row) and to the right (to the next column). You wonder, in how many different ways can you walk to the top-right corner of the grid while avoiding blocked cells?",
+          "question_type": "numerical",
+          "correct_answer": "Value depends on specific grid configuration",
+          "solution": {
+            "approach": "Dynamic Programming",
+            "optimal_substructure": "The number of paths to reach cell (i,j) equals:\n- 0 if cell (i,j) is blocked\n- paths_to(i-1,j) + paths_to(i,j-1) otherwise\n\nThis is because you can only arrive at (i,j) from the cell below (i-1,j) or from the cell to the left (i,j-1)",
+            "algorithm": {
+              "initialization": [
+                "Create 2D array dp[rows][cols]",
+                "Set dp[0][0] = 1 (starting position)",
+                "For blocked cells, set dp[i][j] = 0"
+              ],
+              "recurrence": "For each cell (i,j) from bottom-left to top-right:\n  if (i,j) is blocked:\n    dp[i][j] = 0\n  else if i == 0 and j == 0:\n    dp[i][j] = 1\n  else:\n    dp[i][j] = dp[i-1][j] + dp[i][j-1]\n    (treating out-of-bounds as 0)",
+              "answer": "dp[rows-1][cols-1]"
+            },
+            "base_cases": [
+              "Starting cell (bottom-left): 1 way to be there",
+              "Blocked cells: 0 ways to pass through",
+              "Cells outside grid boundaries: 0 ways (treated as blocked)"
+            ],
+            "complexity": {
+              "time": "O(rows × cols)",
+              "space": "O(rows × cols), can be optimized to O(cols) with rolling array"
+            },
+            "key_concepts": [
+              "Dynamic Programming",
+              "Grid path counting",
+              "Optimal substructure",
+              "2D DP table",
+              "Bottom-up computation",
+              "Restricted movement problems"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "key_concepts_summary": {
+    "algorithms": [
+      "Recurrence relations and solving techniques (telescoping, Master's theorem)",
+      "Graph traversal (BFS, DFS)",
+      "Shortest path algorithms (Dijkstra, Bellman-Ford, Floyd-Warshall)",
+      "Minimum Spanning Tree (Prim's, Kruskal's)",
+      "Maximum Flow (Ford-Fulkerson)",
+      "Sorting algorithms (Radix Sort, Counting Sort)",
+      "Selection algorithms (Quickselect)",
+      "Topological sorting"
+    ],
+    "data_structures": [
+      "Graphs (adjacency list, adjacency matrix)",
+      "Trees (AVL trees, BST)",
+      "Hash tables with separate chaining",
+      "Suffix arrays with prefix doubling",
+      "Union-Find (with union-by-size)",
+      "Heaps (min-heap, max-heap)",
+      "Queues and Stacks"
+    ],
+    "techniques": [
+      "Dynamic Programming",
+      "Greedy algorithms",
+      "Divide and conquer",
+      "Graph algorithms",
+      "Loop invariants and proof of correctness",
+      "Complexity analysis (time and space)",
+      "Problem modeling (reducing to known problems)"
+    ],
+    "complexity_analysis": [
+      "Big-Θ notation",
+      "Worst-case vs average-case analysis",
+      "Space complexity (total vs auxiliary)",
+      "Recurrence relation analysis",
+      "Amortized analysis concepts"
+    ]
+  },
+  "exam_tips": {
+    "common_mistakes": [
+      "Confusing time complexity of graph operations between adjacency list and adjacency matrix",
+      "Not considering all constraints in circulation with demands (sum must equal 0)",
+      "Forgetting that loop invariants must hold BEFORE processing the current element",
+      "Assuming BST provides guaranteed O(log n) operations (only AVL/balanced trees do)",
+      "Not understanding the difference between parent-array relationships and actual graph edges in Union-Find"
+    ],
+    "important_patterns": [
+      "Graph problems often reduce to flow problems",
+      "Greedy algorithms work for MST but not always for shortest paths with negative weights",
+      "DP problems involve finding optimal substructure and overlapping subproblems",
+      "When asked to modify an algorithm, understand what the original algorithm achieves and what modification achieves the new goal"
+    ]
+  }
+}

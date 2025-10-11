@@ -1,0 +1,139 @@
+{
+  "lecture": {
+    "title": "FIT2004 - Week 3: Quicksort and Quickselect",
+    "topic_summary": [
+      "Divide and conquer paradigm",
+      "Recursive algorithm analysis (recurrence relations)",
+      "Quicksort: algorithm, partitioning schemes, and complexity",
+      "Quickselect: k-th order statistic",
+      "Median-of-Medians: deterministic linear-time selection"
+    ]
+  },
+  "algorithms": {
+    "naive_2way_partition": {
+      "purpose": "Out-of-place partition used in the basic Quicksort demonstration.",
+      "key_points": [
+        "Creates new LEFT and RIGHT lists.",
+        "Not in-place (O(N) extra space).",
+        "Not stable with respect to the pivot element.",
+        "Simple to understand but inefficient in memory."
+      ],
+      "pseudocode": "partition_out_of_place(A, lo, hi, pivot_index):\n    pivot = A[pivot_index]\n    LEFT, RIGHT = [], []\n    for i in lo..hi:\n        if i == pivot_index: continue\n        if A[i] <= pivot:\n            LEFT.append(A[i])\n        else:\n            RIGHT.append(A[i])\n    A[lo..hi] = LEFT + [pivot] + RIGHT\n    return lo + len(LEFT)",
+      "python": "def partition_out_of_place(A, lo, hi, pivot_index):\n    pivot = A[pivot_index]\n    LEFT, RIGHT = [], []\n    for i in range(lo, hi+1):\n        if i == pivot_index:\n            continue\n        if A[i] <= pivot:\n            LEFT.append(A[i])\n        else:\n            RIGHT.append(A[i])\n    A[lo:hi+1] = LEFT + [pivot] + RIGHT\n    return lo + len(LEFT)"
+    },
+    "hoare_partition": {
+      "purpose": "In-place partitioning algorithm used in most efficient Quicksort implementations.",
+      "invariants": [
+        "All elements <= pivot are on the left side when loop ends.",
+        "All elements >= pivot are on the right side.",
+        "Loop terminates when i >= j."
+      ],
+      "pros": ["In-place", "Few swaps", "Efficient on average"],
+      "cons": ["Tricky to implement correctly", "Unstable", "Performs poorly with many duplicates"],
+      "pseudocode": "hoare_partition(A, lo, hi):\n    pivot = A[lo]\n    i = lo - 1\n    j = hi + 1\n    while True:\n        repeat i += 1 while A[i] < pivot\n        repeat j -= 1 while A[j] > pivot\n        if i >= j: return j\n        swap A[i], A[j]",
+      "python": "def hoare_partition(A, lo, hi):\n    pivot = A[lo]\n    i = lo - 1\n    j = hi + 1\n    while True:\n        i += 1\n        while A[i] < pivot:\n            i += 1\n        j -= 1\n        while A[j] > pivot:\n            j -= 1\n        if i >= j:\n            return j\n        A[i], A[j] = A[j], A[i]",
+      "usage_in_quicksort": "After p = hoare_partition(A, lo, hi):\n  quicksort(A, lo, p)\n  quicksort(A, p+1, hi)"
+    },
+    "dutch_national_flag_partition": {
+      "purpose": "Three-way in-place partitioning scheme to handle duplicate elements efficiently.",
+      "invariants": [
+        "All elements < pivot appear before lt.",
+        "All elements == pivot between lt and gt.",
+        "All elements > pivot appear after gt."
+      ],
+      "advantages": [
+        "Improves performance on arrays with many duplicates.",
+        "Reduces unnecessary recursive calls."
+      ],
+      "pseudocode": "dnf_partition(A, lo, hi, pivot_val):\n    lt = lo\n    i = lo\n    gt = hi\n    while i <= gt:\n        if A[i] < pivot_val:\n            swap A[lt], A[i]; lt += 1; i += 1\n        elif A[i] > pivot_val:\n            swap A[i], A[gt]; gt -= 1\n        else:\n            i += 1\n    return lt, gt",
+      "python": "def dnf_partition(A, lo, hi, pivot_val):\n    lt, i, gt = lo, lo, hi\n    while i <= gt:\n        if A[i] < pivot_val:\n            A[lt], A[i] = A[i], A[lt]\n            lt += 1; i += 1\n        elif A[i] > pivot_val:\n            A[i], A[gt] = A[gt], A[i]\n            gt -= 1\n        else:\n            i += 1\n    return lt, gt"
+    },
+    "quicksort": {
+      "description": "Recursive divide-and-conquer sorting algorithm.",
+      "steps": [
+        "If array length <= 1, return.",
+        "Choose a pivot (can be random, first, or median).",
+        "Partition the array using selected partition scheme.",
+        "Recursively quicksort left and right subarrays."
+      ],
+      "best_case": {
+        "recurrence": "T(N) = 2T(N/2) + O(N)",
+        "time_complexity": "O(N log N)",
+        "height": "O(log N)"
+      },
+      "average_case": {
+        "time_complexity": "O(N log N)",
+        "intuition": "Pivot likely to divide array roughly evenly on average."
+      },
+      "worst_case": {
+        "recurrence": "T(N) = T(N-1) + O(N)",
+        "time_complexity": "O(N^2)",
+        "cause": "Pivot chosen as min or max element each time."
+      },
+      "python_hoare": "def quicksort_hoare(A, lo, hi):\n    if lo < hi:\n        p = hoare_partition(A, lo, hi)\n        quicksort_hoare(A, lo, p)\n        quicksort_hoare(A, p+1, hi)",
+      "python_dnf": "def quicksort_dnf(A, lo, hi):\n    if lo >= hi:\n        return\n    pivot_val = A[(lo+hi)//2]\n    lt, gt = dnf_partition(A, lo, hi, pivot_val)\n    quicksort_dnf(A, lo, lt-1)\n    quicksort_dnf(A, gt+1, hi)",
+      "implementation_notes": [
+        "Use random pivot for near-optimal average performance.",
+        "Switch to insertion sort for small subarrays (<=10 elements).",
+        "Tail recursion optimization limits stack depth.",
+        "Not stable unless explicitly made so (e.g., 3-way stable partition)."
+      ]
+    },
+    "quickselect": {
+      "description": "Selection algorithm to find the k-th smallest element (0-based index).",
+      "properties": {
+        "best_case": "O(N)",
+        "average_case": "O(N)",
+        "worst_case": "O(N^2)",
+        "not_sorting": "Does not sort the entire array."
+      },
+      "pseudocode": "QuickSelect(A, k):\n    while True:\n        if array length == 1: return A[0]\n        choose pivot\n        (lt, gt) = partition(A, pivot)\n        if k < lt: hi = lt - 1\n        elif k > gt: lo = gt + 1\n        else: return A[k]",
+      "python": "import random\n\ndef quickselect(A, k, lo=0, hi=None):\n    if hi is None: hi = len(A)-1\n    while True:\n        if lo == hi: return A[lo]\n        pivot_val = A[random.randint(lo, hi)]\n        lt, gt = dnf_partition(A, lo, hi, pivot_val)\n        if k < lt:\n            hi = lt - 1\n        elif k > gt:\n            lo = gt + 1\n        else:\n            return A[k]"
+    },
+    "median_of_medians": {
+      "description": "Deterministic algorithm to find an approximate median in linear time; ensures balanced pivot selection.",
+      "key_idea": "Divide list into groups of 5, take each group's median, and recursively find the median of these medians.",
+      "recurrence": "T(n) = T(n/5) + T(7n/10) + O(n) → O(n)",
+      "worst_split_ratio": "70:30",
+      "pseudocode": "median_of_medians(A, lo, hi):\n    if hi - lo + 1 <= 5:\n        return sorted(A[lo..hi])[middle]\n    medians = []\n    for groups of 5 in A[lo..hi]:\n        medians.append(median_of_group)\n    return median_of_medians(medians, 0, len(medians)-1)",
+      "python": "def median_of_medians(A, lo, hi):\n    n = hi - lo + 1\n    if n <= 5:\n        s = sorted(A[lo:hi+1])\n        return s[n//2]\n    medians = []\n    i = lo\n    while i <= hi:\n        group = A[i:min(i+5, hi+1)]\n        medians.append(sorted(group)[len(group)//2])\n        i += 5\n    return median_of_medians(medians, 0, len(medians)-1)",
+      "mom_select": {
+        "description": "Uses Median of Medians as pivot to guarantee O(N) selection.",
+        "python": "def mom_select(A, k, lo=0, hi=None):\n    if hi is None: hi = len(A)-1\n    while True:\n        if lo == hi: return A[lo]\n        pivot = median_of_medians(A, lo, hi)\n        lt, gt = dnf_partition(A, lo, hi, pivot)\n        if k < lt:\n            hi = lt - 1\n        elif k > gt:\n            lo = gt + 1\n        else:\n            return A[k]"
+      }
+    }
+  },
+  "exam_focus": {
+    "conceptual": [
+      "Understand how each partitioning scheme differs (space, stability, performance).",
+      "Be able to write or trace the pseudocode of Hoare and DNF partitioning.",
+      "Know Quicksort recurrences and how to derive O(N log N) average case.",
+      "Understand Quickselect’s link to Quicksort and how median-of-medians fixes its worst case.",
+      "Explain why Quicksort is not stable and how 3-way partitioning mitigates duplicates."
+    ],
+    "implementation": [
+      "Be able to implement Hoare’s partition without off-by-one errors.",
+      "Explain base cases and return values for each algorithm.",
+      "Compare random pivot vs median pivot trade-offs.",
+      "Understand how recursion depth affects space complexity."
+    ]
+  },
+  "key_formulas": {
+    "best_case_quicksort": "T(N) = 2T(N/2) + cN = O(N log N)",
+    "worst_case_quicksort": "T(N) = T(N-1) + cN = O(N^2)",
+    "average_case_height": "O(log N)",
+    "median_of_medians": "T(n) = T(n/5) + T(7n/10) + O(n) = O(n)"
+  },
+  "testing_examples": {
+    "example_quicksort": "A = [3,5,2,1,4,4,6,4]; quicksort_dnf(A, 0, len(A)-1) → [1,2,3,4,4,4,5,6]",
+    "example_quickselect": "B = [50,80,90,10,30,20,70,60]; quickselect(B,3) → 40th smallest element (e.g., 50)"
+  },
+  "recommended_reading": {
+    "course_notes": "Section 3.2, Chapter 4",
+    "textbooks": {
+      "CLRS": "Chapters 7 and 9",
+      "KT": "Section 13.5",
+      "Rou": "Chapters 5 and 6"
+    }
+  }
+}
