@@ -1,0 +1,234 @@
+{
+  "lecture_title": "FIT2004 - Retrieval Data Structures for Strings",
+  "topics": ["Trie", "Suffix Trie", "Suffix Tree"],
+  "key_concepts": {
+    "motivation": {
+      "problem": "Efficiently search large text containing N strings after preprocessing",
+      "sorting_approach": {
+        "preprocessing": "O(MN log N) using merge sort OR O(MN) using radix sort",
+        "searching": "O(M log N) using binary search",
+        "comparison_cost": "O(M) between two strings",
+        "note": "M = length of strings, N = number of strings"
+      },
+      "retrieval_structures": "Allow answering different queries efficiently"
+    },
+    "trie": {
+      "definition": "Σ-way (multi-way) tree where Σ is alphabet size",
+      "alphabet_examples": {
+        "binary": "Σ = 2",
+        "english": "Σ = 26",
+        "dna": "Σ = 4"
+      },
+      "key_properties": [
+        "All strings with shared prefix fall within same subtree",
+        "Shortest possible tree where strings with same prefix share subtree",
+        "Uses $ to denote end of string"
+      ],
+      "operations": {
+        "insert": {
+          "algorithm": [
+            "Start from root node",
+            "For each character c in string:",
+            "  If node containing c exists, move to it",
+            "  Otherwise, create node and move to it"
+          ],
+          "time_complexity": "O(M) where M = string length"
+        },
+        "search": {
+          "algorithm": [
+            "Start from root node",
+            "For each character c in string (including $):",
+            "  If node containing c exists, move to next node",
+            "  If c == $, return 'Found'",
+            "  Otherwise, return 'Not Found'"
+          ],
+          "time_complexity": "O(M) where M = string length"
+        },
+        "prefix_matching": {
+          "algorithm": [
+            "Start from root node",
+            "For each character c in prefix:",
+            "  If node containing c exists, move to it",
+            "  Otherwise, return 'Not Found'",
+            "Return all strings in subtree rooted at last node"
+          ],
+          "time_complexity": "O(M + U) where M = query length, U = total characters in returned strings"
+        }
+      },
+      "implementation": {
+        "method": "At each node, create array of alphabet size",
+        "storage": "If ith node exists, add pointer at array[i]; otherwise array[i] = Nil",
+        "lookup_time": "O(1) for constant-sized alphabets",
+        "alternatives": "Linked lists or hash tables possible"
+      },
+      "advantages": [
+        "Better search structure than binary search tree with string keys",
+        "More versatile than hash table",
+        "Prefix matching in O(M)",
+        "Sorting strings in O(MN) time"
+      ],
+      "disadvantages": [
+        "Can be slower than hash tables for lookups in some cases",
+        "Wastes space - need full alphabet-sized array even with few children"
+      ],
+      "properties": [
+        "Maximum depth = length of longest string",
+        "Insert, delete, lookup time proportional to string length",
+        "Space waste if nodes have mostly null pointers",
+        "Can trade time for space using linked lists/BSTs at nodes"
+      ]
+    },
+    "suffix_trie": {
+      "motivation": {
+        "prefix_vs_suffix": {
+          "prefix": "String s[1..i] where 1 ≤ i ≤ m",
+          "suffix": "String s[i..m] where 1 ≤ i ≤ m",
+          "key_insight": "Any substring is a prefix of some suffix"
+        },
+        "goal": "Make prefix trie of suffixes to efficiently search substrings"
+      },
+      "definition": "Trie constructed using all suffixes of the text",
+      "construction": {
+        "method": "Insert all suffixes of text into trie",
+        "example": "For 'referrer$': insert 'referrer$', 'eferrer$', 'ferrer$', 'errer$', 'rrer$', 'rer$', 'er$', 'r$', '$'"
+      },
+      "operations": {
+        "substring_search": {
+          "algorithm": [
+            "Start from root node",
+            "For each character c in pattern:",
+            "  If node containing c exists, move to it",
+            "  Otherwise, return 'Not Found'",
+            "Return 'Found'"
+          ],
+          "time_complexity": "O(M) where M = query string length"
+        },
+        "count_occurrences": {
+          "algorithm": [
+            "Start from root node",
+            "For each character c in pattern:",
+            "  If node containing c exists, move to it",
+            "  Otherwise, return 'Not Found'",
+            "Traverse subtree and count leaf nodes ($)"
+          ],
+          "time_complexity": "O(M) if number of leaf nodes maintained during insertion",
+          "time_complexity_without_optimization": "O(M + number of nodes in subtree)"
+        },
+        "longest_repeated_substring": {
+          "method": "Find deepest internal node with at least 2 children",
+          "note": "Path from root to this node gives the longest repeated substring"
+        }
+      },
+      "space_complexity": "O(N²) where N = size of string",
+      "reason_for_quadratic_space": "Need to store all suffixes, which have average length O(N)"
+    },
+    "suffix_tree": {
+      "motivation": "Reduce space complexity from O(N²) to O(N)",
+      "definition": "Compressed suffix trie where branches are merged",
+      "compression": {
+        "method": "Merge nodes that have only one child",
+        "edge_labels": "Replace substrings with (start_index, length) pairs",
+        "example": "Instead of 'ferrer$', store (3, 7)"
+      },
+      "space_complexity": {
+        "result": "O(N) where N = size of string",
+        "reasoning": [
+          "Exactly N+1 leaves",
+          "Every internal node has at least 2 children",
+          "At most N internal nodes",
+          "Each node stores two integers"
+        ]
+      },
+      "why_internal_nodes_have_2_children": "If only 1 child, would have been merged during compression",
+      "construction_time": {
+        "naive": "O(N²)",
+        "reasoning": [
+          "Insert O(N) suffixes",
+          "Average suffix size O(N)",
+          "Compress by traversing: O(N²)"
+        ],
+        "optimal": "O(N) using Ukkonen's algorithm"
+      },
+      "operations": "Same as suffix trie but with compressed paths",
+      "applications": [
+        "Text search",
+        "Longest repeated substring",
+        "Longest common substring (two strings)",
+        "Longest common substring (multiple strings)"
+      ]
+    },
+    "comparison": {
+      "suffix_trie_vs_suffix_tree": {
+        "suffix_trie": {
+          "space": "O(N²)",
+          "construction": "O(N²)",
+          "search": "O(M)"
+        },
+        "suffix_tree": {
+          "space": "O(N)",
+          "construction": "O(N) with Ukkonen's algorithm, O(N²) naive",
+          "search": "O(M)"
+        }
+      }
+    },
+    "exercises": {
+      "trie": [
+        "Longest Prefix Matching: Find longest prefix of query that matches any word",
+        "Lexicographic Sorting: Sort strings in lexicographic order",
+        "Autocompletion: List top k most frequent completions for prefix",
+        "Text Search: Search for string within large text"
+      ],
+      "suffix_trie_tree": [
+        "Text Search: Find all occurrences of pattern",
+        "Longest Repeated Substring: Find longest substring appearing at least twice",
+        "Longest Common Substring (Two Strings)",
+        "Longest Common Substring (Multiple Strings): Find longest substring in at least k of n strings"
+      ]
+    }
+  },
+  "exam_likely_topics": {
+    "conceptual": [
+      "Difference between trie, suffix trie, and suffix tree",
+      "Why suffix tree has O(N) space vs O(N²) for suffix trie",
+      "Why internal nodes in suffix tree have at least 2 children",
+      "When to use trie vs hash table vs binary search tree",
+      "Relationship between substrings, prefixes, and suffixes"
+    ],
+    "complexity_analysis": [
+      "Time complexity of trie operations (insert, search, prefix matching)",
+      "Space complexity of trie vs suffix trie vs suffix tree",
+      "Construction time complexity",
+      "Why naive suffix tree construction is O(N²)"
+    ],
+    "problem_solving": [
+      "Constructing tries from given strings",
+      "Searching for patterns in tries/suffix tries",
+      "Finding longest repeated substring using suffix tree",
+      "Counting occurrences of pattern",
+      "Tracing paths in trie for given operations"
+    ],
+    "design_questions": [
+      "Design data structure for autocomplete",
+      "Find longest common substring between strings",
+      "Implement efficient text search",
+      "Optimize space usage in tries"
+    ]
+  },
+  "important_formulas": {
+    "trie_operations": "O(M) for insert/search/prefix where M = string length",
+    "prefix_matching_full": "O(M + U) where U = total chars in results",
+    "trie_sorting": "O(MN) where M = max string length, N = number of strings",
+    "suffix_trie_space": "O(N²) where N = text size",
+    "suffix_tree_space": "O(N) where N = text size",
+    "suffix_tree_construction_naive": "O(N²)",
+    "suffix_tree_construction_optimal": "O(N) using Ukkonen's algorithm"
+  },
+  "key_insights": [
+    "Tries exploit common prefixes to save space and time",
+    "Any substring is a prefix of some suffix - foundation of suffix tries",
+    "Suffix trees compress suffix tries by merging chains into single edges",
+    "Edge labels in suffix trees stored as (start, length) pairs for O(1) space per edge",
+    "Alphabet size affects space usage - constant alphabet assumed in complexities",
+    "$ symbol crucial for distinguishing complete strings from prefixes"
+  ]
+}

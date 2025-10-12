@@ -1,0 +1,310 @@
+{
+  "chapter": 10,
+  "title": "Search Trees",
+  "summary": "Storing and retrieving data using advanced data structures. Focus on overcoming O(n) worst-case performance of ordinary binary search trees through self-balancing mechanisms.",
+  "topics_covered": [
+    "Binary Search Trees",
+    "AVL Trees",
+    "2-3 Search Trees",
+    "Red-Black Trees"
+  ],
+
+  "binary_search_trees": {
+    "definition": "A rooted binary tree where for each node, keys in left subtree < node key < keys in right subtree",
+    "goal": "Efficient O(log(n)) storage and retrieval of ordered set elements",
+    "problem": "Can degenerate to O(n) performance with sorted insertions (becomes linked list)",
+    "example_degenerate_case": "Inserting 1,2,3,4,5 in order creates a chain, not a balanced tree"
+  },
+
+  "avl_trees": {
+    "name_origin": "Named after Adelson-Velskii and Landis (1962)",
+    "first": "First self-balancing binary search tree data structure",
+
+    "balance_definition": "Tree is balanced if for any node, heights of left and right subtrees differ by at most 1",
+
+    "balance_factor": {
+      "formula": "balance_factor(u) = height(u.left) - height(u.right)",
+      "note": "height(null) = 0",
+      "imbalanced_condition": "|balance_factor(u)| >= 2"
+    },
+
+    "imbalance_cases": [
+      {
+        "case": "Left-left",
+        "condition": "balance_factor = 2 AND left child balance_factor = 0 or 1",
+        "fix": "Right rotation"
+      },
+      {
+        "case": "Left-right",
+        "condition": "balance_factor = 2 AND left child balance_factor = -1",
+        "fix": "Left rotation on left child, then right rotation"
+      },
+      {
+        "case": "Right-right",
+        "condition": "balance_factor = -2 AND right child balance_factor = 0 or -1",
+        "fix": "Left rotation"
+      },
+      {
+        "case": "Right-left",
+        "condition": "balance_factor = -2 AND right child balance_factor = 1",
+        "fix": "Right rotation on right child, then left rotation"
+      }
+    ],
+
+    "rotations": {
+      "left_rotation": {
+        "description": "Node x with right child y",
+        "steps": [
+          "Node y is promoted, node x becomes its left child",
+          "Left subtree of x stays as left subtree of x",
+          "Right subtree of y stays as right subtree of y",
+          "Left subtree of y becomes right subtree of x"
+        ],
+        "visual": "x(ST1, y(ST2, ST3)) -> y(x(ST1, ST2), ST3)"
+      },
+      "right_rotation": {
+        "description": "Node y with left child x",
+        "steps": [
+          "Node x is promoted, node y becomes its right child",
+          "Left subtree of x stays as left subtree of x",
+          "Right subtree of y stays as right subtree of y",
+          "Right subtree of x becomes left subtree of y"
+        ],
+        "visual": "y(x(ST1, ST2), ST3) -> x(ST1, y(ST2, ST3))"
+      }
+    },
+
+    "complexity": {
+      "time": {
+        "lookup": "O(log(n)) worst-case",
+        "insertion": "O(log(n)) worst-case",
+        "deletion": "O(log(n)) worst-case"
+      },
+      "rebalancing": "At most O(log(n)) rebalances needed, each in O(1) time",
+      "height": "O(log(n))"
+    },
+
+    "implementation_notes": [
+      "Store heights at each node (easier to update than balances)",
+      "Compute balances as needed: height(left) - height(right)",
+      "Check balances of all ancestors after modification",
+      "Rebalance deepest nodes first"
+    ]
+  },
+
+  "2_3_trees": {
+    "full_name": "Perfectly Balanced 2-3 Search Tree",
+    "inventors": "John Hopcroft (1970)",
+    "relation": "Specialization for order 3 of B-Trees (Bayer & McCreight, 1970)",
+
+    "node_types": [
+      {
+        "type": "2-Node",
+        "keys": 1,
+        "children": 2,
+        "description": "Contains one key K, left subtree has keys < K, right subtree has keys > K"
+      },
+      {
+        "type": "3-Node",
+        "keys": 2,
+        "children": 3,
+        "description": "Contains keys K1 < K2, left subtree < K1, middle between K1 and K2, right > K2"
+      }
+    ],
+
+    "perfect_balance_property": "All leaves are at the same level",
+
+    "operations": {
+      "search": {
+        "description": "Straightforward generalization of BST recursive search",
+        "complexity": "O(log(n))"
+      },
+
+      "insertion": {
+        "description": "No leaf nodes directly added; adjustments may create up to Θ(log(n)) new nodes",
+        "cases": [
+          {
+            "case": 1,
+            "condition": "Key already exists",
+            "action": "Update associated value (no structural change)"
+          },
+          {
+            "case": 2,
+            "condition": "Search ends at 2-Node",
+            "action": "Convert 2-Node to 3-Node with new key"
+          },
+          {
+            "case": 3,
+            "condition": "Search ends at 3-Node",
+            "action": "Temporarily create 4-Node, then perform adjustments"
+          }
+        ],
+
+        "4_node_fix": {
+          "description": "Split 4-Node into two 2-Nodes, promote middle key to parent",
+          "if_parent_2_node": "Parent becomes 3-Node, done",
+          "if_parent_3_node": "Parent becomes 4-Node, recurse upward",
+          "if_root_4_node": "Create three 2-Nodes with new root level"
+        },
+
+        "complexity": "O(log(n))"
+      },
+
+      "deletion": {
+        "main_idea": "Ensure nodes on path down are always 3-Nodes or 4-Nodes (never 2-Nodes)",
+        "minimum_deletion_procedure": [
+          "Initial adjustments at root",
+          "Move down maintaining invariant (current node not a 2-Node)",
+          "Delete from leaf",
+          "Move up eliminating temporary 4-Nodes"
+        ],
+        "complexity": "O(log(n))"
+      }
+    },
+
+    "height_analysis": {
+      "all_leaves_same_level": true,
+      "lower_bound": "m >= 2^(h+1) - 1 (if all 2-Nodes)",
+      "height": "h = O(log(m)) = O(log(n))"
+    },
+
+    "practical_note": "Different node types create many cases, making implementation cumbersome. Red-Black Trees often preferred in practice."
+  },
+
+  "red_black_trees": {
+    "variant": "Left-Leaning Red-Black Tree (Sedgewick 2008)",
+    "abbreviation": "RBT",
+    "original": "First variant by Guibas & Sedgewick (1978)",
+
+    "key_relationship": "One-to-one correspondence with Perfectly Balanced 2-3 Search Tree",
+
+    "definition": {
+      "base": "Binary Search Tree with colored nodes and edges (red or black)",
+      "properties": [
+        "Node color determined by incoming edge color (root is black by definition)",
+        "All red links lean left (red links go to left child only)",
+        "No node is adjacent to two red edges",
+        "Perfect black balance: same number of black edges from any node to each descendant leaf"
+      ]
+    },
+
+    "black_height": "Number of black edges between root and any leaf",
+
+    "correspondence_with_2_3_trees": {
+      "encoding": "3-Nodes encoded using red edges between two nodes",
+      "conversion_steps": [
+        "Separate keys in each 3-Node into independent nodes",
+        "Black edges connect original 2-Nodes and 3-Nodes",
+        "For 3-Nodes: incoming edge points to right node after separation",
+        "Left node of separated 3-Node is painted red",
+        "Add red edge from right node to left node"
+      ]
+    },
+
+    "height_properties": {
+      "black_height": "O(log(n)) (same as 2-3 tree height)",
+      "total_height": "At most 2 × black_height + 1 = O(log(n))",
+      "reason": "Never two consecutive red edges on any path"
+    },
+
+    "operations": {
+      "search": {
+        "description": "Standard BST search, ignore colors",
+        "complexity": "O(log(n))"
+      },
+
+      "insertion": {
+        "initial_action": "Insert new key as red node (preserves perfect black balance)",
+        "adjustments": "May trigger adjustments from insertion point to root",
+
+        "cases": {
+          "into_2_node": [
+            {
+              "subcase": "Added as left child",
+              "action": "No adjustment needed"
+            },
+            {
+              "subcase": "Added as right child",
+              "action": "Perform left rotation"
+            }
+          ],
+
+          "into_3_node": [
+            {
+              "case": 1,
+              "condition": "New key bigger than both existing keys",
+              "action": "Flip colors of three nodes (equivalent to promoting middle key in 2-3 tree)"
+            },
+            {
+              "case": 2,
+              "condition": "New key smaller than both existing keys",
+              "action": "Right rotation to get middle key at top, then Case 1"
+            },
+            {
+              "case": 3,
+              "condition": "New key between existing keys",
+              "action": "Left rotation to convert to Case 2"
+            }
+          ]
+        },
+
+        "unified_adjustment_procedure": [
+          "1. If only one red child on right: rotate left",
+          "2. If left child red AND its left child red: rotate right",
+          "3. If both children red: flip all three colors",
+          "4. (Optional early stop) If current node black and no conditions triggered: stop",
+          "5. Proceed to parent (or paint root black if at root)"
+        ],
+
+        "rotation_notes": [
+          "All rotations along red edges preserve perfect black balance",
+          "Edges preserve color but change direction to point down",
+          "Nodes switch colors to match new incoming edges"
+        ],
+
+        "complexity": "O(log(n))"
+      },
+
+      "deletion": {
+        "description": "Exploits one-to-one correspondence with 2-3 trees",
+        "reference": "See Sedgewick & Wayne, Algorithms 4th ed., Chapter 3",
+        "complexity": "O(log(n))"
+      }
+    },
+
+    "implementation_detail": "Color information stored as single bit in node"
+  },
+
+  "comparison_avl_vs_rbt": {
+    "asymptotic_complexity": "Equivalent: O(log(n)) for all operations",
+
+    "avl_advantages": [
+      "More strictly balanced",
+      "Better for lookup-intensive applications",
+      "Faster lookups due to stricter balance"
+    ],
+
+    "rbt_advantages": [
+      "Less strictly balanced",
+      "More efficient insertions and deletions (fewer rotations)",
+      "Better concrete efficiency for modifications"
+    ],
+
+    "general_guidance": "Choose AVL for read-heavy workloads, RBT for write-heavy workloads"
+  },
+
+  "key_concepts": {
+    "self_balancing": "Automatic adjustments during insertions/deletions to maintain balance",
+    "rotations": "Local tree restructuring operations that preserve BST property",
+    "balance_invariants": "Properties maintained to guarantee O(log(n)) height",
+    "amortized_vs_worst_case": "All presented trees guarantee worst-case O(log(n)), not just amortized"
+  },
+
+  "practical_applications": [
+    "Database indexing",
+    "File system organization",
+    "Memory management",
+    "Symbol tables in compilers",
+    "Standard library implementations (C++ std::map, Java TreeMap)"
+  ]
+}

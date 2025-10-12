@@ -1,0 +1,353 @@
+{
+  "chapter": 7,
+  "title": "Dynamic Programming",
+  "summary": {
+    "topics_covered": [
+      "The key ideas behind dynamic programming",
+      "Memoisation applied to computing Fibonacci numbers",
+      "The coin change problem",
+      "The top-down approach vs. the bottom-up approach",
+      "Reconstructing solutions to optimisation problems",
+      "The unbounded knapsack problem",
+      "The 0-1 knapsack problem",
+      "Optimal matrix multiplication",
+      "The edit distance problem",
+      "The space-saving trick"
+    ]
+  },
+  "key_concepts": {
+    "dynamic_programming_definition": "A technique for solving problems by breaking them into smaller subproblems and combining their solutions. It employs memoisation to store solutions to previously computed subproblems, ensuring repeated problems are solved only once.",
+    "memoisation": {
+      "definition": "The process of remembering the solutions to previously computed subproblems and storing them in a table for later lookup",
+      "purpose": "Dynamic programming solves problems that exhibit overlapping or repeated subproblems by using memoisation to avoid doing redundant work"
+    },
+    "optimal_substructure": {
+      "definition": "A combinatorial problem exhibits optimal substructure if it can be broken down into smaller subproblems, such that the solutions to the subproblems can be combined to obtain a solution to the original problem",
+      "note": "Optimal substructure is not only useful for DP algorithms. Divide and conquer algorithms also use optimal substructure (for example, Quicksort), but do not rely on subproblems being repeated"
+    }
+  },
+  "examples": {
+    "fibonacci_numbers": {
+      "definition": "F(n) = F(n-1) + F(n-2), F(0) = 0, F(1) = 1",
+      "recursive_implementation": {
+        "algorithm": "FIBONACCI(n)",
+        "pseudocode": [
+          "if n ≤ 1 then",
+          "  return n",
+          "else",
+          "  return FIBONACCI(n-1) + FIBONACCI(n-2)"
+        ],
+        "complexity": "O(F(n)) - exponential, grows like φ^n where φ is the golden ratio",
+        "problem": "Computes the same subproblems exponentially many times"
+      },
+      "memoised_implementation": {
+        "algorithm": "FIBONACCI_MEMO(n)",
+        "pseudocode": [
+          "if n ≤ 1 then return n",
+          "if memo[n] = null then",
+          "  memo[n] = FIBONACCI_MEMO(n-1) + FIBONACCI_MEMO(n-2)",
+          "return memo[n]"
+        ],
+        "complexity": "O(n) - each subproblem computed only once",
+        "approach": "Top-down"
+      },
+      "bottom_up_implementation": {
+        "algorithm": "FIBONACCI(n)",
+        "pseudocode": [
+          "fib[0..n] = 0",
+          "fib[1] = 1",
+          "for i = 2 to n do",
+          "  fib[i] = fib[i-1] + fib[i-2]",
+          "return fib[n]"
+        ],
+        "complexity": "O(n)",
+        "approach": "Bottom-up"
+      }
+    },
+    "coin_change_problem": {
+      "problem_statement": "Given currency with denominations c1, c2, ...cn and we wish to make exactly $V. Find the minimum number of coins required.",
+      "example": "If denominations are $1, $5, $6, $9, minimum coins for $13 is three (two $6 coins and one $1 coin)",
+      "subproblems": "MinCoins[v] = {The fewest coins required to make exactly $v}, for all values 0 ≤ v ≤ V",
+      "recurrence": {
+        "formula": "MinCoins[v] = 0 if v = 0, ∞ if v > 0 and v < c[i] for all i, min(1≤i≤n, c[i]≤v)(1 + MinCoins[v - c[i]]) otherwise",
+        "explanation": "Try every possible coin and select the best option"
+      },
+      "top_down_implementation": {
+        "algorithm": "COIN_CHANGE(c[1..n], v)",
+        "pseudocode": [
+          "if v = 0 then return 0",
+          "if memo[v] = null then",
+          "  min_coins = ∞",
+          "  for i = 1 to n do",
+          "    if c[i] ≤ v then",
+          "      min_coins = min(min_coins, 1 + COIN_CHANGE(v - c[i]))",
+          "  memo[v] = min_coins",
+          "return memo[v]"
+        ],
+        "complexity": {
+          "time": "O(nV) - solve V+1 subproblems, each tries all n coins",
+          "space": "O(V)"
+        }
+      },
+      "bottom_up_implementation": {
+        "algorithm": "COIN_CHANGE(c[1..n], V)",
+        "pseudocode": [
+          "MinCoins[0..V] = ∞",
+          "MinCoins[0] = 0",
+          "for v = 1 to V do",
+          "  for i = 1 to n do",
+          "    if c[i] ≤ v then",
+          "      MinCoins[v] = min(MinCoins[v], 1 + MinCoins[v - c[i]])",
+          "return MinCoins[V]"
+        ],
+        "complexity": {
+          "time": "O(nV)",
+          "space": "O(V)"
+        }
+      },
+      "solution_reconstruction": {
+        "method_1_backtracking": {
+          "algorithm": "GET_COINS(c[1..n], V, MinCoins[0..V])",
+          "pseudocode": [
+            "if MinCoins[V] = ∞ then return error",
+            "coins = empty list",
+            "while V > 0 do",
+            "  for i = 1 to n do",
+            "    if c[i] ≤ V and MinCoins[V] = 1 + MinCoins[V - c[i]] then",
+            "      coins.append(c[i])",
+            "      V = V - c[i]",
+            "return coins"
+          ],
+          "description": "Backtrack through subproblems to figure out which choices were made"
+        },
+        "method_2_decision_table": {
+          "description": "Keep a second table OptCoin[0..V] to remember optimal decisions",
+          "advantage": "Simpler to understand, allows advanced optimizations",
+          "disadvantage": "Uses more memory"
+        }
+      }
+    },
+    "unbounded_knapsack_problem": {
+      "problem_statement": "Given n types of items with values v_i and weights w_i, and a backpack capacity C kg. Select items to maximize total value. Can take multiple of each item type.",
+      "subproblems": "MaxValue[c] = {The maximum value that we can fit in a capacity of c}, for 0 ≤ c ≤ C",
+      "recurrence": {
+        "formula": "MaxValue[c] = 0 if c < w_i for all i, max(1≤i≤n, w_i≤c)(v_i + MaxValue[c - w_i]) otherwise",
+        "explanation": "If we choose item with weight x kg, we need to optimally fill remaining (C - x)kg"
+      },
+      "bottom_up_implementation": {
+        "algorithm": "UNBOUNDED_KNAPSACK(v[1..n], w[1..n], C)",
+        "pseudocode": [
+          "MaxValue[0..C] = 0",
+          "for c = 1 to C do",
+          "  for i = 1 to n do",
+          "    if w[i] ≤ c then",
+          "      MaxValue[c] = max(MaxValue[c], v[i] + MaxValue[c - w[i]])",
+          "return MaxValue[C]"
+        ],
+        "complexity": {
+          "time": "O(nC)",
+          "space": "O(C)"
+        }
+      }
+    },
+    "zero_one_knapsack_problem": {
+      "problem_statement": "Same as unbounded knapsack but can only take one of each item type (0 or 1 of each item)",
+      "subproblems": "MaxValue[i, c] = {The maximum value that we can fit in a capacity of c using items 1 to i}, for all 0 ≤ c ≤ C and 0 ≤ i ≤ n",
+      "key_observation": "Order of considering items is irrelevant. Track items 1 to i to avoid using an item twice.",
+      "recurrence": {
+        "formula": "MaxValue[i, c] = 0 if i = 0, MaxValue[i-1, c] if w_i > c, max(MaxValue[i-1, c], v_i + MaxValue[i-1, c - w_i]) otherwise",
+        "explanation": "Either take item i or don't take item i"
+      },
+      "bottom_up_implementation": {
+        "algorithm": "KNAPSACK(w[1..n], v[1..n], C)",
+        "pseudocode": [
+          "MaxValue[0..n][0..C] = 0",
+          "for i = 1 to n do",
+          "  for c = 1 to C do",
+          "    if w[i] ≤ c then",
+          "      MaxValue[i][c] = max(MaxValue[i-1][c], v[i] + MaxValue[i-1][c - w[i]])",
+          "    else",
+          "      MaxValue[i][c] = MaxValue[i-1][c]",
+          "return MaxValue[n][C]"
+        ],
+        "complexity": {
+          "time": "O(nC)",
+          "space": "O(nC)"
+        }
+      }
+    },
+    "edit_distance_problem": {
+      "problem_statement": "Find minimum number of edit operations (insert, delete, replace) to convert one string into another",
+      "definition": "Edit distance between two strings is the minimum number of edit operations required to convert one string into the other",
+      "edit_operations": [
+        "Insert a new symbol anywhere in the string",
+        "Delete one of the symbols from the string",
+        "Replace one of the symbols with any other symbol"
+      ],
+      "optimal_alignment": "Shows where optimal insertions, deletions and substitutions occur",
+      "subproblems": "Dist[i, j] = {The edit distance between prefixes S1[1..i] and S2[1..j]}, for 0 ≤ i ≤ n, 0 ≤ j ≤ m",
+      "recurrence": {
+        "formula": "Dist[i, j] = i if j = 0, j if i = 0, min(Dist[i-1, j-1] + 1_{S1[i]≠S2[j]}, Dist[i-1, j] + 1, Dist[i, j-1] + 1) otherwise",
+        "explanation": "Three choices: align S1[i] with S2[j] (cost 0 if equal, 1 if not), delete S1[i], or insert S2[j]"
+      },
+      "bottom_up_implementation": {
+        "algorithm": "EDIT_DISTANCE(S1[1..n], S2[1..m])",
+        "pseudocode": [
+          "Dist[0..n][0..m] = 0",
+          "Dist[1..n][0] = 1..n",
+          "Dist[0][1..m] = 1..m",
+          "for i = 1 to n do",
+          "  for j = 1 to m do",
+          "    if S1[i] = S2[j] then",
+          "      Dist[i][j] = Dist[i-1][j-1]",
+          "    else",
+          "      Dist[i][j] = min(Dist[i-1][j-1], Dist[i-1][j], Dist[i][j-1]) + 1",
+          "return Dist[n][m]"
+        ],
+        "complexity": {
+          "time": "O(nm) - n×m subproblems, each looks at 3 previous",
+          "space": "O(nm)"
+        }
+      },
+      "alignment_reconstruction": {
+        "algorithm": "ALIGNMENT(S1[1..n], S2[1..m], Dist[0..n][0..m])",
+        "description": "Backtrack from Dist[n,m] to Dist[0,0], examining choices made",
+        "builds_in_reverse": "Alignment built in reverse since backtracking from ends of strings"
+      }
+    },
+    "matrix_multiplication_problem": {
+      "problem_statement": "Given a sequence of n matrices, find the best order to multiply them to minimize scalar multiplications",
+      "key_fact": "Matrix multiplication is associative - can bracket in any way and get same answer, but computational cost differs",
+      "example": "For 4×2, 2×5, 5×3 matrices: (A×B)×C takes 100 operations, A×(B×C) takes 54 operations",
+      "subproblems": "DP[i, j] = {The minimum number of multiplications required to multiply (A_i, A_{i+1}, ...A_j)}, for all 1 ≤ i ≤ j ≤ n",
+      "recurrence": {
+        "formula": "DP[i, j] = 0 if i = j, min_{i≤k<j}(DP[i, k] + DP[k+1, j] + c_{i-1} × c_k × c_j) if i < j",
+        "explanation": "Try every possible split point k where final multiplication happens. c_i denotes number of columns in matrix A_i"
+      },
+      "bottom_up_implementation": {
+        "algorithm": "MATRIX_ORDER(c[0..n])",
+        "pseudocode": [
+          "DP[1..n][1..n] = 0",
+          "for length = 2 to n do",
+          "  for i = 1 to n - length + 1 do",
+          "    j = i + length - 1",
+          "    best = ∞",
+          "    for k = i to j-1 do",
+          "      best = min(best, DP[i][k] + DP[k+1][j] + c[i-1] × c[k] × c[j])",
+          "    DP[i][j] = best",
+          "return DP[1][n]"
+        ],
+        "complexity": {
+          "time": "O(n³) - O(n²) subproblems, each tries O(n) split points",
+          "space": "O(n²)"
+        },
+        "computation_order": "Compute in order of length (contiguous subsequences of 2, then 3, etc.) since each subproblem depends on shorter sequences"
+      }
+    }
+  },
+  "approaches": {
+    "top_down_vs_bottom_up": {
+      "top_down": {
+        "description": "Memoisation table filled on demand as subproblems are computed. Uses recursion.",
+        "pros": [
+          "No need to know the topological ordering of subproblem dependencies",
+          "Avoids computing solutions to subproblems that are not needed",
+          "More intuitive for programmers who like to think recursively"
+        ],
+        "cons": [
+          "Recursion overhead",
+          "Cannot easily apply space-saving optimizations"
+        ]
+      },
+      "bottom_up": {
+        "description": "Fill solution table one problem at a time in an order ensuring dependent subproblems already computed",
+        "pros": [
+          "Avoids recursion, typically faster than iteration",
+          "Allows for clever optimisations (e.g. space-saving trick)",
+          "Might be more intuitive for programmers who don't like recursion"
+        ],
+        "cons": [
+          "Need to determine computation order",
+          "Always computes all subproblems even if not needed"
+        ],
+        "computation_order": "Reverse topological order of dependency graph of subproblems"
+      },
+      "equivalence": "Most of the time, both approaches are equivalent and equally good"
+    }
+  },
+  "techniques": {
+    "space_saving_trick": {
+      "applicability": "When 2D table of subproblems only depends on previous row",
+      "method": "Store only two rows at a time, reuse memory for every second row",
+      "examples": [
+        "Edit distance: reduces space from O(nm) to O(min(n,m))",
+        "0-1 Knapsack: reduces space from O(nC) to O(C)"
+      ],
+      "limitation": "Cannot backtrack to construct optimal solution if space-saving applied"
+    },
+    "solution_reconstruction": {
+      "method_1_backtracking": {
+        "description": "Backtrack through subproblems to figure out which choices were made",
+        "advantage": "Uses less memory (no second table needed)",
+        "process": "After computing optimal value, trace back through subproblems checking which choices led to optimal solution"
+      },
+      "method_2_decision_table": {
+        "description": "Keep second table to remember optimal decisions made by each subproblem",
+        "advantage": "Simpler to understand, allows dynamic adjustment of search space",
+        "disadvantage": "Uses more memory"
+      }
+    }
+  },
+  "problem_solving_steps": {
+    "step_1": "Identify the optimal subproblems - how can problem be broken into smaller pieces?",
+    "step_2": "Think about sequence of choices that lead between subproblems",
+    "step_3": "Define subproblems clearly with precise indexing",
+    "step_4": "Derive recurrence relation expressing optimal substructure",
+    "step_5": "Identify base cases",
+    "step_6": "Determine computation order (bottom-up) or implement with memoisation (top-down)",
+    "step_7": "Implement solution",
+    "step_8": "Analyze time and space complexity",
+    "step_9": "(Optional) Add solution reconstruction if needed"
+  },
+  "complexity_analysis": {
+    "general_principle": "Time complexity = (number of subproblems) × (time per subproblem)",
+    "space_complexity": "Usually equals number of subproblems stored, unless space-saving trick applied",
+    "examples": {
+      "coin_change": {
+        "subproblems": "V+1",
+        "time_per_subproblem": "O(n)",
+        "total_time": "O(nV)",
+        "space": "O(V)"
+      },
+      "0_1_knapsack": {
+        "subproblems": "n×C",
+        "time_per_subproblem": "O(1)",
+        "total_time": "O(nC)",
+        "space": "O(nC), or O(C) with space-saving"
+      },
+      "edit_distance": {
+        "subproblems": "n×m",
+        "time_per_subproblem": "O(1)",
+        "total_time": "O(nm)",
+        "space": "O(nm), or O(min(n,m)) with space-saving"
+      },
+      "matrix_multiplication": {
+        "subproblems": "O(n²)",
+        "time_per_subproblem": "O(n)",
+        "total_time": "O(n³)",
+        "space": "O(n²)"
+      }
+    }
+  },
+  "relationship_to_other_paradigms": {
+    "vs_divide_and_conquer": {
+      "similarity": "Both break problem into subproblems",
+      "difference": "DP applies when subproblems overlap and are repeated; D&C typically has non-overlapping subproblems"
+    },
+    "vs_greedy": {
+      "similarity": "Both make locally optimal choices",
+      "difference": "Greedy commits to choice immediately; DP tries all choices and selects best using subproblem solutions"
+    },
+    "relationship_to_graphs": "DP subproblem dependencies form a DAG. Top-down DP performs DFS on this DAG, producing reverse topological order"
+  }
+}

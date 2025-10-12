@@ -1,0 +1,332 @@
+{
+  "chapter": 9,
+  "title": "Network Flow",
+  "summary": {
+    "topics": [
+      "Network flow and the maximum flow problem",
+      "The Ford-Fulkerson algorithm for maximum flow",
+      "The minimum cut problem",
+      "The min-cut max-flow theorem",
+      "The bipartite matching problem and its solution using max flow",
+      "Circulations with demands and lower bounds"
+    ]
+  },
+  "key_concepts": {
+    "network_flow_definition": {
+      "description": "Models the flow of material through a network with fixed capacities",
+      "applications": [
+        "Fluid in pipes",
+        "Telecommunication networks",
+        "Transport networks",
+        "Financial networks",
+        "Graph matchings",
+        "Scheduling",
+        "Image segmentation",
+        "Project management"
+      ]
+    },
+    "maximum_flow_problem": {
+      "formal_definition": {
+        "given": "Directed, edge-weighted network G = (V, E) with source s and sink t",
+        "edge_capacity": "c(u,v) for each edge",
+        "assumptions": [
+          "All capacities are integers",
+          "No edge enters source s",
+          "No edge leaves sink t"
+        ],
+        "flow_function": "f: V × V → R+",
+        "constraints": {
+          "capacity_constraint": "0 ≤ f(u,v) ≤ c(u,v)",
+          "flow_conservation": "For all u ∈ V \\ {s,t}: Σ f(v,u) = Σ f(u,v)"
+        },
+        "flow_value": "|f| = Σ f(s,v)",
+        "objective": "Maximize |f|"
+      },
+      "example": {
+        "scenario": "Trucking company sending trucks from s to t",
+        "optimal_flow": 8,
+        "solution_details": [
+          "3 trucks from s to a",
+          "5 trucks from s to b",
+          "3 trucks from a to c",
+          "5 trucks from b to d",
+          "3 trucks from c to t",
+          "5 trucks from d to t",
+          "0 trucks from c to b"
+        ]
+      }
+    }
+  },
+  "algorithms": {
+    "ford_fulkerson": {
+      "description": "Algorithm for solving maximum flow problem",
+      "key_idea": "While more flow can be pushed through network, push more flow",
+      "components": {
+        "residual_network": {
+          "definition": "Represents how much more flow can be sent through each edge",
+          "forward_edges": {
+            "residual_capacity": "c_f(u,v) = c(u,v) - f(u,v)"
+          },
+          "back_edges": {
+            "purpose": "Allow algorithm to 'undo' flow by redirecting it",
+            "residual_capacity": "c_f(v,u) = f(u,v)"
+          }
+        },
+        "augmenting_path": {
+          "definition": "Capacitated path in residual network G_f",
+          "types": [
+            "Forward edge: pushing more flow through that edge",
+            "Back edge: redirecting flow along different path"
+          ],
+          "bottleneck": "Minimum capacity of edges in augmenting path"
+        }
+      },
+      "pseudocode": {
+        "method": {
+          "name": "MAX_FLOW",
+          "input": "G = (V, E), s, t",
+          "steps": [
+            "Set initial flow f to 0 on all edges",
+            "While there exists augmenting path p in residual network G_f:",
+            "  Augment flow f along path p as much as possible",
+            "Return f"
+          ]
+        },
+        "dfs_implementation": {
+          "name": "DFS",
+          "input": "u, t, bottleneck",
+          "output": "Capacity of augmenting path found (or 0)",
+          "key_steps": [
+            "If u = t, return bottleneck (reached sink)",
+            "Mark u as visited",
+            "For each edge e = (u,v) adjacent to u:",
+            "  Calculate residual = e.capacity - e.flow",
+            "  If residual > 0 and v not visited:",
+            "    augment = DFS(v, t, min(bottleneck, residual))",
+            "    If augment > 0:",
+            "      e.flow += augment",
+            "      e.reverse.flow -= augment",
+            "      Return augment",
+            "Return 0"
+          ]
+        },
+        "main_algorithm": {
+          "name": "MAX_FLOW",
+          "steps": [
+            "flow = 0",
+            "Do:",
+            "  visited[1..n] = false",
+            "  augment = DFS(s, t, ∞)",
+            "  flow += augment",
+            "Loop while augment > 0",
+            "Return flow"
+          ]
+        }
+      },
+      "implementation_tricks": [
+        "Use zero capacity edges to represent back edges",
+        "Maintain f(v,u) = -f(u,v) for back edges",
+        "Augment flow in same routine that finds augmenting path",
+        "Edge structure contains: capacity, flow, reverse (reference to reverse edge)"
+      ],
+      "time_complexity": {
+        "dfs_variant": "O(|E| × |f_max|)",
+        "where": "|f_max| is value of maximum flow",
+        "explanation": [
+          "Finding augmenting path with DFS: O(|E|)",
+          "Worst case augmentations: |f_max| (each increases flow by 1 unit)"
+        ]
+      },
+      "better_strategies": {
+        "edmonds_karp": {
+          "strategy": "Select shortest augmenting paths (use BFS)",
+          "complexity": "O(|V||E|²)"
+        },
+        "fattest_path": {
+          "strategy": "Select paths with largest capacity (use Prim's algorithm)",
+          "complexity": "O(|E|² log(|V|) log(|E| max c(u,v)))"
+        }
+      },
+      "correctness": {
+        "property": "Finds integer-valued flows when capacities are integers",
+        "reason": [
+          "Initial flow is 0 (integer)",
+          "All edge capacities are integers",
+          "Each augmentation increases flow by integer amount"
+        ],
+        "termination": "When no augmenting paths exist",
+        "proof": "By min-cut max-flow theorem"
+      }
+    },
+    "minimum_cut": {
+      "definition": {
+        "st_cut": "Partition of vertices V into disjoint subsets S and T where s ∈ S, t ∈ T",
+        "cut_capacity": "c(S,T) = Σ(u∈S) Σ(v∈T) c(u,v)",
+        "objective": "Find s-t cut with minimum capacity"
+      },
+      "example": {
+        "scenario": "Blocking roads to prevent tutor reaching university",
+        "interpretation": "Costs of blocking roads are edge capacities",
+        "solution": "Find cheapest way to disconnect s from t"
+      },
+      "min_cut_max_flow_theorem": {
+        "statement": "max_f |f| = min_(S,T) c(S,T)",
+        "meaning": "Value of maximum flow equals capacity of minimum cut",
+        "proof_intuition": [
+          "Flow crossing any cut equals |f|",
+          "Maximum flow ≤ capacity of any cut",
+          "For maximum flow f, consider cut (S,T) where S = vertices reachable from s in G_f",
+          "This cut has capacity equal to |f|",
+          "Therefore maximum flow = minimum cut"
+        ]
+      },
+      "finding_minimum_cut": {
+        "algorithm": "After finding maximum flow f:",
+        "steps": [
+          "S = all vertices reachable from s in residual graph G_f",
+          "T = V \\ S (all remaining vertices)",
+          "(S,T) is a minimum cut"
+        ]
+      },
+      "correctness_of_ford_fulkerson": {
+        "statement": "Ford-Fulkerson correctly finds maximum flow",
+        "proof": [
+          "Algorithm terminates when no augmenting paths exist",
+          "Each augmentation increases flow by integer amount",
+          "Maximum flow is finite, so algorithm terminates",
+          "When no augmenting path exists, flow = cut capacity by construction",
+          "By min-cut max-flow theorem, this flow is maximum"
+        ]
+      }
+    },
+    "bipartite_matching": {
+      "problem": {
+        "given": "Bipartite graph B = (V, E) with sets L and R",
+        "matching": "Subset M of edges where no vertex incident to multiple edges",
+        "objective": "Find matching with maximum number of edges"
+      },
+      "example": {
+        "scenario": "L = job applicants, R = available jobs",
+        "edges": "Connect qualified applicants to jobs",
+        "goal": "Match applicants to jobs (one-to-one)"
+      },
+      "reduction_to_max_flow": {
+        "construction": [
+          "Add source s connected to all vertices in L",
+          "Add sink t connected from all vertices in R",
+          "Direct all edges in E from L to R",
+          "Set all edge capacities to 1"
+        ],
+        "interpretation": [
+          "Flow of 1 from s through u ∈ L means u gets matched",
+          "Flow of 1 into t from v ∈ R means v gets matched",
+          "Integer flow ensures at most one match per vertex"
+        ],
+        "solution": "Saturated edges from L to R in maximum flow"
+      },
+      "time_complexity": {
+        "using_ford_fulkerson": "O(|V||E|)",
+        "reason": "Maximum flow value bounded by |V|",
+        "better_algorithm": {
+          "name": "Hopcroft-Karp",
+          "complexity": "O(√|V| |E|)"
+        }
+      },
+      "implementation_note": "Can avoid constructing flow network explicitly; use alternating paths"
+    },
+    "circulation_with_demands": {
+      "problem": {
+        "description": "No single source/sink; vertices have demand/supply values",
+        "vertex_demand": {
+          "d_u > 0": "Vertex u demands d_u units (wants to receive more than sends)",
+          "d_u < 0": "Vertex u supplies -d_u units (wants to send more than receives)",
+          "d_u = 0": "Vertex u balances incoming and outgoing flow"
+        },
+        "necessary_condition": "Σ d_u = 0 (global balance)",
+        "objective": "Determine feasibility of satisfying constraints"
+      },
+      "formal_definition": {
+        "given": "Directed graph G = (V, E) with capacities c(u,v) and demands d_u",
+        "circulation": "Function f: V × V → R+",
+        "constraints": {
+          "capacity": "0 ≤ f(u,v) ≤ c(u,v)",
+          "demand": "Σ f(v,u) - Σ f(u,v) = d_u for all u ∈ V"
+        },
+        "question": "Does feasible circulation exist?"
+      },
+      "reduction_to_max_flow": {
+        "create_supergraph": [
+          "Add super-source s",
+          "For each u with d_u < 0: add edge (s,u) with capacity -d_u",
+          "Add super-sink t",
+          "For each u with d_u > 0: add edge (u,t) with capacity d_u"
+        ],
+        "solve": "Find maximum flow f'_max in supergraph G'",
+        "let": "D = Σ(d_u>0) d_u = Σ(d_u<0) -d_u",
+        "feasibility": {
+          "feasible": "If |f'_max| = D",
+          "infeasible": "If |f'_max| < D"
+        },
+        "extract_solution": "Delete edges from s and to t from f'_max to get f"
+      },
+      "algorithm": {
+        "name": "CIRCULATION",
+        "input": "G = (V, E), {d_u}",
+        "steps": [
+          "If Σ(d_u>0) d_u ≠ Σ(d_u<0) -d_u: return unfeasible",
+          "Create supergraph G' from G",
+          "Solve max-flow in G' using Ford-Fulkerson to get f'_max",
+          "If |f'_max| ≠ Σ(d_u>0) d_u: return unfeasible",
+          "Delete outgoing edges of s and incoming edges of t from f'_max to get f",
+          "Return f"
+        ]
+      }
+    },
+    "circulation_with_demands_and_lower_bounds": {
+      "problem": {
+        "additional_constraint": "Lower bounds ℓ(u,v) on edges",
+        "capacity_constraint": "ℓ(u,v) ≤ f(u,v) ≤ c(u,v)",
+        "where": "0 ≤ ℓ(u,v) ≤ c(u,v)"
+      },
+      "reduction": {
+        "approach": "Reduce to circulation with demands (no lower bounds)",
+        "steps": [
+          "Define flow f_ℓ by setting f_ℓ(u,v) = ℓ(u,v) for each edge",
+          "Create adjusted graph G* with:",
+          "  - Adjusted demands: d*_u = d_u - Σ f_ℓ(v,u) + Σ f_ℓ(u,v)",
+          "  - Adjusted capacities: c*(u,v) = c(u,v) - ℓ(u,v)",
+          "  - No lower bounds",
+          "Solve circulation with demands {d*_u} in G* to get f*",
+          "Final solution: f = f_ℓ + f*"
+        ]
+      }
+    }
+  },
+  "key_theorems": {
+    "min_cut_max_flow": {
+      "statement": "In flow network G with source s and sink t: max_f |f| = min_(S,T) c(S,T)",
+      "significance": "Minimum cut and maximum flow have same value",
+      "applications": [
+        "Proves correctness of Ford-Fulkerson",
+        "Provides method to find minimum cut from maximum flow"
+      ]
+    }
+  },
+  "important_notes": [
+    "Ford-Fulkerson finds integer-valued flows when capacities are integers",
+    "Residual network allows algorithm to 'undo' suboptimal flow choices",
+    "Back edges enable flow redirection",
+    "Many combinatorial problems reduce to max-flow or min-cut",
+    "Circulation problems generalize max-flow by removing single source/sink requirement"
+  ],
+  "exam_tips": [
+    "Understand how to construct residual network",
+    "Know how augmenting paths work (forward and back edges)",
+    "Be able to find minimum cut from maximum flow",
+    "Understand reduction of bipartite matching to max-flow",
+    "Know how to create supergraph for circulation with demands",
+    "Practice reducing problems to network flow",
+    "Remember that edge labels in residual graph show remaining capacity",
+    "Understand why Ford-Fulkerson produces integer flows"
+  ]
+}

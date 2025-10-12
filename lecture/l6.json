@@ -1,0 +1,242 @@
+{
+  "course": "FIT2004 - Algorithms and Data Structures",
+  "topic": "Dynamic Programming (Week 6)",
+  "core_concepts": {
+    "definition": {
+      "description": "Break down complicated problems into simpler subproblems recursively and solve these",
+      "key_properties": [
+        "Overlapping subproblems: same subproblem used multiple times",
+        "Optimal substructure: optimal solutions of subproblems help find optimal solutions to larger problems"
+      ],
+      "difference_from_divide_and_conquer": "D&C solves independent subproblems once; DP solves overlapping subproblems multiple times, requiring memoization"
+    },
+    "strategy": {
+      "step_1": "Assume you already know solutions of all sub-problems and have memoized these (overlapping subproblems)",
+      "step_2": "Observe how you can solve the original problem using memoized solutions (optimal substructure)",
+      "step_3": "Solve the original problem by building upon solutions to sub-problems"
+    },
+    "approaches": {
+      "top_down": {
+        "description": "Start from the top - attempting the largest problem first",
+        "method": "Recursion with memoization",
+        "advantages": ["May save some computations", "Some smaller subproblems may not need to be solved"],
+        "implementation": "Check memo array, if computed return it, else compute recursively and store"
+      },
+      "bottom_up": {
+        "description": "Start from the bottom - solving smallest problem first",
+        "method": "Iterative filling of memo array",
+        "advantages": ["Space saving tricks can be applied", "No recursion overhead"],
+        "implementation": "Fill memo array iteratively from base cases to final solution"
+      }
+    }
+  },
+  "fibonacci_example": {
+    "naive_recursion": {
+      "recurrence": "F(N) = F(N-1) + F(N-2)",
+      "base_cases": "F(0) = 0, F(1) = 1",
+      "time_complexity": "O(2^N)",
+      "problem": "Massive overlapping subproblems - same values computed repeatedly"
+    },
+    "dp_solution": {
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "key_insight": "Memoize computed Fibonacci numbers to avoid recomputation"
+    }
+  },
+  "problem_1_coins_change": {
+    "problem_statement": "Given N coins with denominations {a1, a2, ..., aN} and value V, find minimum number of coins that add up to V",
+    "example": {
+      "coins": [1, 5, 6, 9],
+      "value": 12,
+      "greedy_fails": "Greedy doesn't always work (would give 9+1+1+1=4 coins, optimal is 6+6=2 coins)"
+    },
+    "dp_solution": {
+      "subproblem": "MinCoins[v] = fewest coins required to make exactly $v",
+      "base_case": "MinCoins[0] = 0",
+      "recurrence": "MinCoins[v] = 1 + min(MinCoins[v-c] for all c in coins where c <= v)",
+      "optimal_substructure": "After choosing a coin c, optimally solve remaining problem of value v-c",
+      "time_complexity": "O(NV) where N is number of coin types, V is target value",
+      "space_complexity": "O(V)"
+    },
+    "implementation_notes": [
+      "Initialize memo to infinity (or large value)",
+      "Set base case MinCoins[0] = 0",
+      "For each value v from 1 to V, try all coin options",
+      "Take minimum over all valid choices"
+    ]
+  },
+  "problem_2_unbounded_knapsack": {
+    "problem_statement": "Given capacity C and items with weights and values, pick items (can pick same item multiple times) such that total weight ≤ C and total value is maximized",
+    "example": {
+      "items": [
+        {"name": "A", "weight": 9, "value": 550},
+        {"name": "B", "weight": 5, "value": 350},
+        {"name": "C", "weight": 6, "value": 180},
+        {"name": "D", "weight": 1, "value": 40}
+      ],
+      "capacity": 12,
+      "greedy_fails": true
+    },
+    "dp_solution": {
+      "subproblem": "MaxValue[c] = most value with capacity at most c",
+      "base_case": "MaxValue[0] = 0",
+      "recurrence": "MaxValue[c] = max(Value[i] + MaxValue[c - Weight[i]]) for all i where Weight[i] <= c",
+      "optimal_substructure": "After taking item i, optimally fill remaining capacity c - Weight[i]",
+      "time_complexity": "O(NC) where N is number of items, C is capacity",
+      "space_complexity": "O(C + N)"
+    },
+    "key_insight": "Similar logic to coin change - try each item, see what value we could get using subproblems, take best"
+  },
+  "problem_3_zero_one_knapsack": {
+    "problem_statement": "Same as unbounded knapsack BUT each item can only be picked at most once",
+    "key_difference": "If we pick item X, must ensure X is not part of subproblem solution",
+    "dp_solution": {
+      "subproblem": "Memo[i][c] = solution for items {1...i} with capacity c",
+      "two_dimensional": "Need to track both capacity AND which items are available",
+      "base_cases": [
+        "Memo[0][c] = 0 for all c (no items available)",
+        "Memo[i][0] = 0 for all i (no capacity)"
+      ],
+      "recurrence": {
+        "if_weight_exceeds": "Memo[i][c] = Memo[i-1][c] (cannot take item i)",
+        "if_weight_fits": "Memo[i][c] = max(Memo[i-1][c], Value[i] + Memo[i-1][c - Weight[i]])",
+        "explanation": "Either don't take item i, or take it and add its value to optimal solution without it"
+      },
+      "time_complexity": "O(NC)",
+      "space_complexity": "O(NC), can be reduced to O(C) with space-saving trick"
+    },
+    "complexity_note": {
+      "is_polynomial": "NO - pseudo-polynomial",
+      "explanation": "C can be represented in B = log2(C) + 1 bits, so C = 2^B",
+      "actual_complexity": "O(N * 2^B) where B is bits needed for capacity",
+      "np_complete": "0/1 Knapsack is NP-complete problem"
+    },
+    "space_saving_trick": {
+      "observation": "Only need previous row to compute current row",
+      "reduction": "O(NC) → O(C)",
+      "limitation": "Cannot be used if need to reconstruct solution (requires backtracking through full table)"
+    }
+  },
+  "problem_4_edit_distance": {
+    "problem_statement": "Convert string s1 into string s2 using minimum number of edit operations",
+    "operations": [
+      "Insert a symbol",
+      "Delete a symbol",
+      "Substitute/replace one symbol with another"
+    ],
+    "applications": [
+      "Natural Language Processing: auto-correction, query suggestions",
+      "Bioinformatics: DNA/protein sequence alignment"
+    ],
+    "examples": {
+      "computer_to_commuter": 1,
+      "sport_to_sort": 1,
+      "shine_to_sings": 3
+    },
+    "dp_solution": {
+      "subproblem": "Dist[i][j] = cost to turn s1[1...i] into s2[1...j]",
+      "base_cases": [
+        "Dist[0][j] = j (insert all j characters)",
+        "Dist[i][0] = i (delete all i characters)"
+      ],
+      "recurrence": {
+        "if_same_char": "Dist[i][j] = Dist[i-1][j-1]",
+        "if_different_char": "Dist[i][j] = 1 + min(Dist[i-1][j], Dist[i][j-1], Dist[i-1][j-1])",
+        "operations": {
+          "Dist[i-1][j] + 1": "Delete from s1 (go up)",
+          "Dist[i][j-1] + 1": "Insert into s1 (go left)",
+          "Dist[i-1][j-1] + 1": "Replace in s1 (go diagonal)"
+        }
+      },
+      "time_complexity": "O(nm) where n = len(s1), m = len(s2)",
+      "space_complexity": "O(nm)"
+    },
+    "visualization": {
+      "table": "Rows represent prefixes of s1, columns represent prefixes of s2",
+      "movement": "Up = delete, Left = insert, Diagonal = replace or match"
+    }
+  },
+  "constructing_optimal_solutions": {
+    "problem": "DP algorithms determine optimal VALUES, but how to construct the actual SOLUTION?",
+    "method_1_decision_array": {
+      "description": "Create additional array of same size recording decision at each step",
+      "process": [
+        "When filling memo[i], record which choice was made in decision[i]",
+        "After computing optimal value, trace through decision array to reconstruct solution"
+      ],
+      "example_edit_distance": "Record whether each cell came from insert/delete/replace/match"
+    },
+    "method_2_backtracking": {
+      "description": "After computing memo array, work backwards using recurrence relation",
+      "process": [
+        "Start at final cell (bottom-right for edit distance)",
+        "Use recurrence relation to determine which previous cell gave current value",
+        "Continue until reach base case"
+      ],
+      "edit_distance_backtracking": {
+        "if_same_letters": "Must have come from diagonal (up-and-left)",
+        "if_different": "Check which of three options (up, left, diagonal) equals current value minus 1",
+        "record_operations": "Build list of operations based on direction taken"
+      },
+      "advantages": "Requires less space (no additional array)",
+      "disadvantages": "Requires additional computation to determine decisions"
+    },
+    "complexity_note": "Both methods have same time and space complexity asymptotically",
+    "space_saving_limitation": "Simple space-saving tricks cannot be used when solution must be constructed"
+  },
+  "common_patterns": {
+    "identifying_dp_problems": [
+      "Problem asks for optimal value (minimum/maximum)",
+      "Greedy approach doesn't work",
+      "Problem can be broken into overlapping subproblems",
+      "Optimal solution can be built from optimal solutions to subproblems"
+    ],
+    "designing_dp_solution": {
+      "step_1": "Define subproblem - what does memo[i] or memo[i][j] represent?",
+      "step_2": "Identify base cases - what are simplest problems with known answers?",
+      "step_3": "Find recurrence relation - how to compute memo[i] from smaller subproblems?",
+      "step_4": "Determine order of computation - ensure dependencies are satisfied",
+      "step_5": "Analyze complexity - time and space based on number of subproblems and work per subproblem"
+    },
+    "implementation_tips": [
+      "Can generally implement straight from recurrence to code",
+      "Initialize memo array appropriately (often 0, infinity, or -1)",
+      "Be careful with array indices and boundary conditions",
+      "For top-down, check if value already computed before recursing"
+    ]
+  },
+  "complexity_analysis": {
+    "time_complexity": "Usually O(number of subproblems × work per subproblem)",
+    "space_complexity": "Usually O(number of subproblems), sometimes reducible",
+    "pseudo_polynomial": {
+      "definition": "Polynomial in numeric value of input, but exponential in size (bits) of input",
+      "example": "0/1 Knapsack is O(NC) but if C requires B bits, then C = 2^B, so actually O(N*2^B)"
+    }
+  },
+  "exam_tips": {
+    "key_things_to_remember": [
+      "Always clearly define what memo[i] or memo[i][j] represents",
+      "Write out base cases explicitly",
+      "Derive recurrence relation carefully, considering all cases",
+      "Know when to use 1D vs 2D memo array",
+      "Understand difference between unbounded and 0/1 knapsack",
+      "For edit distance, remember three operations and their corresponding table movements",
+      "Be able to construct solution using either decision array or backtracking",
+      "Understand space-saving tricks and their limitations"
+    ],
+    "common_mistakes": [
+      "Forgetting base cases",
+      "Off-by-one errors in array indices",
+      "Not considering all options in recurrence relation",
+      "Confusing when to use 1D vs 2D arrays",
+      "Claiming polynomial complexity for pseudo-polynomial algorithms"
+    ],
+    "practice_problems": [
+      "Coin change with different denominations",
+      "Knapsack variants (unbounded, 0/1, with different constraints)",
+      "Edit distance with different operation costs",
+      "Longest common subsequence",
+      "Matrix chain multiplication"
+    ]
+  }
+}

@@ -1,0 +1,302 @@
+{
+  "lecture_title": "FIT2004 Seminar 4 - Introduction to Graphs",
+  "core_concepts": {
+    "graph_fundamentals": {
+      "definition": "A graph encodes pairwise relationships among objects. Objects are vertices/nodes, connections are edges.",
+      "formal_notation": {
+        "graph": "G = (V, E) where V is set of vertices, E is set of edges",
+        "edge": "e = (u, v) where u and v are vertices",
+        "notation_abuse": "V used for number of vertices |V|, E used for number of edges |E|"
+      },
+      "graph_types": {
+        "undirected": {
+          "definition": "(u, v) = (v, u), no sense of direction",
+          "examples": ["Social networks (Facebook friendships)", "Transportation networks", "Communication networks"]
+        },
+        "directed": {
+          "definition": "(u, v) ≠ (v, u), has direction from u to v",
+          "examples": ["Dependency networks (course prerequisites)", "Information networks (webpage links)", "Google PageRank"]
+        },
+        "weighted": {
+          "definition": "Each edge (u, v) has associated weight w",
+          "representation": "G = (V, E) with weight function"
+        },
+        "simple_graph": {
+          "definition": "No loops AND no multiple edges between same pair of vertices",
+          "focus": "This unit focuses on simple graphs with finite vertices"
+        }
+      }
+    },
+    "connected_components": {
+      "reachability": {
+        "definition": "Vertex v is reachable from u if there exists a path from u to v",
+        "undirected_properties": {
+          "reflexive": "Each node u is reachable from itself",
+          "symmetric": "If v reachable from u, then u reachable from v",
+          "transitive": "If v reachable from u and u reachable from w, then v reachable from w",
+          "is_equivalence_relation": true
+        }
+      },
+      "connected_component": {
+        "definition": "Set of vertices reachable from u",
+        "property": "For any two nodes u and v, their connected components are either identical or disjoint"
+      },
+      "connected_graph": {
+        "definition": "All vertices are part of single connected component",
+        "equivalently": "For any pair of vertices u and v, there is a path between them"
+      },
+      "practical_importance": {
+        "airlines": "Want air routes to form connected graph",
+        "networks": "Connected graphs important in communication and transportation design",
+        "hubs": "Often not viable to have pairwise connections, but want paths without many intermediaries",
+        "critical_edges": "Edges whose removal breaks graph into large disjoint components (bad for networks)",
+        "redundancy": "Often desirable in networks",
+        "quarantine": "Sometimes want to prevent edges joining distinct components (disease spread)"
+      },
+      "directed_graphs": {
+        "reachability": "Reflexive and transitive, but NOT symmetric",
+        "mutual_reachability": "Paths exist from u to v AND from v to u",
+        "strongly_connected_components": {
+          "definition": "Equivalence classes under mutual reachability",
+          "property": "For any two vertices, their strong components are identical or disjoint"
+        },
+        "strongly_connected": "Graph has only one strongly-connected component (paths in both directions for every pair)"
+      }
+    },
+    "graph_properties": {
+      "edge_bounds": {
+        "minimum_connected": "V - 1 = O(V) edges",
+        "maximum_undirected": "V(V-1)/2 = O(V²) edges"
+      },
+      "density": {
+        "sparse": "E << V² (significantly smaller)",
+        "dense": "E ≈ V²"
+      }
+    },
+    "trees": {
+      "definition": "Undirected graph satisfying ANY of these equivalent conditions",
+      "equivalent_conditions": [
+        "Connected and acyclic (no cycles)",
+        "Connected and has V-1 edges",
+        "Acyclic and has V-1 edges",
+        "Acyclic, but cycle formed if any edge added",
+        "Connected, but disconnected if any single edge removed"
+      ],
+      "important": "If ANY one condition satisfied, ALL conditions hold and graph is a tree"
+    },
+    "graph_representations": {
+      "adjacency_matrix": {
+        "structure": "V x V matrix M",
+        "undirected_unweighted": "M[i][j] = T if edge exists, F otherwise",
+        "undirected_weighted": "M[i][j] = weight if edge exists",
+        "directed_weighted": "M[i][j] = weight if edge from i to j exists",
+        "space_complexity": "O(V²) regardless of number of edges",
+        "check_edge_time": "O(1)",
+        "get_neighbors_time": "O(V) regardless of actual number of neighbors"
+      },
+      "adjacency_list": {
+        "structure": "Array of size V, each V[i] stores list of adjacent vertices",
+        "undirected_weighted": "Store vertices with weights (tuples/pairs)",
+        "directed_weighted": "Store only outgoing edges with weights",
+        "space_complexity": "O(V + E)",
+        "check_edge_time": "O(log V) if adjacency lists are sorted arrays",
+        "get_neighbors_time": "O(X) where X is number of neighbors (output-sensitive)"
+      }
+    }
+  },
+  "graph_traversal_algorithms": {
+    "overview": {
+      "purpose": "Visit all nodes of a graph, fundamental to many algorithms",
+      "single_visit": "Both BFS and DFS visit vertices exactly once",
+      "different_orders": "BFS and DFS visit vertices in different orders",
+      "multiple_components": "Can be called repeatedly on unvisited nodes until all marked visited"
+    },
+    "breadth_first_search": {
+      "bfs_concept": {
+        "definition": "Traverses graph uniformly from source vertex",
+        "level_order": "All vertices k edges away visited before vertices k+1 edges away",
+        "pioneer": "Konrad Zuse, computer science pioneer"
+      },
+      "bfs_algorithm": {
+        "data_structures": ["Queue", "Visited set/array"],
+        "steps": [
+          "Initialize queue and visited (both empty)",
+          "Put initial vertex in queue",
+          "Mark initial vertex as visited",
+          "While queue not empty:",
+          "  Get first vertex u from queue",
+          "  For each edge (u,v):",
+          "    If v not visited:",
+          "      Add v to visited",
+          "      Add v at end of queue"
+        ]
+      },
+      "bfs_complexity": {
+        "assumptions": "Adjacency list representation",
+        "time_analysis": [
+          "Look at every edge twice",
+          "For each edge: lookup on visited",
+          "Insert vertices to visited at most O(V) times",
+          "Formula: O(V*insert + E*lookup)"
+        ],
+        "visited_implementation": "Bit list indexed by vertex ID",
+        "lookup_insert_time": "O(1) each",
+        "time_complexity": "O(V + E)",
+        "space_complexity": "O(V + E)"
+      }
+    },
+    "depth_first_search": {
+      "dfs_concept": {
+        "definition": "Traverses as deeply as possible before backtracking",
+        "history": "Version investigated by 19th century French mathematician Charles Pierre Trémaux for solving mazes"
+      },
+      "dfs_behavior": {
+        "deep_exploration": "Goes as far as possible along each branch before backtracking",
+        "order_constraints": "Cannot jump between subtrees arbitrarily"
+      },
+      "dfs_complexity": {
+        "assumptions": "Adjacency list representation",
+        "vertex_visits": "Each vertex visited at most once",
+        "edge_access": "Each edge accessed at most twice (once when u visited, once when v visited)",
+        "time_complexity": "O(V + E)",
+        "space_complexity": "O(V + E)"
+      }
+    }
+  },
+  "applications": {
+    "general_applications": [
+      "Reachability",
+      "Finding all connected components",
+      "Testing graph for bipartiteness",
+      "Finding cycles",
+      "Shortest paths on unweighted graphs",
+      "Topological sort"
+    ],
+    "bipartite_graph": {
+      "definition": "Can divide into two sets U and V where every edge has one vertex in U and other in V"
+    },
+    "shortest_path_problem": {
+      "path_length": {
+        "unweighted": "Number of edges along path",
+        "weighted": "Sum of weights of edges along path"
+      },
+      "problem_variants": {
+        "single_source_single_target": "Find shortest path from s to t",
+        "single_source_all_targets": "Find shortest paths from s to every other vertex",
+        "focus": "Single source all targets (subsumes single source single target)"
+      },
+      "algorithms_overview": {
+        "bfs": "Single source, unweighted graphs - Week 4",
+        "dijkstra": "Single source, weighted graphs with non-negative weights - Week 5",
+        "bellman_ford": "Single source, weighted graphs including negative weights - Week 7",
+        "floyd_warshall": "All pairs, weighted graphs including negative weights - Week 7"
+      }
+    },
+    "bfs_shortest_path": {
+      "key_features": {
+        "distance_tracking": "Store distances in O(1) lookup structure",
+        "distance_calculation": "Distance[v] = Distance[u] + 1 when discovering v from u",
+        "predecessor_tracking": "Keep array of predecessors to reconstruct paths",
+        "path_reconstruction": "Backtrack from v to s using predecessor array"
+      },
+      "complexity": "Same as regular BFS: O(V + E)",
+      "correctness": "BFS guarantees shortest path in unweighted graphs due to level-by-level exploration"
+    }
+  },
+  "directed_acyclic_graphs": {
+    "dag_definition": {
+      "properties": ["Directed", "Acyclic (no cycles)", "Graph"],
+      "identification": "Must check both directed and acyclic properties"
+    },
+    "dag_examples": [
+      "Sub-tasks of project with 'must finish before' relationships",
+      "Subject prerequisites (A→B means A must complete before B)",
+      "Genealogy with 'is ancestor of'",
+      "Power sets with 'is subset of'"
+    ],
+    "topological_sort": {
+      "ordering_concept": {
+        "relation": "A < B if A→B (edge from A to B)",
+        "transitivity": "If A→B and B→D, then A < B and B < D implies A < D",
+        "incomparable_vertices": "Some vertices may be incomparable (e.g., B and C when only A→B and A→C)"
+      },
+      "definition": "Permutation of vertices such that for every directed edge u→v, u appears before v",
+      "non_uniqueness": "DAG can have many valid topological sorts",
+      "practical_use": "Gives ordering for studying subjects one at a time while obeying prerequisites",
+      "dfs_approach": {
+        "method": "Use DFS and add vertices to sorted list when DFS finishes on them",
+        "result": "Reverse of finish times gives topological order",
+        "complexity": "O(V + E) - same as DFS"
+      }
+    }
+  },
+  "exam_key_concepts": {
+    "must_know_definitions": [
+      "Graph G = (V, E)",
+      "Connected component",
+      "Strongly connected component",
+      "Tree (and all 5 equivalent conditions)",
+      "DAG",
+      "Topological sort",
+      "Bipartite graph"
+    ],
+    "must_know_algorithms": {
+      "bfs": {
+        "what": "Level-by-level traversal using queue",
+        "when": "Shortest path in unweighted graphs, level-order processing",
+        "complexity": "O(V + E)",
+        "data_structure": "Queue (FIFO)"
+      },
+      "dfs": {
+        "what": "Deep exploration before backtracking",
+        "when": "Topological sort, cycle detection, path finding",
+        "complexity": "O(V + E)",
+        "data_structure": "Stack (implicit via recursion or explicit)"
+      }
+    },
+    "must_know_complexities": {
+      "adjacency_matrix": {
+        "space": "O(V²)",
+        "check_edge": "O(1)",
+        "get_neighbors": "O(V)"
+      },
+      "adjacency_list": {
+        "space": "O(V + E)",
+        "check_edge": "O(log V) if sorted",
+        "get_neighbors": "O(degree) - output sensitive"
+      },
+      "bfs": "O(V + E)",
+      "dfs": "O(V + E)",
+      "bfs_shortest_path": "O(V + E)"
+    },
+    "must_know_properties": {
+      "minimum_edges_connected": "V - 1",
+      "maximum_edges_undirected": "V(V-1)/2",
+      "tree_edges": "Always V - 1",
+      "reachability_undirected": "Equivalence relation (reflexive, symmetric, transitive)",
+      "reachability_directed": "Only reflexive and transitive (not symmetric)"
+    },
+    "tricky_exam_questions": [
+      "Identifying valid BFS/DFS orderings",
+      "Determining if sequence is valid topological sort",
+      "Choosing between adjacency matrix vs list based on requirements",
+      "Analyzing when edges/vertices are critical for connectivity",
+      "Understanding difference between connected and strongly connected"
+    ],
+    "common_mistakes": [
+      "Confusing connected components with strongly connected components",
+      "Thinking DFS can jump arbitrarily between branches",
+      "Forgetting that trees have exactly V-1 edges",
+      "Not recognizing all 5 equivalent tree conditions",
+      "Mixing up BFS (queue) with DFS (stack)",
+      "Forgetting to track predecessors for path reconstruction"
+    ]
+  },
+  "implementation_tips": {
+    "visited_tracking": "Use bit array indexed by vertex ID for O(1) lookup",
+    "predecessor_tracking": "Essential for reconstructing actual paths",
+    "queue_operations": "Enqueue at back, dequeue from front (FIFO)",
+    "distance_tracking": "Initialize to infinity, update when discovering vertices",
+    "multiple_components": "Loop through all vertices, call BFS/DFS on unvisited ones"
+  }
+}

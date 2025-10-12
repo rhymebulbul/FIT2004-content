@@ -1,0 +1,278 @@
+{
+  "chapter": 8,
+  "title": "Dynamic Programming Graph Algorithms",
+  "summary": "Dynamic programming can be used to solve shortest path problems with negative weights and all-pairs shortest path problems.",
+  "topics": [
+    {
+      "section": "8.1",
+      "title": "Shortest Paths with Negative Weights",
+      "key_concepts": [
+        {
+          "name": "Bellman-Ford Algorithm",
+          "description": "Returns shortest distances from source s to all vertices if no negative cycles reachable from s. If negative cycle exists, returns error or -∞ for affected vertices.",
+          "key_ideas": [
+            "If no negative cycles reachable from s, every shortest path from s to reachable t is simple (no repeated nodes)",
+            "Cycles with positive weight cannot be part of shortest path",
+            "Zero-weight cycles can be removed to obtain simple shortest path",
+            "Any simple path has at most |V|-1 edges"
+          ],
+          "algorithm": {
+            "name": "BELLMAN_FORD",
+            "parameters": "G = (V, E), s (source vertex)",
+            "steps": [
+              "Initialize dist[1..n] = ∞, pred[1..n] = null, dist[s] = 0",
+              "For k = 1 to n-1:",
+              "  For each edge e in E:",
+              "    RELAX(e)",
+              "Return dist[1..n], pred[1..n]"
+            ],
+            "time_complexity": "O(|V||E|)",
+            "explanation": "Outer loop runs |V|-1 iterations, inner loop runs |E| iterations, each relaxation takes O(1)"
+          },
+          "relaxation": {
+            "name": "RELAX",
+            "parameters": "e = (u,v)",
+            "steps": [
+              "If dist[v] > dist[u] + w(u,v):",
+              "  dist[v] = dist[u] + w(u,v)",
+              "  pred[v] = u"
+            ]
+          },
+          "recurrence": "OPT[i,v] = min(OPT[i-1,v], min over u:(u,v)∈E of (OPT[i-1,u] + w(u,v)))",
+          "recurrence_explanation": "OPT[i,v] = minimum weight of s→v path with at most i edges",
+          "correctness": {
+            "theorem": "Bellman-Ford terminates with correct distance estimates after at most |V|-1 iterations",
+            "proof_approach": "Induction on number of edges in shortest paths. After k iterations, all valid shortest paths with ≤k edges are correct."
+          }
+        },
+        {
+          "name": "Handling Negative Cycles",
+          "description": "Check for negative cycles and handle undefined shortest paths",
+          "approach": [
+            "Run one additional iteration of Bellman-Ford",
+            "If any distance estimate improves, negative cycle exists",
+            "Run |V| additional iterations to propagate negative cycle influence",
+            "Set dist = -∞ for vertices whose distance can still be improved"
+          ],
+          "result_interpretation": {
+            "infinity": "Vertex not reachable from source s",
+            "negative_infinity": "Vertex reachable via negative cycle, no shortest path defined",
+            "finite_value": "Correct shortest distance"
+          }
+        },
+        {
+          "name": "Optimizations",
+          "optimizations": [
+            "Early termination: If no relaxations successful in iteration, shortest paths found",
+            "If early termination occurs, no negative cycles exist",
+            "Maintain queue of edges needing relaxation (Shortest Path Faster Algorithm)",
+            "For sparse graphs, average case O(|E|), worst case still O(|V||E|)"
+          ]
+        }
+      ]
+    },
+    {
+      "section": "8.2",
+      "title": "All-Pairs Shortest Path Problem",
+      "key_concepts": [
+        {
+          "name": "Problem Variants",
+          "simple_approaches": [
+            {
+              "graph_type": "Unweighted",
+              "method": "BFS from every source",
+              "complexity": "O(|V|(|V|+|E|))"
+            },
+            {
+              "graph_type": "Non-negative weights",
+              "method": "Dijkstra from every source",
+              "complexity": "O(|V||E|log(|V|)) with binary heap"
+            },
+            {
+              "graph_type": "Negative weights",
+              "method": "Bellman-Ford from every source",
+              "complexity": "O(|V|²|E|)"
+            },
+            {
+              "graph_type": "Negative weights",
+              "method": "Johnson's algorithm (potential method)",
+              "complexity": "O(|V||E|log(|V|))",
+              "note": "Re-weights graph to eliminate negative edges, then uses Dijkstra"
+            }
+          ]
+        },
+        {
+          "name": "Floyd-Warshall Algorithm",
+          "description": "Fast for dense graphs, uses dynamic programming",
+          "key_idea": "Shortest path u→v with ≥2 edges can be decomposed into u→k and k→v for intermediate vertex k",
+          "algorithm": {
+            "name": "FLOYD_WARSHALL",
+            "parameters": "G = (V, E)",
+            "steps": [
+              "Initialize dist[1..n][1..n] = ∞",
+              "Set dist[v][v] = 0 for all vertices v",
+              "Set dist[u][v] = w(u,v) for all edges (u,v) in E",
+              "For each vertex k = 1 to n:",
+              "  For each vertex u = 1 to n:",
+              "    For each vertex v = 1 to n:",
+              "      dist[u][v] = min(dist[u][v], dist[u][k] + dist[k][v])",
+              "Return dist[1..n][1..n]"
+            ],
+            "initialization_note": "If graph represented as adjacency matrix, initialization is just copying it",
+            "time_complexity": "O(|V|³)",
+            "space_complexity": "O(|V|²)",
+            "explanation": "Three nested loops from 1 to n, constant time update per iteration"
+          },
+          "subproblems": "dist[u][v] after k iterations = length of shortest u→v path using only intermediate vertices from 1 to k",
+          "correctness": {
+            "theorem": "Floyd-Warshall produces correct distances for all pairs (u,v) with well-defined shortest paths",
+            "proof_approach": "Induction on k. After iteration k, dist[u][v] contains shortest path using intermediate vertices 1 to k."
+          },
+          "negative_cycle_detection": "If dist[v][v] < 0 for any vertex v, then v is in a negative cycle",
+          "comparison_table": {
+            "headers": ["Algorithm", "Sparse O(|E|≈|V|)", "Dense O(|E|≈|V|²)"],
+            "rows": [
+              ["Repeated BFS", "O(|V|²)", "O(|V|³)"],
+              ["Repeated Dijkstra", "O(|V|²log(|V|))", "O(|V|³log(|V|))"],
+              ["Repeated Bellman-Ford", "O(|V|³)", "O(|V|⁴)"],
+              ["Johnson", "O(|V|²log(|V|))", "O(|V|³log(|V|))"],
+              ["Floyd-Warshall", "O(|V|³)", "O(|V|³)"]
+            ],
+            "note": "Floyd-Warshall best or equal best for dense graphs"
+          }
+        }
+      ]
+    },
+    {
+      "section": "8.3",
+      "title": "Transitive Closure",
+      "key_concepts": [
+        {
+          "name": "Transitive Closure",
+          "definition": "Transitive closure of graph G is new graph G' on same vertices where edge (u,v) exists in G' iff path exists from u to v in G",
+          "reduction": "Can reduce to all-pairs shortest paths: edge in transitive closure iff dist[u][v] < ∞",
+          "warshall_algorithm": {
+            "name": "TRANSITIVE_CLOSURE (Warshall's algorithm)",
+            "parameters": "G = (V, E)",
+            "steps": [
+              "Initialize connected[1..n][1..n] = false (use bitvector)",
+              "Set connected[v][v] = true for all vertices v",
+              "Set connected[u][v] = true for all edges (u,v) in E",
+              "For each vertex k = 1 to n:",
+              "  For each vertex u = 1 to n:",
+              "    For each vertex v = 1 to n:",
+              "      connected[u][v] = connected[u][v] OR (connected[u][k] AND connected[k][v])",
+              "Return connected[1..n][1..n]"
+            ],
+            "space_complexity": "O(|V|²/w) where w = bits in machine word",
+            "time_complexity": "O(|V|³/w) with bitwise operations, O(|V|³) without",
+            "optimization": "Store connectivity as single bits instead of distances, use bitwise operations"
+          }
+        }
+      ]
+    },
+    {
+      "section": "8.4",
+      "title": "Critical Path Problem",
+      "key_concepts": [
+        {
+          "name": "Critical Path Problem",
+          "definition": "Find longest path in directed acyclic graph (DAG)",
+          "application": "Project management: vertices = task completions, edges = tasks with durations, longest path = minimum project completion time",
+          "key_insight": "On DAG, longest paths have optimal substructure (any sub-path of longest path is also longest)",
+          "note": "Only efficiently solvable on DAGs, not general graphs with cycles",
+          "dynamic_program": {
+            "subproblem": "longest[u] = length of longest path starting at u",
+            "base_case": "longest[v] = 0 for vertices with no outgoing edges",
+            "recurrence": "longest[u] = max over v∈adj[u] of (w(u,v) + longest[v])",
+            "dependency": "Must compute in reverse topological order"
+          },
+          "bottom_up_algorithm": {
+            "name": "CRITICAL_PATH (bottom-up)",
+            "parameters": "G = (V, E)",
+            "steps": [
+              "Initialize longest[1..n] = 0",
+              "order = reverse(TOPOLOGICAL_SORT(G))",
+              "For each vertex u in order:",
+              "  For each edge (u,v) adjacent to u:",
+              "    longest[u] = max(longest[u], w(u,v) + longest[v])",
+              "Return longest[1..n]"
+            ],
+            "time_complexity": "O(|V|+|E|)",
+            "explanation": "Topological sort O(|V|+|E|), iterate over every vertex and edge once"
+          },
+          "top_down_algorithm": {
+            "name": "CRITICAL_PATH (recursive)",
+            "parameters": "u (current vertex)",
+            "steps": [
+              "If longest[u] = null:",
+              "  longest[u] = 0",
+              "  For each edge (u,v) adjacent to u:",
+              "    longest[u] = max(longest[u], w(u,v) + CRITICAL_PATH(v))",
+              "Return longest[u]"
+            ],
+            "time_complexity": "O(|V|+|E|)",
+            "note": "No need to know topological order in advance, recursion handles dependencies"
+          }
+        },
+        {
+          "name": "Relationship to Dynamic Programming",
+          "key_insight": "Subproblems form a DAG where each subproblem is vertex, each dependency is directed edge",
+          "bottom_up_requirement": "Must know valid topological order of subproblem dependencies",
+          "top_down_advantage": "Performs depth-first search on subproblem graph, automatically produces reverse topological order",
+          "dp_as_path_problem": "Many DP problems can be rephrased as path problems on DAGs",
+          "example": "Coin change problem = shortest path from desired dollar amount to $0 in subproblem DAG"
+        }
+      ]
+    }
+  ],
+  "key_algorithms_summary": [
+    {
+      "algorithm": "Bellman-Ford",
+      "purpose": "Single-source shortest paths with negative weights",
+      "time_complexity": "O(|V||E|)",
+      "space_complexity": "O(|V|)",
+      "handles_negative_weights": true,
+      "detects_negative_cycles": true
+    },
+    {
+      "algorithm": "Floyd-Warshall",
+      "purpose": "All-pairs shortest paths",
+      "time_complexity": "O(|V|³)",
+      "space_complexity": "O(|V|²)",
+      "handles_negative_weights": true,
+      "detects_negative_cycles": true,
+      "best_for": "Dense graphs"
+    },
+    {
+      "algorithm": "Warshall (Transitive Closure)",
+      "purpose": "Compute transitive closure",
+      "time_complexity": "O(|V|³) or O(|V|³/w) with bitwise ops",
+      "space_complexity": "O(|V|²/w) with bitvector",
+      "optimization": "Use single bits and bitwise operations"
+    },
+    {
+      "algorithm": "Critical Path (Bottom-up)",
+      "purpose": "Longest path in DAG",
+      "time_complexity": "O(|V|+|E|)",
+      "space_complexity": "O(|V|)",
+      "requires": "Topological sort"
+    },
+    {
+      "algorithm": "Critical Path (Top-down/Recursive)",
+      "purpose": "Longest path in DAG",
+      "time_complexity": "O(|V|+|E|)",
+      "space_complexity": "O(|V|) + recursion stack",
+      "advantage": "No need to know topological order in advance"
+    }
+  ],
+  "important_notes": [
+    "Bellman-Ford can handle negative weights but not negative cycles (detects them)",
+    "Floyd-Warshall compares every pair through every possible intermediate vertex",
+    "Negative cycle detection: extra iteration of Bellman-Ford or check diagonal in Floyd-Warshall",
+    "Johnson's algorithm better than Floyd-Warshall for sparse graphs with negative weights",
+    "Critical path only works on DAGs; longest path in general graphs is NP-hard",
+    "Top-down DP automatically handles subproblem dependencies via recursion (implicit DFS)",
+    "Transitive closure uses connectivity (boolean) instead of distances for space efficiency"
+  ]
+}

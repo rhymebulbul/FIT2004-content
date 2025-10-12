@@ -1,0 +1,218 @@
+{
+  "lecture_metadata": {
+    "course": "FIT2004 - Algorithms and Data Structures",
+    "topic": "Circulation with Demands and Applications of Network Flow",
+    "seminar": 9,
+    "date": "22 September 2025",
+    "instructor": "Rafael Dowsley"
+  },
+  "key_concepts": {
+    "bipartite_graphs": {
+      "definition": "A graph where vertices can be separated into two disjoint subsets L and R such that every edge connects a vertex u ∈ L to a vertex v ∈ R",
+      "applications": ["job matching", "resource allocation"],
+      "key_property": "No edges within the same subset"
+    },
+    "bipartite_matching": {
+      "definition": "A matching is a subset M of edges E such that no vertex v ∈ V is incident to multiple edges in M",
+      "maximum_bipartite_matching": "Finding a matching with the largest possible number of edges",
+      "perfect_matching": "When |L| = |R| and |M| = |L|, every vertex is matched",
+      "solution_approach": "Reduce to max-flow problem by adding source s and sink t with capacity 1 edges"
+    },
+    "max_flow_reduction_for_matching": {
+      "steps": [
+        "Direct all edges from L to R",
+        "Add source s and connect to all nodes in L with capacity 1",
+        "Add sink t and connect all nodes in R to t with capacity 1",
+        "Run Ford-Fulkerson algorithm",
+        "Maximum matching size equals the flow value",
+        "Saturated edges from L to R represent the matching"
+      ],
+      "why_it_works": "Capacity of 1 ensures at most one unit of flow through each vertex, preventing multiple matches per vertex"
+    },
+    "circulation_with_demands": {
+      "definition": "A feasibility problem where each node u has a demand du and we must determine if flow can satisfy all demands and capacity constraints",
+      "demand_types": {
+        "positive_demand": "du > 0 means node wants to receive du more flow than it sends out",
+        "negative_demand": "du < 0 means node has supply of -du (wants to send out more than receives)",
+        "zero_demand": "du = 0 means node keeps balance between incoming and outgoing flow"
+      },
+      "necessary_condition": "Sum of all demands must equal 0: Σ(du) = 0",
+      "constraints": {
+        "capacity_constraint": "For every edge e: 0 ≤ f(e) ≤ c(e)",
+        "demand_constraint": "For every vertex u: Σf(ein) - Σf(eout) = du"
+      },
+      "assumptions": "Only integer capacities and demands are considered"
+    },
+    "solving_circulation_with_demands": {
+      "reduction_to_max_flow": {
+        "steps": [
+          "Create supergraph G' from G",
+          "Copy all nodes and edges from G to G' (nodes have no demands in G')",
+          "Add super-source s with demand 0",
+          "For each node u where du < 0, add edge s → u with capacity -du",
+          "Add super-sink t with demand 0",
+          "For each node u where du > 0, add edge u → t with capacity du",
+          "Solve max-flow problem in G'",
+          "Feasible solution exists if and only if all edges from s and to t are saturated"
+        ]
+      },
+      "solution_translation": "If feasible, remove added nodes s and t to get circulation in original graph G"
+    },
+    "circulation_with_lower_bounds": {
+      "definition": "Each edge e has both lower bound ℓ(e) and capacity c(e), requiring ℓ(e) ≤ f(e) ≤ c(e)",
+      "capacity_constraint_extended": "For every edge e: ℓ(e) ≤ f(e) ≤ c(e)",
+      "reduction_approach": {
+        "key_idea": "Break solution into fixed flow satisfying lower bounds plus adjusted circulation without lower bounds",
+        "steps": [
+          "Create fixed flow where each edge e carries flow ℓ(e)",
+          "Create adjusted graph with capacities c(e) - ℓ(e) and adjusted demands",
+          "For each edge u→v with lower bound ℓ: decrease demand at u by ℓ, increase demand at v by ℓ",
+          "Solve adjusted circulation problem without lower bounds",
+          "Add fixed flow to solution of adjusted problem"
+        ]
+      },
+      "feasibility": "Original problem feasible if and only if adjusted problem is feasible"
+    },
+    "integer_valued_solutions": {
+      "theorem": "With integer capacities, lower bounds, and demands, Ford-Fulkerson produces integer-valued flows",
+      "importance": "Critical for applications where fractional flows don't make sense (e.g., assigning whole people to jobs)"
+    }
+  },
+  "applications": {
+    "survey_design": {
+      "problem": "Design customer survey meeting questionnaire size and feedback size constraints",
+      "constraints": {
+        "questionnaire_size": "Each customer Ci asked about [Ci⁻, Ci⁺] products they bought",
+        "feedback_size": "Each product Pj receives feedback from [Pj⁻, Pj⁺] customers"
+      },
+      "network_construction": [
+        "Create node for each customer and product (all with demand 0)",
+        "Add edges Ci → Pj with capacity 1 and lower bound 0 if customer bought product",
+        "Add node Q representing questions with demand 0",
+        "Add edges Q → Ci with capacity Ci⁺ and lower bound Ci⁻",
+        "Add node F representing feedback with demand 0",
+        "Add edges Pj → F with capacity Pj⁺ and lower bound Pj⁻",
+        "Add edge F → Q with capacity ΣCi⁺ and lower bound ΣCi⁻"
+      ],
+      "solution": "Feasible survey exists if and only if circulation with demands and lower bounds has feasible solution"
+    },
+    "airline_scheduling": {
+      "problem": "Determine if k airplanes can cover j desirable flights with reachability constraints",
+      "given": [
+        "k airplanes available",
+        "j flights with origin, destination, departure and arrival times",
+        "Reachability information between flights"
+      ],
+      "network_construction": [
+        "Create departure and arrival nodes for each flight (demand 0 for all)",
+        "Add edge between departure and arrival of same flight with capacity 1 and lower bound 1 (flight must be flown)",
+        "Add node S with demand -k (planes available at start)",
+        "Add edges S → departure nodes with capacity 1 and lower bound 0 (planes can start with any flight)",
+        "Add node F with demand k (planes must finish somewhere)",
+        "Add edges from arrival nodes → F with capacity 1 and lower bound 0 (planes can end with any flight)",
+        "Add edge S → F with capacity k and lower bound 0 (planes can stay idle)",
+        "For reachable flights, add edge from arrival of first to departure of second with capacity 1 and lower bound 0"
+      ],
+      "solution": "Schedule exists if and only if circulation with demands and lower bounds has feasible solution",
+      "interpretation": "Integer solution shows which flights each plane covers"
+    },
+    "other_applications": [
+      "Project selection with dependencies and profit/loss optimization",
+      "Tournament elimination feasibility",
+      "Path covers in graphs",
+      "Open-pit mining",
+      "Image segmentation",
+      "Network connectivity and reliability",
+      "Data mining",
+      "Distributed computing",
+      "Network intrusion detection",
+      "Edge-disjoint paths",
+      "Multi-camera scene reconstruction",
+      "Gene function prediction"
+    ]
+  },
+  "problem_solving_techniques": {
+    "general_approach": {
+      "step1": "Identify the combinatorial problem structure",
+      "step2": "Model as network flow problem by designing appropriate graph",
+      "step3": "Determine node demands, edge capacities, and lower bounds",
+      "step4": "Apply reduction to standard max-flow if necessary",
+      "step5": "Run Ford-Fulkerson algorithm",
+      "step6": "Interpret solution in terms of original problem"
+    },
+    "key_modeling_tricks": [
+      "Use capacity 1 edges to represent binary choices (yes/no decisions)",
+      "Use lower bounds to enforce mandatory requirements",
+      "Use demands to model supply and consumption",
+      "Add auxiliary nodes (like Q and F) to represent abstract concepts",
+      "Use edge saturation to indicate selection in solution"
+    ],
+    "when_to_use_each_variant": {
+      "standard_max_flow": "When maximizing flow from source to sink",
+      "circulation_with_demands": "When nodes have supply/demand requirements but no lower bounds",
+      "circulation_with_demands_and_lower_bounds": "When edges must carry minimum flow and nodes have demands"
+    }
+  },
+  "exam_preparation": {
+    "core_definitions_to_memorize": [
+      "Bipartite graph",
+      "Bipartite matching vs maximum bipartite matching vs perfect matching",
+      "Circulation with demands (capacity and demand constraints)",
+      "Lower bounds on edges",
+      "Supply vs demand (positive vs negative demand values)"
+    ],
+    "key_algorithms": [
+      "Reduction of maximum bipartite matching to max-flow",
+      "Reduction of circulation with demands to max-flow",
+      "Reduction of circulation with lower bounds to circulation without lower bounds"
+    ],
+    "important_theorems": [
+      "Ford-Fulkerson produces integer solutions when capacities are integers",
+      "Circulation with demands feasible ⟺ max-flow saturates all s and t edges",
+      "Necessary condition: Σdu = 0 for circulation with demands"
+    ],
+    "problem_types": [
+      "Given bipartite graph, find maximum matching",
+      "Given circulation problem with demands, determine feasibility",
+      "Model real-world problem as network flow",
+      "Construct appropriate graph for survey/scheduling/matching problems"
+    ],
+    "common_mistakes_to_avoid": [
+      "Forgetting to check Σdu = 0 for circulation with demands",
+      "Confusing supply (negative demand) with demand (positive demand)",
+      "Using capacity instead of lower bound or vice versa",
+      "Not properly adjusting demands when reducing lower bounds problem",
+      "Forgetting that all nodes except s and t should have demand 0 in max-flow reduction"
+    ]
+  },
+  "worked_example_patterns": {
+    "bipartite_matching_example": {
+      "setup": "5 applicants, 4 jobs, edges show qualifications",
+      "reduction": "Add s connected to all applicants (capacity 1), add t connected to all jobs (capacity 1)",
+      "interpretation": "Max flow value = size of maximum matching, saturated edges show assignments"
+    },
+    "circulation_demands_example": {
+      "setup": "Nodes with demands: dx=-4, dy=-3, dv=2, dw=5, dz=0",
+      "verification": "Sum = -4-3+2+5+0 = 0 ✓",
+      "solution": "Add s and t, solve max-flow, check if all s→u and v→t edges saturated"
+    },
+    "lower_bounds_example": {
+      "setup": "Edges with format ℓ/c (lower bound / capacity)",
+      "reduction": "Subtract lower bound from capacity, adjust demands at endpoints, solve without lower bounds, add back fixed flow"
+    }
+  },
+  "formula_reference": {
+    "demand_constraint": "Σ(f(ein)) - Σ(f(eout)) = du for each vertex u",
+    "capacity_constraint": "0 ≤ f(e) ≤ c(e)",
+    "capacity_with_lower_bound": "ℓ(e) ≤ f(e) ≤ c(e)",
+    "necessary_feasibility": "Σ(du) = 0 over all vertices",
+    "adjusted_capacity": "c'(e) = c(e) - ℓ(e) when reducing lower bounds",
+    "adjusted_demand": "When edge u→v has lower bound ℓ: du' = du - ℓ, dv' = dv + ℓ"
+  },
+  "key_insights": {
+    "power_of_network_flow": "Many non-trivial combinatorial problems can be solved efficiently by modeling as network flow",
+    "integer_solutions": "Integer capacities guarantee integer flows with Ford-Fulkerson, making solutions interpretable for discrete problems",
+    "reduction_technique": "Complex variants (demands, lower bounds) can be reduced to standard max-flow",
+    "feasibility_vs_optimization": "Circulation problems are feasibility problems (does solution exist?) rather than optimization problems (what's the best solution?)"
+  }
+}

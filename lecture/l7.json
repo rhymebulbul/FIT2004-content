@@ -1,0 +1,275 @@
+{
+  "lecture_title": "FIT2004 - Seminar 7 - Dynamic Programming Graph Algorithms",
+  "date": "8 September 2025",
+  "instructor": "Rafael Dowsley",
+  "main_topics": [
+    "Shortest path in graphs with negative weights (Bellman-Ford)",
+    "All-pairs shortest paths (Floyd-Warshall)",
+    "Transitive closure"
+  ],
+  "key_concepts": {
+    "dijkstra_limitation": {
+      "description": "Dijkstra's algorithm does NOT work correctly with negative edge weights",
+      "example": "Graph with edges s→a (6), s→b (3), a→b (-4): shortest path s→b is 2 via a, but Dijkstra would output 3",
+      "exam_note": "Always check for negative weights before choosing Dijkstra"
+    },
+    "negative_cycles": {
+      "definition": "A cycle where the sum of edge weights is negative",
+      "impact": "If reachable from source and can reach destination, shortest path is undefined (can go to -∞)",
+      "example": "Cycle a→b→c with total weight -1 allows arbitrarily short paths by repeating the cycle",
+      "detection": "Bellman-Ford can detect these; run one extra iteration to check"
+    },
+    "simple_paths": {
+      "definition": "A path with no repeated vertices",
+      "max_edges": "|V| - 1",
+      "importance": "If no negative cycles reachable, there exists a shortest path that is simple",
+      "reasoning": "Positive cycles can be removed; zero-weight cycles can be removed without changing path weight"
+    },
+    "optimal_subpaths": {
+      "principle": "If P is a shortest path s⤳v, and u is the last vertex before v on P, then the portion from s to u is also a shortest path",
+      "proof_method": "Contradiction - if shorter path to u existed, could construct shorter path to v",
+      "used_in": "Both Bellman-Ford and Floyd-Warshall correctness proofs"
+    }
+  },
+  "bellman_ford_algorithm": {
+    "purpose": "Find shortest paths from single source in graphs with negative weights (but no negative cycles reachable from source)",
+    "returns": [
+      "Shortest distances from source s to all vertices if no negative cycles reachable",
+      "Error if negative cycle is reachable from s"
+    ],
+    "can_be_modified_to": "Return valid shortest distances and -∞ for vertices affected by negative cycles",
+    "core_idea": "For every reachable node t (no negative cycles), there exists a shortest simple path s⤳t with at most |V|-1 edges",
+    "dynamic_programming_formulation": {
+      "state": "dist(i, v) = minimum weight of path s⤳v using at most i edges",
+      "base_case": "dist(0, s) = 0; dist(0, v) = ∞ for v ≠ s",
+      "recurrence": "dist(i, v) = min(dist(i-1, v), min over u:(u,v)∈E of (dist(i-1, u) + w(u,v)))",
+      "answer": "dist(|V|-1, v) for each vertex v"
+    },
+    "original_dp_implementation": {
+      "time_complexity": "Θ(|V|² + |V|·|E|) = Θ(|V|·|E|) for connected graphs",
+      "space_complexity": "Θ(|V|²)",
+      "iterations": "|V| - 1 iterations of outer loop",
+      "operation": "Each iteration relaxes every edge once"
+    },
+    "optimized_implementation": {
+      "description": "Use single array dist[] instead of 2D array, overwrite values in place",
+      "time_complexity": "Θ(|V|·|E|)",
+      "space_complexity": "Θ(|V|)",
+      "iterations": "|V| - 1",
+      "update_rule": "dist[v] = min(dist[v], dist[u] + w(u,v)) for each edge (u,v)",
+      "early_stopping": "Can stop if no updates in an iteration (doesn't improve worst-case complexity)",
+      "note": "Order of edge relaxation affects number of iterations needed, but not correctness"
+    },
+    "edge_relaxation": {
+      "definition": "Update dist[v] = min(dist[v], dist[u] + w(u,v)) for edge (u,v)",
+      "meaning": "Try to improve distance to v by going through u"
+    },
+    "guarantee_after_i_iterations": "dist[v] ≤ weight of shortest path using at most i edges (may already be better)",
+    "negative_cycle_detection": {
+      "method": "Run one additional (|V|-th) iteration",
+      "logic": "If any distance improves, there's no simple shortest path, indicating negative cycle",
+      "modification": "Run |V| more iterations, mark affected vertices as -∞"
+    },
+    "detecting_any_negative_cycle": {
+      "method": "Add dummy vertex connected to all vertices with weight 0, run Bellman-Ford from dummy vertex",
+      "reason": "Makes all cycles reachable from source"
+    },
+    "pseudocode": {
+      "initialization": "dist[v] = ∞ for all v; dist[s] = 0; pred[v] = null",
+      "main_loop": "for i = 1 to |V|-1: for each edge (u,v): if dist[u] + w(u,v) < dist[v]: dist[v] = dist[u] + w(u,v); pred[v] = u",
+      "return": "dist[] and pred[] arrays"
+    },
+    "exam_tips": [
+      "Remember: |V|-1 iterations, each processes all |E| edges",
+      "Can trace algorithm by showing dist[] after each iteration",
+      "Watch for order of edge processing - affects intermediate values",
+      "Check diagonal for negative values to detect cycles"
+    ]
+  },
+  "all_pairs_shortest_paths": {
+    "problem": "Find shortest distances between ALL pairs of vertices",
+    "approaches": {
+      "unweighted_graphs": {
+        "method": "Run BFS from each vertex",
+        "time_complexity": "Θ(|V|² + |V|·|E|) = Θ(|V|·|E|) for connected graphs",
+        "dense_graphs": "Θ(|V|³)"
+      },
+      "non_negative_weights": {
+        "method": "Run Dijkstra from each vertex",
+        "time_complexity": "Θ(|V|·|E|·log|V|) for connected graphs",
+        "dense_graphs": "Θ(|V|³·log|V|)"
+      },
+      "negative_weights_allowed": {
+        "naive_method": "Run Bellman-Ford from each vertex",
+        "naive_time": "Θ(|V|²·|E|)",
+        "naive_dense": "Θ(|V|⁴)",
+        "better_method": "Floyd-Warshall algorithm",
+        "better_time": "Θ(|V|³)"
+      }
+    }
+  },
+  "floyd_warshall_algorithm": {
+    "purpose": "All-pairs shortest paths in Θ(|V|³), works with negative weights",
+    "advantages": [
+      "Better than running Bellman-Ford |V| times for dense graphs",
+      "Can detect ALL negative cycles (not just reachable from specific source)",
+      "Simple implementation"
+    ],
+    "named_after": "Robert W. Floyd (Turing Award 1978) and Stephen Warshall",
+    "core_idea": "After k-th iteration, dist[u][v] = weight of shortest path u⤳v using only intermediate vertices from {1, 2, ..., k}",
+    "dynamic_programming_formulation": {
+      "state": "dist[u][v] after k iterations = shortest path u⤳v using intermediates from {1...k}",
+      "base_case_k0": "dist[u][v] = w(u,v) if edge exists, ∞ otherwise; dist[v][v] = 0",
+      "recurrence": "dist[u][v] = min(dist[u][v], dist[u][k] + dist[k][v])",
+      "interpretation": "Either shortest path doesn't use k (stay with old value), or it goes u→k→v"
+    },
+    "algorithm_structure": {
+      "initialization": "dist[u][v] = ∞ for all; dist[v][v] = 0; dist[u][v] = w(u,v) for edges",
+      "triple_nested_loop": "for k=1 to |V|: for u=1 to |V|: for v=1 to |V|: dist[u][v] = min(dist[u][v], dist[u][k] + dist[k][v])",
+      "critical_order": "k must be outermost loop"
+    },
+    "time_complexity": "Θ(|V|³)",
+    "space_complexity": "Θ(|V|²)",
+    "invariant": "Assuming shortest path u⤳v is well-defined, dist[u][v] = minimum distance u→v using only intermediate vertices 1 to k-1",
+    "correctness_proof": {
+      "base_case": "k=1 (no intermediates): true as initialized from edges only",
+      "inductive_step": [
+        "Assume true for k-1",
+        "Shortest path using intermediates {1...k} either: (1) doesn't use k, or (2) uses k exactly once",
+        "Case 1: dist[u][v] from k-1 is still optimal",
+        "Case 2: Path is u⤳k⤳v where both subpaths use only {1...k-1}",
+        "Since no positive/negative cycles in shortest path, can remove 0-cycles to get simple path through k",
+        "By optimal subpaths property: weight = dist[u][k] + dist[k][v]",
+        "Algorithm computes exactly this minimum"
+      ]
+    },
+    "negative_cycle_detection": {
+      "method": "Check diagonal: if dist[v][v] < 0 for any v, there's a negative cycle",
+      "reason": "Negative diagonal means negative path from v to itself",
+      "advantage": "Detects ALL negative cycles, not just reachable from specific source"
+    },
+    "path_reconstruction": {
+      "method": "Maintain pred[u][v] = predecessor of v on shortest path from u",
+      "update": "When updating dist[u][v] via k, set pred[u][v] = pred[k][v]"
+    },
+    "example_trace": "Show dist matrix after each value of k, highlighting updated cells",
+    "exam_tips": [
+      "Remember: three nested loops, k outermost",
+      "After k iterations: can use vertices {1, 2, ..., k} as intermediates",
+      "Final answer: dist matrix after k=|V|",
+      "Check diagonal for negative cycles",
+      "Can trace by showing full matrix after each k value"
+    ]
+  },
+  "transitive_closure": {
+    "definition": "Given graph G=(V,E), transitive closure G'=(V,E') where (u,v)∈E' iff there exists a path u⤳v in G",
+    "interpretation": "Add edge for every pair of vertices that has a path between them",
+    "warshall_algorithm": {
+      "purpose": "Compute transitive closure in Θ(|V|³)",
+      "relationship": "Similar structure to Floyd-Warshall but with boolean values",
+      "state": "connected[u][v] after k iterations = true iff path u⤳v exists using intermediates {1...k}",
+      "initialization": "connected[v][v] = true; connected[u][v] = true for edges; rest false",
+      "update_rule": "connected[u][v] = connected[u][v] OR (connected[u][k] AND connected[k][v])",
+      "time_complexity": "Θ(|V|³)",
+      "space_complexity": "Θ(|V|²)"
+    },
+    "application": "Determine reachability between all pairs of vertices"
+  },
+  "comparison_table": {
+    "single_source_non_negative": {
+      "algorithm": "Dijkstra",
+      "time": "Θ(|E|·log|V|)",
+      "space": "Θ(|V|)",
+      "notes": "Fails with negative weights"
+    },
+    "single_source_negative_ok": {
+      "algorithm": "Bellman-Ford",
+      "time": "Θ(|V|·|E|)",
+      "space": "Θ(|V|)",
+      "notes": "Detects negative cycles reachable from source"
+    },
+    "all_pairs_negative_ok": {
+      "algorithm": "Floyd-Warshall",
+      "time": "Θ(|V|³)",
+      "space": "Θ(|V|²)",
+      "notes": "Detects all negative cycles"
+    },
+    "all_pairs_naive": {
+      "algorithm": "|V| × Bellman-Ford",
+      "time": "Θ(|V|²·|E|) = Θ(|V|⁴) for dense",
+      "notes": "Worse than Floyd-Warshall for dense graphs"
+    }
+  },
+  "exam_strategies": {
+    "algorithm_selection": [
+      "Check for negative weights first",
+      "If negative weights: cannot use Dijkstra",
+      "Single source + negative weights → Bellman-Ford",
+      "All pairs + negative weights → Floyd-Warshall",
+      "Dense graph + all pairs → Floyd-Warshall usually better"
+    ],
+    "tracing_bellman_ford": [
+      "Show dist[] array after each iteration (1 to |V|-1)",
+      "Show which edges cause updates",
+      "Remember: order of edge processing matters for intermediate values",
+      "Final iteration should show no changes if no negative cycles"
+    ],
+    "tracing_floyd_warshall": [
+      "Show full dist[][] matrix after each k value",
+      "Highlight cells that were updated in each iteration",
+      "Check diagonal at end for negative cycles",
+      "k represents which vertex is now allowed as intermediate"
+    ],
+    "common_mistakes": [
+      "Using Dijkstra with negative weights",
+      "Wrong loop order in Floyd-Warshall (k must be outermost)",
+      "Forgetting that Bellman-Ford needs |V|-1 iterations, not |E|",
+      "Not checking for negative cycles",
+      "Confusing 'at most i edges' (Bellman-Ford DP) with 'using intermediates 1...k' (Floyd-Warshall)"
+    ],
+    "proof_techniques": [
+      "Optimal subpaths property: used in both algorithms",
+      "Induction on number of iterations/intermediates allowed",
+      "Contradiction for showing subpath optimality",
+      "Loop invariants for correctness"
+    ]
+  },
+  "key_formulas": {
+    "bellman_ford_recurrence": "dist(i,v) = min(dist(i-1,v), min over u:(u,v)∈E of (dist(i-1,u) + w(u,v)))",
+    "bellman_ford_update": "dist[v] = min(dist[v], dist[u] + w(u,v))",
+    "floyd_warshall_recurrence": "dist[u][v] = min(dist[u][v], dist[u][k] + dist[k][v])",
+    "warshall_closure": "connected[u][v] = connected[u][v] OR (connected[u][k] AND connected[k][v])"
+  },
+  "important_bounds": {
+    "simple_path_max_edges": "|V| - 1",
+    "bellman_ford_iterations": "|V| - 1 (plus optional |V|-th for cycle detection)",
+    "floyd_warshall_iterations": "|V| (for k from 1 to |V|)"
+  },
+  "complexity_summary": {
+    "bellman_ford_time": "Θ(|V|·|E|)",
+    "bellman_ford_space": "Θ(|V|) for optimized version",
+    "floyd_warshall_time": "Θ(|V|³)",
+    "floyd_warshall_space": "Θ(|V|²)",
+    "warshall_closure_time": "Θ(|V|³)",
+    "warshall_closure_space": "Θ(|V|²)"
+  },
+  "practical_applications": {
+    "bellman_ford": [
+      "Network routing with negative costs",
+      "Currency arbitrage detection",
+      "Detecting negative cycles in financial systems"
+    ],
+    "floyd_warshall": [
+      "All-pairs reachability",
+      "Finding shortest paths in dense graphs",
+      "Network diameter computation",
+      "Transitive closure of relations"
+    ]
+  },
+  "reading_resources": {
+    "course_notes": "Chapter 8",
+    "CLRS": "Sections 24.1 and 25.2",
+    "KT": "Sections 6.8, 6.9, and 6.10",
+    "Roughgarden": "Chapter 18"
+  }
+}

@@ -1,0 +1,310 @@
+{
+  "lecture_title": "Greedy Graph Algorithms - Week 5",
+  "core_concepts": {
+    "greedy_paradigm": {
+      "definition": "Make a locally optimal choice at each stage and commit to it",
+      "key_point": "Easy to come up with ideas, but often don't find overall optimal solution",
+      "importance": "Correctness proofs are very important for greedy algorithms"
+    }
+  },
+  "algorithms": {
+    "dijkstras_algorithm": {
+      "purpose": "Single source shortest path problem on graphs with non-negative weights",
+      "problem_type": "Single source, all targets shortest path",
+      "constraint": "CRITICAL: Only works with non-negative edge weights",
+      "key_concepts": {
+        "set_s": "Set of nodes whose distance to source has been determined (finalized)",
+        "initialization": "S only contains source node initially, grows by one element at a time",
+        "greedy_choice": "At each iteration, add to S the node u with smallest distance estimate that is one edge away from S"
+      },
+      "data_structures": {
+        "priority_queue_q": "Stores vertices by distance priority, extracts minimum",
+        "dist_array": "ID-indexed array storing distance estimates from source",
+        "pred_array": "ID-indexed array storing predecessor vertices for path reconstruction"
+      },
+      "algorithm_steps": [
+        "Initialize: dist[source] = 0, all others = infinity, all vertices in Q",
+        "While Q is not empty:",
+        "  - Extract vertex u with minimum distance from Q",
+        "  - Distance of u is now finalized",
+        "  - For each neighbor v of u:",
+        "    - Relax edge: if dist[u] + w(u,v) < dist[v]:",
+        "      - Update dist[v] = dist[u] + w(u,v)",
+        "      - Set pred[v] = u",
+        "      - Update v's priority in Q"
+      ],
+      "relaxation": {
+        "definition": "For each neighbor v of u, if dist[u] + w(u,v) < dist[v], then update dist[v] and set pred[v] = u",
+        "complexity": "θ(1) since we can find distances and compare them in θ(1)"
+      },
+      "time_complexity": {
+        "with_min_heap": "θ(E log V + V log V) = θ(E log V)",
+        "breakdown": {
+          "while_loop": "θ(V) iterations",
+          "extract_min": "θ(log V) per extraction, V times total",
+          "edge_traversal": "θ(E) total - each edge visited once",
+          "priority_queue_update": "θ(log V) per update",
+          "relaxation": "θ(1)"
+        },
+        "simplification": "If graph is connected, E ≥ V-1, so E dominates V, giving θ(E log V)"
+      },
+      "proof_of_correctness": {
+        "claim": "For every vertex v removed from queue, dist[v] is correct",
+        "base_case": "dist[source] = 0 is correct (no negative weights)",
+        "inductive_hypothesis": "Assume claim holds for all vertices in S (removed from queue)",
+        "inductive_step": {
+          "assume_contradiction": "Suppose there exists shorter path P with len(P) < dist[u]",
+          "let_x": "x is furthest vertex on P which is in S (finalized)",
+          "let_y": "y is next vertex on P after x (y not in S)",
+          "key_inequality": "len(s→y) ≤ len(P) < dist[u], so dist[y] < dist[u]",
+          "contradiction": "If y ≠ u, why wasn't y removed before u? If y = u, how can dist[y] < dist[u]?",
+          "conclusion": "No such shorter path exists, dist[u] is correct"
+        }
+      },
+      "exam_tips": {
+        "trace_execution": "Know how to trace through algorithm step-by-step with dist, pred, and Q",
+        "understand_relaxation": "Be able to explain when and why edges are relaxed",
+        "recognize_finalization": "Once vertex is popped from Q, its distance is finalized",
+        "negative_weights": "Algorithm FAILS with negative weights - important distinction"
+      }
+    },
+    "prims_algorithm": {
+      "purpose": "Find Minimum Spanning Tree (MST) of a graph",
+      "key_difference_from_dijkstra": "Tracks distance to reach tree T, not distance to source",
+      "problem_type": "Minimum Spanning Tree construction",
+      "key_concepts": {
+        "spanning_tree_definition": "A tree that includes every vertex of G and is a subgraph of G (every edge belongs to G)",
+        "tree_definition": "A connected undirected graph with no cycles",
+        "mst_definition": "A spanning tree whose weight (sum of edge weights) is minimum over all possible spanning trees",
+        "multiple_msts": "A graph may have multiple MSTs with same minimum weight"
+      },
+      "algorithm_strategy": {
+        "start": "Pick any vertex v as source of T",
+        "iteration": "While T does not contain all vertices, find shortest edge from T to a different connected component and add it to T",
+        "growth": "T grows one edge at a time"
+      },
+      "data_structures": {
+        "priority_queue_q": "Stores vertices by distance priority to reach T",
+        "dist_array": "Distance estimates to reach tree T (NOT distance to source)",
+        "parent_array": "Stores parent vertices for tree reconstruction"
+      },
+      "algorithm_steps": [
+        "Initialize: dist[source] = 0, all others = infinity, all vertices in Q",
+        "While Q is not empty:",
+        "  - Extract vertex u with minimum distance from Q",
+        "  - Add edge (parent[u], u) to MST T",
+        "  - For each neighbor v of u:",
+        "    - If w(u,v) < dist[v]:",
+        "      - Update dist[v] = w(u,v) (NOTE: just edge weight, not dist[u] + w(u,v))",
+        "      - Set parent[v] = u",
+        "      - Update v's priority in Q"
+      ],
+      "critical_difference": {
+        "update_rule": "dist[v] = w(u,v), NOT dist[u] + w(u,v) like Dijkstra",
+        "meaning": "We care about edge weight to reach T, not cumulative distance from source"
+      },
+      "time_complexity": {
+        "formula": "θ(E log V + V log V) = θ(E log V)",
+        "note": "Same as Dijkstra's algorithm",
+        "reason": "Since graph G is connected, E ≥ V-1, so E dominates"
+      },
+      "proof_of_correctness": {
+        "invariant": "Every iteration, current set of selected edges in T is a subset of some MST of G",
+        "base_case": "Invariant is true initially when T is empty",
+        "inductive_step": {
+          "assumption": "T is subset of some MST M at start of iteration",
+          "let_e": "e = (u,v) is lightest edge connecting v in T to u not in T (Prim's choice)",
+          "case_1": "If e is in M, then T ∪ {e} is subset of M, invariant holds",
+          "case_2_setup": "If e not in M, must show another MST exists containing T ∪ {e}",
+          "case_2_proof": [
+            "Since M is tree, exactly one path from u to v in M",
+            "u and v not connected in T (v not in T yet)",
+            "Let x be first edge on path not in T",
+            "One vertex of x is in T, other is not",
+            "Removing x disconnects M",
+            "Adding e creates new spanning tree M'",
+            "Since Prim's selects lightest edge incident to T: w(e) ≤ w(x)",
+            "Weight of M' ≤ weight of M, so M' is also MST",
+            "Therefore choosing e is correct"
+          ]
+        }
+      },
+      "exam_tips": {
+        "edge_addition": "Edge added is between u and parent[u]",
+        "distance_meaning": "dist[v] represents weight of edge to connect v to T, NOT distance from source",
+        "vs_dijkstra": "Understand the key difference in what distance represents"
+      }
+    },
+    "kruskals_algorithm": {
+      "purpose": "Find Minimum Spanning Tree (MST) using edge-based approach",
+      "strategy": "Sort edges by weight, add edges that don't create cycles",
+      "key_difference": "Kruskal's merges closest connected components; Prim's grows one component",
+      "algorithm_steps": [
+        "Sort all edges in ascending order by weight",
+        "Let T be graph with V as vertices, no edges",
+        "For each edge (u,v) in ascending order:",
+        "  - If adding (u,v) does not create cycle in T:",
+        "    - Add (u,v) to T",
+        "Return T"
+      ],
+      "cycle_detection": {
+        "key_insight": "Edge can be added if it does NOT connect two nodes in same connected component",
+        "equivalently": "Edge can be added if it connects two distinct connected components",
+        "effect": "Adding edge between two distinct connected components merges them into one"
+      },
+      "union_find_data_structure": {
+        "purpose": "Efficiently track and merge connected components",
+        "operations": {
+          "find_u": "Given vertex u, return its set ID (root of its tree)",
+          "union_u_v": "Given two vertices u and v, if different set IDs, merge their sets"
+        },
+        "implementation_evolution": {
+          "array_approach": {
+            "find": "θ(1)",
+            "union": "θ(V) in worst case - too slow"
+          },
+          "linked_list_approach": {
+            "union": "O(1) to append lists",
+            "find": "O(size of list) - traverse to head"
+          },
+          "linked_tree_approach": {
+            "structure": "Forest of trees where each tree is a set",
+            "parent_array": "parent[i] = parent of vertex i, or i itself if root",
+            "find": "Traverse parent pointers until vertex is its own parent (root)",
+            "union": "Set parent[find(u)] = find(v)",
+            "basic_complexity": "Find could be θ(V), union is O(find)"
+          }
+        },
+        "union_by_size_optimization": {
+          "rule": "When unioning, make root of larger set the new root",
+          "implementation": "Store negative size at root: parent[root] = -size",
+          "benefit": "Keeps tree heights logarithmic",
+          "key_result": "Number of elements N in tree is at least 2^h, where h is height",
+          "height_bound": "h ≤ log₂(N)",
+          "find_complexity": "O(log N) where N is size of tree",
+          "union_complexity": "O(log V) per union (2 finds + O(1))",
+          "total_unions": "V-1 unions needed, so θ(V log V) total"
+        },
+        "parent_array_values": {
+          "positive": "parent[i] = j means parent of i is j",
+          "negative": "parent[i] = -k means i is root with set size k"
+        },
+        "advanced_optimizations": {
+          "union_by_rank": "Track rank instead of size",
+          "path_compression": "During find, make all nodes point directly to root",
+          "combined_complexity": "θ(V α(V)) where α is inverse Ackermann function",
+          "practical_note": "α(any representable number) < 5, so effectively O(V)",
+          "exam_note": "NOT examinable, but good to know"
+        }
+      },
+      "time_complexity": {
+        "sorting_edges": "θ(E log E) = θ(E log V) since E ≤ V²",
+        "initialization": "θ(V) for union-find",
+        "main_loop": "θ(E) iterations",
+        "per_iteration": "O(log V) for union operation (2 finds)",
+        "total_unions": "θ(V log V) for all V-1 unions",
+        "final_complexity": "θ(E log V + V log V) = θ(E log V)"
+      },
+      "proof_of_correctness": {
+        "approach": "Similar to Prim's algorithm proof",
+        "note": "Details in course notes, students should attempt independently"
+      },
+      "exam_tips": {
+        "trace_execution": "Be able to show which edges are considered and which are added",
+        "union_find_operations": "Trace find() and union() operations with parent array",
+        "cycle_detection": "Understand that same set ID means cycle would form",
+        "sorted_order": "Always process edges in ascending weight order"
+      }
+    }
+  },
+  "spanning_trees": {
+    "definitions": {
+      "tree": "Connected undirected graph with no cycles",
+      "spanning_tree": "Tree that spans G (includes every vertex) and is subgraph of G",
+      "weight_of_spanning_tree": "Sum of weights of edges in the tree",
+      "minimum_spanning_tree": "Spanning tree with minimum total weight"
+    },
+    "properties": {
+      "maximal_acyclic": "Maximal set of edges of G that contains no cycles",
+      "minimal_connected": "Minimal set of edges that connect all vertices",
+      "multiple_msts": "Graph may have multiple MSTs with same minimum weight"
+    },
+    "general_mst_strategy": {
+      "initialization": "T = empty set",
+      "safe_edge": "Edge e is safe if {T ∪ e} is subset of some MST",
+      "loop": "While T can be grown safely, find safe edge and add to T",
+      "result": "Return T as MST"
+    }
+  },
+  "algorithm_comparison": {
+    "dijkstra_vs_prim": {
+      "similarity": "Both use priority queue and similar structure",
+      "key_difference": "Dijkstra tracks cumulative distance from source, Prim tracks edge weight to tree",
+      "update_rule_dijkstra": "dist[v] = dist[u] + w(u,v)",
+      "update_rule_prim": "dist[v] = w(u,v)",
+      "problem_type": "Dijkstra for shortest paths, Prim for MST"
+    },
+    "prim_vs_kruskal": {
+      "prim_approach": "Vertex-based, grows single connected component",
+      "kruskal_approach": "Edge-based, merges multiple connected components",
+      "prim_structure": "One tree grows from source",
+      "kruskal_structure": "Forest of trees eventually merges to one tree",
+      "complexity": "Both θ(E log V)",
+      "data_structure": "Prim uses priority queue, Kruskal uses union-find"
+    }
+  },
+  "exam_preparation": {
+    "algorithm_tracing": {
+      "dijkstra": [
+        "Maintain dist, pred, and Q at each step",
+        "Show relaxation decisions",
+        "Identify when vertices are finalized",
+        "Reconstruct shortest path using pred array"
+      ],
+      "prim": [
+        "Maintain dist, parent, and Q at each step",
+        "Show edge weight comparisons (not cumulative distance)",
+        "Identify edges added to MST (between u and parent[u])",
+        "Track growing tree structure"
+      ],
+      "kruskal": [
+        "Sort edges first",
+        "Maintain parent array for union-find",
+        "Show find() operations returning set IDs",
+        "Show union() operations and parent array updates",
+        "Identify which edges are rejected (create cycles)"
+      ]
+    },
+    "proof_techniques": {
+      "greedy_algorithm_proofs": "Use loop invariants and contradiction",
+      "dijkstra_proof": "Prove distance is correct when vertex finalized",
+      "prim_proof": "Prove T remains subset of some MST",
+      "key_technique": "Assume optimal solution exists that differs, show contradiction or equal quality"
+    },
+    "common_mistakes": {
+      "dijkstra_negative_weights": "Algorithm fails with negative weights",
+      "prim_distance_meaning": "dist[v] is edge weight to T, NOT distance from source",
+      "kruskal_cycle_check": "Must check if vertices in same component before adding edge",
+      "union_find_parent_values": "Negative values mean root with size, positive means parent pointer"
+    },
+    "complexity_analysis": {
+      "know_breakdown": "Understand each component's contribution to total complexity",
+      "min_heap_operations": "extract_min is O(log V), update is O(log V)",
+      "connected_graph": "E ≥ V-1, so E log V dominates V log V",
+      "union_find": "With union-by-size: O(log V) per operation"
+    },
+    "key_formulas": {
+      "dijkstra_prim": "θ(E log V)",
+      "kruskal": "θ(E log V)",
+      "union_find_height": "h ≤ log₂(N) with union-by-size"
+    }
+  },
+  "critical_exam_concepts": {
+    "when_dijkstra_fails": "Negative edge weights break the greedy choice correctness",
+    "safe_edges": "Edge is safe if adding it keeps T as subset of some MST",
+    "finalization": "In Dijkstra/Prim, once vertex popped from Q, its value is finalized",
+    "connected_components": "Kruskal merges components; can't add edge within same component",
+    "parent_array_trick": "Negative values store size for roots in union-find",
+    "relaxation_vs_update": "Dijkstra relaxes with cumulative distance, Prim updates with edge weight only"
+  }
+}

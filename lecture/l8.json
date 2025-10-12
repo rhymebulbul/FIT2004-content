@@ -1,0 +1,242 @@
+{
+  "lecture_topic": "Week 8: Shortest Path Algorithms - Advanced Concepts",
+  "key_algorithms_covered": [
+    "Bellman-Ford",
+    "Floyd-Warshall",
+    "Dijkstra",
+    "Johnson's Algorithm",
+    "SPFA (Shortest Paths Faster Algorithm)"
+  ],
+  "core_concepts": {
+    "negative_weight_handling": {
+      "concept": "Why modifying weights uniformly fails",
+      "explanation": "Subtracting a constant from all edge weights changes path lengths differently based on number of edges",
+      "key_insight": "A path with more edges gets adjusted by a larger total amount than a path with fewer edges",
+      "counterexample": {
+        "description": "Graph where shortest path s→a→d→b (length -12, 3 edges) becomes wrong after adding constant to weights",
+        "lesson": "Cannot simply shift all weights to eliminate negative edges before using Dijkstra"
+      }
+    },
+    "negative_cycle_detection": {
+      "bellman_ford_approach": {
+        "time_complexity": "O(|V|·|E|)",
+        "technique": "Add a new source vertex connected to all vertices with weight 0, then run Bellman-Ford once",
+        "key_insight": "Ensures all vertices are reachable from source, guaranteeing negative cycle detection if present",
+        "important_note": "For disconnected graphs: O(|V|·|E| + |V|²), simplifies to O(|V|·|E|) for connected graphs"
+      },
+      "detection_mechanism": {
+        "when_detected": "If distances still update in the |V|-th iteration of Bellman-Ford",
+        "reason": "Shortest paths in graphs without negative cycles have at most |V|-1 edges"
+      }
+    },
+    "finding_negative_cycle_vertices": {
+      "algorithm": "Run Bellman-Ford for |V| iterations",
+      "steps": [
+        "Start from any vertex updated in the |V|-th iteration",
+        "Follow predecessors backward until a repeated vertex v is found",
+        "The cycle consists of v and all vertices between first and second occurrence of v"
+      ],
+      "key_insight": "Not all vertices updated in |V|-th iteration are IN the cycle - some may be reachable FROM it",
+      "backtracking_optimization": "Travel backward |V|-1 steps to guarantee reaching a vertex in the negative cycle",
+      "time_complexity": "O(|V|·|E|)"
+    },
+    "floyd_warshall_path_reconstruction": {
+      "challenge": "Floyd-Warshall computes distances but doesn't naturally store paths",
+      "solution_1_intermediate_vertex": {
+        "approach": "Track optimal intermediate vertex k for each pair (u,v)",
+        "data_structure": "mid[u][v] = optimal intermediate vertex",
+        "reconstruction": "Divide-and-conquer: recursively get path u→mid[u][v] and mid[u][v]→v",
+        "path_reconstruction_time": "O(ℓ) for path of length ℓ"
+      },
+      "solution_2_successor": {
+        "approach": "Track first vertex on shortest path from u to v",
+        "data_structure": "succ[u][v] = next vertex after u on shortest path to v",
+        "update_rule": "When using intermediate k: succ[u][v] = succ[u][k]",
+        "reconstruction": "Iteratively follow successors from u to v",
+        "advantage": "Simpler reconstruction, no recursion needed",
+        "path_reconstruction_time": "O(ℓ) for path of length ℓ"
+      },
+      "complexity_note": "Both approaches add O(1) overhead per operation, don't worsen O(|V|³) complexity"
+    },
+    "floyd_warshall_negative_cycles": {
+      "detection": "Check diagonal entries: if dist[k][k] < 0, vertex k is in a negative cycle",
+      "post_processing": {
+        "purpose": "Mark all pairs (u,v) with arbitrarily short paths as -∞",
+        "condition": "Set dist[u][v] = -∞ if u can reach a negative cycle vertex k AND k can reach v",
+        "algorithm": "For each k with dist[k][k] < 0, check all pairs (u,v) where dist[u][k] + dist[k][v] < ∞",
+        "time_complexity": "O(|V|³)",
+        "key_insight": "If u can reach negative cycle and cycle can reach v, path length can be arbitrarily small"
+      }
+    },
+    "arbitrage_detection": {
+      "problem": "Detect if currency conversions allow profit (converting back to starting currency with gain)",
+      "modeling_approach_1": {
+        "graph_representation": "Vertex per currency, edge weights = exchange rates",
+        "modification": "Modify Floyd-Warshall to compute products instead of sums",
+        "detection": "Arbitrage exists if any diagonal entry < 1"
+      },
+      "modeling_approach_2": {
+        "graph_representation": "Vertex per currency, edge weights = log(exchange rate)",
+        "key_property": "log(r₁) + log(r₂) = log(r₁ × r₂)",
+        "algorithm": "Standard Floyd-Warshall on logarithmic weights",
+        "detection": "Arbitrage exists if negative cycle detected (since log(r) < 0 ⟺ r < 1)",
+        "advantage": "Uses standard Floyd-Warshall without modification"
+      },
+      "time_complexity": "O(n³) where n = number of currencies"
+    },
+    "johnsons_algorithm": {
+      "purpose": "All-pairs shortest paths on sparse graphs with negative weights (no negative cycles)",
+      "time_complexity": "O(|V|²·log|V|)",
+      "comparison": "Faster than Floyd-Warshall O(|V|³) for sparse graphs",
+      "key_concept_potentials": {
+        "definition": "p[u] = shortest distance from artificial source to vertex u",
+        "triangle_inequality_consequence": "For all edges (u,v): p[u] - p[v] + w(u,v) ≥ 0",
+        "proof": "From triangle inequality: d[u] + w(u,v) ≥ d[v], rearranging gives d[u] - d[v] + w(u,v) ≥ 0"
+      },
+      "computing_potentials": {
+        "approach": "Add new source vertex s' connected to all vertices with weight 0",
+        "algorithm": "Run Bellman-Ford from s'",
+        "reason_for_artificial_source": "Ensures all vertices reachable, so no infinite distances",
+        "time": "O(|V|·|E|)"
+      },
+      "weight_reweighting": {
+        "formula": "w'(u,v) = p[u] - p[v] + w(u,v)",
+        "property": "All reweighted edges have non-negative weights",
+        "path_preservation": "Shortest paths in reweighted graph = shortest paths in original graph",
+        "proof_sketch": "For path v₁→v₂→...→vₖ, potentials cancel except p[v₁] and -p[vₖ]",
+        "implication": "Can now use Dijkstra's algorithm on reweighted graph"
+      },
+      "complete_algorithm": [
+        "Add artificial source and run Bellman-Ford: O(|V|·|E|)",
+        "Reweight all edges using potentials",
+        "Run Dijkstra from each vertex on reweighted graph: |V| × O((|V|+|E|)·log|V|) = O(|V|²·log|V|)",
+        "Recover true distances by adjusting for potentials"
+      ],
+      "total_time": "O(|V|² + |V|²·log|V|) = O(|V|²·log|V|) for sparse graphs"
+    },
+    "spfa_shortest_paths_faster_algorithm": {
+      "concept": "Optimization of Bellman-Ford using a queue",
+      "key_idea": "Only relax edges from vertices whose distances changed, not all edges |V|-1 times",
+      "data_structure": "Queue of vertices with updated distances",
+      "algorithm": [
+        "Initialize queue with source vertex",
+        "While queue not empty: dequeue vertex u, relax all outgoing edges",
+        "If distance to neighbor v improves and v not in queue, enqueue v"
+      ],
+      "correctness": "Same inductive proof as Bellman-Ford: finds paths of length ≤k after k iterations",
+      "negative_cycle_detection": {
+        "problem": "SPFA loops forever on negative cycles",
+        "solution": "Count vertex removals from queue; if vertex dequeued n times, negative cycle exists",
+        "reasoning": "Path with n+1 vertices means a vertex repeats, indicating a cycle"
+      },
+      "worst_case_complexity": "O(|V|·|E|) - same as Bellman-Ford",
+      "average_case": "Much better than Bellman-Ford in practice",
+      "advantage": "Avoids unnecessary edge relaxations"
+    }
+  },
+  "supplementary_concepts": {
+    "dag_path_counting": {
+      "problem": "Count number of paths from s to t in directed acyclic graph",
+      "approach": "Dynamic programming in reverse topological order",
+      "recurrence": "DP[u] = 1 if u=t, else sum of DP[v] for all neighbors v",
+      "time_complexity": "O(|V|+|E|)",
+      "key_insight": "Process vertices in reverse topological order so descendants computed first"
+    },
+    "dag_string_matching": {
+      "problem": "Count paths in DAG whose edge labels spell string S of length n",
+      "approach": "2D dynamic programming: DP[u,i] = paths from u spelling S[i..n]",
+      "recurrence": "DP[u,i] = sum of DP[v,i+1] for edges (u,v) labeled S[i]",
+      "time_complexity": "O((|V|+|E|)·n)",
+      "subproblems": "|V|·n states"
+    },
+    "unbounded_knapsack_as_dag": {
+      "graph_construction": "Create vertices 0 to C (capacity); for each item (weight w, value v), add edge from every vertex c≥w to c-w with weight v",
+      "equivalent_problem": "Critical/longest path in this DAG",
+      "insight": "Demonstrates how optimization problems can be modeled as graph problems"
+    },
+    "transitive_reduction": {
+      "definition": "Graph with fewest edges having same reachability as original",
+      "approach": "Compute longest paths; keep edge (u,v) only if longest path from u to v is length 1",
+      "algorithm": "Use critical path DP from each vertex, then filter edges",
+      "time_complexity": "O(|V|²+|V|·|E|) for DAGs",
+      "key_insight": "Edge (u,v) is redundant if alternative multi-edge path exists"
+    }
+  },
+  "important_theorems_and_properties": {
+    "triangle_inequality": {
+      "statement": "d[u] + w(u,v) ≥ d[v]",
+      "meaning": "Shortest path to u plus edge to v cannot be shorter than shortest path to v",
+      "consequence": "Basis for proving correctness of potential-based reweighting"
+    },
+    "bellman_ford_iterations": {
+      "property": "After k iterations, all shortest paths with ≤k edges are found",
+      "corollary": "After |V|-1 iterations, all shortest paths found (since longest simple path has |V|-1 edges)",
+      "detection_rule": "Updates in iteration |V| indicate negative cycle"
+    },
+    "floyd_warshall_invariant": {
+      "property": "After considering vertices 1..k as intermediates, dist[u][v] = shortest path from u to v using only vertices 1..k as intermediates",
+      "final_state": "After all iterations, dist[u][v] = true shortest path distance"
+    }
+  },
+  "common_exam_patterns": {
+    "counterexample_problems": {
+      "type": "Prove algorithm is incorrect by providing counterexample",
+      "strategy": "Find edge case where algorithm's assumption breaks",
+      "example": "Weight adjustment fails when paths have different edge counts"
+    },
+    "algorithm_modification": {
+      "type": "Extend existing algorithm with new feature",
+      "examples": [
+        "Add path reconstruction to Floyd-Warshall",
+        "Add negative cycle detection to SPFA",
+        "Post-process Floyd-Warshall for arbitrarily short paths"
+      ],
+      "key_requirement": "Don't worsen time complexity"
+    },
+    "problem_transformation": {
+      "type": "Model real-world problem as graph problem",
+      "examples": [
+        "Currency arbitrage as negative cycle detection",
+        "Knapsack as longest path in DAG"
+      ],
+      "strategy": "Identify what vertices/edges represent, what problem to solve on resulting graph"
+    },
+    "time_complexity_analysis": {
+      "focus_areas": [
+        "Identifying number of iterations/loops",
+        "Cost per iteration",
+        "Impact of graph density (sparse vs dense)"
+      ],
+      "common_complexities": {
+        "bellman_ford": "O(|V|·|E|)",
+        "dijkstra_binary_heap": "O((|V|+|E|)·log|V|)",
+        "floyd_warshall": "O(|V|³)",
+        "johnsons": "O(|V|²·log|V|)"
+      }
+    }
+  },
+  "critical_exam_tips": {
+    "negative_weights": "Cannot use Dijkstra directly; need Bellman-Ford or reweighting",
+    "negative_cycles": "Make shortest paths undefined (-∞); detect via |V|-th iteration or diagonal check",
+    "sparse_vs_dense": "Johnson's faster for sparse, Floyd-Warshall simpler for dense",
+    "path_reconstruction": "Remember to store parent/successor/intermediate information during algorithm",
+    "potentials_property": "Reweighting preserves shortest paths because potentials of intermediate vertices cancel",
+    "dag_optimization": "Always process in topological order for DP problems"
+  },
+  "problem_solving_strategies": {
+    "when_to_use_which_algorithm": {
+      "single_source_no_negative_weights": "Dijkstra - O((|V|+|E|)·log|V|)",
+      "single_source_with_negative_weights": "Bellman-Ford - O(|V|·|E|)",
+      "all_pairs_dense_graph": "Floyd-Warshall - O(|V|³)",
+      "all_pairs_sparse_graph_with_negative": "Johnson's - O(|V|²·log|V|)",
+      "dag_shortest_paths": "Topological sort + DP - O(|V|+|E|)",
+      "negative_cycle_detection": "Bellman-Ford with |V|-th iteration check"
+    },
+    "common_modifications_to_remember": {
+      "logarithmic_transformation": "Converts products to sums (useful for arbitrage)",
+      "artificial_source": "Ensures all vertices reachable (used in cycle detection and Johnson's)",
+      "potential_reweighting": "Makes all weights non-negative while preserving paths",
+      "reverse_topological_order": "For DP on DAGs when computing from destination backward"
+    }
+  }
+}

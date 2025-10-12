@@ -115,5 +115,6 @@
       }
     }
   ],
-  "usage_instructions": "Feed each question object to the LLM solver. For MCQ items supply 'choices' and brief 'justifications'. For open-response items return clear, step-by-step explanations and any recurrences solved symbolically. Use LaTeX in explanation strings where helpful."
+  "usage_instructions": "Feed each question object to the LLM solver. For MCQ items supply 'choices' and brief 'justifications'. For open-response items return clear, step-by-step explanations and any recurrences solved symbolically. Use LaTeX in explanation strings where helpful.",
+  "grades_feedback": "only scored 0.5 out of 10 for mentioning the 70-30 split in quickselect and nothing else. Each question was weighted 2 marks."
 }

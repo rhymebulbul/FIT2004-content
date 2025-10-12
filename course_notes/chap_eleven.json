@@ -1,0 +1,237 @@
+{
+  "chapter": 11,
+  "title": "Prefix Tries and Suffix Trees",
+  "summary": {
+    "topics": [
+      "Retrieval Trees / Prefix Tries",
+      "Suffix trees",
+      "Applications of suffix trees"
+    ]
+  },
+  "string_terminology": {
+    "definitions": [
+      {
+        "term": "substring",
+        "definition": "A substring of S is a string S[i..j] where 1 ≤ i ≤ j ≤ n"
+      },
+      {
+        "term": "prefix",
+        "definition": "A prefix of S is a substring S[1..j] where 1 ≤ j ≤ n"
+      },
+      {
+        "term": "suffix",
+        "definition": "A suffix of S is a substring S[i..n] where 1 ≤ i ≤ n"
+      }
+    ],
+    "key_observation": "A substring of S is always a prefix of some suffix of S"
+  },
+  "prefix_trie": {
+    "alternative_names": ["Retrieval Tree"],
+    "definition": "A data structure that stores a set of strings arranged in a tree such that words with a shared prefix are contained within the same subtree",
+    "key_ideas": [
+      "The prefix trie is a rooted tree (not necessarily binary)",
+      "Each edge of the tree is labelled with a character (alternatively, each node except root can be labelled)",
+      "A path from root to a node corresponds to a prefix of a word in the trie",
+      "A path from root to an internal node corresponds to a common prefix of multiple strings"
+    ],
+    "implementation_strategies": [
+      {
+        "method": "Array-based",
+        "description": "Use an array to store a child pointer for each character in the alphabet",
+        "time_complexity": {
+          "lookup": "O(n)",
+          "insert": "O(n)"
+        },
+        "space_complexity": "O(|Σ|T)",
+        "notes": "Allows constant time child lookup but wastes space on null pointers"
+      },
+      {
+        "method": "Balanced BST",
+        "description": "Use a balanced binary search tree for storing child pointers",
+        "time_complexity": {
+          "lookup": "O(n log(|Σ|))",
+          "insert": "O(n log(|Σ|))"
+        },
+        "space_complexity": "O(T)",
+        "notes": "Minimal space but slower lookup"
+      },
+      {
+        "method": "Hashtable",
+        "description": "Use a hashtable for storing child pointers",
+        "time_complexity": {
+          "lookup": "O(n) expected",
+          "insert": "O(n) expected"
+        },
+        "space_complexity": "O(T)",
+        "notes": "Optimal speed and space but less versatile, no alphabetical ordering"
+      }
+    ],
+    "notation": {
+      "n": "length of query string",
+      "T": "total length of all words in the trie",
+      "Σ": "alphabet",
+      "$": "special terminating character (use '\\0' in practice)"
+    },
+    "algorithms": {
+      "insert": {
+        "pseudocode": [
+          "function INSERT(S[1..n])",
+          "  node = root",
+          "  for each character c in S[1..n] do",
+          "    if node has an edge for character c then",
+          "      node = node.get_child(c)",
+          "    else",
+          "      node = node.create_child(c)"
+        ]
+      },
+      "lookup": {
+        "description": "Returns True if the trie contains a word that has S as a prefix",
+        "pseudocode": [
+          "function LOOKUP(S[1..n])",
+          "  node = root",
+          "  for each character c in S[1..n] do",
+          "    if node has an edge for character c then",
+          "      node = node.get_child(c)",
+          "    else",
+          "      return false",
+          "  return true"
+        ]
+      },
+      "string_sorting": {
+        "description": "Sort a list of strings using a prefix trie",
+        "pseudocode": [
+          "function SORT_STRINGS(strings[1..n])",
+          "  for each string s in strings[1..n] do",
+          "    INSERT(s + '$')",
+          "  TRAVERSE(root, \"\")",
+          "",
+          "function TRAVERSE(node, cur_string)",
+          "  if cur_string ends with '$' then",
+          "    print(cur_string)",
+          "  else",
+          "    for each child character c of node in alphabetical order do",
+          "      cur_string.append(c)",
+          "      TRAVERSE(node.get_child(c), cur_string)",
+          "      cur_string.pop_back()"
+        ],
+        "complexity": {
+          "array_based": "O(|Σ|T)",
+          "bst_based": "O(T log(|Σ|))",
+          "comparison_to_regular_sort": "O(T log(n)) where n is number of words"
+        },
+        "notes": "Can be interpreted as MSD (Most Significant Digit) radix sort"
+      }
+    },
+    "applications": [
+      {
+        "name": "Prefix matching / exact string lookup",
+        "description": "Determine whether a list of strings contains a word beginning with a particular prefix",
+        "complexity": "O(n) time with array-based implementation",
+        "notes": "Add $ to query for exact match, can substitute for hashtable"
+      },
+      {
+        "name": "Sorting strings",
+        "description": "Sort a list of strings from a fixed alphabet",
+        "method": "Insert all strings into trie, traverse in lexicographical order",
+        "complexity": "O(|Σ|T) or O(T log(|Σ|)) depending on implementation"
+      }
+    ],
+    "compact_tries": {
+      "definition": "Combines edges along non-branching paths into a single edge",
+      "examples": ["Radix Trie", "PATRICIA Trie"],
+      "advantage": "More memory efficient for long non-branching paths"
+    }
+  },
+  "suffix_trees": {
+    "definition": "A compact trie containing all of the suffixes of a string",
+    "motivation": "Solution to the pattern matching problem with efficient queries",
+    "pattern_matching_problem": {
+      "statement": "Given a text string T[1..n] and a pattern P[1..m], find all occurrences of P as a substring of T",
+      "traditional_algorithms": "O(n + m) per query",
+      "suffix_tree_solution": "O(m) per query (optimal)"
+    },
+    "construction": {
+      "suffix_trie": {
+        "method": "Insert all suffixes into a prefix trie",
+        "space": "O(n²)",
+        "problem": "Extremely inefficient space usage"
+      },
+      "suffix_tree": {
+        "method": "Compact suffix trie",
+        "space": "O(n)",
+        "optimization": "Store edge labels as references to positions in original string [start, end] rather than explicit substrings"
+      }
+    },
+    "building_algorithms": {
+      "naive_approach": {
+        "method": "Build suffix trie in O(n²) then compress",
+        "complexity": "O(n²)",
+        "notes": "Simple to implement but useless in practice"
+      },
+      "ukkonens_algorithm": {
+        "complexity": "O(n)",
+        "properties": [
+          "Online algorithm",
+          "Can add characters while updating suffix tree",
+          "No need to start over from scratch"
+        ],
+        "method": "Extends each leaf edge by one for each new character, splits existing edges when common prefix diverges",
+        "examinable": false
+      }
+    },
+    "applications": [
+      {
+        "name": "Pattern matching",
+        "description": "Find all occurrences of pattern P in text T",
+        "complexity": "O(m) per query",
+        "method": "Check if P is a prefix in the suffix tree",
+        "implementation_notes": "More involved than suffix trie due to compact representation"
+      },
+      {
+        "name": "Longest repeated substring",
+        "problem_statement": "Given a string S[1..n], find the longest substring of S that occurs at least two times",
+        "solution": "Find the deepest internal (non-leaf) node in the suffix tree",
+        "reasoning": "Internal nodes correspond to common prefixes, which in suffix trees represent substrings occurring multiple times",
+        "complexity": "O(n) with preprocessing",
+        "example": "In 'banana$', the deepest internal node has depth 3, corresponding to substring 'ana'"
+      }
+    ],
+    "key_properties": [
+      "A string of length n has n suffixes",
+      "Each suffix has length O(n)",
+      "Suffix tree takes O(n) space (compact representation)",
+      "Must use position references [start, end] to achieve O(n) space, not explicit edge labels"
+    ],
+    "terminating_character": {
+      "symbol": "$",
+      "purpose": "Distinguish suffixes from substrings",
+      "requirement": "Must not be in the original alphabet",
+      "usage": "Added to end of string before building suffix tree"
+    }
+  },
+  "complexity_summary": {
+    "prefix_trie": {
+      "build": "O(|Σ|T) or O(T log(|Σ|))",
+      "lookup": "O(n) or O(n log(|Σ|))",
+      "space": "O(T) to O(|Σ|T)"
+    },
+    "suffix_trie": {
+      "space": "O(n²)",
+      "practical": "Not practical due to space"
+    },
+    "suffix_tree": {
+      "build": "O(n) with Ukkonen's",
+      "pattern_matching": "O(m) per query",
+      "space": "O(n)",
+      "longest_repeated_substring": "O(n)"
+    }
+  },
+  "important_notes": [
+    "Suffix tree is a compact trie, not just a trie",
+    "Must use position references for O(n) space complexity",
+    "A substring of S is always a prefix of some suffix of S",
+    "Terminating character $ is essential for distinguishing complete suffixes",
+    "Internal nodes in suffix trees represent repeated substrings",
+    "Deepest internal node gives longest repeated substring"
+  ]
+}

@@ -211,8 +211,6 @@ Write an algorithm that given two sorted sequences a[1..n] and b[1..m] of unique
 
 1. Your algorithm should run in O(log(n)log(m)) time.
 
-2. (Advanced) Your algorithm should run in O(log(n) + log(m)) time.
-
 #### Solution
 
 Suppose without loss of generality that the kth order statistic is in the sequence a (if it isn't, we can swap a and b and try again). The order statistic of a[i] is given by:
@@ -247,54 +245,4 @@ function SELECT_KTH(a[1..n], b[1..m], k)
 ```
 
 See how if we fail to find a solution in a, we simply swap a and b and try again, which is guaranteed to work since the kth order statistic must be in one of the two. Our solution uses two nested binary searches and hence has time complexity Θ(log(n)log(m)).
-
-To do this in just Θ(log(n) + log(m)) time, we'll need to eliminate the nested binary searches. Let's see if we can figure out something else to exploit that can be binary searched without needing a nested one. How well can we estimate count and order without doing a binary search?
-
-Suppose that we are looking at a[i] and b[j]. If a[i] > b[j], then we can deduce that:
-
-```
-COUNT(b[1..m], a[i]) ≥ j
-```
-
-which means that:
-
-```
-ORDER(a[i]) ≥ i + j   and   ORDER(b[j]) < i + j
-```
-
-If i + j > k, then this implies that ORDER(a[i]) > k. Otherwise i + j ≤ k, and it implies that ORDER(b[j]) < k. The same deductions hold with a and b reversed. Note that although we cannot compute ORDER exactly, these inequalities satisfy the invariants that we were binary searching above, and can be computed in constant time. The trick is therefore not to perform two nested binary searches, but two simultaneous binary searches in which we search both a and b at the same time using these inequalities.
-
-Once one of the binary search ranges reduces down to one element, then either that element is the kth order statistic, or it is the largest element of the other sequence that is less than the kth order statistic, and hence the kth order statistic is the (k - lo)th element of the other sequence. Pseudocode implementing these ideas is shown below:
-
-```
-function SELECT_KTH(a[1..n], b[1..m], k)
-    // Corner cases: check whether one sequence is entirely greater than the kth element of the other
-    if count(a[1..n], b[1]) ≥ k then return a[k]
-    if count(b[1..m], a[1]) ≥ k then return b[k]
-
-    // Two simultaneous binary searches!
-    // Invariant: order(a[lo1]) ≤ k, order(a[hi1]) > k, order(b[lo2]) ≤ k, order(b[hi2]) > k
-    Set lo1 = 1, hi1 = n + 1, lo2 = 1, hi2 = m + 1
-    while lo1 < hi1 - 1 and lo2 < hi2 - 1 do
-        Set i = ⌊(lo1 + hi1)/2⌋, j = ⌊(lo2 + hi2)/2⌋
-        if a[i] > b[j] then
-            if i + j > k then hi1 = i
-            else lo2 = j
-        else
-            if i + j > k then hi2 = j
-            else lo1 = i
-
-    // Check which binary search converged first and find the answer
-    if lo1 = hi1 - 1 then
-        if lo1 + count(b[1..m], a[lo1]) = k then return a[lo1]
-        else return b[k - lo1]
-    else
-        if lo2 + count(a[1..n], b[lo2]) = k then return b[lo2]
-        else return a[k - lo2]
-```
-
-Since we perform three calls to COUNT, each costing Θ(log(n)) or Θ(log(m)) and we perform simultaneous binary searches on a and b each costing at most Θ(log(n) + log(m)) in total, the overall time complexity of this solution is Θ(log(n) + log(m)).
-
 ---
-
-**End of Solutions**
