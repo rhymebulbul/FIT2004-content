@@ -1,0 +1,291 @@
+{
+  "course": "FIT2004 - Algorithms and Data Structures",
+  "topic": "Search Trees (Binary Search Trees, AVL Trees, 2-3 Trees, Red-Black Trees)",
+  "seminar": 11,
+  "date": "2025-05-19",
+
+  "core_concepts": {
+    "lookup_table": {
+      "definition": "Data structure allowing insert, search, and delete operations by keys",
+      "use_case": "Information systems like databases (e.g., student records)",
+      "key_property": "Each record has a unique key (string or number)"
+    },
+
+    "sorting_based_lookup": {
+      "description": "Keep n elements sorted in an array",
+      "complexities": {
+        "search": "Θ(log n) using binary search",
+        "insert": "Θ(n) - binary search Θ(log n) + shift elements Θ(n)",
+        "delete": "Θ(n) - binary search Θ(log n) + shift elements Θ(n)"
+      },
+      "limitation": "Insert and delete are inefficient due to array shifting"
+    }
+  },
+
+  "binary_search_trees": {
+    "abbreviation": "BST",
+    "definition": {
+      "rule_1": "Empty tree is a BST",
+      "rule_2": "Root has one key",
+      "rule_3": "Left subtree contains keys < root key",
+      "rule_4": "Right subtree contains keys > root key"
+    },
+
+    "operations": {
+      "search": {
+        "algorithm": [
+          "If empty tree → not found",
+          "Compare search key k with root key r",
+          "If k == r → found",
+          "If k < r → search left subtree recursively",
+          "If k > r → search right subtree recursively"
+        ]
+      },
+      "insert": {
+        "algorithm": [
+          "If empty → create new node",
+          "Otherwise search for location",
+          "If k < r → go left",
+          "If k > r → go right",
+          "When location not found → insert as new leaf node"
+        ]
+      },
+      "delete": {
+        "cases": {
+          "case_1_leaf": "Simply remove the node",
+          "case_2_one_child": "Promote the child to replace deleted node",
+          "case_3_two_children": "Swap with successor (or predecessor), then delete the swapped node"
+        }
+      }
+    },
+
+    "complexity": {
+      "best_average": "Θ(log n) for balanced trees",
+      "worst": "Θ(n) when tree degenerates into a linked list (e.g., inserting sorted data)"
+    },
+
+    "problem": "Can degenerate to linear structure, making operations O(n) instead of O(log n)"
+  },
+
+  "avl_trees": {
+    "full_name": "Adelson-Velskii and Landis Trees",
+    "inventors": "Georgy Adelson-Velskii and Evgenii Landis",
+    "year": 1962,
+
+    "balance_rule": "Height difference between left and right subtrees ≤ 1 for every node",
+
+    "balance_factor": {
+      "formula": "balance = height(left) - height(right)",
+      "valid_range": "Balance factor must be -1, 0, or +1",
+      "violation": "If |balance| > 1, rebalancing is required"
+    },
+
+    "rebalancing_cases": {
+      "left_left": {
+        "trigger": "Left subtree of left child is too tall",
+        "fix": "Single right rotation",
+        "balance_factor": "Node has balance = +2, left child has balance ≥ 0"
+      },
+      "left_right": {
+        "trigger": "Right subtree of left child is too tall",
+        "fix": "Double rotation: left rotation on left child, then right rotation on node",
+        "balance_factor": "Node has balance = +2, left child has balance = -1"
+      },
+      "right_right": {
+        "trigger": "Right subtree of right child is too tall",
+        "fix": "Single left rotation",
+        "balance_factor": "Node has balance = -2, right child has balance ≤ 0"
+      },
+      "right_left": {
+        "trigger": "Left subtree of right child is too tall",
+        "fix": "Double rotation: right rotation on right child, then left rotation on node",
+        "balance_factor": "Node has balance = -2, right child has balance = +1"
+      }
+    },
+
+    "complexity": {
+      "height": "Θ(log n) - guaranteed balanced",
+      "search": "Θ(log n)",
+      "insert": "Θ(log n) including rebalancing",
+      "delete": "Θ(log n) including rebalancing"
+    },
+
+    "key_advantage": "Guarantees O(log n) operations by maintaining strict balance"
+  },
+
+  "two_three_trees": {
+    "abbreviation": "2-3 Tree",
+    "inventor": "John Hopcroft (1970, Turing Award 1986)",
+
+    "node_types": {
+      "2_node": {
+        "keys": 1,
+        "children": 2,
+        "property": "left < K1 < right"
+      },
+      "3_node": {
+        "keys": 2,
+        "children": 3,
+        "property": "left < K1 < middle < K2 < right"
+      },
+      "4_node": {
+        "keys": 3,
+        "children": 4,
+        "status": "Temporary only - must be split during insertion",
+        "property": "Used during insertion process, then split and promoted"
+      }
+    },
+
+    "operations": {
+      "insertion": {
+        "steps": [
+          "Search to appropriate leaf position",
+          "If leaf is 2-node → convert to 3-node",
+          "If leaf is 3-node → temporarily make 4-node",
+          "Split 4-node: promote middle key to parent",
+          "If parent becomes 4-node, split recursively upward",
+          "If root splits, create new root (tree grows upward)"
+        ],
+        "key_property": "Tree grows from the root, not leaves"
+      },
+      "deletion": {
+        "strategy": [
+          "Ensure never descending into 2-nodes (merge or borrow first)",
+          "If key in leaf: delete directly after ensuring non-2-node",
+          "If key internal: swap with successor, then delete from leaf",
+          "Fix temporary 4-nodes on way back up"
+        ]
+      }
+    },
+
+    "complexity": {
+      "height": "O(log n) - perfectly balanced",
+      "search": "O(log n)",
+      "insert": "O(log n)",
+      "delete": "O(log n)"
+    },
+
+    "key_properties": {
+      "perfect_balance": "All leaf nodes at same depth",
+      "theoretical_importance": "Foundation for Red-Black Trees"
+    }
+  },
+
+  "red_black_trees": {
+    "abbreviation": "RBT",
+    "inventors": "Guibas & Sedgewick (1978)",
+    "variant_studied": "Left-Leaning Red-Black Tree (Sedgewick 2008)",
+
+    "rules": {
+      "rule_1": "Root is always black",
+      "rule_2": "Red edges lean left (left-leaning property)",
+      "rule_3": "No node has two red edges (no red node has red child)",
+      "rule_4": "All paths from root to leaf have equal number of black edges (perfect black balance)"
+    },
+
+    "equivalence_to_2_3_trees": {
+      "concept": "Each 3-node in 2-3 tree corresponds to red edge joining two nodes in RBT",
+      "2_node": "Represented as single black node",
+      "3_node": "Represented as black node with left red child"
+    },
+
+    "operations": {
+      "insertion": {
+        "initial_step": "Insert new node as red",
+        "fix_violations": [
+          "Step 1: If right child is red → rotate left",
+          "Step 2: If left child and left grandchild both red → rotate right",
+          "Step 3: If both children red → flip colors",
+          "Step 4: Propagate fixes up the tree",
+          "Step 5: Always paint root black"
+        ]
+      }
+    },
+
+    "complexity": {
+      "height": "≤ 2 × (black height) + 1",
+      "search": "O(log n)",
+      "insert": "O(log n)",
+      "delete": "O(log n)"
+    },
+
+    "practical_importance": "Widely used in real-world implementations (e.g., Java TreeMap, C++ std::map)"
+  },
+
+  "comparison_table": {
+    "avl_vs_red_black": {
+      "balance_strictness": {
+        "avl": "Very strict - height difference ≤ 1",
+        "red_black": "Moderate - height ≤ 2 × black height + 1"
+      },
+      "lookup_performance": {
+        "avl": "Better - more strictly balanced means shorter paths",
+        "red_black": "Good - slightly taller trees"
+      },
+      "insert_delete_speed": {
+        "avl": "Slightly slower - more rotations needed",
+        "red_black": "Faster - fewer rotations needed"
+      },
+      "rotations_needed": {
+        "avl": "More rotations per operation",
+        "red_black": "Fewer rotations per operation"
+      },
+      "use_case": {
+        "avl": "When lookups dominate (read-heavy workloads)",
+        "red_black": "When inserts/deletes are frequent (write-heavy workloads)"
+      }
+    }
+  },
+
+  "exam_key_points": {
+    "trace_operations": [
+      "Be able to trace search, insert, delete on BST",
+      "Trace AVL insertion with rotations (identify which case)",
+      "Trace 2-3 tree insertion with splits and promotions",
+      "Trace Red-Black tree insertion with rotations and color flips"
+    ],
+
+    "identify_structures": [
+      "Determine if a tree is valid BST",
+      "Calculate balance factors for AVL tree",
+      "Identify which rotation case applies in AVL",
+      "Recognize 2-node vs 3-node in 2-3 trees",
+      "Verify Red-Black tree properties"
+    ],
+
+    "complexity_analysis": [
+      "Know worst-case for unbalanced BST is O(n)",
+      "Understand why AVL/2-3/RBT guarantee O(log n)",
+      "Compare time complexities across all structures"
+    ],
+
+    "rotation_mechanics": [
+      "Perform single right rotation (Left-Left case)",
+      "Perform single left rotation (Right-Right case)",
+      "Perform double rotation Left-Right case",
+      "Perform double rotation Right-Left case"
+    ],
+
+    "conceptual_understanding": [
+      "Why does sorted insertion create worst-case BST?",
+      "How do self-balancing trees prevent degeneration?",
+      "What is the relationship between 2-3 trees and Red-Black trees?",
+      "When to choose AVL vs Red-Black in practice?"
+    ]
+  },
+
+  "important_formulas": {
+    "avl_balance_factor": "balance(node) = height(left) - height(right)",
+    "rbt_height_bound": "height ≤ 2 × black_height + 1",
+    "bst_sorted_order": "In-order traversal gives sorted sequence"
+  },
+
+  "common_exam_mistakes": [
+    "Forgetting to update balance factors after AVL rotation",
+    "Not recognizing which AVL rotation case applies",
+    "Splitting 2-3 nodes incorrectly (forgetting to promote middle key)",
+    "Violating Red-Black tree color rules during insertion",
+    "Confusing successor with predecessor in BST deletion",
+    "Not maintaining left-leaning property in LLRB trees"
+  ]
+}

@@ -1,0 +1,774 @@
+# Week 7 Applied Sheet - Solutions
+
+## Important Notice
+
+**Useful advice:** The following solutions pertain to the theoretical problems given in the applied classes. You are strongly advised to attempt the problems thoroughly before looking at these solutions. Simply reading the solutions without thinking about the problems will rob you of the practice required to be able to solve complicated problems on your own. You will perform poorly on the exam if you simply attempt to memorise solutions to these problems. Thinking about a problem, even if you do not solve it will greatly increase your understanding of the underlying concepts. Solutions are typically not provided for Python implementation questions. In some cases, pseudocode may be provided where it illustrates a particular useful concept.
+
+---
+
+## Problem 1
+
+Suppose that you are a door-to-door salesman, selling the latest innovation in vacuum cleaners to less-than-enthusiastic customers. Today, you are planning on selling to some of the n houses along a particular street. You are a master salesman, so for each house, you have already worked out the amount cᵢ of profit that you will make from the person in house i if you talk to them. Unfortunately, you cannot sell to every house, since if a person's neighbour sees you selling to them, they will hide and not answer the door for you. Therefore, you must select a subset of houses to sell to such that none of them are next to each other, and such that you make the maximum amount of money.
+
+For example, if there are 10 houses and the profits that you can make from each of them are 50, 10, 12, 65, 40, 95, 100, 12, 20, 30, then it is optimal to sell to the houses 1, 4, 6, 8, 10 for a total profit of $252. Devise a dynamic programming algorithm to solve this problem, i.e. to return the maximum profit you can obtain.
+
+(a) Describe in plain English, the optimal substructure present in the problem.
+
+(b) Define a set of overlapping subproblems that are based on the optimal substructure.
+
+(c) What are the base case subproblems and what are their values?
+
+(d) Write a recurrence relation that describes the solutions to the subproblems.
+
+(e) Write pseudocode that implements all of this as a dynamic programming algorithm.
+
+(f) Extend your solution so that it returns an optimal subset of houses to sell to, in addition to the maximum possible profit.
+
+### Solution
+
+(a) Let the houses on the street be numbered from 1 to n from left to right. We begin by observing that the constraint that we cannot sell to the neighbours of a house is equivalent to the constraint that if we sell to house i, then we cannot sell to house i − 1 (it is not necessary to explicitly prevent ourselves from selling to house i + 1, since if we sell to house i + 1, then they will not allow us to sell to house i).
+
+Suppose that we find ourselves in front of house i, deciding whether we should sell to it. If we do decide to sell to it, then we cannot have sold anything to house i − 1, but we are allowed to sell to a valid subset of houses from 1 to i − 2. If we do not decide to sell to house i, then any valid subset of houses from 1 to i − 1 is acceptable to sell to.
+
+The optimal substructure of the problem can then be observed as follows. Suppose that house i is the last house that we will consider selling to. If we chose to sell to house i, then we cannot sell to house i − 1, and must therefore sell to the houses [1..i − 2], and we must do this in a way that makes us the maximum profit. If we decide not to sell to house i, then we must sell to the houses [1..i − 1] in such a way that we make maximum profit.
+
+(b) Let us therefore define our subproblems to be:
+
+```
+DP[i] = {the maximum profit that we can make from selling to a subset of the houses [1..i]}
+```
+
+for all 1 ≤ i ≤ n.
+
+(c) When there is just a single house, we should sell to it, so a suitable base case is DP[1] = c₁, and when there is no houses, no profit can be made, so the other suitable base case is DP[0] = 0.
+
+(d) We leverage the optimal substructure to write the recurrence, along with our defined base cases:
+
+```
+DP[i] = {
+    max(DP[i − 1], DP[i − 2] + cᵢ)  if i > 1
+    cᵢ                               if i = 1
+    0                                if i = 0
+}
+```
+
+The maximum used here represents the choice of either deciding not to sell to house i or deciding to sell to house i. The optimal solution to the problem is the value of DP[n].
+
+(e) A bottom-up implementation of this algorithm might look like this:
+
+```
+function SALESMAN(c[1..n])
+    Set DP[0..n] = 0
+    DP[1] = c₁
+    for i = 1 to n do
+        DP[i] = max(DP[i − 1], DP[i − 2] + cᵢ)
+    return DP[n]
+```
+
+(f) To reconstruct the optimal set of houses, we make the observation that in a range of houses [1..i], house i is optimal to sell to if DP[i] > DP[i − 1]. Why is this true? If DP[i] > DP[i − 1], then since DP[i] = max(DP[i − 1], DP[i − 2] + cᵢ) > DP[i − 1], it must be true that DP[i] = DP[i − 2] + cᵢ > DP[i − 1]. In other words, it is more profitable to sell to house i than to not. Using this observation, a simple backtracking procedure could work as follows:
+
+```
+function SALESMAN(c[1..n])
+    Set DP[0..n] = 0
+    DP[1] = c₁
+    for i = 1 to n do
+        DP[i] = max(DP[i − 1], DP[i − 2] + cᵢ)
+    Set houses = []
+    Set i = n
+    while i > 0 do
+        if DP[i] > DP[i − 1] then
+            houses.append(i)
+            i = i − 2
+        else
+            i = i − 1
+    return DP[n], houses
+```
+
+Note that we subtract 2 from i if we decide to include house i, so that we cannot accidentally sell to house i − 1 as well, otherwise we subtract 1.
+
+---
+
+## Problem 2
+
+You find yourself curiously stranded on an n × n grid, unsure of how you got there, or how to leave. Some of the cells of the grid are blocked and cannot be walked through. Anyway, while you're here, you decide to solve the following problem. You are currently standing at the bottom-left corner of the grid, and are only able to move up (to the next row) and to the right (to the next column). You wonder, how many ways can you walk to the top-right corner of the grid while avoiding blocked cells? You may assume that the bottom-left and top-right cells are not blocked. For example, in the following grid, the answer is 19.
+
+Write a dynamic programming algorithm that given a grid as input, counts the number of valid paths from the bottom-left cell to the top-right cell. Your algorithm should run in O(n²) time.
+
+### Solution
+
+Let's denote the bottom-left corner as cell (1, 1) and the top-right corner as cell (n, n). Suppose that you are standing in cell (i, j). In general, you have two choices, to move to cell (i + 1, j) or to move to cell (i, j + 1). Let p₁ and p₂ denote the number of paths from cell (i + 1, j) to cell (n, n) and the number of paths from cell (i, j + 1) to cell (n, n) respectively. These paths must all be different, since paths from the first set use cell (i + 1, j), and those from the second use (i, j + 1), and a valid path cannot contain both of these (think about why this is true). Hence the total number of paths from cell (i, j) to cell (n, n) is just p₁ + p₂.
+
+The edge/base cases are if cell (i, j) is blocked, then there are no paths from it, or if you are currently on the top row (i = n) or rightmost column (j = n), in which case you only have one cell that you can move to. Finally, the last base case is that the number of paths from cell (n, n) to cell (n, n) is just 1. Let's write a dynamic programming algorithm along these lines.
+
+Let's denote by DP[i, j], the following subproblems:
+
+```
+DP[i, j] = {The number of valid paths from cell (i, j) to cell (n, n).}
+```
+
+for all 1 ≤ i, j ≤ n. Then we can write the following recurrence:
+
+```
+DP[i, j] = {
+    1                                if (i, j) = (n, n)
+    0                                if (i, j) is blocked
+    DP[i, j + 1]                     if i = n
+    DP[i + 1, j]                     if j = n
+    DP[i + 1, j] + DP[i, j + 1]      otherwise
+}
+```
+
+The value of DP[1, 1] is the solution. There are a total of n² subproblems, and each of them can be evaluated in constant time, hence the time complexity of this algorithm will be O(n²).
+
+Notice that this problem has a symmetry, and you can equivalently solve it using the following subproblems and solving for DP'[n, n]:
+
+```
+DP'[i, j] = {The number of valid paths from cell (1, 1) to cell (i, j).}
+```
+
+for all 1 ≤ i, j ≤ n. Then we can write the following recurrence:
+
+```
+DP'[i, j] = {
+    1                                if (i, j) = (1, 1)
+    0                                if (i, j) is blocked
+    DP'[i, j − 1]                    if i = 1
+    DP'[i − 1, j]                    if j = 1
+    DP'[i − 1, j] + DP'[i, j − 1]    otherwise
+}
+```
+
+---
+
+## Problem 3
+
+You somehow find yourself on yet another n × n grid, but this time, it is more exciting. Each cell of the grid has a certain non-negative amount of money on it! Denote the amount of money in the cell of row i, column j by cᵢ,ⱼ. You are standing on the bottom-left corner (1, 1) of the grid. From any cell, you can only move up (to the next row), or right (to the next column). What is the maximum amount of money that you can collect? Given cᵢ,ⱼ for every cell, describe a dynamic programming algorithm to solve this problem. Your algorithm should run in O(n²) time.
+
+### Solution
+
+This problem is very similar to Problem 2. If we are standing in cell (i, j), then we have two choices, to move up to cell (i + 1, j) or to move right to cell (i, j + 1). We should select the best of the two, whichever leads to a greater amount of money. This motivates the following subproblems:
+
+```
+DP[i, j] = {The maximum amount of money we can make starting from cell (i, j)}
+```
+
+The recurrence must take into account the boundary cases (if we are in the top row or rightmost column, we only get one choice) and the base case (if we are in cell (n, n) we cannot move anywhere else). The following recurrence captures these ideas:
+
+```
+DP[i, j] = cᵢ,ⱼ + {
+    0                                   if (i, j) = (n, n)
+    DP[i + 1, j]                        if j = n
+    DP[i, j + 1]                        if i = n
+    max(DP[i, j + 1], DP[i + 1, j])     otherwise
+}
+```
+
+The optimal solution is the value of DP[1, 1]. There are n² subproblems, and each takes constant time to solve, so the solution takes O(n²) time.
+
+Like in Problem 2 we also have a symmetry here and can equivalently solve this problem by defining subproblems in terms of the amount of money we can make from cell (1, 1) until cell (i, j).
+
+---
+
+## Problem 4
+
+Consider a sequence a₁, a₂, ..., aₙ of length n. A subsequence of a sequence a is any sequence that can be obtained by only deleting elements of a. Devise a dynamic programming algorithm that finds the length of a longest increasing subsequence of a. That is, a longest possible subsequence that consists of elements in strictly increasing order. Your algorithm should run in O(n²) time.
+
+For example, given the sequence {0, 8, 4, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 11, 7, 15}, the longest increasing subsequence is {0, 2, 6, 9, 11, 15} of length 6 (shown in bold in the original sequence).
+
+### Solution
+
+Consider a particular sequence a₁, a₂, ..., aₙ and a longest increasing subsequence of it, say aⱼ₁, aⱼ₂, ..., aⱼₖ, where j₁, j₂, ..., jₖ represent the indices of the elements of a that are part of the increasing subsequence. Consider now some prefix of the subsequence, say aⱼ₁, aⱼ₂, ..., aⱼₖ₋₁. The key observation is that it must be the case that of all increasing subsequences of a that end with the element at position jₖ₋₁, this one is the longest. If it were not, then we could replace the prefix of our proposed longest increasing subsequence with a longer one. In other words, the prefixes of a longest increasing subsequence are themselves longest increasing subsequences that end at a particular earlier element. This suggests the following subproblems for a dynamic programming approach:
+
+```
+DP[i] = {The length of the longest increasing subsequence that ends with the element at position i},
+```
+
+for 1 ≤ i ≤ n. To find the longest increasing subsequence that ends with the element at position i, we need to figure out what its prefix could have been. Since the sequence must be increasing, this is simple, the prefix could be any subsequence that ends with an element a[j] such that a[j] < a[i] (so that we maintain the increasing property). So, let's just try all of the preceding elements and pick the best one.
+
+```
+DP[i] = 1 + {
+    0                         if a[i] ≤ a[j] for all j < i,
+    max(1≤j<i, a[j]<a[i]) DP[j]   otherwise.
+}
+```
+
+The solution will then be the maximum value of DP[i] (Note that the solution is not necessarily the value of DP[n], since the longest increasing subsequence might not include the element aₙ). There are n subproblems, each of which takes O(n) time to evaluate, hence the solution takes O(n²) time.
+
+---
+
+## Problem 5
+
+Consider a pair of sequences a₁, a₂, ..., aₙ and b₁, b₂, ..., bₘ of length n and m. Devise a dynamic programming algorithm that finds the length of a longest common subsequence of a and b. A common subsequence is a sequence that is both a subsequence of a and a subsequence of b. Your algorithm should run in O(nm). [Hint: This problem is very similar to the edit distance problem]
+
+### Solution
+
+Consider two sequences (aᵢ)₁≤ᵢ≤ₙ and (bᵢ)₁≤ᵢ≤ₘ and a longest common subsequence of the two (cᵢ)₁≤ᵢ≤ₖ. Suppose that the element cₖ, the final element in the longest common subsequence occurs at position i₁ in a, and at position i₂ in b. The remaining prefix of c must be a longest common subsequence of a[1..i₁ − 1] and b[1..i₂ − 1]. If it were not, we could make our longest common subsequence even longer. This suggests that our subproblems should involve the prefixes of the sequences a and b (the same subproblems used by the edit distance problem).
+
+```
+DP[i, j] = {The length of a longest common subsequence of a[1..i] and b[1..j]}
+```
+
+for all 0 ≤ i ≤ n, 0 ≤ j ≤ m. To write the recurrence, we note that if the prefixes a[1..i] and b[1..j] end in the same element, ie. if a[i] = b[j], then that element is the final element of a longest common subsequence of a[1..i] and b[1..j]. If they differ, then it is not possible for both of them to be part of a longest common subsequence of a[1..i] and b[1..j], because they would necessarily be the last elements and they are not the same. In this case, we simply try removing either a[i] or b[j]. Hence we can write the following recurrence:
+
+```
+DP[i, j] = {
+    0                             if i = 0 or j = 0,
+    1 + DP[i − 1, j − 1]          if a[i] = b[j],
+    max(DP[i − 1, j], DP[i, j − 1])   otherwise.
+}
+```
+
+The solution is the value of DP[n, m]. There are O(nm) subproblems, and each of them can be evaluated in constant time, hence this solution runs in O(nm) time.
+
+---
+
+## Problem 6
+
+Consider a sequence of integers a₁, a₂, ..., aₙ of length n. Devise a dynamic programming algorithm that finds the subarray of a with maximum sum. A subarray or substring of a is a contiguous subsequence, ie. a subsequence consisting of consecutive elements.
+
+(a) Your algorithm should run in O(n²) time.
+
+(b) Your algorithm should run in O(n) time. [Hint: Be greedy]
+
+### Solution
+
+To solve the problem in O(n²), we compute the sums a[i..j] for all substrings [i..j]. Doing so naively would take O(n³) time, but since:
+
+```
+sum(a[i..j]) = sum(a[1..j]) − sum(a[1..i − 1])
+```
+
+we can use dynamic programming to compute them all in O(n²) time. Formally, we write the subproblems:
+
+```
+DP[i] = {The sum of the elements in a[1..i]},
+```
+
+for 0 ≤ i ≤ j ≤ n. The recurrence is then given by:
+
+```
+DP[i] = {
+    0             if i = 0,
+    DP[i − 1] + aᵢ    otherwise.
+}
+```
+
+The solution is the maximum value of DP[j] − DP[i] for 0 ≤ i ≤ j ≤ n. We have O(n) subproblems, each of which takes constant time to compute, hence we spend O(n) time computing the DP array. We then spend O(n²) time trying all intervals [i..j], hence the total time spent is O(n²).
+
+We can make this much faster by adding a greedy element to our solution. Suppose that we are looking at index j + 1 and the subarray with largest sum that finishes at position j + 1. If for some i ≤ j the sum in the interval a[i..j] is positive, then it is better to extend that sum using element j + 1 than to start a new sum. And of course we would like to extend the largest such sum. If for all i ≤ j, the sum in the interval a[i..j] is non-positive, then we can simply restart with aⱼ₊₁ on its own. Using this observation, lets DP'[0] = 0 and for 1 ≤ j ≤ n lets write the subproblems:
+
+```
+DP'[j] = max(1≤i≤j) Σ(k=i to j) aₖ
+```
+
+Note that in DP'[j], aⱼ needs to be part of the subarray. We can use the observation above to write the recurrence:
+
+```
+DP'[j] = {
+    0                     if j = 0,
+    DP'[j − 1] + aⱼ       if DP'[j − 1] > 0,
+    aⱼ                    otherwise.
+}
+```
+
+The solution is the maximum value of DP'[j] over all j. There are O(n) subproblems and each can be evaluated in constant time, hence the solution runs in O(n) time. Note that since each subproblem only cares about the previous subproblem, we can apply the space-saving trick and solve the problem in O(1) auxiliary space (as long as we keep the maximum value DP'[j] seem so far in one variable)!
+
+---
+
+## Problem 7
+
+You are a young child, out for a walk with your parent. You are walking down a quiet street. Your parent is in a hurry, but you are more interested in collecting pretty rocks. Your parent has agreed to a compromise where they are happy for you to cross the street back and forth to pick up rocks, but only if you keep up.
+
+Since you are a very organised child, you have determined the value to you of each rock along both sides of the streets, and represented this data in 2 arrays, left and right, of equal length. The i-th element in an array represents the value of the rock on the i-th square of pavement on that side of the street.
+
+Because of your parent's rule about keeping up, you have the following restrictions to your movement. If you are on pavement square i on one side of the street you can either:
+
+• Pick up the rock on square i on that side, and move to square i + 1 on the same side.
+• Cross the street diagonally to square i + 1 on the other side (but not pick up the rock).
+
+You start on pavement 0 on the left side of the street.
+
+Devise a dynamic programming algorithm to determine the maximum value of rocks that you can obtain. Your algorithm should run in O(n), where n is the length of left.
+
+### Solution
+
+Since the street has 2 sides, and which side we are on affects our options, we need to keep track of this. Lets have two arrays, DPleft and DPright, with the following overlapping subproblems:
+
+```
+DPleft[i] = {The maximum value we can obtain if we started from pavement i on the left}.
+DPright[i] = {The maximum value we can obtain if we started from pavement i on the right}.
+```
+
+Clearly the last cell in each array is just the value of the rock on that square of pavement. For any other cell, the value of the cell would be the maximum of picking up the rock and moving one cell along, or not picking up the rock, and crossing the road.
+
+```
+DPleft[i] = {
+    left[n]                                      if i = n,
+    max(left[i] + DPleft[i+1], DPright[i+1])     otherwise
+}
+
+DPright[i] = {
+    right[n]                                     if i = n,
+    max(right[i] + DPright[i+1], DPleft[i+1])    otherwise
+}
+```
+
+---
+
+## Supplementary Problems
+
+### Problem 8
+
+A ferry that is going to carry cars across the bay has two lanes of length L in which cars can drive onto. The n cars that wish to board the ferry line up in a single lane, and are individually directed onto one of the two lanes of the ferry until the next car cannot fit in either lane. Depending on which lanes the cars are directed onto, fewer or more cars may fit on the ferry. Let ℓᵢ denote the length of car i and assume that:
+
+• L is a positive integer.
+• Each ℓᵢ is a positive integer between 1 and L.
+• The distance between cars when packed into the ship is negligible.
+
+Write a dynamic programming solution that determines the maximum number of cars that can be loaded onto the ferry if distributed optimally.
+
+(a) Solve the problem in whatever time complexity you can (without resorting to brute force).
+
+(b) Improve your solution to O(nL) time complexity (if it is not already).
+
+For example, suppose that the car lengths are 2, 2, 7, 4, 9, 8, 1, 7, 3, 3 and the ferry is 20 units long. An optimal solution is to load 8 cars in lanes arranged like 2, 2, 7, 9 and 4, 8, 1, 7.
+
+#### Solution
+
+We are looking to find the longest prefix of ℓ₁, ℓ₂, ..., ℓₙ that we can fit onto the ferry, without going over the lanes' length limit L. Intuitively, this problem is similar to knapsack, since we have a capacity constraint (the length of the ferry) and items that we want to fit into it. In this case though, it's like we have two knapsacks, since there are two lanes for cars on the ferry. Suppose that the ferry currently has L₁ room remaining in the first lane, and L₂ room remaining in the second lane. Then, when we board a car with length ℓᵢ, we will be left with either L₁ − ℓᵢ and L₂ room on the ferry, or with L₁ and L₂ − ℓᵢ room left on the ferry, depending on whether we board the car into lane 1 or lane 2. We should select whichever of the two can accommodate more of the remaining cars when done optimally.
+
+The first solution that comes to mind is to write a dynamic programming algorithm with the following subproblems:
+
+```
+DP[i, L₁, L₂] = {The maximum number of cars from car i onwards that can be loaded onto
+                 the ship with L₁ room left in the first lane and L₂ room left in the second lane}
+```
+
+for all 1 ≤ i ≤ n + 1 and 0 ≤ L₁, L₂ ≤ L.
+
+Our choices are to either load car i into the first lane (if it fits) or into the second lane (if it fits). We return zero when there is no room left in either lane for the next car. A recurrence expressing this might look as follows:
+
+```
+DP[i, L₁, L₂] = {
+    0                                                        if i = n + 1
+    0                                                        if ℓᵢ > L₁ and ℓᵢ > L₂
+    1 + DP[i + 1, L₁ − ℓᵢ, L₂]                               if ℓᵢ ≤ L₁ and ℓᵢ > L₂
+    1 + DP[i + 1, L₁, L₂ − ℓᵢ]                               if ℓᵢ > L₁ and ℓᵢ ≤ L₂
+    1 + max(DP[i + 1, L₁ − ℓᵢ, L₂], DP[i + 1, L₁, L₂ − ℓᵢ])  otherwise
+}
+```
+
+This solution however has O(nL²) subproblems, which is very expensive. We can optimise this by noticing that we are actually storing redundant information in our subproblems. If we know that we have loaded the cars from 1 to i, then we know that their total weight is Σⱼ₌₁ⁱ ℓⱼ. The cars loaded must have taken up this much space, so it must be true that:
+
+```
+(L − L₁) + (L − L₂) = Σⱼ₌₁ⁱ ℓⱼ
+```
+
+and hence if we have L₁ space remaining in lane 1, then we know that there is precisely L₂ = 2L − L₁ − Σⱼ₌₁ⁱ ℓⱼ space remaining in lane 2, so the third parameter of our subproblems is redundant. To ensure that we can solve each subproblem in constant time, we need to know Σⱼ₌₁ⁱ ℓⱼ for each i. To do so, just precompute all sums (in total time Θ(n) like in the problem about the subarray with maximum sum) before running the dynamic programming algorithm. A better solution would then have subproblems as follows:
+
+```
+DP[i, L₁] = {The maximum number of cars from car i onwards that
+             can be loaded onto the ship with L₁ room left in the first lane}
+```
+
+for all 1 ≤ i ≤ n + 1 and 0 ≤ L₁ ≤ L. The recurrence is the same, but we compute L₂ using the formula above instead of storing it as a parameter to the subproblem.
+
+```
+DP[i, L₁] = {
+    0                        if i = n + 1
+    0                        if ℓᵢ > L₁ and ℓᵢ > 2L − L₁ − Σⱼ₌₁ⁱ⁻¹ ℓⱼ
+    1 + DP[i + 1, L₁ − ℓᵢ]   if ℓᵢ ≤ L₁ and ℓᵢ > 2L − L₁ − Σⱼ₌₁ⁱ⁻¹ ℓⱼ
+    1 + DP[i + 1, L₁]        if ℓᵢ > L₁ and ℓᵢ ≤ 2L − L₁ − Σⱼ₌₁ⁱ⁻¹ ℓⱼ
+    1 + max(DP[i + 1, L₁ − ℓᵢ], DP[i − 1, L₁])  otherwise
+}
+```
+
+The answer is the value of DP[1, L]. This solution has Θ(nL) subproblems, each of which can be evaluated in constant time, hence it can be computed in Θ(nL) time.
+
+---
+
+### Problem 9
+
+You and your friend are going to play a game. You start with a row of n coins with values a₁, a₂, ..., aₙ. You will each take turns to remove either the first or last coin. You continue until there are no coins left, and your score is the total value of the coins that you removed. You will make the first move of the game.
+
+(a) Show that the greedy strategy in which you simply pick the most valuable coin every time is not optimal.
+
+(b) Devise a dynamic programming algorithm that determines the maximum possible score that you can achieve if both you and your friend make the best possible moves.
+
+For example, given the coins 6, 9, 1, 2, 16, 8, the maximum value that you can achieve when going first is 23.
+
+#### Solution
+
+First, we rule out the greedy strategy. We cannot simply take the larger of the two elements and hope to achieve the best score. For instance, suppose the sequence was 2, 100, 1, 1. If you select 2, then your friend gets to take 100, and you surely lose. If we take the 1 from the right, then no matter which element your friend takes, you get the 100 and win.
+
+At each stage of the game, the coins that remain will be some contiguous subarray of the original coins. Suppose that we are currently looking at the subarray from i to j inclusive. We have exactly two choices, to take element i or to take element j. If we take element i, then our friend has to play with elements i + 1 to j inclusive, and has exactly the same goal – to maximise the best sum he can get. Similarly, if we take element j, our friend has
+to play with elements i to j − 1 inclusive, and tries to maximise his sum. This illustrates the substructure of the problem. Let us therefore define the following subproblems:
+
+```
+DP[i, j] = {The maximum score that we can obtain playing first from the subarray a[i..j]}
+```
+
+for 1 ≤ i ≤ j ≤ n. The obvious base is when i = j, we have DP[i, j] = aᵢ. How do we write the recurrence? Well, we have two choices, to take element i or to take element j. If we take element i, then our friend will take the maximum score possible from elements a[i + 1..j], so his score will be DP[i + 1, j], and hence our score will be what is left:
+
+```
+aᵢ + (sum(a[i + 1..j]) − DP[i + 1, j]) = sum(a[i..j]) − DP[i + 1, j]
+```
+
+Similarly, if we select element j, then our score will be:
+
+```
+aⱼ + (sum(a[i..j − 1]) − DP[i, j − 1]) = sum(a[i..j]) − DP[i, j − 1]
+```
+
+We should pick the best of the two, so our best possible score is:
+
+```
+max{sum(a[i..j]) − DP[i + 1, j], sum(a[i..j]) − DP[i, j − 1]} = sum(a[i..j]) − min(DP[i + 1, j], DP[i, j − 1])
+```
+
+Note that the max flipped to a min when we factor out the − sign (since max(−aᵢ) = −min(aᵢ)). Finally, we can write the recurrence as follows:
+
+```
+DP[i, j] = {
+    aᵢ                                                if i = j,
+    sum(a[i..j]) − min(DP[i + 1, j], DP[i, j + 1])   otherwise.
+}
+```
+
+The solution is the value of DP[1, n]. This gives us a total of O(n²) subproblems. We can evaluate each subproblem in constant time provided that we can evaluate sum(a[i..j]) in constant time. This can be achieved by precomputing the partial sums, ie. sum(a[1..i]) and using the fact that sum(a[i..j]) = sum(a[1..j]) − sum(a[1..j − 1]). With this achieved, we solve the problem in O(n²) time.
+
+---
+
+### Problem 10
+
+A sequence is a palindrome if it is equal to its reversal. For example, racecar and 5, 3, 2, 3, 5 are palindromes. Given a sequence a₁, a₂, ..., aₙ of length n, solve the following problems.
+
+(a) Devise a dynamic programming algorithm that determines the length of the longest palindromic subsequence of a. Your algorithm should run in O(n²) time.
+
+(b) Devise an algorithm that determines the length of the longest palindromic substring of a. Your algorithm should run in O(n²) time. (You do not have to use dynamic programming).
+
+#### Solution
+
+**(a) Longest palindromic subsequence in O(n²)**
+
+The recursive substructure of palindromes is straightforward to see. A sequence a[1..n] is a palindrome if and only if a₁ = aₙ and a[2..n − 1] is also a palindrome. An empty sequence or a single element sequence are also palindromes. To build a palindromic subsequence from a, we are either going to use the endpoints of a, ie. a₁ and aₙ if they are equal, or we will ignore one of them. If we decide to use the endpoints, then we recursively seek a palindromic subsequence of a[2..n − 1]. This motivates the following subproblems:
+
+```
+DP[i, j] = {The length of the longest palindromic subsequence of a[i..j]},
+```
+
+for all 1 ≤ i ≤ j ≤ n. For each subproblem DP[i, j], we check whether a[i] and a[j] are equal, if so, they are part of a palindrome, otherwise, they are not, and one of them must stay unused. This gives us the following recurrence:
+
+```
+DP[i, j] = {
+    1                                    if i = j,
+    2 + DP[i + 1, j − 1]                 if a[i] = a[j],
+    max(DP[i + 1, j], DP[i, j − 1])      otherwise.
+}
+```
+
+The answer is the value of DP[1, n]. There are O(n²) subproblems, and each of them can be evaluated in constant time, hence this algorithm runs in O(n²).
+
+**(b) Longest palindromic substring in O(n²)**
+
+The naive solution to this problem would involve trying all substrings a[i..j] and checking whether it is a palindrome. Since there are O(n²) substrings, and checking whether a substring is a palindrome takes O(n) time, this solution would take O(n³) time.
+
+Instead, let's think about palindromes in a slightly different way. A palindrome is a string that is symmetric about the middle. So, one way to detect a palindrome is to simply try all middle points and see how wide we can make the substring before it becomes asymmetrical. We must try each element of the sequence as the middle (which would yield odd length palindromes) and also all gaps between elements as the middle (which would yield the even length palindromes). Since we try O(n) middle points and each substring can only be O(n) long, this solution takes O(n²).
+
+A possible implementation of this idea in pseudocode is given below:
+
+```
+function LONGEST_PALINDROME(a[1..n])
+    Set answer = 1
+    for i = 1 to n do
+        Set j = 1
+        while i − j ≥ 1 and i + j ≤ n and a[i − j] = a[i + j] do
+            answer = max(answer, 2j + 1)
+            j = j + 1
+        Set j = 0
+        while i − j + 1 ≥ 1 and i + j ≤ n and a[i − j + 1] = a[i + j] do
+            answer = max(answer, 2j)
+            j = j + 1
+    return answer
+```
+
+---
+
+### Problem 11
+
+Consider a pair of sequences a₁, a₂, ..., aₙ and b₁, b₂, ..., bₘ of length n and m. A supersequence of a sequence a is a sequence that contains a as a subsequence. Devise an algorithm that finds the length of a shortest common supersequence of a and b. A common supersequence is a sequence that is both a supersequence of a and a supersequence of b. Your algorithm should run in O(nm).
+
+#### Solution
+
+There are two ways to solve this problem. The first is to directly write a dynamic programming solution, whose recurrence is extremely similar to that of the longest common subsequence. A much simpler way to solve this problem is to simply relate it to the longest common subsequence problem. Observe that the shortest common supersequence must contain the longest common subsequence of a and b, and hence its length is just:
+
+```
+|SCS(a, b)| = n + m − |LCS(a, b)|
+```
+
+We can solve the longest common subsequence problem in O(nm) time, hence we can also solve the shortest common supersequence problem in O(nm) time.
+
+To solve this problem directly with dynamic programming, we use similar observations that we made for the longest common subsequence problem, and write the subproblems:
+
+```
+DP[i, j] = {The length of the shortest common supersequence of a[1..i] and b[1..j]}
+```
+
+for all 0 ≤ i ≤ n, 0 ≤ j ≤ m. The recurrence is then given by:
+
+```
+DP[i, j] = {
+    i                                          if j = 0,
+    j                                          if i = 0,
+    1 + DP[i − 1, j − 1]                       if a[i] = b[j],
+    1 + min(DP[i − 1, j], DP[i, j − 1]),       otherwise.
+}
+```
+
+We have O(nm) subproblems, each of which can be evaluated in constant time, hence this algorithm will take O(nm) time.
+
+---
+
+### Problem 12
+
+Suppose that I give you a string S of length n and a list L consisting of m words with length at most n. Devise a dynamic programming algorithm to determine the minimum number of strings from L that must be concatenated to form the string S. You may use a word from L multiple times. Your algorithm should run in O(n²m) time.
+
+#### Solution
+
+Consider a particular suffix of the string S, say S[i..n] for some 1 ≤ i ≤ n. S needs to be made of the concatenation of words from L, so in particular, we need to try to make some prefix of S[i..n] out of a word from L. Let's just try all of the possible words and see which ones fit. If we pick a word, say w ∈ L, then we need to make the remaining string S[i + |w|..n] in as few words as possible. This illuminates the substructure of the problem. Let's write the subproblems:
+
+```
+DP[i] = {The minimum number of words needed to form the suffix S[i..n]},
+```
+
+for 0 ≤ i ≤ n. For each suffix, we can simply try each word w, see if it correctly matches the characters S[i..i + |w| − 1] and if so, recursively find the minimum number of words to form what remains.
+
+```
+DP[i] = {
+    0                                                           if i = n,
+    ∞                                                           if no word w ∈ L is a prefix of S[i..n]
+    1 + min(w∈L, w prefix of S[i..n]) DP[i + |w|]             otherwise.
+}
+```
+
+The answer is the value of DP[1]. We have O(n) subproblems, and for each of them we try all m words and perform a string comparison which takes O(n) time. In total, this brings us to O(n²m) time.
+
+---
+
+### Problem 13
+
+Given three strings A, B, and C of length n, m, and n + m respectively, determine whether C can be formed by interleaving the characters of A and B. C is said to be interleaving A and B if there are subsequences C₁ and C₂ of C such that they are complementary (i.e., each index of C is in either C₁ or C₂, and there are no common indices in C₁ and C₂) and that C₁ = A and C₂ = B. For example, string "XXXXZY" interleaves strings "XXY" and "XXZ", but string "XXY" does not interleaves strings "YX" and "X". Your algorithm should run in O(nm) time.
+
+#### Solution
+
+Suppose that we choose to use the first character of A as the first character of C. It is then possible to complete the string if and only if the strings A[2..n] and B[1..m] can be interleaved to form the string C[2..n + m]. Otherwise, if we use the first character of B, then we must interleave A[1..n] and B[2..m] to form C[2..n + m]. Let's just try both choices and see if either work. This suggests the following subproblems:
+
+```
+DP[i, j, k] = {Is it possible to interleave A[i..n] and B[j..m] to form C[k..n + m]?},
+```
+
+for 1 ≤ i ≤ n, 1 ≤ j ≤ m, 1 ≤ k ≤ n + m. This is not incorrect, but it is inefficient as it requires O(nm(n + m)) subproblems. We can notice that the third parameter of the subproblems k is redundant, since if we are up to characters i and j in A and B respectively, then we are necessarily up to position i + j − 1 in C. A better set of subproblems is therefore:
+
+```
+DP[i, j] = {Is it possible to interleave A[i..n] and B[j..m] to form C[i + j − 1..n + m]},
+```
+
+for 1 ≤ i ≤ n + 1, 1 ≤ j ≤ m + 1. The recurrence then simply tries both choices, to use a character from A or a character from B and sees if either work.
+
+```
+DP[i, j] = {
+    True                                           if i = n + 1 and j = m + 1,
+    DP[i + 1, j] or DP[i, j + 1]                   if A[i] = C[i + j − 1] and B[j] = C[i + j − 1],
+    DP[i + 1, j]                                   if A[i] = C[i + j − 1],
+    DP[i, j + 1]                                   if B[j] = C[i + j − 1],
+    False                                          otherwise.
+}
+```
+
+It is possible to successfully interleave the strings if DP[1, 1] is True. We have O(nm) subproblems and each can be evaluated in constant time, hence this solution runs in O(nm) time.
+
+---
+
+### Problem 14
+
+Given an n × n matrix A, your task is to find the submatrix with the maximum possible sum. A submatrix of a matrix A is a matrix consisting of the elements of some contiguous set of rows and columns of A.
+
+1. Devise a dynamic programming algorithm that runs in O(n⁴) time.
+
+#### Solution
+
+The solution to Part 1 is pretty much the same as the solution to Problem 6, but with more cases. We note that we can compute the sum of a submatrix (1, 1) to (i, j) by the following:
+
+```
+sum(A[1..i][1..j]) = A[i][j] + sum(A[1..i − 1][1..j]) + sum(A[1..i][1..j − 1]) − sum(A[1..i − 1][1..j − 1])
+```
+
+Draw a diagram and you will quickly see why this works.
+
+Hence we write the subproblems:
+
+```
+DP[i, j] = sum(A[1..i][1..j])
+```
+
+for 0 ≤ i, j ≤ n. The recurrence comes from the equation above, giving us:
+
+```
+DP[i, j] = {
+    0                                                                if i = 0 or j = 0,
+    A[i][j] + DP[i − 1, j] + DP[i, j − 1] − DP[i − 1, j − 1]         otherwise.
+}
+```
+
+We have O(n²) subproblems and each takes constant time to solve, so computing this takes O(n²) time. We can then try all O(n⁴) submatrices A[i..j][k..l], and compute their sums in constant time by using the fact that:
+
+```
+sum(A[i..j][k..l]) = sum(A[1..j][1..l] − A[1..i − 1][1..l] − A[1..j][1..k − 1] + A[i − 1][k − 1])
+                   = DP[j, l] − DP[i − 1, l] − DP[i, k − 1] + DP[i − 1, k − 1]
+```
+
+Draw a diagram like the one above to see why this works. We evaluate O(n⁴) sums, each in constant time, and hence this approach takes O(n² + n⁴) = O(n⁴) time.
+
+---
+
+### Problem 15
+
+Consider the problem of nicely justifying text on a page. Given a sequence of word lengths l₁, l₂, ..., lₙ and a page width w, we wish to figure out the best way to justify the words on a page of width w. We define the quality of a line containing the words from index i to j inclusive by the following scoring function:
+
+```
+score[i..j] = {
+    ∞                           if sum(l[i..j]) > w
+    (w − sum(l[i..j]))³         otherwise
+}
+```
+
+The aim is to split the words into lines such that the total score of all the lines is minimised. Devise a dynamic programming algorithm that computes the minimum possible score. Implement your solution in Python and extend it such that it also prints the optimal justification for a given list of words. Your algorithm should run in O(n²) time to compute the minimum score, and O(T) time to print the justified words, where T = sum(l[1..n]).
+
+#### Solution
+
+Suppose that we have already chosen how to justify the first i − 1 words on previous lines, and are now considering how to justify words i onwards. Our choices are to include just one word on this line, two words on this line, three words, and so on until the line becomes too long and the length exceeds w. Let's just try all of these options recursively. Once we have selected the words that will go on the current line, we must arrange the remainder of the words optimally. We therefore have the following subproblems:
+
+```
+DP[i] = {The minimum score required to justify the words [i, n]}
+```
+
+for 1 ≤ i ≤ n + 1. Our solution will then simply try all possibilities for the current line and recursively justify the following line, like so:
+
+```
+DP[i] = {
+    0                                                                if i = n + 1,
+    min(i≤j≤n, sum(l[i..j])≤w) ((w − sum(l[i..j]))³ + DP[j + 1])   otherwise.
+}
+```
+
+We do not want to compute sum(l[i..j]) naively at each step, or our algorithm will take O(n³) time, so we must be careful to compute the sum incrementally as we consider each additional word on this line. Alternatively, we could precompute the partial sums sum(l[1..j]) and use those to compute the sums in constant time.
+
+The solution is the value of DP[1]. We have O(n) subproblems and take at most O(n) time to evaluate each of them, hence this algorithm runs in O(n²) time.
+
+To print the justified words, we simply backtrack through the words until we find a line whose score plus the remaining score is the optimal score according to the DP table. We repeat this until we have printed all of the words. A pseudocode implementation might look something like this. Assuming that the DP table has already been computed and that we have the means to compute the sums in constant time:
+
+```
+function JUSTIFY(words[1..n], l[1..n], DP[1..n + 1], w)
+    Set i = 1
+    Set best_score = DP[n + 1]
+    while i ≤ n do
+        Set j = i
+        while j ≤ n and (w − sum(l[i..j]))³ + DP[j + 1] ≠ best_score do
+            j = j + 1
+        print words[i..j]
+        best_score = best_score − (w − sum(l[i..j]))³
+        i = j
+```
+
+---
+
+### Problem 16
+
+Along a particular river, there are 2n houses, exactly n of them on each side of the river. The owner of each house has a friend in one of the houses on the other side of the river. Each person is friends with exactly one other person. The house owners are tired of having to swim across the river to meet their friends each day, so they are going to connect some of the houses by bridges. Each person would like to have a bridge that connects their house directly to their friend's house, but this is not always possible since some bridges would have to cross. What is the maximum number of bridges that can be built between friends' houses without any of them crossing? Devise a dynamic programming algorithm to solve this problem. Your algorithm should run in O(n²) time.
+
+#### Solution
+
+Let's focus on the bottom bank of the river, and say we have an array f[1..n], which denotes the position 1 to n of the house of the i-th person's friend on the top bank. What we would like to do is for each house, to choose whether we should build the bridge connected to that house or not, and then simply try every possibility recursively. In order to decide whether it is possible to build a bridge however, we need to know which bridges have been built before, otherwise they might overlap. We could try storing all subsets of bridges as our subproblems, but this would yield exponential complexity, so we need something better.
+
+Instead, suppose we evaluate the houses on the bottom from left to right. Rather than remembering every single bridge that has been built so far, all we really need to know is the furthest to the right that any bridge on the top side has reached. If the bridge desired by person i goes to a position less than this, then it is not possible to build this bridge, or it would overlap, otherwise it is. So, let's make our subproblems:
+
+```
+DP[i, j] = {The maximum number of bridges that can be built from house i onwards if
+            the furthest to the right bridge on the top bank so far extends to house j}
+```
+
+for 1 ≤ i ≤ n + 1, and 0 ≤ j ≤ n. At each position i, we check whether it is possible to build the bridge or not. This is possible if and only if f[i] > j. If it is possible, we try to build that bridge and then recursively ask how many more bridges can be built. Otherwise, we do not attempt to build this bridge and simply move on to house i + 1.
+
+```
+DP[i, j] = {
+    0                                         if i = n + 1,
+    max(1 + DP[i + 1, f[i]], DP[i + 1, j])    if f[i] > j,
+    DP[i + 1, j]                              otherwise.
+}
+```
+
+The solution is the value of DP[1, 0]. We have O(n²) subproblems and each of them is evaluated in constant time, hence the time complexity of this solution is O(n²).
+
+---
+
+### Problem 17
+
+You have access to a set of n different types of cardboard boxes. Each type of box is rectangular, with a particular length, width, and height. Your goal is to build a tower of boxes that is as tall as possible. For stability purposes, you can only stack a box on top of another if the dimensions of the base of the top box are strictly smaller than the dimensions of the top of the lower box. You may rotate the boxes in any way that you wish, and may use as many of the same type of box as necessary (but each layer can only have one box). For example, you can stack a box with a 2 × 3 base on top of a box with a 4 × 3 base (by rotating the box so that 2 < 3 and 3 < 4), but you cannot stack a 2 × 3 box on top of a 3 × 3 box. Write a dynamic programming algorithm that computes the height of the tallest possible tower. Your algorithm should run in O(n²) time.
+
+#### Solution
+
+To simplify things a little bit, let's start by making six copies of every box, one for each possible orientation. This way, we do not have to think about rotating the boxes, and the complexity only increases by a constant, as we have 6n boxes. Note that in this formulation, a box will never be repeated, since the base lengths must be strictly decreasing. For 1 ≤ i ≤ 6n, box i is described by three parameters, (wᵢ, lᵢ, hᵢ), the width, length, and height. Suppose that we currently have a stack of boxes in which box i is on top. We can subsequently use any box j such that wⱼ < wᵢ and lⱼ < lᵢ (we do not have to think about rotations since we have a copy of each box for every possible rotation) and the height will increase by hⱼ. We should just try every possible box and take the one that results in the tallest tower. So, let's write the subproblems:
+
+```
+DP[i] = {The maximum possible tower height of a tower with box i at the bottom}
+```
+
+for 1 ≤ i ≤ 6n. With each box as the base, we simply try every possible box to be the next box, resulting in a recurrence like this:
+
+```
+DP[i] = hᵢ + {
+    0                                                    if there is no box with wⱼ < wᵢ and lⱼ < lᵢ,
+    max(1≤j≤6n, wⱼ<wᵢ and lⱼ<lᵢ) DP[j]                  otherwise.
+}
+```
+
+The solution is the maximum value of DP[i] for all 1 ≤ i ≤ 6n. Since we have O(n) subproblems and each of them takes O(n) time to evaluate, this solves the problem in O(n²) time.
+
+---
+
+### Problem 18
+
+Given a sequence of n integers a₁, a₂, ..., aₙ, and two integers k and d, determine whether it is possible to partition the integers aᵢ into groups such that each group contains at least k items, and for each pair of items aᵢ, aⱼ in the same group, |aᵢ − aⱼ| ≤ d. Come up with a dynamic programming algorithm for this problem.
+
+(a) Find an algorithm that runs in O(n²).
+
+#### Solution
+
+Given the constraint that all elements in the same group must be close to each other (within d of each other), we should intuitively see that, if there is a valid solution, then it is possible to obtain a valid solution in which groups are formed of contiguous segments of elements in sorted order. Let's quickly prove this.
+
+Suppose that there exists a solution containing at least two groups, say G₁ and G₂ such that min(G₂) < max(G₁) and min(G₁) < max(G₂). Then we can swap min(G₁) and max(G₂) and the groups will still be valid. This process could be repeated until there are no such groups remaining, at which point we can order the groups such that:
+
+```
+min(G₁) ≤ max(G₁) ≤ min(G₂) ≤ max(G₂) ≤ min(G₃) ≤ max(G₃) ≤ min(G₄)...
+```
+
+Thus we obtain a valid solution in which the elements are partitioned into groups of contiguous elements in sorted order. So, our first step is to sort the elements of a, which can be done in O(n log(n)) time. To form a valid group starting with a particular element aᵢ, we should select elements up to some j ≥ i + k − 1 such that aⱼ − aᵢ ≤ d, and such that the remaining items from aⱼ₊₁ onwards can be correctly grouped. Let's simply try all possibilities recursively and see if any of them work. Our subproblems will therefore be:
+
+```
+DP[i] = {Is it possible to group a[i..n] into valid groups?}
+```
+
+for 1 ≤ i ≤ n + 1. The recurrence simply tries every possibility and checks whether any of them are valid.
+
+```
+DP[i] = {
+    True                                       if i = n + 1,
+    ∨(j≥i+k−1, a[j]−a[i]≤d) DP[j + 1]         otherwise.
+}
+```
+
+The notation ∨ⱼ≥ᵢ₊ₖ₋₁ denotes a logical or operator over values of j such that i + k − 1 ≤ j ≤ n and a[j] − a[i] ≤ d. The problem is feasible if DP[1] is True. We take O(n log(n)) to sort, then since we have O(n) subproblems and each one can be evaluated in O(n) time, this solution takes O(n²) time.
+
+---
+
+**End of Solutions**

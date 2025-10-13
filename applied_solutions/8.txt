@@ -1,0 +1,279 @@
+# Week 8 Applied Sheet - Graph Algorithms Problems and Solutions
+
+## Problem 1: Flawed Shortest Path Algorithm
+
+**Problem:**
+Consider the following algorithm for single-source shortest paths on a graph with negative weights:
+- Find the minimum weight edge in the graph, say it has weight w
+- Subtract w from the weight of every edge in the graph. The graph now has no negative weights
+- Run Dijkstra's algorithm on the modified graph
+- Add w back to the weight of the edges and compute the lengths of the resulting shortest paths
+
+Prove by giving a counterexample that this algorithm is incorrect.
+
+**Solution:**
+The problem with this algorithm is that it changes the length of paths with more edges a larger amount than it changes the lengths of paths with fewer edges, since it adds a constant amount to every edge weight. A good graph to break this would therefore be one where a shortest path has more edges than an alternative.
+
+Example graph:
+- s → b (weight -4)
+- s → a (weight -5)
+- a → d (weight -3)
+- d → b (weight -4)
+
+In this case, the shortest path from s to b is s → a → d → b with length -12. If we subtract -5 from every edge weight in the graph, the weights become:
+- s → b (weight 1)
+- s → a (weight 0)
+- a → d (weight 2)
+- d → b (weight 1)
+
+The shortest path is now s → b, so we get the wrong answer.
+
+---
+
+## Problem 2: Detecting Negative Cycles
+
+**Problem:**
+Describe an algorithm that given a directed connected graph G = (V,E) determines whether or not G contains a negative cycle. Your algorithm should run in O(|V| · |E|) time.
+
+**Solution:**
+Remember that the Bellman-Ford algorithm can detect whether there is a negative cycle that is reachable from the source vertex. The obvious tempting solution is to just run Bellman-Ford from every possible source vertex and see whether a negative cycle is detected. This would be very slow though, taking O(|V|² · |E|) time.
+
+Instead, we would rather run just one Bellman-Ford, but how can we be sure that we can definitely reach the negative cycle if one exists? The easiest way to ensure this is to simply add a new vertex to the graph, and add an edge from that vertex to every other vertex in the graph. Running Bellman-Ford on this vertex will then definitely visit every vertex, and hence will definitely detect a negative cycle if one is present. Since we only need to run Bellman-Ford once, this algorithm takes O(|V| · |E|) time.
+
+Note: If the original graph G = (V,E) was not connected, then we could still use the same strategy, but the running time would be O(|V| · |E| + |V|²) to account for cases such as a graph with |V| isolated nodes (i.e., |E| = 0). Note also that O(|V| · |E| + |V|²) simplifies to O(|V| · |E|) for connected graphs.
+
+---
+
+## Problem 3: Finding a Negative Cycle
+
+**Problem:**
+Given a connected graph G = (V,E) that contains a negative weight cycle, give an algorithm to determine the vertices of one such cycle. Your algorithm should run in O(|V| · |E|) time.
+
+**Solution:**
+Recall from Problem 2 that we can use Bellman-Ford to detect the presence of a negative cycle by adding a new source vertex that connects to all others. Let's start by doing this. Remember that when Bellman-Ford terminates, the predecessors will all form a shortest path tree, except for the vertices reachable from a negative cycle.
+
+We will run Bellman-Ford for |V| iterations and start from any node that was updated during the |V|-th iteration (as it needs to be reachable from a negative cycle). This vertex may not necessarily be in a negative cycle, as it could be on a path that simply travels through one and then leaves it.
+
+In order to get to the negative cycle that caused this, we should travel backwards along the predecessors until we see a repeated node v. The negative cycle consists of v together with all nodes that appeared between the first and second occurrences of v.
+
+Example graph showing detected vertices not necessarily in the cycle:
+- s → a (weight 0)
+- s → d (weight 0)
+- s → b (weight 0)
+- a → c (weight -1)
+- c → d (weight -5)
+- d → b (weight 2)
+- b → d (weight 1)
+
+Iteration table:
+- Iteration |V|-1: s=0, a=-1, b=-4, c=-5, d=-2
+- Iteration |V|: s=0, a=-3, b=-4, c=-7, d=-2
+
+If a graph does indeed have a negative cycle, at least one of the vertices on the cycle will always update every iteration, but potentially also vertices that are reachable from the vertices in the negative cycle via offshoot branches, as those distance updates will ripple down each branch. The number of these extra detected vertices will depend on the specific relaxation order of edges. Therefore, we must follow the backtracking process outlined above to guarantee we find one negative cycle.
+
+For the backtracking process one can keep a "visited" array to detect what is the first vertex to be visited twice. If one does not want to use extra auxiliary space, one can instead initially travel backwards |V|-1 vertices to guarantee that one gets to some vertex v in a negative cycle, and from there travel the negative cycle once until getting back to v.
+
+---
+
+## Problem 4: Floyd-Warshall Path Reconstruction
+
+**Problem:**
+Improve the Floyd-Warshall algorithm so that you can also reconstruct the shortest paths in addition to the distances. Your improvement should not worsen the time complexity of Floyd-Warshall, and you should be able to reconstruct a path of length ℓ in O(ℓ) time.
+
+**Solution:**
+There are many approaches to make this work.
+
+### Solution 1: Track the intermediate vertex
+
+One way to keep track of the path information is to record, for each pair of vertices u, v, which intermediate vertex was optimal for going between them.
+
+```
+function FLOYD_WARSHALL(G = (V, E))
+    Set dist[1..n][1..n] = ∞
+    Set dist[v][v] = 0 for all vertices v
+    Set dist[u][v] = w(u,v) for all edges e = (u,v) in E
+    Set mid[1..n][1..n] = null  // mid[u][v] = optimal intermediate vertex
+    for each vertex k = 1 to n do
+        for each vertex u = 1 to n do
+            for each vertex v = 1 to n do
+                if dist[u][k] + dist[k][v] < dist[u][v] then
+                    dist[u][v] = dist[u][k] + dist[k][v]
+                    mid[u][v] = k
+    return dist[1..n][1..n], mid[1..n][1..n]
+```
+
+For each pair of nodes u and v that have a finite distance, to reconstruct the path, we then need to do a sort of divide-and-conquer style path reconstruction:
+
+```
+function GET_PATH(u, v)
+    if mid[u][v] = null then
+        return [u, v]
+    else
+        left = GET_PATH(u, mid[u][v])
+        right = GET_PATH(mid[u][v], v)
+        return left.pop_back() + right  // Remove the duplicate from the middle
+```
+
+### Solution 2: Track the successor
+
+Another slightly cleaner solution is to remember for each pair u, v, what is the first vertex on a shortest path from u to v. To maintain this, if we update the pair u, v and decide that vertex k is the new best intermediate vertex, then the first vertex on a shortest path from u to v is just the first vertex on a shortest path from u to k.
+
+```
+function FLOYD_WARSHALL(G = (V, E))
+    Set dist[1..n][1..n] = ∞
+    Set dist[v][v] = 0 for all vertices v
+    Set dist[u][v] = w(u,v) for all edges e = (u,v) in E
+    Set succ[1..n][1..n] = null  // succ[u][v] = successor of u on shortest path to v
+    Set succ[u][v] = v for all edges e = (u,v) in E
+    for each vertex k = 1 to n do
+        for each vertex u = 1 to n do
+            for each vertex v = 1 to n do
+                if dist[u][k] + dist[k][v] < dist[u][v] then
+                    dist[u][v] = dist[u][k] + dist[k][v]
+                    succ[u][v] = succ[u][k]
+    return dist[1..n][1..n], succ[1..n][1..n]
+```
+
+Reconstructing the paths is now easier as we do not need any fancy recursion:
+
+```
+function GET_PATH(u, v)
+    Set path = [u]
+    while u ≠ v do
+        u = succ[u][v]
+        path.append(u)
+```
+
+In both cases, we add only a constant amount of overhead to the algorithm so we do not worsen the complexity. We can also reconstruct paths of length ℓ in O(ℓ) time in both cases.
+
+---
+
+## Problem 5: Floyd-Warshall with Negative Cycles
+
+**Problem:**
+Add a post-processing step to Floyd-Warshall that sets dist[u][v] = -∞ if there is an arbitrarily short path between vertex u and vertex v, i.e. if u can travel to v via a negative weight cycle. Your post processing should run in O(|V|³) time or better, i.e. it should not worsen the complexity of the overall algorithm.
+
+**Solution:**
+Recall that the Floyd-Warshall algorithm can detect the presence of negative cycles by looking at the distances of vertices to themselves. If a vertex can reach itself with a negative distance, then it must be contained in a negative cycle.
+
+We can therefore post process the graph by checking each intermediate vertex k that is part of a negative cycle, and then setting the lengths of all paths u → v such that u can reach k and k can reach v to -∞. This process takes O(|V|³).
+
+```
+function FLOYD_WARSHALL_POSTPROCESS(G = (V, E), dist[1..n])
+    for each vertex k = 1 to n do
+        if dist[k][k] < 0 then
+            for each vertex u = 1 to n do
+                for each vertex v = 1 to n do
+                    if dist[u][k] + dist[k][v] < ∞ then
+                        dist[u][v] = -∞
+```
+
+---
+
+## Problem 6: Currency Arbitrage
+
+**Problem:**
+Arbitrage is the process of exploiting conversion rates between commodities to make a profit, and it may occur over many steps. For example, one could purchase US dollars, convert it into British pounds, and then back into Australian dollars. If the prices were right, this could result in a profit.
+
+Given a list of n currencies and the best available conversion rate between some pairs of currencies (i.e., how much of the first currency you need to spend to get 1 unit of the second currency), devise an algorithm that determines whether arbitrage is possible, i.e. whether or not you could make a profit. Your algorithm should run in O(n³) where n is the number of currencies.
+
+**Solution:**
+Let's imagine this as a shortest path problem. We wish to begin at one currency and walk through a path containing some other currencies before arriving back at our initial currency with a net profit. Making a profit means that the net conversion rate between a currency and itself should be less than 1.
+
+Note that if we convert between currencies whose exchange rates are r₁, r₂, ..., rₖ, then the final conversion rate is r₁ × r₂ × ... × rₖ.
+
+One way to model this problem is to therefore create a graph on n vertices where each vertex represents a currency. We add a directed edge between a pair of vertices with the exchange rate as the weight. We could then modify the Floyd-Warshall algorithm to compute the product of the weights rather than the sum, and it would then find for us the best conversion rate between any pair of currencies. Arbitrage is possible if a currency can be converted into itself at a rate of less than 1, i.e. if we find an entry on the diagonal of the distance matrix that is less than 1.
+
+An alternate solution that does not require us to modify Floyd-Warshall is to create the same graph but use the logarithms of the exchange rates as the edge weights. We can then run the ordinary Floyd-Warshall algorithm. This works because log(r₁) + log(r₂) = log(r₁ × r₂). Since log(r) < 0 if and only if r < 1, we know that arbitrage is possible if and only if the graph contained a negative cycle, i.e. if a vertex has a negative distance to itself.
+
+---
+
+## Problem 7: Johnson's Algorithm (EXCLUDED - Advanced)
+
+---
+
+## SUPPLEMENTARY PROBLEMS
+
+## Problem 8: Bellman-Ford Implementation
+
+**Problem:**
+Implement Bellman-Ford and test your code's correctness by solving the following problem on UVA Online Judge: https://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=499
+
+---
+
+## Problem 9: Counting Paths in a DAG
+
+**Problem:**
+Devise an algorithm for counting the number of paths between two given vertices s and t in a directed acyclic graph G = (V,E) which runs in O(|V| + |E|). Don't worry about the magnitude of the answer (i.e. assume that all arithmetic operations take constant time, despite the fact that the answer might be exponential in the input size.)
+
+**Solution:**
+We will approach this using a dynamic programming algorithm. Suppose we are at some vertex u. Then the number of different ways in which we could get to t involves trying all of our different edges (u,v) and then counting the number of resulting paths from all of the v. So let us define the following subproblems:
+
+DP[u] = {The number of paths from u to t}
+
+The recurrence is then given by:
+- DP[u] = 1 if u = t
+- DP[u] = Σ DP[v] for all v∈adj[u] otherwise
+
+The answer is the value of DP[s]. The subproblems are dependent in a reverse topological order, since in order to compute DP[u] we must know the value of all of u's descendants.
+
+```
+function COUNT_PATHS(G = (V, E), s, t)
+    Set count[1..n] = 0
+    count[t] = 1
+    Set order = reverse(topological_sort(G))
+    for each vertex u in order do
+        for each edge (u, v) adjacent to u do
+            count[u] = count[u] + count[v]
+    return count[s]
+```
+
+---
+
+## Problem 10: Counting Paths Spelling a String
+
+**Problem:**
+Consider a directed acyclic graph G = (V,E) where each edge is labelled with a character from some finite alphabet A. Given a string S over the alphabet A, count the number of paths in G whose edge labels spell out the string S. Your algorithm should run in O((|V| + |E|)·n), where n is the length of the string S.
+
+**Solution:**
+This problem can be solved very similarly to the ordinary path-counting problem on a DAG (Problem 9). We will use dynamic programming. Let us define the subproblems:
+
+DP[u,i] = {The number of paths from u that spell out S[i..n]}
+
+If we are at a particular vertex u and we want to write S[i..n], then we need to find all of our outgoing edges (u,v) that are labelled S[i], and then try to write S[i+1..n] from vertex v. A recurrence can therefore be written as follows:
+
+- DP[u,i] = 1 if i = n+1
+- DP[u,i] = Σ DP[v,i+1] for all v∈adj[u] where ℓ(u,v)=S[i] otherwise
+
+where ℓ(u,v) denotes the label of the edge (u,v).
+
+The solution to the problem is then the sum of DP[u,1] for all vertices u ∈ V. We have V·n subproblems, and for each edge in the graph, it gets processed at most once per value of i, so the total time complexity is O(|V|·n + |E|·n) = O((|V| + |E|)·n) as required.
+
+---
+
+## Problem 11: Shortest Paths Faster Algorithm (SPFA)
+
+**Problem:**
+An improvement to the Bellman-Ford algorithm is the so-called "Shortest Paths Faster Algorithm", or SPFA. SPFA works like Bellman-Ford, relaxing edges until no more improvements are made, but instead of relaxing every edge |V|-1 times, we maintain a queue of vertices that have been relaxed. At each iteration, we take an item from the queue, relax each of its outgoing edges, and add any vertices whose distances changed to the queue if they are not in it already. The queue initially contains the source vertex s.
+
+(a) Reason why SPFA is correct if the graph contains no negative-weight cycles.
+(b) The algorithm described above will cycle forever in the presence of a negative-weight cycle. Add a simple condition to the algorithm to fix this and detect the presence of negative cycle if encountered.
+(c) What is the worst-case time complexity of SPFA?
+
+**Solution:**
+
+(a) The proof of correctness for SPFA is pretty much exactly the same as for Bellman-Ford, so we will not write the whole thing formally. At the first iteration, all shortest paths consisting of at most 1 edge will be found by relaxing the edges out of s. Subsequently, all shortest paths of length at most two will be found when those vertices relax their outgoing edges, and so on. By induction, we can show that all shortest paths of length k will be relaxed after the shortest paths of length k-1. SPFA essentially does the same thing as Bellman-Ford, but it avoids relaxing edges that will not make a difference.
+
+(b) In the presence of a negative weight cycle, SPFA will continue to add the vertices of the cycle to the queue forever. To stop this, we enforce that each vertex can only be removed from the queue at most n-1 times. If a vertex is removed n times, this implies that the shortest path to it contains n+1 vertices since the queue always serves vertices in order of the number of edges on their shortest path, and in between multiple occurrences of the same vertex, the path length must increase.
+
+(c) Since we may remove each vertex from the queue n times, and each time we process every one of its edges, the amount of work done is at most O(|V|·|E|), the same as Bellman-Ford. Although this sounds bad, on average SPFA performs much better.
+
+---
+
+## Problem 12: Unbounded Knapsack as a Graph Problem
+
+**Problem:**
+Describe how an instance of the unbounded knapsack problem can be converted into a corresponding directed acyclic graph. Which graph problem correctly models the unbounded knapsack problem on this graph?
+
+**Solution:**
+Create a graph with C+1 vertices, labelled 0 to C, where C is the capacity of the knapsack. For each item available with weight w and value v, create an edge from every vertex c ≥ w to the vertex c-w with weight v. The solution to the unbounded knapsack problem is the critical path of this graph.

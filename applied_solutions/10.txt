@@ -1,0 +1,329 @@
+# Week 10 Applied Sheet - Solutions
+
+## Important Advice
+
+The following solutions pertain to theoretical problems given in applied classes. You are strongly advised to attempt the problems thoroughly before looking at these solutions. Simply reading the solutions without thinking about the problems will rob you of the practice required to solve complicated problems on your own. You will perform poorly on the exam if you simply attempt to memorise solutions. Thinking about a problem, even if you do not solve it, will greatly increase your understanding of the underlying concepts.
+
+Solutions are typically not provided for Python implementation questions. In some cases, pseudocode may be provided where it illustrates a particular useful concept.
+
+---
+
+## Problem 1: Circulation with Demands and Lower Bounds
+
+**Problem Statement:**
+Consider the following circulation with demands and lower bounds problem presented in Figure 1. Does it have a feasible solution?
+
+The graph has:
+- Vertex w: demand = 4
+- Vertex x: demand = -2
+- Vertex y: demand = -4
+- Vertex v: demand = 2
+
+Edges (capacity/lower bound):
+- x→y: 1/3
+- x→v: 1/3
+- y→v: 1/4
+- y→w: 2/4
+- v→w: 1/2
+
+**Solution:**
+
+The idea is to reduce this problem to the problem of circulation with demands but no lower bounds.
+
+We first define a flow f^ℓ by setting, for each edge, f^ℓ(u,v) = ℓ(u,v). Then we figure out if there exists a flow f* such that, for f = f^ℓ + f*, f is a feasible solution to the circulation with demands {d_u} and lower bounds problem on G.
+
+Note that f^ℓ already takes care that the flow f is at least equal to the lower bound ℓ(u,v) on each edge. Now we just have to consider the related graph G* with adjusted capacities and demands:
+
+- The vertices of G* are the same as in G, but they now have demand:
+  d*_u = d_u - Σ_{v∈V} f^ℓ(v,u) + Σ_{v∈V} f^ℓ(u,v)
+
+- The edges of G* are the same as in G, but they now have capacities:
+  c*(u,v) = c(u,v) - ℓ(u,v) and no lower bounds
+
+We solve the problem of circulation with demands {d*_u} (without lower bounds) in G*.
+
+**Step 1: Fixed Flow f^ℓ**
+The fixed flow f^ℓ corresponds to setting flow equal to lower bounds:
+- x→y: 1
+- x→v: 1
+- y→v: 1
+- y→w: 2
+- v→w: 1
+
+**Step 2: Adjusted Graph G***
+The adjusted graph G* has:
+- Vertex w: demand = 1
+- Vertex x: demand = -2
+- Vertex y: demand = -2
+- Vertex v: demand = 3
+
+Edges (capacities):
+- x→y: 2
+- x→v: 2
+- y→v: 3
+- y→w: 2
+- v→w: 1
+
+**Step 3: Max-Flow Problem**
+We solve the max-flow problem associated with circulation with demands {d*_u}. We add source s and sink t:
+- s connects to vertices with negative demand (supply)
+- Vertices with positive demand connect to t
+
+The solution shows all outgoing edges of the source and incoming edges of the sink are saturated.
+
+**Step 4: Final Solution**
+The final solution f = f^ℓ + f* for the circulation with demands {d_u} and lower bounds problem shows flows (lower bound/flow/capacity):
+- x→y: 1/3/3
+- x→v: 1/1/3
+- y→v: 1/4/4
+- y→w: 2/3/4
+- v→w: 1/1/2
+
+**Answer: YES, there is a feasible solution.**
+
+---
+
+## Problem 2: Minimum Path Cover of a DAG
+
+**Problem Statement:**
+Recall the concept of a directed acyclic graph (DAG). A path cover of a DAG is a set of paths that include every vertex exactly once (multiple paths cannot touch the same vertex). Note that path covers can include paths of length 0 (i.e., paths that contain a single vertex but no edge at all). A minimum path cover is a path cover consisting of as few paths as possible. Devise an efficient algorithm for finding a minimum path cover of a DAG. [Hint: Use bipartite matching]
+
+**Solution:**
+
+1. Create a bipartite graph where each side has one copy of each vertex in V.
+
+2. For each edge (u,v) in the original graph, add an edge in the bipartite graph (u on the left, v on the right).
+
+3. Solve for the maximum cardinality matching (using network flow).
+
+4. The answer is |V| - #successful matches.
+
+**Why this works:**
+The matching is essentially choosing for each vertex where to go next in the path. Each vertex can be in one path only, hence it can be matched to one vertex, and vice versa (at most one vertex can match to it). The unmatched vertices on the left must therefore be the end of paths, and the unmatched vertices on the right are the beginning of paths.
+
+---
+
+## Problem 3: Project Selection with Prerequisites
+
+**Problem Statement:**
+You are in charge of projects at a large company and need to decide for this year which projects to undertake. Each project has a profit value associated with it. Some projects are worth positive profit (earning money), some are worth negative profit (costing more than they make). Projects have prerequisites with other projects, meaning a project can only be completed once all prerequisites have been completed. The goal is to determine which projects to complete to make maximum profit while ensuring all prerequisite relationships are satisfied.
+
+This problem can be solved by reducing it to a minimum cut problem:
+- Create a flow network with source vertex s and sink vertex t
+- Create a vertex for each project
+- For each project x with positive profit p, add directed edge from s to x with weight p
+- For each project x with negative profit -p, add directed edge from x to t with weight p
+- For each project x that has y as prerequisite, add directed edge from x to y with weight ∞
+
+**(a) Explain what the components of the minimum s-t cut correspond to in the optimal solution.**
+
+**Solution:**
+- Each project in the S component is a project that we will complete
+- Each project in the T component is a project that we will not complete
+- This makes sense since any profitable project in S forces all of its prerequisites to also be in S
+
+**(b) What is the purpose of the infinite capacity edges?**
+
+**Solution:**
+The infinite capacity edges ensure that prerequisite relationships are satisfied. You cannot disconnect an infinite capacity edge since that would make the cost of the cut infinity, which will never be a minimum cut!
+
+**(c) Explain how to compute maximum profit from the capacity of the minimum s-t cut.**
+
+**Solution:**
+
+Let's think about the structure. The source connects to all profitable projects, while unprofitable projects connect to the sink.
+
+If a profitable project x remains in the S component, then because of the infinite capacity edges connecting it to its prerequisites, they too must be in S (disconnecting them would cost ∞). This means we must pay the cost of disconnecting any unprofitable prerequisites from the sink, which is the total cost of undertaking those unprofitable projects.
+
+If a profitable project is not in S, the edge from source to it must be disconnected, which costs the value of the project. In this case, it's not required to disconnect the unprofitable prerequisites since they are not connected to s directly, but only via their dependants.
+
+From this analysis:
+- When we complete a profitable project, we pay the cost of its unprofitable prerequisites by disconnecting them from t
+- When we choose not to complete a profitable project, we pay the value of that project (the profit we give up)
+
+Therefore:
+c(S,T) = cost of unprofitable projects we are forced to do + cost of profitable projects we choose not to do
+
+Maximum Profit = Total profit of all profitable projects - c(S,T)
+
+This makes sense since we seek the minimum value of c(S,T), which maximizes the profit.
+
+---
+
+## Problem 4: Employee Shift Scheduling
+
+**Problem Statement:**
+You work at a company that provides essential services and needs one employee on duty each Saturday and Sunday. You have results from a Doodle showing, for each employee e_i, which specific Saturdays and Sundays they are available during the next couple of weekends. You also know:
+- Maximum amount m_i of weekend days each employee e_i is allowed to work
+- Minimum amount ℓ_i of those days each employee e_i should work to achieve fair distribution
+
+**(a) How can you figure out if there is an allocation that has exactly one employee on duty each Saturday and Sunday, and meets the constraints above?**
+
+**Solution:**
+
+We translate this to a circulation with demands and lower bounds problem.
+
+Let D denote the total number of weekend days during the timeframe considered. Create a graph as follows:
+
+1. Add one vertex e_i for each employee (with demand 0)
+
+2. Add one vertex w_j for each Saturday and Sunday (with demand 1). These vertices only have incoming edges, so the demand of 1 ensures exactly one employee is allocated to each day
+
+3. For each weekend day w_j that employee e_i is available, add edge (e_i, w_j) with capacity 1 and lower bound 0
+
+4. Add vertex a with demand -D (origin of all shift allocations)
+
+5. For each employee e_i, add edge (a, e_i) with:
+   - Capacity m_i (maximum weekend days employee can work)
+   - Lower bound ℓ_i (minimum workload for fair distribution)
+
+**Why this structure:**
+On the weekend days side, we put demand 1 directly into nodes (exactly 1 shift per day). On the employee side, we keep demand 0 and add node a with demand -D. This is because:
+- Each weekend day needs exactly 1 shift allocated
+- Each employee has lower and upper bounds on shifts
+- Total shifts to allocate across all employees is D
+- Node a with demand -D and edges to employees capture lower and upper bounds
+
+Then solve this circulation with demands and lower bounds problem. If feasible solution exists, the allocation corresponds to edges between employees and weekend days with flow equal to 1.
+
+**(b) Suppose stronger employment regulations are approved, and for each weekend, each employee is allowed to work at most one day. How can you solve this version?**
+
+**Solution:**
+
+Now we must enforce that no employee can work both Saturday and Sunday of the same weekend. We cannot directly connect employee nodes to weekend day nodes. Instead, insert a selector node between them.
+
+For each employee e_i, if they can work at least one day of the k-th weekend:
+1. Create node s_{i,k} (with demand 0)
+2. Add edge (e_i, s_{i,k}) with capacity 1 and lower bound 0
+   (This enforces working at most one day of that weekend)
+3. For each day w_j in that k-th weekend that e_i can work, add edge (s_{i,k}, w_j) with capacity 1 and lower bound 0
+
+The rest of the graph structure remains the same (vertex a, edges from a to employees, etc.).
+
+You can verify there is a path between each e_i and w_j in this adapted graph if and only if there was a path in the previous graph. But now the selector nodes s_{i,k} enforce the rule that no employee works both days of a weekend.
+
+Solve this circulation with demands and lower bounds problem to determine if a feasible solution exists.
+
+---
+
+## Problem 5: Land Fencing Optimization
+
+**Problem Statement:**
+You own a plot of land described as an n×m grid of unit-square-sized cells. Each cell is either filled in or a hole. The government requires you to fence off holes. Each unit of fencing costs $c_fence. To reduce fencing required, you can:
+- Fill in holes (costs $c_fill per hole)
+- Dig new holes (costs $c_dig per hole)
+
+Safety rules: No holes on boundary cells, and you cannot make any.
+
+Example: With c_fence = 10, c_dig = 10, and c_fill = 30:
+- Initial cost to fence: $160
+- Optimal solution: dig out middle cell and fill in topmost hole
+- Total cost: $140
+
+Describe how to determine minimum cost to make land safe by reducing it to a minimum cut problem.
+
+**Solution:**
+
+We need to decide what the cut components represent. We are paying to separate holes from non-holes, so:
+- S component = cells that end up as non-holes
+- T component = cells that end up as holes
+
+Two adjacent cells must pay a cost to be disconnected (cost $c_fence), or we can pay to change something from hole to non-hole or vice versa.
+
+**Graph Construction:**
+
+1. Create a vertex for each cell of land
+2. Add special vertices: source s and sink t
+3. S component represents non-holes, T component represents holes
+
+**Edges from source s:**
+- To all boundary cells: capacity ∞ (cannot change these to holes)
+- To all other non-holes: capacity c_dig (cost to remove from non-holes and make into holes)
+
+**Edges to sink t:**
+- From each current hole: capacity c_fill (cost to make this cell part of non-holes)
+
+**Fencing cost:**
+For every pair of adjacent cells, add edges in BOTH directions with capacity c_fence. This ensures:
+- If two cells are in different components, we pay $c_fence to keep them apart
+- If they are in same component, we pay nothing
+- We add edges in both directions because we don't know in advance which cell will be in which component
+- The cut never double counts because capacity of a cut only measures edges going S→T, not the other direction
+
+**Answer:**
+The minimum cost to make your land safe equals the capacity of the minimum cut of this graph (i.e., the value of its maximum flow).
+
+---
+
+## Problem 6: Baseball Elimination
+
+**Problem Statement:**
+A useful application of maximum flow is the baseball elimination problem. Consider a season where some games have been played and the schedule for remaining games is known. We wish to determine whether a particular team can possibly end up with the most wins or at least tied for the most wins.
+
+Example 1:
+| Team | Wins | Games Left |
+|------|------|------------|
+| Team 1 | 30 | 5 |
+| Team 2 | 28 | 10 |
+| Team 3 | 26 | 8 |
+| Team 4 | 20 | 9 |
+
+Team 4 has no chance since even if they win all 9 games (reaching 29 wins), they'll be behind Team 1.
+
+Example 2:
+| Team | Wins | Games Left |
+|------|------|------------|
+| Team 1 | 30 | 5 |
+| Team 2 | 28 | 10 |
+| Team 3 | 29 | 8 |
+| Team 4 | 20 | 11 |
+
+Team 4 can reach 31 wins, but it doesn't matter since other teams have enough games that one must reach 32 wins.
+
+A complete schedule includes:
+- Number of wins of each team
+- Number of games remaining
+- For each remaining game, which teams will play against each other
+
+Example schedule:
+| Team | Wins | Total | vs T1 | vs T2 | vs T3 | vs T4 |
+|------|------|-------|-------|-------|-------|-------|
+| Team 1 | 29 | 5 | 0 | 2 | 1 | 2 |
+| Team 2 | 28 | 10 | 2 | 0 | 4 | 4 |
+| Team 3 | 28 | 8 | 1 | 4 | 0 | 3 |
+| Team 4 | 25 | 9 | 2 | 4 | 3 | 0 |
+
+Describe an algorithm for determining whether a given team can possibly end up with the most wins or at least tied for the most wins.
+
+**Solution:**
+
+Assume Team x in question wins all its remaining games (best case scenario), and let the resulting number of wins be denoted by y. In the following, we consider only the other teams and remaining games that do not involve Team x.
+
+**Graph Construction:**
+
+Each remaining game assigns a point to one of two teams that plays in it. Make a graph with games on the left and teams on the right.
+
+For efficiency, merge duplicate games played between the same pair of teams:
+- For any pair of teams (Team i, Team j) with i < j
+- If there are r games between them, put single node G_{i,j} on the left
+- Node G_{i,j} has demand -r (wins from those r games need to be assigned to involved teams)
+- G_{i,j} connects with edges of capacity r to nodes T_i and T_j (representing Team i and Team j)
+- Team nodes have demand 0
+
+**Preventing teams from exceeding Team x's wins:**
+- Create node A with demand = total remaining games not involving Team x
+- Each node T_i representing Team i connects to A with edge capacity = y - (current wins of Team i)
+
+**Result:**
+If Team x can still finish at least tied for the most wins, then there is a feasible solution for this circulation with demands problem. Otherwise, it was not possible to assign all points, hence Team x cannot finish as the leader anymore.
+
+---
+
+## Supplementary Problems
+
+### Problem 7: Implementation Task
+
+**Problem Statement:**
+Implement the algorithm based on Ford-Fulkerson to solve the problem of circulation with demands and lower bounds.
+
+**Note:** This is an implementation problem. Solutions typically not provided for Python implementation questions. Refer to the theory from Problem 1 for the algorithmic approach.
