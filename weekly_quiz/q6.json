@@ -1,0 +1,197 @@
+{
+  "problems": [
+    {
+      "id": 1,
+      "title": "Coin Change Problem - Minimum Coins",
+      "type": "Dynamic Programming",
+      "description": "Using the optimal substructure for a Dynamic Programming solution to the Coins Change Problem",
+      "recurrence_relation": {
+        "formula": "MinCoins[v]",
+        "cases": [
+          {
+            "condition": "v = 0",
+            "value": 0,
+            "explanation": "Base case: 0 coins needed for value 0"
+          },
+          {
+            "condition": "v > 0 and v < c[i] for all i",
+            "value": "infinity",
+            "explanation": "No coins can make this value"
+          },
+          {
+            "condition": "otherwise",
+            "value": "min(1 + MinCoins[v - c[i]]) for 1 ≤ i ≤ n, c[i] ≤ v",
+            "explanation": "Take minimum over all coins that fit, adding 1 coin to the subproblem"
+          }
+        ]
+      },
+      "given_values": {
+        "coins": [2, 4, 8, 5],
+        "target_value": 8,
+        "note": "c = [2,4,8,5], v = 8"
+      },
+      "solution": {
+        "MinCoins[0]": {
+          "value": 0,
+          "correct": true,
+          "explanation": "Base case"
+        },
+        "MinCoins[3]": {
+          "value": 1,
+          "correct": false,
+          "user_answer": 1,
+          "explanation": "Cannot make 3 with coins [2,4,8,5], should be infinity"
+        },
+        "MinCoins[4]": {
+          "value": 1,
+          "correct": true,
+          "explanation": "One coin of value 4"
+        },
+        "MinCoins[6]": {
+          "value": 2,
+          "correct": true,
+          "explanation": "Two coins: 2+4 or 4+2"
+        },
+        "MinCoins[7]": {
+          "value": 2,
+          "correct": true,
+          "explanation": "Two coins: 2+5"
+        }
+      },
+      "status": "partially_correct",
+      "correct_count": 4,
+      "total_count": 5,
+      "feedback": "This question is based on what you have seen in lecture for the Coin Change problem. You are to make use of the recurrence relation defined here to complete the memoization process."
+    },
+    {
+      "id": 2,
+      "title": "Unbounded Knapsack Problem",
+      "type": "Dynamic Programming",
+      "description": "Recall the unbounded knapsack dynamic programming problem with backtracking",
+      "recurrence_relation": {
+        "formula": "MaxValue[c]",
+        "cases": [
+          {
+            "condition": "c < w_i for all i",
+            "value": 0,
+            "explanation": "No items fit in the knapsack"
+          },
+          {
+            "condition": "otherwise",
+            "value": "max(v_i + MaxValue[c - w_i]) for 1 ≤ i ≤ n, w_i ≤ c",
+            "explanation": "Take maximum value over all items that fit"
+          }
+        ]
+      },
+      "given_values": {
+        "items": [
+          {
+            "item_id": 1,
+            "weight": 9,
+            "value": 550
+          },
+          {
+            "item_id": 2,
+            "weight": 5,
+            "value": 350
+          },
+          {
+            "item_id": 3,
+            "weight": 6,
+            "value": 180
+          },
+          {
+            "item_id": 4,
+            "weight": 2,
+            "value": 90
+          },
+          {
+            "item_id": 5,
+            "weight": 3,
+            "value": 40
+          }
+        ],
+        "capacity": 12
+      },
+      "dp_table": {
+        "capacities": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+        "MaxValue": [0, 0, 90, 90, 180, 350, 350, 440, 440, 550, 700, 700, 790, 790],
+        "Decision": ["None", "None", 4, 4, 4, 2, 2, 2, 2, 1, 2, 2, 2, 2],
+        "explanation": "Decision array shows which item was selected at each capacity"
+      },
+      "question": "Given a knapsack with a weight capacity of 12, how many of the following items should be added into the knapsack?",
+      "solution": {
+        "Item_1": {
+          "user_answer": 0,
+          "correct": true,
+          "count": 0
+        },
+        "Item_2": {
+          "user_answer": 1,
+          "correct": false,
+          "count": "needs_calculation"
+        },
+        "Item_3": {
+          "user_answer": 0,
+          "correct": true,
+          "count": 0
+        },
+        "Item_4": {
+          "user_answer": 1,
+          "correct": true,
+          "count": 1
+        },
+        "Item_5": {
+          "user_answer": 1,
+          "correct": false,
+          "count": "needs_calculation"
+        }
+      },
+      "backtracking_explanation": {
+        "start_capacity": 12,
+        "max_value_at_12": 790,
+        "decision_at_12": 2,
+        "steps": [
+          {
+            "capacity": 12,
+            "decision": "Item 2",
+            "remaining_capacity": "12 - 5 = 7",
+            "note": "Take Item 2 (weight=5, value=350)"
+          },
+          {
+            "capacity": 7,
+            "decision": "Item 2",
+            "remaining_capacity": "7 - 5 = 2",
+            "note": "Take Item 2 again (weight=5, value=350)"
+          },
+          {
+            "capacity": 2,
+            "decision": "Item 4",
+            "remaining_capacity": "2 - 2 = 0",
+            "note": "Take Item 4 (weight=2, value=90)"
+          }
+        ],
+        "final_solution": {
+          "Item_1": 0,
+          "Item_2": 2,
+          "Item_3": 0,
+          "Item_4": 1,
+          "Item_5": 0,
+          "total_weight": 12,
+          "total_value": 790
+        }
+      },
+      "status": "partially_correct",
+      "correct_count": 3,
+      "total_count": 5,
+      "feedback": "This question is based on the backtracking concept you have learned in the lecture. Here, you should use the decision array to trace back the decision that you have made, as brute forcing this would take too long.",
+      "mark": "0.60 out of 1.00"
+    }
+  ],
+  "metadata": {
+    "topic": "Dynamic Programming",
+    "subtopics": ["Coin Change", "Unbounded Knapsack", "Memoization", "Backtracking"],
+    "difficulty": "Intermediate",
+    "total_problems": 2
+  }
+}

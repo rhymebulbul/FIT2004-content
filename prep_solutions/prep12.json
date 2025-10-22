@@ -1,0 +1,230 @@
+{
+  "document": {
+    "title": "Week 12 Preparation - Tree Data Structures Solutions",
+    "topics": ["AVL Trees", "2-3 Search Trees", "Left-Leaning Red-Black Trees"],
+    "advice": "Students are strongly advised to attempt problems thoroughly before looking at solutions. Simply reading solutions without thinking about problems will rob practice required to solve complicated problems independently. Memorizing solutions leads to poor exam performance. Thinking about problems, even without solving them, greatly increases understanding of underlying concepts.",
+    "problems": [
+      {
+        "number": 1,
+        "type": "AVL Tree",
+        "task": "Insert key 5 and show rebalancing procedure step by step",
+        "initial_tree": {
+          "structure": "Tree with root 50, left child 20, right child 55. Node 20 has left child 10. Node 55 has left child 52 and right child 60.",
+          "nodes": [50, 20, 55, 10, 52, 60]
+        },
+        "solution": {
+          "steps": [
+            {
+              "step": 1,
+              "action": "Insert 5 using ordinary BST insertion procedure",
+              "result": "5 becomes left child of node 10",
+              "tree_structure": "Root 50, left subtree has 20 with child 10, and 10 has left child 5. Right subtree unchanged with 55, 52, 60."
+            },
+            {
+              "step": 2,
+              "action": "Identify imbalance",
+              "explanation": "Node 20 has height 2 left subtree and height 0 right subtree, resulting in balance factor of 2",
+              "issue": "Tree is imbalanced at node 20"
+            },
+            {
+              "step": 3,
+              "action": "Perform right rotation at node 20",
+              "explanation": "Rotate node 10 upward to restore balance",
+              "result": "Node 10 becomes new root of left subtree with children 5 and 20"
+            }
+          ],
+          "final_tree": {
+            "structure": "Root 50, left child 10 (with children 5 and 20), right child 55 (with children 52 and 60)",
+            "nodes": [50, 10, 55, 5, 20, 52, 60],
+            "balanced": true
+          }
+        }
+      },
+      {
+        "number": 2,
+        "type": "2-3 Search Tree",
+        "task": "Sequentially perform insertions on given 2-3 Search Tree",
+        "initial_tree": {
+          "structure": "Root contains [10, 30]. Left child [4, 7], middle child [22], right child [40]. Leaf level contains [2], [5], [9], [12], [25, 27], [35], [42, 45].",
+          "description": "A 2-3 tree where nodes can contain 1-2 keys and have 2-3 children"
+        },
+        "operations": [
+          {
+            "operation": "a",
+            "action": "Insert key 6",
+            "solution": {
+              "traversal": "Traverse tree to find insertion point at 2-node containing 5",
+              "result": "2-node [5] becomes 3-node [5, 6]",
+              "explanation": "Since target node is a 2-node, simply add 6 to create 3-node",
+              "final_state": "Node that was [5] is now [5, 6]",
+              "tree_valid": true
+            }
+          },
+          {
+            "operation": "b",
+            "action": "Insert key 7",
+            "solution": {
+              "traversal": "Traverse tree to search for key 7",
+              "result": "No change - key 7 already exists in tree",
+              "explanation": "2-3 trees do not allow duplicate keys",
+              "tree_valid": true
+            }
+          },
+          {
+            "operation": "c",
+            "action": "Insert key 50",
+            "solution": {
+              "traversal": "Traverse tree and arrive at 3-node containing [42, 45]",
+              "step_1": {
+                "action": "Create temporary 4-node",
+                "result": "Temporary 4-node [42, 45, 50]",
+                "explanation": "Insert 50 into the 3-node, creating invalid 4-node"
+              },
+              "step_2": {
+                "action": "Split 4-node",
+                "explanation": "Since 4-node is not valid in 2-3 Search Tree, split into two 2-nodes and promote middle key",
+                "result": "Split into 2-nodes [42] and [50], promote 45 to parent"
+              },
+              "step_3": {
+                "action": "Insert promoted key into parent",
+                "explanation": "Parent node [40] is a 2-node, so can accept promoted key 45",
+                "result": "Parent becomes 3-node [40, 45]"
+              },
+              "final_state": "Root [10, 30], children include [4, 7], [22], and [40, 45]. The [40, 45] node has children [35], [42], and [50]",
+              "tree_valid": true,
+              "completion": "All nodes in path are 2-nodes or 3-nodes, insertion complete"
+            }
+          }
+        ]
+      },
+      {
+        "number": 3,
+        "type": "Left-Leaning Red-Black Tree",
+        "task": "Visualize tree after performing sequential insertions",
+        "note": "Effects of previous insertions persist for next insertion",
+        "color_notation": {
+          "red": "Red nodes/edges indicate the node is connected to parent with red link",
+          "black": "Black nodes/edges indicate standard black links"
+        },
+        "initial_tree": {
+          "structure": "Root 19 (black). Left subtree: 9 (black) with red left child 5 (with black children 4, 7 where 4 has red left child 1) and black right child 13. Right subtree: 36 (black) with red left child 21 (with black children 20, 35) and black right child 37.",
+          "nodes": [19, 9, 36, 5, 13, 21, 37, 4, 7, 20, 35, 1],
+          "red_nodes": [5, 21, 1]
+        },
+        "operations": [
+          {
+            "operation": "a",
+            "action": "Insert key 12",
+            "solution": {
+              "step_1": {
+                "action": "Traverse RBT to ensure key doesn't exist",
+                "result": "Key 12 not found"
+              },
+              "step_2": {
+                "action": "Insert as red node",
+                "position": "Left child of node 13",
+                "explanation": "All new keys must be inserted as red nodes"
+              },
+              "step_3": {
+                "action": "Check RBT properties",
+                "result": "No violations detected",
+                "explanation": "Red node 12 is properly positioned as left child"
+              },
+              "final_state": "Node 12 added as red left child of 13, no adjustments needed",
+              "tree_valid": true
+            }
+          },
+          {
+            "operation": "b",
+            "action": "Insert key 8",
+            "solution": {
+              "step_1": {
+                "action": "Insert key 8 as red node",
+                "position": "Right child of node 7",
+                "problem": "Red node cannot be right child in Left-Leaning RBT"
+              },
+              "step_2": {
+                "action": "Perform left rotation",
+                "explanation": "Rotate to switch positions of keys 7 and 8",
+                "result": "Node 8 becomes parent, node 7 becomes red left child of 8"
+              },
+              "step_3": {
+                "action": "Verify properties",
+                "result": "RBT properties satisfied - red key 7 is now left child",
+                "tree_valid": true
+              },
+              "final_state": "After rotation, 8 is black with red left child 7"
+            }
+          },
+          {
+            "operation": "c",
+            "action": "Insert key 15",
+            "solution": {
+              "step_1": {
+                "action": "Insert key 15 as red node",
+                "position": "Right child of key 13",
+                "problem": "Node 13 now has two red children (12 and 15)"
+              },
+              "step_2": {
+                "action": "Flip colors at node 13",
+                "explanation": "When node has two red children, flip colors of parent and both children",
+                "result": "Node 13 becomes red, nodes 12 and 15 become black"
+              },
+              "step_3": {
+                "action": "Check parent node 9",
+                "problem": "Node 9 now has two red children (5 and 13)",
+                "explanation": "Color flip propagated imbalance upward"
+              },
+              "step_4": {
+                "action": "Flip colors at node 9",
+                "explanation": "Apply same color flip operation to node 9 and its children",
+                "result": "Node 9 becomes red, nodes 5 and 13 become black"
+              },
+              "step_5": {
+                "action": "Verify properties",
+                "result": "All RBT properties satisfied",
+                "tree_valid": true
+              },
+              "final_state": "Tree balanced with proper color assignments after cascading color flips",
+              "key_concept": "Must continue performing adjustments until all properties satisfied"
+            }
+          }
+        ],
+        "key_principles": {
+          "insertion_rule": "All keys must always be inserted as red nodes",
+          "left_leaning_rule": "Red nodes cannot be right children",
+          "two_red_children_rule": "If node has two red children, flip colors of parent and both children",
+          "adjustment_rule": "Keep performing adjustments until all properties are satisfied"
+        }
+      }
+    ],
+    "key_concepts": {
+      "avl_trees": {
+        "definition": "Self-balancing binary search tree where heights of left and right subtrees differ by at most 1",
+        "balance_factor": "Height of left subtree minus height of right subtree",
+        "rebalancing": "When balance factor exceeds ±1, perform rotations to restore balance"
+      },
+      "2-3_search_trees": {
+        "definition": "Balanced search tree where nodes can contain 1-2 keys",
+        "node_types": {
+          "2-node": "Contains 1 key and has 2 children",
+          "3-node": "Contains 2 keys and has 3 children",
+          "4-node": "Temporary invalid node containing 3 keys, must be split"
+        },
+        "insertion_rule": "Insert at leaf level, split 4-nodes and promote middle key upward"
+      },
+      "left_leaning_red_black_trees": {
+        "definition": "Binary search tree with colored edges/nodes maintaining balance properties",
+        "color_rules": {
+          "red_link": "Represents connection to node in same logical level",
+          "black_link": "Represents standard parent-child relationship"
+        },
+        "left_leaning_property": "Red links must lean left (red nodes must be left children)",
+        "operations": {
+          "rotation": "Used to fix red nodes on right side",
+          "color_flip": "Used when node has two red children"
+        }
+      }
+    }
+  }
+}

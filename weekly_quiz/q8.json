@@ -1,0 +1,168 @@
+{
+  "problem": {
+    "type": "minimum_cut",
+    "description": "Consider the following flow network with source node s, sink node t, and in which the capacities are indicated in each edge. A cut partitions the vertices into two disjoint sets, S and T, where S contains all the vertices on the source side of the cut, and T contains all the vertices on the sink side of the cut. Consider the minimum cut of the above flow network and select the option that corresponds to the set S in that cut.",
+    "nodes": {
+      "source": "s",
+      "sink": "t",
+      "intermediate": ["a", "b", "c", "d"]
+    },
+    "edges": [
+      {
+        "from": "s",
+        "to": "a",
+        "capacity": 5
+      },
+      {
+        "from": "s",
+        "to": "b",
+        "capacity": 2
+      },
+      {
+        "from": "a",
+        "to": "c",
+        "capacity": 2
+      },
+      {
+        "from": "b",
+        "to": "a",
+        "capacity": 3
+      },
+      {
+        "from": "b",
+        "to": "d",
+        "capacity": 3
+      },
+      {
+        "from": "c",
+        "to": "t",
+        "capacity": 2
+      },
+      {
+        "from": "d",
+        "to": "c",
+        "capacity": 2
+      },
+      {
+        "from": "d",
+        "to": "t",
+        "capacity": 1
+      }
+    ],
+    "graph_structure": {
+      "adjacency_list": {
+        "s": [
+          {"node": "a", "capacity": 5},
+          {"node": "b", "capacity": 2}
+        ],
+        "a": [
+          {"node": "c", "capacity": 2}
+        ],
+        "b": [
+          {"node": "a", "capacity": 3},
+          {"node": "d", "capacity": 3}
+        ],
+        "c": [
+          {"node": "t", "capacity": 2}
+        ],
+        "d": [
+          {"node": "c", "capacity": 2},
+          {"node": "t", "capacity": 1}
+        ],
+        "t": []
+      }
+    }
+  },
+  "question": {
+    "task": "Find the minimum cut and identify the set S (source side vertices)",
+    "cut_definition": {
+      "S": "All vertices on the source side of the cut",
+      "T": "All vertices on the sink side of the cut",
+      "constraint": "S and T are disjoint sets",
+      "objective": "Minimize the sum of capacities of edges crossing from S to T"
+    }
+  },
+  "answer_options": [
+    {
+      "id": "a",
+      "set_S": ["s", "a", "b", "c", "d"],
+      "marked_correct": true
+    },
+    {
+      "id": "b",
+      "set_S": ["s", "b"]
+    },
+    {
+      "id": "c",
+      "set_S": ["s", "a", "d"]
+    },
+    {
+      "id": "d",
+      "set_S": ["s", "a", "b", "d"]
+    },
+    {
+      "id": "e",
+      "set_S": ["s", "a", "c"]
+    },
+    {
+      "id": "f",
+      "set_S": ["s", "b", "d"]
+    },
+    {
+      "id": "g",
+      "set_S": ["s", "b", "c"]
+    },
+    {
+      "id": "h",
+      "set_S": ["s", "d"]
+    },
+    {
+      "id": "i",
+      "set_S": ["s", "a", "b", "c"]
+    },
+    {
+      "id": "j",
+      "set_S": ["s", "a"]
+    },
+    {
+      "id": "k",
+      "set_S": ["s", "c"]
+    },
+    {
+      "id": "l",
+      "set_S": ["s", "a", "c", "d"]
+    },
+    {
+      "id": "m",
+      "set_S": ["s", "b", "c", "d"]
+    },
+    {
+      "id": "n",
+      "set_S": ["s"]
+    },
+    {
+      "id": "o",
+      "set_S": ["s", "c", "d"]
+    },
+    {
+      "id": "p",
+      "set_S": ["s", "a", "b"]
+    }
+  ],
+  "solution_approach": {
+    "algorithm": "max_flow_min_cut",
+    "steps": [
+      "Calculate maximum flow from s to t using Ford-Fulkerson or similar algorithm",
+      "By max-flow min-cut theorem, the value of max flow equals the capacity of min cut",
+      "Identify the minimum cut by finding edges that are saturated in the max flow",
+      "The set S consists of all vertices reachable from s using edges with remaining capacity in the residual graph"
+    ]
+  },
+  "metadata": {
+    "total_nodes": 6,
+    "total_edges": 8,
+    "source_node": "s",
+    "sink_node": "t",
+    "intermediate_nodes": 4
+  }
+}

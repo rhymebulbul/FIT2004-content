@@ -1,0 +1,117 @@
+{
+  "problem_type": "bellman_ford_algorithm",
+  "algorithm": {
+    "name": "Bellman-Ford",
+    "pseudocode": {
+      "function": "BELLMAN_FORD(G = (V, E), s)",
+      "steps": [
+        {
+          "line": 2,
+          "operation": "initialization",
+          "code": "dist[1..n] = ∞",
+          "description": "Initialize all distances to infinity"
+        },
+        {
+          "line": 3,
+          "operation": "initialization",
+          "code": "pred[1..n] = null",
+          "description": "Initialize all predecessors to null"
+        },
+        {
+          "line": 4,
+          "operation": "initialization",
+          "code": "dist[s] = 0",
+          "description": "Set source distance to 0"
+        },
+        {
+          "line": 5,
+          "operation": "outer_loop",
+          "code": "for k = 1 to n-1 do",
+          "description": "Iterate n-1 times through all edges"
+        },
+        {
+          "line": 6,
+          "operation": "inner_loop",
+          "code": "for each edge e in E do",
+          "description": "Process each edge in the graph"
+        },
+        {
+          "line": 7,
+          "operation": "relax",
+          "code": "RELAX(e)",
+          "description": "Relax the edge to update distances"
+        },
+        {
+          "line": 8,
+          "operation": "return",
+          "code": "return dist[1..n], pred[1..n]",
+          "description": "Return distance and predecessor arrays"
+        }
+      ]
+    }
+  },
+  "graph": {
+    "type": "weighted_directed_graph",
+    "nodes": ["S", "A", "B", "C", "D", "E"],
+    "edges": [
+      {"from": "S", "to": "A", "weight": 1},
+      {"from": "S", "to": "E", "weight": -5},
+      {"from": "S", "to": "C", "weight": 10},
+      {"from": "A", "to": "B", "weight": 3},
+      {"from": "A", "to": "C", "weight": 5},
+      {"from": "B", "to": "C", "weight": 2},
+      {"from": "C", "to": "B", "weight": null, "note": "edge exists in visual but weight unclear"},
+      {"from": "D", "to": "C", "weight": 4},
+      {"from": "D", "to": "E", "weight": null, "note": "edge exists but weight unclear"},
+      {"from": "E", "to": "D", "weight": 2}
+    ],
+    "visual_description": "Graph shows nodes S, A, B, C, D, E with various weighted directed edges connecting them"
+  },
+  "question": {
+    "source_node": "S",
+    "edge_relaxation_order": [
+      "(S, A)",
+      "(B, C)",
+      "(S, C)",
+      "(S, B)",
+      "(D, C)",
+      "(E, D)",
+      "(A, B)",
+      "(S, E)"
+    ],
+    "query": "What is the distance estimate of node C after two iterations of the outer loop?",
+    "iterations_requested": 2,
+    "target_node": "C",
+    "answer_format": "numerical"
+  },
+  "provided_answer": {
+    "value": 6,
+    "status": "correct"
+  },
+  "metadata": {
+    "reference": "Seminar 7, Course Notes Chapter 8",
+    "topic": "shortest_paths",
+    "difficulty": "intermediate"
+  },
+  "execution_trace": {
+    "initial_state": {
+      "dist": {
+        "S": 0,
+        "A": "∞",
+        "B": "∞",
+        "C": "∞",
+        "D": "∞",
+        "E": "∞"
+      },
+      "pred": {
+        "S": null,
+        "A": null,
+        "B": null,
+        "C": null,
+        "D": null,
+        "E": null
+      }
+    },
+    "note": "Track distance updates through each iteration following the specified edge order"
+  }
+}

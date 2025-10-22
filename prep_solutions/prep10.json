@@ -1,0 +1,331 @@
+{
+  "document_metadata": {
+    "title": "Week 10 Preparation - Circulation with Demands Problems",
+    "type": "Solutions",
+    "topic": "Graph Theory - Network Flow",
+    "problems_count": 2
+  },
+  "problems": [
+    {
+      "problem_number": 1,
+      "title": "Circulation with Demands Problem",
+      "type": "circulation_with_demands",
+      "question": "Does the given circulation with demands problem have a feasible solution?",
+      "graph": {
+        "vertices": [
+          {
+            "name": "w",
+            "demand": 4,
+            "description": "Positive demand (sink - needs to receive flow)"
+          },
+          {
+            "name": "y",
+            "demand": -4,
+            "description": "Negative demand (source - must send out flow)"
+          },
+          {
+            "name": "v",
+            "demand": 2,
+            "description": "Positive demand (sink - needs to receive flow)"
+          },
+          {
+            "name": "x",
+            "demand": -2,
+            "description": "Negative demand (source - must send out flow)"
+          }
+        ],
+        "edges": [
+          {"from": "x", "to": "y", "capacity": 3},
+          {"from": "x", "to": "v", "capacity": 3},
+          {"from": "y", "to": "v", "capacity": 4},
+          {"from": "y", "to": "w", "capacity": 4},
+          {"from": "v", "to": "w", "capacity": 2}
+        ]
+      },
+      "solution": {
+        "has_feasible_solution": true,
+        "approach": "Transform to max-flow problem using supergraph",
+        "method": {
+          "name": "Supergraph Reduction",
+          "steps": [
+            {
+              "step": 1,
+              "action": "Add super-source vertex s"
+            },
+            {
+              "step": 2,
+              "action": "For each vertex u with negative demand (du < 0), add edge (s, u) with capacity -du",
+              "edges_added": [
+                {"from": "s", "to": "y", "capacity": 4, "reason": "dy = -4"},
+                {"from": "s", "to": "x", "capacity": 2, "reason": "dx = -2"}
+              ]
+            },
+            {
+              "step": 3,
+              "action": "Add super-sink vertex t"
+            },
+            {
+              "step": 4,
+              "action": "For each vertex u with positive demand (du > 0), add edge (u, t) with capacity du",
+              "edges_added": [
+                {"from": "w", "to": "t", "capacity": 4, "reason": "dw = 4"},
+                {"from": "v", "to": "t", "capacity": 2, "reason": "dv = 2"}
+              ]
+            },
+            {
+              "step": 5,
+              "action": "Solve max-flow problem from s to t in supergraph G'"
+            }
+          ],
+          "supergraph_edges": [
+            {"from": "s", "to": "x", "capacity": 2},
+            {"from": "s", "to": "y", "capacity": 4},
+            {"from": "x", "to": "y", "capacity": 3},
+            {"from": "x", "to": "v", "capacity": 3},
+            {"from": "y", "to": "v", "capacity": 4},
+            {"from": "y", "to": "w", "capacity": 4},
+            {"from": "v", "to": "w", "capacity": 2},
+            {"from": "w", "to": "t", "capacity": 4},
+            {"from": "v", "to": "t", "capacity": 2}
+          ]
+        },
+        "max_flow_solution": {
+          "total_flow": 6,
+          "flows": [
+            {"from": "s", "to": "x", "flow": 2, "capacity": 2},
+            {"from": "s", "to": "y", "flow": 4, "capacity": 4},
+            {"from": "x", "to": "y", "flow": 2, "capacity": 3},
+            {"from": "x", "to": "v", "flow": 0, "capacity": 3},
+            {"from": "y", "to": "v", "flow": 2, "capacity": 4},
+            {"from": "y", "to": "w", "flow": 4, "capacity": 4},
+            {"from": "v", "to": "w", "flow": 0, "capacity": 2},
+            {"from": "w", "to": "t", "flow": 4, "capacity": 4},
+            {"from": "v", "to": "t", "flow": 2, "capacity": 2}
+          ],
+          "source_edges_saturated": true,
+          "sink_edges_saturated": true,
+          "conclusion": "All outgoing edges from source and incoming edges to sink are saturated, therefore feasible solution exists"
+        },
+        "original_graph_solution": {
+          "flows": [
+            {"from": "x", "to": "y", "flow": 2, "capacity": 3},
+            {"from": "x", "to": "v", "flow": 0, "capacity": 3},
+            {"from": "y", "to": "v", "flow": 2, "capacity": 4},
+            {"from": "y", "to": "w", "flow": 4, "capacity": 4},
+            {"from": "v", "to": "w", "flow": 0, "capacity": 2}
+          ],
+          "demand_verification": [
+            {"vertex": "x", "demand": -2, "outflow": 2, "inflow": 0, "net": -2, "satisfied": true},
+            {"vertex": "y", "demand": -4, "outflow": 6, "inflow": 2, "net": -4, "satisfied": true},
+            {"vertex": "v", "demand": 2, "outflow": 0, "inflow": 2, "net": 2, "satisfied": true},
+            {"vertex": "w", "demand": 4, "outflow": 0, "inflow": 4, "net": 4, "satisfied": true}
+          ]
+        }
+      },
+      "key_concepts": [
+        "Circulation with demands",
+        "Reduction to max-flow",
+        "Supergraph construction",
+        "Feasibility verification through edge saturation"
+      ]
+    },
+    {
+      "problem_number": 2,
+      "title": "Circulation with Demands and Lower Bounds Problem",
+      "type": "circulation_with_demands_and_lower_bounds",
+      "question": "Does the given circulation with demands and lower bounds problem have a feasible solution?",
+      "graph": {
+        "vertices": [
+          {
+            "name": "w",
+            "demand": 4,
+            "description": "Positive demand (sink)"
+          },
+          {
+            "name": "y",
+            "demand": -4,
+            "description": "Negative demand (source)"
+          },
+          {
+            "name": "v",
+            "demand": 2,
+            "description": "Positive demand (sink)"
+          },
+          {
+            "name": "x",
+            "demand": -2,
+            "description": "Negative demand (source)"
+          }
+        ],
+        "edges": [
+          {"from": "x", "to": "y", "capacity": 3, "lower_bound": 2},
+          {"from": "x", "to": "v", "capacity": 3, "lower_bound": 2},
+          {"from": "y", "to": "v", "capacity": 4, "lower_bound": 2},
+          {"from": "y", "to": "w", "capacity": 4, "lower_bound": 2},
+          {"from": "v", "to": "w", "capacity": 2, "lower_bound": 2}
+        ]
+      },
+      "solution": {
+        "has_feasible_solution": false,
+        "approach": "Reduce to circulation with demands (no lower bounds) by adjusting graph",
+        "method": {
+          "name": "Lower Bound Elimination via Flow Adjustment",
+          "description": "Transform problem with lower bounds to problem without lower bounds by pre-allocating minimum required flow",
+          "steps": [
+            {
+              "step": 1,
+              "action": "Define initial flow f_ℓ that satisfies all lower bounds",
+              "formula": "f_ℓ(u,v) = ℓ(u,v) for all edges (u,v)"
+            },
+            {
+              "step": 2,
+              "action": "Create adjusted graph G* with modified demands",
+              "formula": "d*_u = d_u - Σ_{v∈V} f_ℓ(v,u) + Σ_{v∈V} f_ℓ(u,v)",
+              "explanation": "Adjust demands by accounting for flow already committed to lower bounds"
+            },
+            {
+              "step": 3,
+              "action": "Create adjusted capacities (residual capacities)",
+              "formula": "c*(u,v) = c(u,v) - ℓ(u,v)",
+              "explanation": "Remaining capacity after satisfying lower bound"
+            },
+            {
+              "step": 4,
+              "action": "Solve circulation with demands problem on G* (no lower bounds)"
+            }
+          ],
+          "initial_flow": {
+            "description": "Flow f_ℓ meeting lower bound requirements",
+            "flows": [
+              {"from": "x", "to": "y", "flow": 2, "lower_bound": 2},
+              {"from": "x", "to": "v", "flow": 2, "lower_bound": 2},
+              {"from": "y", "to": "v", "flow": 2, "lower_bound": 2},
+              {"from": "y", "to": "w", "flow": 2, "lower_bound": 2},
+              {"from": "v", "to": "w", "flow": 2, "lower_bound": 2}
+            ]
+          },
+          "adjusted_graph": {
+            "vertices": [
+              {
+                "name": "w",
+                "original_demand": 4,
+                "inflow_from_f_ℓ": 4,
+                "outflow_from_f_ℓ": 2,
+                "adjusted_demand": 0,
+                "calculation": "4 - 4 + 2 = 0"
+              },
+              {
+                "name": "y",
+                "original_demand": -4,
+                "inflow_from_f_ℓ": 2,
+                "outflow_from_f_ℓ": 4,
+                "adjusted_demand": -2,
+                "calculation": "-4 - 2 + 4 = -2"
+              },
+              {
+                "name": "v",
+                "original_demand": 2,
+                "inflow_from_f_ℓ": 4,
+                "outflow_from_f_ℓ": 2,
+                "adjusted_demand": 4,
+                "calculation": "2 - 4 + 2 = 4"
+              },
+              {
+                "name": "x",
+                "original_demand": -2,
+                "inflow_from_f_ℓ": 0,
+                "outflow_from_f_ℓ": 4,
+                "adjusted_demand": -2,
+                "calculation": "-2 - 0 + 4 = -2"
+              }
+            ],
+            "edges": [
+              {"from": "x", "to": "y", "original_capacity": 3, "lower_bound": 2, "adjusted_capacity": 1},
+              {"from": "x", "to": "v", "original_capacity": 3, "lower_bound": 2, "adjusted_capacity": 1},
+              {"from": "y", "to": "v", "original_capacity": 4, "lower_bound": 2, "adjusted_capacity": 2},
+              {"from": "y", "to": "w", "original_capacity": 4, "lower_bound": 2, "adjusted_capacity": 2},
+              {"from": "v", "to": "w", "original_capacity": 2, "lower_bound": 2, "adjusted_capacity": 0}
+            ]
+          }
+        },
+        "infeasibility_analysis": {
+          "problematic_vertex": "v",
+          "vertex_demand": 4,
+          "incoming_edges": [
+            {"from": "x", "capacity": 1},
+            {"from": "y", "capacity": 2}
+          ],
+          "maximum_possible_inflow": 3,
+          "reason": "Vertex v has adjusted demand of 4, but maximum possible inflow is only 1 + 2 = 3",
+          "conclusion": "Demand cannot be satisfied, therefore no feasible solution exists"
+        },
+        "verification": {
+          "method": "Max-flow on supergraph would show not all source edges saturated",
+          "result": "Confirms infeasibility"
+        }
+      },
+      "key_concepts": [
+        "Circulation with demands and lower bounds",
+        "Reduction to circulation without lower bounds",
+        "Flow adjustment technique",
+        "Demand adjustment based on pre-allocated flow",
+        "Residual capacity calculation",
+        "Infeasibility detection"
+      ]
+    }
+  ],
+  "general_concepts": {
+    "circulation_with_demands": {
+      "definition": "A flow network where vertices have demands (positive = sink, negative = source) and flow must satisfy capacity constraints and demand requirements",
+      "demand_constraint": "For each vertex u: inflow - outflow = d_u",
+      "positive_demand": "Vertex needs to receive net flow (acts as sink)",
+      "negative_demand": "Vertex needs to send net flow (acts as source)",
+      "zero_demand": "Flow conservation (inflow = outflow)"
+    },
+    "supergraph_method": {
+      "purpose": "Convert circulation with demands to standard max-flow problem",
+      "components": [
+        "Super-source s: connects to all negative demand vertices",
+        "Super-sink t: receives from all positive demand vertices",
+        "Edge capacities: magnitude of demands"
+      ],
+      "feasibility_test": "Solution exists iff all edges from s and to t are saturated in max-flow"
+    },
+    "lower_bounds": {
+      "definition": "Minimum flow required on each edge",
+      "notation": "ℓ(u,v) = lower bound on edge (u,v)",
+      "constraint": "ℓ(u,v) ≤ f(u,v) ≤ c(u,v)",
+      "reduction_technique": "Pre-allocate lower bound flow, then solve residual problem"
+    },
+    "flow_properties": {
+      "capacity_constraint": "0 ≤ f(u,v) ≤ c(u,v) for all edges",
+      "demand_constraint": "Σ f(v,u) - Σ f(u,v) = d_u for all vertices",
+      "conservation": "When d_u = 0, inflow equals outflow"
+    }
+  },
+  "solution_techniques": {
+    "problem_1_approach": {
+      "name": "Supergraph Reduction",
+      "when_to_use": "Circulation with demands, no lower bounds",
+      "complexity": "Reduces to max-flow problem",
+      "verification": "Check if all super-source and super-sink edges saturated"
+    },
+    "problem_2_approach": {
+      "name": "Lower Bound Elimination",
+      "when_to_use": "Circulation with demands and lower bounds",
+      "steps": [
+        "Allocate lower bound flow",
+        "Adjust demands based on allocated flow",
+        "Compute residual capacities",
+        "Solve adjusted problem without lower bounds"
+      ],
+      "final_solution": "If adjusted problem has solution f*, then f = f_ℓ + f* solves original problem"
+    }
+  },
+  "important_formulas": {
+    "demand_adjustment": "d*_u = d_u - Σ_{v∈V} f_ℓ(v,u) + Σ_{v∈V} f_ℓ(u,v)",
+    "capacity_adjustment": "c*(u,v) = c(u,v) - ℓ(u,v)",
+    "flow_constraint_with_lower_bound": "ℓ(u,v) ≤ f(u,v) ≤ c(u,v)",
+    "demand_satisfaction": "Σ_{v:(v,u)∈E} f(v,u) - Σ_{v:(u,v)∈E} f(u,v) = d_u"
+  }
+}

@@ -1,0 +1,188 @@
+{
+  "document_info": {
+    "title": "Week 8 Preparation - Bellman-Ford Algorithm",
+    "type": "Solutions",
+    "problem_number": 1,
+    "topic": "Shortest Path Algorithms",
+    "algorithm": "Space-Efficient Bellman-Ford"
+  },
+  "problem_statement": {
+    "description": "Use the space-efficient version of Bellman-Ford to determine the shortest paths from vertex s to all other vertices in this graph. Afterwards, indicate to which vertices s has a well defined shortest path, and which do not by indicating the distance as −∞. Draw the resulting shortest path tree containing the vertices with well defined shortest paths.",
+    "edge_relaxation_order": [
+      "s → a",
+      "s → b",
+      "a → c",
+      "b → a",
+      "b → d",
+      "c → b",
+      "c → d",
+      "c → e",
+      "d → f",
+      "e → d",
+      "f → e"
+    ]
+  },
+  "graph": {
+    "vertices": ["s", "a", "b", "c", "d", "e", "f"],
+    "edges": [
+      {"from": "s", "to": "a", "weight": 5},
+      {"from": "s", "to": "b", "weight": 6},
+      {"from": "a", "to": "c", "weight": -1},
+      {"from": "b", "to": "a", "weight": 4},
+      {"from": "b", "to": "d", "weight": -10},
+      {"from": "c", "to": "b", "weight": -2},
+      {"from": "c", "to": "d", "weight": 4},
+      {"from": "c", "to": "e", "weight": 3},
+      {"from": "d", "to": "f", "weight": -6},
+      {"from": "e", "to": "d", "weight": 5},
+      {"from": "f", "to": "e", "weight": 10}
+    ],
+    "source_vertex": "s"
+  },
+  "algorithm_execution": {
+    "variant": "space-efficient",
+    "note": "The space-efficient version maintains a single array where values are continuously overwritten. This means in some iterations, you may use values updated earlier within the same relaxation round, not strictly using the previous iteration's values.",
+    "iterations": [
+      {
+        "iteration": 0,
+        "distances": {
+          "s": 0,
+          "a": "∞",
+          "b": "∞",
+          "c": "∞",
+          "d": "∞",
+          "e": "∞",
+          "f": "∞"
+        },
+        "description": "Initial state: source vertex has distance 0, all others infinity"
+      },
+      {
+        "iteration": 1,
+        "distances": {
+          "s": 0,
+          "a": 5,
+          "b": 2,
+          "c": 4,
+          "d": -4,
+          "e": 0,
+          "f": -10
+        },
+        "description": "First relaxation pass through all edges"
+      },
+      {
+        "iteration": 2,
+        "distances": {
+          "s": 0,
+          "a": 5,
+          "b": 2,
+          "c": 4,
+          "d": -8,
+          "e": -4,
+          "f": -14
+        },
+        "description": "Second relaxation pass - distances continue to decrease"
+      },
+      {
+        "iteration": 3,
+        "distances": {
+          "s": 0,
+          "a": 5,
+          "b": 2,
+          "c": 4,
+          "d": -9,
+          "e": -4,
+          "f": -14
+        },
+        "description": "Third relaxation pass"
+      },
+      {
+        "iteration": 4,
+        "distances": {
+          "s": 0,
+          "a": 5,
+          "b": 2,
+          "c": 4,
+          "d": -9,
+          "e": -5,
+          "f": -15
+        },
+        "description": "Fourth relaxation pass"
+      },
+      {
+        "iteration": 5,
+        "distances": {
+          "s": 0,
+          "a": 5,
+          "b": 2,
+          "c": 4,
+          "d": -10,
+          "e": -5,
+          "f": -15
+        },
+        "description": "Fifth relaxation pass"
+      },
+      {
+        "iteration": 6,
+        "distances": {
+          "s": 0,
+          "a": 5,
+          "b": 2,
+          "c": 4,
+          "d": -10,
+          "e": -6,
+          "f": -16
+        },
+        "description": "Sixth relaxation pass - maximum iterations for |V|-1 passes"
+      }
+    ]
+  },
+  "negative_cycle_detection": {
+    "exists": true,
+    "explanation": "Since another round of relaxation would decrease the distance of vertex d, there must exist a negative cycle in the graph.",
+    "affected_vertices": ["d", "e", "f"],
+    "reason": "All vertices reachable from negative cycles have undefined distance estimates as it is possible to keep decreasing the distances further by going through a negative cycle more times."
+  },
+  "final_solution": {
+    "shortest_distances": {
+      "s": 0,
+      "a": 5,
+      "b": 2,
+      "c": 4,
+      "d": "-∞",
+      "e": "-∞",
+      "f": "-∞"
+    },
+    "well_defined_paths": {
+      "s": {"distance": 0, "path": ["s"]},
+      "a": {"distance": 5, "path": ["s", "a"]},
+      "b": {"distance": 2, "path": ["s", "a", "c", "b"]},
+      "c": {"distance": 4, "path": ["s", "a", "c"]}
+    },
+    "undefined_paths": {
+      "d": {"distance": "-∞", "reason": "Reachable via negative cycle"},
+      "e": {"distance": "-∞", "reason": "Reachable via negative cycle"},
+      "f": {"distance": "-∞", "reason": "Reachable via negative cycle"}
+    }
+  },
+  "shortest_path_tree": {
+    "description": "Tree containing only vertices with well-defined shortest paths",
+    "edges": [
+      {"from": "s", "to": "a", "weight": 5},
+      {"from": "a", "to": "c", "weight": -1},
+      {"from": "c", "to": "b", "weight": -2}
+    ],
+    "vertices_included": ["s", "a", "b", "c"],
+    "vertices_excluded": ["d", "e", "f"]
+  },
+  "key_concepts": {
+    "space_efficient_variant": "Maintains a single distance array that is continuously updated, rather than keeping separate arrays for each iteration",
+    "negative_cycles": "When distances can still be improved after |V|-1 iterations, a negative cycle exists",
+    "undefined_distances": "Vertices reachable from negative cycles are marked with -∞ because their shortest path distance is not well-defined",
+    "relaxation": "The process of updating distance estimates by checking if a shorter path exists through an edge"
+  },
+  "important_notes": {
+    "edge_order_matters": "Relaxing edges in different orders may produce different intermediate tables, but final distances (excluding negative cycle vertices) should be consistent",
+    "exam_advice": "Simply memorizing solutions will not help. You must understand the underlying concepts and practice solving problems independently.",
+    "space_efficiency": "The space-efficient version uses O(|V|) space instead of O(|V|²) by maintaining only one distance array"
+  }
+}

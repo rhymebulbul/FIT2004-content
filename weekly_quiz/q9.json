@@ -1,0 +1,182 @@
+{
+  "problem_set": {
+    "description": "Two problems of circulation with demands, where demands are indicated in each vertex and capacity in each edge",
+    "question": "Which of those problems have feasible solutions?",
+    "problems": [
+      {
+        "problem_id": 1,
+        "graph": {
+          "vertices": [
+            {
+              "id": "x",
+              "demand": -3,
+              "description": "Supply node (negative demand means supply)"
+            },
+            {
+              "id": "u",
+              "demand": -5,
+              "description": "Supply node"
+            },
+            {
+              "id": "v",
+              "demand": 3,
+              "description": "Demand node (positive demand means consumption)"
+            },
+            {
+              "id": "w",
+              "demand": 6,
+              "description": "Demand node"
+            }
+          ],
+          "edges": [
+            {
+              "from": "x",
+              "to": "u",
+              "capacity": 3,
+              "direction": "directed"
+            },
+            {
+              "from": "x",
+              "to": "v",
+              "capacity": 3,
+              "direction": "directed"
+            },
+            {
+              "from": "u",
+              "to": "v",
+              "capacity": 3,
+              "direction": "directed"
+            },
+            {
+              "from": "u",
+              "to": "w",
+              "capacity": 4,
+              "direction": "directed"
+            },
+            {
+              "from": "v",
+              "to": "w",
+              "capacity": 4,
+              "direction": "directed"
+            }
+          ]
+        },
+        "analysis": {
+          "total_supply": 8,
+          "total_demand": 9,
+          "balance_check": "Supply (8) < Demand (9) - Imbalanced",
+          "has_feasible_solution": false,
+          "reason": "Total supply does not equal total demand, making a feasible circulation impossible"
+        }
+      },
+      {
+        "problem_id": 2,
+        "graph": {
+          "vertices": [
+            {
+              "id": "x",
+              "demand": -3,
+              "description": "Supply node"
+            },
+            {
+              "id": "u",
+              "demand": -1,
+              "description": "Supply node"
+            },
+            {
+              "id": "v",
+              "demand": 2,
+              "description": "Demand node"
+            },
+            {
+              "id": "w",
+              "demand": 2,
+              "description": "Demand node"
+            }
+          ],
+          "edges": [
+            {
+              "from": "x",
+              "to": "u",
+              "capacity": 2,
+              "direction": "directed"
+            },
+            {
+              "from": "x",
+              "to": "v",
+              "capacity": 1,
+              "direction": "directed"
+            },
+            {
+              "from": "u",
+              "to": "v",
+              "capacity": 2,
+              "direction": "directed"
+            },
+            {
+              "from": "u",
+              "to": "w",
+              "capacity": 1,
+              "direction": "directed"
+            },
+            {
+              "from": "v",
+              "to": "w",
+              "capacity": 1,
+              "direction": "directed"
+            }
+          ]
+        },
+        "analysis": {
+          "total_supply": 4,
+          "total_demand": 4,
+          "balance_check": "Supply (4) = Demand (4) - Balanced",
+          "has_feasible_solution": true,
+          "reason": "Total supply equals total demand AND edge capacities allow for proper flow distribution",
+          "example_solution": {
+            "description": "One possible feasible flow",
+            "flows": [
+              {"from": "x", "to": "u", "flow": 2},
+              {"from": "x", "to": "v", "flow": 1},
+              {"from": "u", "to": "v", "flow": 1},
+              {"from": "u", "to": "w", "flow": 1},
+              {"from": "v", "to": "w", "flow": 0}
+            ]
+          }
+        }
+      }
+    ],
+    "answer": {
+      "correct_choice": "c",
+      "explanation": "Only Problem 2 has a feasible solution",
+      "choices": [
+        {
+          "id": "a",
+          "text": "Neither Problem 1 nor Problem 2 has a feasible solution",
+          "correct": false
+        },
+        {
+          "id": "b",
+          "text": "Only Problem 1 has a feasible solution",
+          "correct": false
+        },
+        {
+          "id": "c",
+          "text": "Only Problem 2 has a feasible solution",
+          "correct": true
+        },
+        {
+          "id": "d",
+          "text": "Both Problem 1 and Problem 2 have feasible solutions",
+          "correct": false
+        }
+      ]
+    },
+    "notes": {
+      "key_concept": "Circulation with demands feasibility",
+      "necessary_condition": "Sum of all demands must equal zero (total supply = total demand)",
+      "sufficient_condition": "Beyond balance, edge capacities must allow flow to satisfy all demands",
+      "reference": "Seminar 9/Course Notes Chapter 9"
+    }
+  }
+}

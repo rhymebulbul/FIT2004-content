@@ -1,0 +1,197 @@
+{
+  "document_title": "Week 4 Preparation Solutions",
+  "topic": "Algorithms - Quicksort and Quickselect",
+  "problems": [
+    {
+      "problem_number": 1,
+      "question": "What are the worst-case time complexities of Quicksort assuming the following pivot choices:\n(a) Select the first element of the sequence.\n(b) Select the minimum element of the sequence.\n(c) Select the median element of the sequence.\n(d) Select an element that is greater than exactly 10% of the others.\nDescribe a family of inputs that cause Quicksort to exhibit its worst-case behaviour for each of these pivot choices.",
+      "solution": {
+        "part_a": {
+          "pivot_choice": "First element of the sequence",
+          "worst_case_complexity": "Θ(n²)",
+          "explanation": "Consider applying Quicksort to a list that is already sorted. In this case, the pivot will always have no elements to its left, and every other element to its right. This means that we recurse on lists of size n-1, n-2, ..., which will add up to Θ(n²) time.",
+          "worst_case_input": "Already sorted list"
+        },
+        "part_b": {
+          "pivot_choice": "Minimum element of the sequence",
+          "worst_case_complexity": "Θ(n²)",
+          "best_case_complexity": "Θ(n²)",
+          "explanation": "Not only will this have worst-case complexity Θ(n²), it actually has best-case complexity Θ(n²) since we will always have every element on the right side of the pivot.",
+          "worst_case_input": "Any sequence"
+        },
+        "part_c": {
+          "pivot_choice": "Median element of the sequence",
+          "worst_case_complexity": "Θ(n log(n))",
+          "explanation": "Selecting the median is the optimal choice. The median is the element that splits the sequence into two equal halves, hence we will only require Θ(log(n)) levels of recursion, and the worst-case complexity will be Θ(n log(n)).",
+          "worst_case_input": "Any input sequence",
+          "note": "This is optimal"
+        },
+        "part_d": {
+          "pivot_choice": "Element greater than exactly 10% of the others (10th percentile)",
+          "worst_case_complexity": "Θ(n log(n))",
+          "explanation": "Selecting the 10th percentile element sounds bad since we split the list into sublists of size 10% and 90% which is rather unbalanced, but this actually still has good performance. After recursing to a depth of k, the list will be of size at most 0.9^k * n. We hit the base case after 0.9^k * n = 1. Solving this, we find k = log_(10/9)(n) = Θ(log(n)). Even though the base of the logarithm is worse, we still achieve Θ(n log(n)) performance since the subproblem sizes are decreasing by a constant factor each time.",
+          "worst_case_input": "Any input sequence",
+          "general_principle": "Replace 10% with any percent, even 1% and you will still achieve Θ(n log(n)) performance (although the constant factor will be rather large)"
+        }
+      }
+    },
+    {
+      "problem_number": 2,
+      "question": "What are the similarities and differences between the Quicksort and Quickselect algorithms?",
+      "solution": {
+        "similarities": [
+          "Both make use of a Θ(n) partitioning algorithm to guarantee that some chosen pivot has ended up in its final sorted position",
+          "All elements that are lower are on one side and all elements greater are on the other side",
+          "Both algorithms utilize recursion to work properly"
+        ],
+        "differences": {
+          "purpose": {
+            "quicksort": "Sorting algorithm aiming to have a given array sorted in some specified order",
+            "quickselect": "Does not sort an entire array, instead returns the k-th order statistic (i.e., the k-th smallest value) in the array"
+          },
+          "recursion_strategy": {
+            "quicksort": "Recurses on both sides of the partitioned pivot",
+            "quickselect": "Recurses on only one side after determining how the partitioned pivot's position compares to the target order statistic"
+          },
+          "time_complexity": {
+            "quicksort": {
+              "average_with_random_pivot": "Θ(n log(n))",
+              "worst_case_with_random_pivot": "Θ(n²)",
+              "worst_case_with_medians_of_medians": "Θ(n log(n))"
+            },
+            "quickselect": {
+              "average_with_random_pivot": "Θ(n)",
+              "worst_case_with_random_pivot": "Θ(n²)",
+              "worst_case_with_medians_of_medians": "Θ(n)",
+              "note": "In practice, medians of medians adds significant overhead and random pivot is preferred"
+            }
+          },
+          "space_complexity": {
+            "both": {
+              "auxiliary_space": "Not truly in-place despite Hoare's or Dutch National Flag partitioning",
+              "reason": "Both algorithms make use of a recursion stack",
+              "worst_case": "Θ(n) levels if a bad pivot such as the maximum or minimum element is always chosen",
+              "with_medians_of_medians": "Θ(log(n))"
+            }
+          }
+        }
+      }
+    },
+    {
+      "problem_number": 3,
+      "question": "Consider the following array: [7, 1, 12, 9, 3, 3, 10, 6, 7, 14, 4]. The first element is being chosen as the pivot. Partition the array using:\n(a) Naive 3-way partitioning (see unit notes Section 3.2)\n(b) Hoare's partitioning",
+      "initial_array": [7, 1, 12, 9, 3, 3, 10, 6, 7, 14, 4],
+      "pivot": 7,
+      "pivot_position": 0,
+      "solution": {
+        "part_a": {
+          "method": "Naive 3-way partitioning",
+          "algorithm_description": "Simply iterating over the list and appending elements into one of three arrays based on if they are lower than, equal to, or greater than the pivot. These three subarrays are then concatenated and the resulting array is returned.",
+          "subarrays": {
+            "less_than_pivot": [1, 3, 3, 6, 4],
+            "equal_to_pivot": [7, 7],
+            "greater_than_pivot": [12, 9, 10, 14]
+          },
+          "result": [1, 3, 3, 6, 4, 7, 7, 12, 9, 10, 14],
+          "note": "The pivot element (7) is shown in the result, along with its duplicate"
+        },
+        "part_b": {
+          "method": "Hoare's partitioning",
+          "algorithm_description": "Maintains three sections within the array as it iterates in-place: confirmed elements lower than or equal to the pivot, unclassified elements, and confirmed elements greater than the pivot.",
+          "steps": [
+            {
+              "step": 1,
+              "description": "Initial state with pointers",
+              "array": [7, 1, 12, 9, 3, 3, 10, 6, 7, 14, 4],
+              "lo_pointer": 2,
+              "hi_pointer": 10,
+              "lo_value": 12,
+              "hi_value": 4
+            },
+            {
+              "step": 2,
+              "description": "After first swap",
+              "array": [7, 1, 4, 9, 3, 3, 10, 6, 7, 14, 12],
+              "action": "Swapped 12 and 4"
+            },
+            {
+              "step": 3,
+              "description": "Pointers moved to next violations",
+              "array": [7, 1, 4, 9, 3, 3, 10, 6, 7, 14, 12],
+              "lo_pointer": 3,
+              "hi_pointer": 8,
+              "lo_value": 9,
+              "hi_value": 7
+            },
+            {
+              "step": 4,
+              "description": "After second swap",
+              "array": [7, 1, 4, 7, 3, 3, 10, 6, 9, 14, 12],
+              "action": "Swapped 9 and 7"
+            },
+            {
+              "step": 5,
+              "description": "Pointers moved again",
+              "array": [7, 1, 4, 7, 3, 3, 10, 6, 9, 14, 12],
+              "lo_pointer": 6,
+              "hi_pointer": 7,
+              "lo_value": 10,
+              "hi_value": 6
+            },
+            {
+              "step": 6,
+              "description": "After third swap",
+              "array": [7, 1, 4, 7, 3, 3, 6, 10, 9, 14, 12],
+              "action": "Swapped 10 and 6"
+            },
+            {
+              "step": 7,
+              "description": "Pointers cross over - stop condition",
+              "array": [7, 1, 4, 7, 3, 3, 6, 10, 9, 14, 12],
+              "lo_pointer": 7,
+              "hi_pointer": 6,
+              "note": "Pointers have crossed, classification complete"
+            },
+            {
+              "step": 8,
+              "description": "Final step - swap pivot with hi pointer",
+              "array": [6, 1, 4, 7, 3, 3, 7, 10, 9, 14, 12],
+              "action": "Swapped pivot (7) with element at hi pointer (6)",
+              "result": "Pivot is now at the border between the two regions"
+            }
+          ],
+          "result": [6, 1, 4, 7, 3, 3, 7, 10, 9, 14, 12],
+          "stability_note": "This algorithm is not stable compared to Naive partitioning. The duplicate 7 is now on the left side of the pivot 7, whereas in Naive 3-way partitioning, the duplicates would all be grouped together.",
+          "limitation": "The duplicate 7 is not guaranteed to end up next to the pivot after all the swapping. This is why the Dutch National Flag algorithm was designed - an extension to Hoare's algorithm that, like Naive 3-way, categorizes a region of duplicates."
+        }
+      }
+    }
+  ],
+  "key_concepts": {
+    "quicksort": {
+      "description": "A sorting algorithm that uses divide-and-conquer",
+      "pivot_selection_importance": "The choice of pivot significantly affects performance",
+      "optimal_pivot": "Median element",
+      "partitioning_methods": ["Naive 3-way", "Hoare's", "Dutch National Flag"]
+    },
+    "quickselect": {
+      "description": "An algorithm to find the k-th smallest element",
+      "relation_to_quicksort": "Similar partitioning strategy but only recurses on one side",
+      "efficiency": "More efficient than Quicksort for finding order statistics"
+    },
+    "complexity_analysis": {
+      "factors_affecting_performance": [
+        "Pivot selection strategy",
+        "Input distribution",
+        "Number of duplicates"
+      ],
+      "constant_factor_reduction": "Even unbalanced splits (like 10%-90%) maintain O(n log n) if the split ratio is constant"
+    }
+  },
+  "important_notes": [
+    "Simply reading solutions without attempting problems reduces learning effectiveness",
+    "Understanding concepts is more important than memorizing solutions",
+    "Thinking about a problem, even without solving it, increases understanding",
+    "The recursion stack means these algorithms are not truly in-place despite using in-place partitioning"
+  ]
+}

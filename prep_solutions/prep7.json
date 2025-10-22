@@ -1,0 +1,193 @@
+{
+  "document_metadata": {
+    "title": "Week 7 Preparation - Dynamic Programming Solutions",
+    "topic": "Dynamic Programming",
+    "subtopics": ["Unbounded Knapsack", "Coin Change Problem", "Memoization", "Bottom-Up DP", "Top-Down DP", "Backtracking"],
+    "advice": "Students should attempt problems thoroughly before looking at solutions. Simply reading solutions without thinking about the problems will rob you of the practice required to solve complicated problems independently. Memorizing solutions will lead to poor exam performance. Even attempting a problem without solving it will greatly increase understanding of underlying concepts."
+  },
+
+  "problems": [
+    {
+      "problem_number": 1,
+      "title": "Unbounded Knapsack Problem",
+      "description": "Find the maximum value that can be fit in a knapsack of capacity C",
+
+      "problem_setup": {
+        "capacity": 15,
+        "items": [
+          {"item": 1, "weight": 2, "value": 120},
+          {"item": 2, "weight": 3, "value": 200},
+          {"item": 3, "weight": 5, "value": 250},
+          {"item": 4, "weight": 7, "value": 450},
+          {"item": 5, "weight": 10, "value": 750}
+        ]
+      },
+
+      "recurrence_relation": {
+        "formula": "MaxValue[c] = { 0 if c < w_i for all i, max over 1≤i≤n where w_i≤c of (v_i + MaxValue[c - w_i]) otherwise }",
+        "meaning": "MaxValue[c] = The maximum value that we can fit in a capacity of c",
+        "base_case": "If no item can fit into a knapsack for a given capacity c, then MaxValue[c] = 0",
+        "recursive_case": "For each item i whose weight is below c, take choice i where Value_i + MaxValue[c - Weight_i] is maximised"
+      },
+
+      "solution_approach": "Bottom-up approach - derive values starting from MaxValue[0], then MaxValue[1], and so on up to MaxValue[15]",
+
+      "worked_examples": [
+        {
+          "capacity": 2,
+          "explanation": "Since the lightest item is 2, MaxValue[c] = 0 for 0 ≤ c < 2",
+          "item_evaluations": [
+            {"item": 1, "calculation": "120 + MaxValue[2-2] = 120 + 0 = 120", "feasible": true},
+            {"item": 2, "reason": "Cannot be considered as w_2 > 2", "feasible": false},
+            {"item": 3, "reason": "Cannot be considered as w_3 > 2", "feasible": false},
+            {"item": 4, "reason": "Cannot be considered as w_4 > 2", "feasible": false},
+            {"item": 5, "reason": "Cannot be considered as w_5 > 2", "feasible": false}
+          ],
+          "optimal_choice": "item 1",
+          "result": 120
+        },
+        {
+          "capacity": 3,
+          "explanation": "Now have the option to take item 2 since its weight is 3",
+          "item_evaluations": [
+            {"item": 1, "calculation": "120 + MaxValue[3-2] = 120 + 0 = 120", "feasible": true},
+            {"item": 2, "calculation": "200 + MaxValue[3-3] = 200 + 0 = 200", "feasible": true},
+            {"item": 3, "reason": "Cannot be considered as w_3 > 3", "feasible": false},
+            {"item": 4, "reason": "Cannot be considered as w_4 > 3", "feasible": false},
+            {"item": 5, "reason": "Cannot be considered as w_5 > 3", "feasible": false}
+          ],
+          "optimal_choice": "item 2",
+          "result": 200
+        },
+        {
+          "capacity": 9,
+          "explanation": "Considering all feasible items for capacity 9",
+          "item_evaluations": [
+            {"item": 1, "calculation": "120 + MaxValue[9-2] = 120 + MaxValue[7] = 120 + 450 = 570", "feasible": true},
+            {"item": 2, "calculation": "200 + MaxValue[9-3] = 200 + MaxValue[6] = 200 + 400 = 600", "feasible": true},
+            {"item": 3, "calculation": "250 + MaxValue[9-5] = 250 + MaxValue[4] = 250 + 240 = 490", "feasible": true},
+            {"item": 4, "calculation": "450 + MaxValue[9-7] = 450 + MaxValue[2] = 450 + 120 = 570", "feasible": true},
+            {"item": 5, "reason": "Cannot be considered as w_5 > 9", "feasible": false}
+          ],
+          "optimal_choice": "item 2",
+          "result": 600
+        }
+      ],
+
+      "final_memoization_table": {
+        "capacities": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+        "max_values": [0, 0, 120, 200, 240, 320, 400, 450, 520, 600, 750, 750, 870, 950, 990, 1070]
+      }
+    },
+
+    {
+      "problem_number": 2,
+      "title": "Coin Change Problem - Backtracking",
+      "description": "Determine which coins are used to make a given value via backtracking",
+
+      "problem_setup": {
+        "target_value": 7,
+        "denominations": [
+          {"coin_type": 1, "denomination": 1},
+          {"coin_type": 2, "denomination": 3},
+          {"coin_type": 3, "denomination": 8}
+        ]
+      },
+
+      "recurrence_relation": {
+        "formula": "MinCoins[v] = { 0 if v = 0, ∞ if v > 0 and v < c[i] for all i, min over 1≤i≤n where c[i]≤v of (1 + MinCoins[v - c[i]]) otherwise }",
+        "meaning": "MinCoins[v] = The minimum number of coins that we can use to add to $v"
+      },
+
+      "given_memoization_table": {
+        "values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+        "min_coins": [0, 1, 2, 1, 2, 3, 2, 3, 1, 2],
+        "decisions": [null, 1, 1, 2, 1, 1, 2, 1, 3, 1]
+      },
+
+      "backtracking_process": [
+        {
+          "step": 1,
+          "current_value": 7,
+          "decision": "coin type 1",
+          "coin_denomination": 1,
+          "explanation": "The table shows that the decision of using a coin of type 1 was part of the optimal substructure",
+          "coins_used_so_far": [1],
+          "remaining_value": 6
+        },
+        {
+          "step": 2,
+          "current_value": 6,
+          "decision": "coin type 2",
+          "coin_denomination": 3,
+          "explanation": "For $6, the table shows that a decision of taking a coin of type 2 was made",
+          "coins_used_so_far": [1, 3],
+          "remaining_value": 3
+        },
+        {
+          "step": 3,
+          "current_value": 3,
+          "decision": "coin type 2",
+          "coin_denomination": 3,
+          "explanation": "For $3, the table shows that a decision of taking a coin of type 2 was made once again",
+          "coins_used_so_far": [1, 3, 3],
+          "remaining_value": 0
+        }
+      ],
+
+      "solution": {
+        "coins_used": [1, 3, 3],
+        "total_coins": 3,
+        "coin_counts": {
+          "1_dollar": 1,
+          "3_dollar": 2,
+          "8_dollar": 0
+        }
+      }
+    },
+
+    {
+      "problem_number": 3,
+      "title": "Coin Change Problem - Implementation",
+      "description": "Implement the solution to the coin change problem. Your solution should return the number of coins needed, along with how many of each denomination are required.",
+
+      "parts": [
+        {
+          "part": "a",
+          "approach": "Bottom-Up Strategy",
+          "description": "Use the bottom-up strategy to compute the solutions",
+          "notes": "Build the memoization table iteratively from smallest subproblems to larger ones"
+        },
+        {
+          "part": "b",
+          "approach": "Top-Down Strategy",
+          "description": "Use the top-down strategy to compute the solutions",
+          "notes": "Use recursion with memoization, starting from the target value and working down"
+        }
+      ],
+
+      "implementation_requirements": [
+        "Return the minimum number of coins needed",
+        "Return how many of each denomination are required",
+        "Consult the notes if unclear on the difference between bottom-up and top-down approaches"
+      ]
+    }
+  ],
+
+  "key_concepts": {
+    "memoization": "Storing results of subproblems to avoid recomputation",
+    "bottom_up_dp": "Building solutions iteratively from smallest subproblems to larger ones",
+    "top_down_dp": "Using recursion with memoization, starting from the target problem and breaking it down",
+    "backtracking": "Tracing back through the memoization table using decision information to reconstruct the optimal solution",
+    "optimal_substructure": "The optimal solution contains optimal solutions to subproblems",
+    "recurrence_relation": "A formula that expresses the solution to a problem in terms of solutions to smaller subproblems"
+  },
+
+  "problem_solving_tips": [
+    "Always start by identifying the base case(s) of the recurrence relation",
+    "For bottom-up approaches, fill the memoization table systematically from smallest to largest subproblems",
+    "When backtracking, use the decision information stored in the table to reconstruct the solution",
+    "For each state, consider all valid choices and select the one that optimizes the objective",
+    "Verify your solution by checking that it satisfies both the base case and recursive case of the recurrence relation"
+  ]
+}

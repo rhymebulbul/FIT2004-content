@@ -1,0 +1,395 @@
+{
+  "document_title": "Week 11 Preparation (Solutions)",
+  "topic": "Tries and Suffix Trees",
+  "advice": "The following solutions pertain to the preparation problems. You are strongly advised to attempt the problems thoroughly before looking at these solutions. Simply reading the solutions without thinking about the problems will rob you of the practice required to be able to solve complicated problems on your own. You will perform poorly on the exam if you simply attempt to memorise solutions to these problems. Thinking about a problem, even if you do not solve it will greatly increase your understanding of the underlying concepts.",
+  "problems": [
+    {
+      "problem_number": 1,
+      "type": "Prefix Trie",
+      "question": "Draw a prefix trie containing the strings cat, cathode, canopy, dog, danger, domain. Terminate each string with a $ character to indicate the ends of words.",
+      "input_strings": [
+        "cat$",
+        "cathode$",
+        "canopy$",
+        "dog$",
+        "danger$",
+        "domain$"
+      ],
+      "solution": {
+        "structure_type": "prefix_trie",
+        "description": "A tree structure where each path from root represents a string. Common prefixes share nodes.",
+        "tree_structure": {
+          "root": {
+            "children": {
+              "C": {
+                "children": {
+                  "A": {
+                    "children": {
+                      "N": {
+                        "children": {
+                          "O": {
+                            "children": {
+                              "P": {
+                                "children": {
+                                  "Y": {
+                                    "children": {
+                                      "$": {
+                                        "terminal": true,
+                                        "represents": "canopy$"
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "T": {
+                        "children": {
+                          "$": {
+                            "terminal": true,
+                            "represents": "cat$"
+                          },
+                          "H": {
+                            "children": {
+                              "O": {
+                                "children": {
+                                  "D": {
+                                    "children": {
+                                      "E": {
+                                        "children": {
+                                          "$": {
+                                            "terminal": true,
+                                            "represents": "cathode$"
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "D": {
+                "children": {
+                  "A": {
+                    "children": {
+                      "N": {
+                        "children": {
+                          "G": {
+                            "children": {
+                              "E": {
+                                "children": {
+                                  "R": {
+                                    "children": {
+                                      "$": {
+                                        "terminal": true,
+                                        "represents": "danger$"
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "O": {
+                    "children": {
+                      "G": {
+                        "children": {
+                          "$": {
+                            "terminal": true,
+                            "represents": "dog$"
+                          }
+                        }
+                      },
+                      "M": {
+                        "children": {
+                          "A": {
+                            "children": {
+                              "I": {
+                                "children": {
+                                  "N": {
+                                    "children": {
+                                      "$": {
+                                        "terminal": true,
+                                        "represents": "domain$"
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "key_concepts": [
+          "Prefix tries store strings by sharing common prefixes",
+          "Each edge represents a character",
+          "$ symbol marks end of words",
+          "Space-efficient for storing strings with common prefixes"
+        ]
+      }
+    },
+    {
+      "problem_number": 2,
+      "type": "Suffix Tree",
+      "question": "Draw a suffix tree for the string ABAABA$.",
+      "input_string": "ABAABA$",
+      "indexed_string": {
+        "1": "A",
+        "2": "B",
+        "3": "A",
+        "4": "A",
+        "5": "B",
+        "6": "A",
+        "7": "$"
+      },
+      "all_suffixes": [
+        "ABAABA$",
+        "BAABA$",
+        "AABA$",
+        "ABA$",
+        "BA$",
+        "A$",
+        "$"
+      ],
+      "solution": {
+        "structure_type": "suffix_tree",
+        "description": "A compressed trie containing all suffixes of the string. Uses index notation (i,l) where i is start index and l is length for space efficiency.",
+        "tree_structure_text": {
+          "root": {
+            "children": {
+              "A": {
+                "children": {
+                  "BA": {
+                    "children": {
+                      "ABA$": {"terminal": true},
+                      "$": {"terminal": true}
+                    }
+                  },
+                  "$": {"terminal": true},
+                  "ABA$": {"terminal": true}
+                }
+              },
+              "BA": {
+                "children": {
+                  "$": {"terminal": true},
+                  "ABA$": {"terminal": true}
+                }
+              },
+              "$": {"terminal": true}
+            }
+          }
+        },
+        "tree_structure_indexed": {
+          "root": {
+            "children": {
+              "(1,1)": {
+                "edge_label": "A",
+                "children": {
+                  "(2,2)": {
+                    "edge_label": "BA",
+                    "children": {
+                      "(4,4)": {
+                        "edge_label": "ABA$",
+                        "terminal": true
+                      },
+                      "(7,1)": {
+                        "edge_label": "$",
+                        "terminal": true
+                      }
+                    }
+                  },
+                  "(7,1)": {
+                    "edge_label": "$",
+                    "terminal": true
+                  },
+                  "(4,4)": {
+                    "edge_label": "ABA$",
+                    "terminal": true
+                  }
+                }
+              },
+              "(2,2)": {
+                "edge_label": "BA",
+                "children": {
+                  "(7,1)": {
+                    "edge_label": "$",
+                    "terminal": true
+                  },
+                  "(4,4)": {
+                    "edge_label": "ABA$",
+                    "terminal": true
+                  }
+                }
+              },
+              "(7,1)": {
+                "edge_label": "$",
+                "terminal": true
+              }
+            }
+          }
+        },
+        "key_concepts": [
+          "Suffix trees contain all suffixes of a string",
+          "Index notation (i,l) represents substring starting at position i with length l",
+          "This makes the tree space-efficient",
+          "Used for pattern matching and string analysis"
+        ]
+      }
+    },
+    {
+      "problem_number": 3,
+      "type": "Suffix Tree",
+      "question": "Draw a suffix tree for the string GATTACA$.",
+      "input_string": "GATTACA$",
+      "indexed_string": {
+        "1": "G",
+        "2": "A",
+        "3": "T",
+        "4": "T",
+        "5": "A",
+        "6": "C",
+        "7": "A",
+        "8": "$"
+      },
+      "all_suffixes": [
+        "GATTACA$",
+        "ATTACA$",
+        "TTACA$",
+        "TACA$",
+        "ACA$",
+        "CA$",
+        "A$",
+        "$"
+      ],
+      "solution": {
+        "structure_type": "suffix_tree",
+        "description": "A compressed trie containing all suffixes of the string GATTACA$. Uses index notation for space efficiency.",
+        "tree_structure_indexed": {
+          "root": {
+            "children": {
+              "(8,1)": {
+                "edge_label": "$",
+                "substring": "$",
+                "terminal": true
+              },
+              "(2,1)": {
+                "edge_label": "A",
+                "substring": "A",
+                "children": {
+                  "(8,1)": {
+                    "edge_label": "$",
+                    "substring": "$",
+                    "terminal": true,
+                    "represents_suffix": "A$"
+                  },
+                  "(6,3)": {
+                    "edge_label": "CA$",
+                    "substring": "CA$",
+                    "terminal": true,
+                    "represents_suffix": "ACA$"
+                  },
+                  "(3,6)": {
+                    "edge_label": "TTACA$",
+                    "substring": "TTACA$",
+                    "terminal": true,
+                    "represents_suffix": "ATTACA$"
+                  }
+                }
+              },
+              "(6,3)": {
+                "edge_label": "CA$",
+                "substring": "CA$",
+                "terminal": true,
+                "represents_suffix": "CA$"
+              },
+              "(1,8)": {
+                "edge_label": "GATTACA$",
+                "substring": "GATTACA$",
+                "terminal": true,
+                "represents_suffix": "GATTACA$"
+              },
+              "(3,1)": {
+                "edge_label": "T",
+                "substring": "T",
+                "children": {
+                  "(5,4)": {
+                    "edge_label": "ACA$",
+                    "substring": "ACA$",
+                    "terminal": true,
+                    "represents_suffix": "TACA$"
+                  },
+                  "(4,5)": {
+                    "edge_label": "TACA$",
+                    "substring": "TACA$",
+                    "terminal": true,
+                    "represents_suffix": "TTACA$"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "visual_representation": {
+          "level_0": ["root"],
+          "level_1": ["(8,1)", "(2,1)", "(6,3)", "(1,8)", "(3,1)"],
+          "level_2": ["(8,1)", "(6,3)", "(3,6)", "(5,4)", "(4,5)"]
+        },
+        "key_concepts": [
+          "Suffix trees compress common paths",
+          "Each leaf represents one suffix of the original string",
+          "Index notation (start_position, length) saves memory",
+          "Useful for pattern matching in O(m) time where m is pattern length"
+        ]
+      }
+    }
+  ],
+  "general_concepts": {
+    "prefix_trie": {
+      "definition": "A tree data structure for storing strings where common prefixes share nodes",
+      "use_cases": [
+        "Autocomplete",
+        "Spell checking",
+        "IP routing tables",
+        "String matching with common prefixes"
+      ],
+      "time_complexity": {
+        "insert": "O(m) where m is string length",
+        "search": "O(m) where m is string length"
+      }
+    },
+    "suffix_tree": {
+      "definition": "A compressed trie containing all suffixes of a string",
+      "use_cases": [
+        "Pattern matching",
+        "Finding longest repeated substring",
+        "DNA sequence analysis",
+        "Data compression"
+      ],
+      "space_optimization": "Uses (start_index, length) notation to reference substrings instead of storing full strings",
+      "time_complexity": {
+        "construction": "O(n) with Ukkonen's algorithm",
+        "pattern_search": "O(m) where m is pattern length"
+      }
+    }
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "problem": {
+    "type": "prefix_trie_construction",
+    "description": "Insert words into an empty prefix trie where terminal characters are implemented as a separate node",
+    "words": [
+      "ANGER",
+      "APE",
+      "APP",
+      "APPLE",
+      "MAPLE"
+    ],
+    "constraints": {
+      "terminal_implementation": "separate_node",
+      "initial_state": "empty_trie"
+    }
+  },
+  "solution": {
+    "correct": true,
+    "metrics": {
+      "total_nodes": 21,
+      "leaf_nodes": 5,
+      "height": 6,
+      "definitions": {
+        "height": "maximum number of edges from root to a leaf"
+      }
+    },
+    "structure_explanation": {
+      "node_count_breakdown": "Includes all character nodes plus terminal marker nodes for each word",
+      "leaf_nodes_explanation": "One leaf node for each word's terminal marker",
+      "height_calculation": "Longest path is from root through APPLE plus its terminal marker (A-P-P-L-E-terminal = 6 edges)"
+    }
+  },
+  "visual_representation": {
+    "root": {
+      "children": {
+        "A": {
+          "children": {
+            "N": {
+              "children": {
+                "G": {
+                  "children": {
+                    "E": {
+                      "children": {
+                        "R": {
+                          "children": {
+                            "$": "terminal_for_ANGER"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "P": {
+              "children": {
+                "E": {
+                  "children": {
+                    "$": "terminal_for_APE"
+                  }
+                },
+                "P": {
+                  "children": {
+                    "$": "terminal_for_APP",
+                    "L": {
+                      "children": {
+                        "E": {
+                          "children": {
+                            "$": "terminal_for_APPLE"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "M": {
+          "children": {
+            "A": {
+              "children": {
+                "P": {
+                  "children": {
+                    "L": {
+                      "children": {
+                        "E": {
+                          "children": {
+                            "$": "terminal_for_MAPLE"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "key_insights": {
+    "terminal_markers": "Each word requires a separate terminal node ($), adding to the total node count",
+    "shared_prefixes": [
+      {
+        "prefix": "AP",
+        "words": ["APE", "APP", "APPLE"]
+      },
+      {
+        "prefix": "APP",
+        "words": ["APP", "APPLE"]
+      }
+    ],
+    "node_calculation": "21 nodes = 16 character nodes + 5 terminal marker nodes"
+  }
+}

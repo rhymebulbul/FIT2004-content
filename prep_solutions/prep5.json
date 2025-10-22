@@ -1,0 +1,179 @@
+{
+  "document_metadata": {
+    "title": "Week 5 Preparation - Solutions",
+    "subject": "Graph Algorithms - Depth-First Search and Breadth-First Search",
+    "advice": "These solutions pertain to preparation problems. Students are strongly advised to attempt problems thoroughly before looking at solutions. Simply reading solutions without thinking about problems will rob you of practice required to solve complicated problems independently. Memorizing solutions will lead to poor exam performance. Thinking about a problem, even without solving it, greatly increases understanding of underlying concepts."
+  },
+  "problems": [
+    {
+      "problem_number": 1,
+      "problem_statement": "Label the vertices of the following graph in the order that they might be visited by a depth-first search, and by a breadth-first search, from the source s.",
+      "graph_structure": {
+        "description": "A directed graph with 9 vertices including source vertex s",
+        "source_vertex": "s",
+        "edge_relationships": "The graph shows s connecting to two vertices, which then branch out to form a connected directed graph with multiple paths"
+      },
+      "solution": {
+        "depth_first_search": {
+          "description": "There are two possible solutions for depth-first search depending on which order you traverse the edges.",
+          "valid_ordering_1": {
+            "vertices": [
+              {"label": 1, "original": "s"},
+              {"label": 2, "position": "top-left branch"},
+              {"label": 3, "position": "top-middle"},
+              {"label": 4, "position": "top-middle-right"},
+              {"label": 5, "position": "top-right"},
+              {"label": 6, "position": "bottom-right"},
+              {"label": 7, "position": "bottom-middle-right"},
+              {"label": 8, "position": "bottom-left"},
+              {"label": 9, "position": "bottom-middle"}
+            ],
+            "order_sequence": [1, 2, 3, 4, 5, 6, 7, 8, 9]
+          },
+          "valid_ordering_2": {
+            "description": "The other valid order is to visit 8 & 9 before 2 & 3",
+            "order_sequence": [1, 8, 9, 7, 4, 6, 5, 2, 3]
+          }
+        },
+        "breadth_first_search": {
+          "description": "Valid order for breadth-first search",
+          "valid_ordering_1": {
+            "vertices": [
+              {"label": 1, "original": "s"},
+              {"label": 2, "position": "top-left branch"},
+              {"label": 3, "position": "bottom-left"},
+              {"label": 4, "position": "top-middle"},
+              {"label": 5, "position": "bottom-middle"},
+              {"label": 6, "position": "top-middle-right"},
+              {"label": 7, "position": "top-right"},
+              {"label": 8, "position": "bottom-right"},
+              {"label": 9, "position": "bottom-middle-right"}
+            ],
+            "order_sequence": [1, 2, 3, 4, 5, 6, 7, 8, 9]
+          },
+          "valid_ordering_2": {
+            "description": "The other valid order swaps nodes 2 and 3 with each other, and nodes 4 and 5 with each other",
+            "order_sequence": [1, 3, 2, 5, 4, 6, 7, 8, 9]
+          }
+        },
+        "key_concepts": [
+          "Depth-first search explores as far as possible along each branch before backtracking",
+          "Breadth-first search explores all neighbors at the present depth before moving to vertices at the next depth level",
+          "The order of visiting vertices can vary depending on the order edges are traversed",
+          "Multiple valid orderings exist for both DFS and BFS"
+        ]
+      }
+    },
+    {
+      "problem_number": 2,
+      "problem_statement": "Write pseudocode for an algorithm that given a directed graph and a source vertex, returns a list of all of the vertices reachable in the graph from that source vertex. Your algorithm should run in O(V + E) time.",
+      "solution": {
+        "approach": "This problem can be solved with a depth-first search or breadth-first search. The vertices reachable from a given vertex are simply those that are visited by a search when that vertex is the starting node. So we simply perform a DFS from s and then return a list of the nodes that were visited.",
+        "pseudocode": {
+          "main_function": {
+            "name": "REACHABLE",
+            "parameters": ["G = (V, E)", "s"],
+            "steps": [
+              {
+                "line": 2,
+                "code": "Set visited[1..n] = False",
+                "description": "Initialize visited array to track which vertices have been visited"
+              },
+              {
+                "line": 3,
+                "code": "DFS(s)",
+                "description": "Perform depth-first search starting from source vertex s"
+              },
+              {
+                "line": 4,
+                "code": "Set reachable = empty array",
+                "description": "Create empty array to store reachable vertices"
+              },
+              {
+                "line": 5,
+                "code": "for each vertex u = 1 to n do",
+                "description": "Iterate through all vertices"
+              },
+              {
+                "line": 6,
+                "code": "if visited[u] then",
+                "description": "Check if vertex was visited during DFS"
+              },
+              {
+                "line": 7,
+                "code": "reachable.append(u)",
+                "description": "Add visited vertices to reachable list"
+              },
+              {
+                "line": 8,
+                "code": "return reachable",
+                "description": "Return list of all reachable vertices"
+              }
+            ]
+          },
+          "helper_function": {
+            "name": "DFS",
+            "parameters": ["u"],
+            "steps": [
+              {
+                "line": 11,
+                "code": "visited[u] = True",
+                "description": "Mark current vertex as visited"
+              },
+              {
+                "line": 12,
+                "code": "for each vertex v adjacent to u do",
+                "description": "Iterate through all adjacent vertices"
+              },
+              {
+                "line": 13,
+                "code": "if not visited[v] then",
+                "description": "Check if adjacent vertex has not been visited"
+              },
+              {
+                "line": 14,
+                "code": "DFS(v)",
+                "description": "Recursively perform DFS on unvisited adjacent vertex"
+              }
+            ]
+          }
+        },
+        "time_complexity": {
+          "value": "O(V + E)",
+          "explanation": "The algorithm visits each vertex once and examines each edge once, resulting in O(V + E) time complexity where V is the number of vertices and E is the number of edges"
+        },
+        "space_complexity": {
+          "value": "O(V)",
+          "explanation": "Space is needed for the visited array and the reachable list, both of which can contain at most V elements. Additionally, the recursive call stack can be at most V deep in the worst case"
+        },
+        "key_concepts": [
+          "Reachability in directed graphs",
+          "Depth-first search traversal",
+          "Use of visited array to track explored vertices",
+          "Recursive implementation of DFS",
+          "Linear time complexity for graph traversal"
+        ],
+        "alternative_approaches": [
+          "Breadth-first search (BFS) could also be used instead of DFS",
+          "BFS would use a queue instead of recursion",
+          "Both approaches achieve the same O(V + E) time complexity"
+        ]
+      }
+    }
+  ],
+  "learning_objectives": [
+    "Understanding depth-first search (DFS) algorithm",
+    "Understanding breadth-first search (BFS) algorithm",
+    "Recognizing that multiple valid orderings can exist for graph traversals",
+    "Implementing graph traversal algorithms in pseudocode",
+    "Analyzing time and space complexity of graph algorithms",
+    "Solving reachability problems using graph traversal",
+    "Understanding the difference between DFS and BFS traversal patterns"
+  ],
+  "common_mistakes": [
+    "Forgetting to mark vertices as visited, leading to infinite loops",
+    "Not considering all possible valid orderings in DFS/BFS",
+    "Incorrectly analyzing time complexity of graph algorithms",
+    "Confusing DFS (depth-first) with BFS (breadth-first) traversal patterns"
+  ]
+}

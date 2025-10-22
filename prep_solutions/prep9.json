@@ -1,0 +1,179 @@
+{
+  "document_type": "algorithm_problem_solutions",
+  "topic": "Maximum Flow and Ford-Fulkerson Algorithm",
+  "week": 9,
+  "problem_number": 1,
+
+  "problem_statement": {
+    "description": "Consider a flow network with current flows (in red) and edge capacities (in black)",
+    "initial_network": {
+      "vertices": ["s", "a", "b", "c", "d", "t"],
+      "edges": [
+        {"from": "s", "to": "a", "flow": 1, "capacity": 3},
+        {"from": "s", "to": "b", "flow": 4, "capacity": 4},
+        {"from": "a", "to": "c", "flow": 5, "capacity": 5},
+        {"from": "a", "to": "d", "flow": 3, "capacity": 4},
+        {"from": "b", "to": "a", "flow": 1, "capacity": 1},
+        {"from": "b", "to": "d", "flow": 3, "capacity": 4},
+        {"from": "c", "to": "d", "flow": 0, "capacity": 1},
+        {"from": "c", "to": "t", "flow": 5, "capacity": 5},
+        {"from": "d", "to": "t", "flow": 0, "capacity": 3}
+      ],
+      "current_flow_value": 5
+    },
+    "tasks": [
+      "Draw the corresponding residual network",
+      "Identify an augmenting path in the residual network and state its capacity",
+      "Augment the flow along the augmenting path, showing the resulting flow network",
+      "Complete the Ford-Fulkerson method, showing the final flow network with maximum flow",
+      "List vertices in the two components of a minimum cut and verify capacity equals max flow"
+    ]
+  },
+
+  "solutions": {
+    "part_a": {
+      "task": "Draw the corresponding residual network",
+      "explanation": "The residual network shows remaining capacity on forward edges and current flow on backward edges",
+      "residual_network": {
+        "vertices": ["s", "a", "b", "c", "d", "t"],
+        "edges": [
+          {"from": "s", "to": "a", "capacity": 2, "note": "3 - 1 = 2 remaining"},
+          {"from": "a", "to": "s", "capacity": 1, "note": "backward edge with flow 1"},
+          {"from": "s", "to": "b", "capacity": 0, "note": "edge is saturated"},
+          {"from": "b", "to": "s", "capacity": 4, "note": "backward edge"},
+          {"from": "a", "to": "c", "capacity": 0, "note": "edge is saturated"},
+          {"from": "c", "to": "a", "capacity": 5, "note": "backward edge"},
+          {"from": "a", "to": "d", "capacity": 1, "note": "4 - 3 = 1 remaining"},
+          {"from": "d", "to": "a", "capacity": 3, "note": "backward edge"},
+          {"from": "b", "to": "a", "capacity": 0, "note": "edge is saturated"},
+          {"from": "a", "to": "b", "capacity": 1, "note": "backward edge"},
+          {"from": "b", "to": "d", "capacity": 1, "note": "4 - 3 = 1 remaining"},
+          {"from": "d", "to": "b", "capacity": 3, "note": "backward edge"},
+          {"from": "c", "to": "d", "capacity": 1, "note": "1 - 0 = 1 remaining"},
+          {"from": "c", "to": "t", "capacity": 0, "note": "edge is saturated"},
+          {"from": "t", "to": "c", "capacity": 5, "note": "backward edge"},
+          {"from": "d", "to": "t", "capacity": 3, "note": "3 - 0 = 3 remaining"}
+        ]
+      }
+    },
+
+    "part_b": {
+      "task": "Identify an augmenting path and its capacity",
+      "augmenting_path": {
+        "path": ["s", "a", "b", "d", "t"],
+        "edges_used": [
+          {"from": "s", "to": "a", "residual_capacity": 2},
+          {"from": "a", "to": "b", "residual_capacity": 1, "note": "backward edge"},
+          {"from": "b", "to": "d", "residual_capacity": 1},
+          {"from": "d", "to": "t", "residual_capacity": 3}
+        ],
+        "bottleneck_capacity": 1,
+        "bottleneck_edges": ["a→b (backward)", "b→d"]
+      }
+    },
+
+    "part_c": {
+      "task": "Augment flow along the path",
+      "note": "Other augmenting paths exist, so other solutions are possible",
+      "augmented_network": {
+        "edges": [
+          {"from": "s", "to": "a", "flow": 2, "capacity": 3, "change": "+1"},
+          {"from": "s", "to": "b", "flow": 4, "capacity": 4, "change": "0"},
+          {"from": "a", "to": "c", "flow": 5, "capacity": 5, "change": "0"},
+          {"from": "a", "to": "d", "flow": 4, "capacity": 4, "change": "+1"},
+          {"from": "b", "to": "a", "flow": 0, "capacity": 1, "change": "-1 (decreased)"},
+          {"from": "b", "to": "d", "flow": 3, "capacity": 4, "change": "0"},
+          {"from": "c", "to": "d", "flow": 0, "capacity": 1, "change": "0"},
+          {"from": "c", "to": "t", "flow": 5, "capacity": 5, "change": "0"},
+          {"from": "d", "to": "t", "flow": 1, "capacity": 3, "change": "+1"}
+        ],
+        "new_flow_value": 6
+      }
+    },
+
+    "part_d": {
+      "task": "Complete Ford-Fulkerson to find maximum flow",
+      "final_network": {
+        "edges": [
+          {"from": "s", "to": "a", "flow": 3, "capacity": 3},
+          {"from": "s", "to": "b", "flow": 4, "capacity": 4},
+          {"from": "a", "to": "c", "flow": 5, "capacity": 5},
+          {"from": "a", "to": "d", "flow": 2, "capacity": 4},
+          {"from": "b", "to": "a", "flow": 0, "capacity": 1},
+          {"from": "b", "to": "d", "flow": 4, "capacity": 4},
+          {"from": "c", "to": "d", "flow": 0, "capacity": 1},
+          {"from": "c", "to": "t", "flow": 5, "capacity": 5},
+          {"from": "d", "to": "t", "flow": 2, "capacity": 3}
+        ],
+        "maximum_flow_value": 7,
+        "note": "One possible solution; other maximum flows may exist with different edge flows"
+      }
+    },
+
+    "part_e": {
+      "task": "Find minimum cut and verify max-flow min-cut theorem",
+      "method": "Identify all vertices reachable from source in final residual graph",
+      "final_residual_network": {
+        "note": "Source s has no outgoing edges (both edges from s are saturated)",
+        "edges": [
+          {"from": "s", "to": "a", "capacity": 0},
+          {"from": "s", "to": "b", "capacity": 0},
+          {"from": "a", "to": "s", "capacity": 3},
+          {"from": "b", "to": "s", "capacity": 4},
+          {"note": "Other edges exist but s is isolated from rest of graph"}
+        ]
+      },
+      "minimum_cut": {
+        "component_1": ["s"],
+        "component_2": ["a", "b", "c", "d", "t"],
+        "edges_crossing_cut": [
+          {"from": "s", "to": "a", "capacity": 3, "flow": 3},
+          {"from": "s", "to": "b", "capacity": 4, "flow": 4}
+        ],
+        "cut_capacity": 7,
+        "verification": {
+          "max_flow": 7,
+          "min_cut_capacity": 7,
+          "theorem_verified": true,
+          "note": "Max-flow min-cut theorem: maximum flow value equals minimum cut capacity"
+        }
+      }
+    }
+  },
+
+  "key_concepts": {
+    "ford_fulkerson_algorithm": {
+      "description": "Iteratively finds augmenting paths and increases flow until no augmenting paths exist",
+      "steps": [
+        "Start with initial flow (can be zero flow)",
+        "Construct residual network",
+        "Find augmenting path from source to sink in residual network",
+        "Determine bottleneck capacity of the path",
+        "Augment flow along the path",
+        "Repeat until no augmenting paths exist"
+      ]
+    },
+    "residual_network": {
+      "description": "Shows remaining capacity for increasing flow and current flow for decreasing flow",
+      "forward_edges": "Capacity = original_capacity - current_flow (if > 0)",
+      "backward_edges": "Capacity = current_flow (if > 0)"
+    },
+    "augmenting_path": {
+      "description": "A path from source to sink in the residual network",
+      "capacity": "Minimum residual capacity along the path (bottleneck)"
+    },
+    "minimum_cut": {
+      "description": "Partition of vertices into two sets (S containing source, T containing sink)",
+      "cut_capacity": "Sum of capacities of edges from S to T",
+      "max_flow_min_cut_theorem": "Maximum flow value equals minimum cut capacity"
+    }
+  },
+
+  "important_notes": [
+    "Multiple augmenting paths may exist, leading to different intermediate solutions",
+    "The final maximum flow value is unique, but the flow on individual edges may vary",
+    "To find minimum cut: identify all vertices reachable from source in final residual graph",
+    "Backward edges in residual network allow 'undoing' previous flow decisions",
+    "The algorithm terminates when no path exists from source to sink in residual network"
+  ]
+}

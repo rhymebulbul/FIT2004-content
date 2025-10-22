@@ -1,0 +1,236 @@
+{
+  "document": {
+    "title": "Week 6 Preparation - Solutions",
+    "advice": "The following solutions pertain to the preparation problems. You are strongly advised to attempt the problems thoroughly before looking at these solutions. Simply reading the solutions without thinking about the problems will rob you of the practice required to be able to solve complicated problems on your own. You will perform poorly on the exam if you simply attempt to memorise solutions to these problems. Thinking about a problem, even if you do not solve it will greatly increase your understanding of the underlying concepts.",
+    "problems": [
+      {
+        "number": 1,
+        "title": "Dijkstra's Algorithm",
+        "description": "Use Dijkstra's algorithm to determine the shortest paths from vertex s to all other vertices in this graph. You should clearly indicate the order in which the vertices are visited by the algorithm, the resulting distances, and the shortest path tree produced.",
+        "graph": {
+          "vertices": ["s", "y", "x", "v", "w", "u", "t", "z", "q", "r", "p"],
+          "edges": [
+            {"from": "s", "to": "y", "weight": 3},
+            {"from": "s", "to": "w", "weight": 18},
+            {"from": "y", "to": "x", "weight": 5},
+            {"from": "y", "to": "v", "weight": 15},
+            {"from": "y", "to": "w", "weight": 14},
+            {"from": "x", "to": "u", "weight": 11},
+            {"from": "x", "to": "v", "weight": 5},
+            {"from": "v", "to": "u", "weight": 5},
+            {"from": "v", "to": "w", "weight": 3},
+            {"from": "v", "to": "z", "weight": 10},
+            {"from": "w", "to": "t", "weight": 14},
+            {"from": "u", "to": "r", "weight": 11},
+            {"from": "u", "to": "z", "weight": 4},
+            {"from": "t", "to": "z", "weight": 9},
+            {"from": "t", "to": "q", "weight": 12},
+            {"from": "z", "to": "q", "weight": 1},
+            {"from": "z", "to": "p", "weight": 7},
+            {"from": "q", "to": "p", "weight": 5},
+            {"from": "r", "to": "p", "weight": 4},
+            {"from": "r", "to": "u", "weight": 2},
+            {"from": "p", "to": "z", "weight": 6}
+          ]
+        },
+        "solution": {
+          "visit_order": ["s", "y", "x", "v", "w", "u", "t", "z", "q", "r", "p"],
+          "distances": {
+            "s": 0,
+            "y": 3,
+            "x": 8,
+            "v": 13,
+            "w": 16,
+            "u": 18,
+            "t": 19,
+            "z": 22,
+            "q": 23,
+            "r": 24,
+            "p": 28
+          },
+          "shortest_path_tree_edges": [
+            {"from": "s", "to": "y", "weight": 3},
+            {"from": "y", "to": "x", "weight": 5},
+            {"from": "x", "to": "v", "weight": 5},
+            {"from": "v", "to": "w", "weight": 3},
+            {"from": "x", "to": "u", "weight": 11},
+            {"from": "w", "to": "t", "weight": 14},
+            {"from": "u", "to": "z", "weight": 4},
+            {"from": "z", "to": "q", "weight": 1},
+            {"from": "u", "to": "r", "weight": 11},
+            {"from": "r", "to": "p", "weight": 4}
+          ]
+        }
+      },
+      {
+        "number": 2,
+        "title": "Minimum Spanning Tree - Prim's and Kruskal's Algorithms",
+        "description": "Show the steps taken by Prim's and Kruskal's algorithms for computing a minimum spanning tree of the following graph. Use vertex a as the root vertex for Prim's algorithm. Make sure that you indicate the order in which edges are selected, not just the final answer.",
+        "graph": {
+          "vertices": ["a", "b", "c", "d", "e", "f", "g"],
+          "edges": [
+            {"from": "a", "to": "b", "weight": 5},
+            {"from": "a", "to": "d", "weight": 2},
+            {"from": "b", "to": "c", "weight": 8},
+            {"from": "b", "to": "e", "weight": 1},
+            {"from": "c", "to": "e", "weight": 4},
+            {"from": "d", "to": "e", "weight": 16},
+            {"from": "d", "to": "f", "weight": 4},
+            {"from": "e", "to": "f", "weight": 8},
+            {"from": "e", "to": "g", "weight": 9},
+            {"from": "f", "to": "g", "weight": 10}
+          ]
+        },
+        "solution": {
+          "prims_algorithm": {
+            "root_vertex": "a",
+            "edge_selection_order": [
+              {"edge": ["a", "d"], "weight": 2},
+              {"edge": ["d", "f"], "weight": 4},
+              {"edge": ["a", "b"], "weight": 5},
+              {"edge": ["b", "e"], "weight": 1},
+              {"edge": ["e", "c"], "weight": 4},
+              {"edge": ["e", "g"], "weight": 9}
+            ],
+            "mst_edges": [
+              {"from": "a", "to": "d", "weight": 2},
+              {"from": "d", "to": "f", "weight": 4},
+              {"from": "a", "to": "b", "weight": 5},
+              {"from": "b", "to": "e", "weight": 1},
+              {"from": "e", "to": "c", "weight": 4},
+              {"from": "e", "to": "g", "weight": 9}
+            ],
+            "total_weight": 25
+          },
+          "kruskals_algorithm": {
+            "edge_selection_order": [
+              {"edge": ["b", "e"], "weight": 1},
+              {"edge": ["a", "d"], "weight": 2},
+              {"edge": ["d", "f"], "weight": 4, "note": "Could be selected in either order with (e,c)"},
+              {"edge": ["e", "c"], "weight": 4, "note": "Could be selected in either order with (d,f)"},
+              {"edge": ["a", "b"], "weight": 5},
+              {"edge": ["e", "g"], "weight": 9}
+            ],
+            "mst_edges": [
+              {"from": "b", "to": "e", "weight": 1},
+              {"from": "a", "to": "d", "weight": 2},
+              {"from": "d", "to": "f", "weight": 4},
+              {"from": "e", "to": "c", "weight": 4},
+              {"from": "a", "to": "b", "weight": 5},
+              {"from": "e", "to": "g", "weight": 9}
+            ],
+            "total_weight": 25,
+            "note": "The final minimum spanning tree is the same one as obtained by Prim's algorithm"
+          }
+        }
+      },
+      {
+        "number": 3,
+        "title": "Union-Find Data Structure",
+        "description": "Consider the following initial state of a union-find data structure with 10 elements and assume the union-by-size heuristic. Positive values in the parent array represent parent IDs and negative values represent roots with their corresponding tree size.",
+        "initial_state": {
+          "elements": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+          "parent_array": [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+          "description": "All elements are singleton sets (roots with size 1)"
+        },
+        "operations": [
+          "union(1, 5)",
+          "union(2, 7)",
+          "union(4, 8)",
+          "union(5, 8)",
+          "union(6, 7)",
+          "union(6, 0)",
+          "union(2, 3)",
+          "union(4, 0)",
+          "union(8, 3)",
+          "union(9, 0)"
+        ],
+        "tie_breaking_rule": "If two trees are the same size, assume the first argument to union() will be chosen as the root",
+        "solution": {
+          "steps": [
+            {
+              "operation": "union(1, 5)",
+              "explanation": "Elements 1 and 5 belong to trees that are the same size, hence we choose the first argument, 1, as the new root to which 5 is appended to, i.e. parent[5] = 1.",
+              "parent_array": [-1, -2, -1, -1, -1, 1, -1, -1, -1, -1],
+              "forest_description": "Element 5 is now a child of element 1. Tree rooted at 1 has size 2."
+            },
+            {
+              "operation": "union(2, 7)",
+              "explanation": "Similar to the reasoning in part (a), element 7's parent will become 2, i.e. parent[7] = 2.",
+              "parent_array": [-1, -2, -2, -1, -1, 1, -1, 2, -1, -1],
+              "forest_description": "Element 7 is now a child of element 2. Tree rooted at 2 has size 2."
+            },
+            {
+              "operation": "union(4, 8)",
+              "explanation": "Similar to the reasoning in part (a), element 8's parent will become 4, i.e. parent[8] = 4.",
+              "parent_array": [-1, -2, -2, -1, -2, 1, -1, 2, 4, -1],
+              "forest_description": "Element 8 is now a child of element 4. Tree rooted at 4 has size 2."
+            },
+            {
+              "operation": "union(5, 8)",
+              "explanation": "After a find() call to both elements 5 and 8, their roots can be identified as 1 and 4 respectively. Since both 1 and 4 have a parent of -2, they both belong to trees of size 2. Therefore we can connect the root of 8 to the root of 5, since 5 was the first argument, i.e. parent[4] = 1.",
+              "parent_array": [-1, -4, -2, -1, 1, 1, -1, 2, 4, -1],
+              "forest_description": "Tree rooted at 4 is now connected to tree rooted at 1. Element 4 is a child of 1. Tree rooted at 1 has size 4 (contains: 1, 5, 4, 8)."
+            },
+            {
+              "operation": "union(6, 7)",
+              "explanation": "Element 6 is a lone root since it has a parent of -1. The parent of 7 is element 2 which has a parent of -2 indicating it is the root of a tree of size 2. Due to the union-by-size heuristic, 6 will be connected directly to 2. It is important to also reflect the size changes in the table by setting parent[2] = -3.",
+              "parent_array": [-1, -4, -3, -1, 1, 1, 2, 2, 4, -1],
+              "forest_description": "Element 6 is now a child of element 2. Tree rooted at 2 has size 3 (contains: 2, 7, 6)."
+            },
+            {
+              "operation": "union(6, 0)",
+              "explanation": "The root of 6 is element 2 which has a parent of -3 indicating a tree of size 3. Element 0 is a lone root since it has a parent of -1. Due to the union-by-size heuristic, 0 will be connected directly to 2, i.e. parent[0] = 2.",
+              "parent_array": [2, -4, -4, -1, 1, 1, 2, 2, 4, -1],
+              "forest_description": "Element 0 is now a child of element 2. Tree rooted at 2 has size 4 (contains: 2, 7, 6, 0)."
+            },
+            {
+              "operation": "union(2, 3)",
+              "explanation": "Element 3 is a lone root and will be connected directly to 2, i.e. parent[3] = 2.",
+              "parent_array": [2, -4, -5, 2, 1, 1, 2, 2, 4, -1],
+              "forest_description": "Element 3 is now a child of element 2. Tree rooted at 2 has size 5 (contains: 2, 7, 6, 0, 3)."
+            },
+            {
+              "operation": "union(4, 0)",
+              "explanation": "The root of 4 is 1 and the root of 0 is 2. They have tree sizes of 4 and 5 respectively. Hence, under the union-by-size heuristic, element 1 will be connected directly to element 2. parent[1] will be updated to 2 and the parent[2] will be updated to -9.",
+              "parent_array": [2, 2, -9, 2, 1, 1, 2, 2, 4, -1],
+              "forest_description": "Tree rooted at 1 is now connected to tree rooted at 2. Element 1 is a child of 2. Tree rooted at 2 has size 9."
+            },
+            {
+              "operation": "union(8, 3)",
+              "explanation": "After a find() call to both elements 8 and 3, it can be identified that they both belong in the same tree since they both lead to the root element 2. Hence, no change occurs and the table and forest are the same as in part (h).",
+              "parent_array": [2, 2, -9, 2, 1, 1, 2, 2, 4, -1],
+              "forest_description": "No change - both elements already in the same set."
+            },
+            {
+              "operation": "union(9, 0)",
+              "explanation": "Element 9 is a lone root and clearly smaller than the only other remaining component. It will connect directly to the root element 2, i.e. parent[9] = 2.",
+              "parent_array": [2, 2, -10, 2, 1, 1, 2, 2, 4, 2],
+              "forest_description": "Element 9 is now a child of element 2. Tree rooted at 2 has size 10. All elements are now in one set."
+            }
+          ],
+          "final_state": {
+            "parent_array": [2, 2, -10, 2, 1, 1, 2, 2, 4, 2],
+            "tree_height": 3,
+            "note": "The final height of the completely merged tree is 3. Could we have done better using some other heuristics in the union-find data structure?"
+          }
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "course": "Data Structures and Algorithms",
+    "week": 6,
+    "document_type": "Preparation Solutions",
+    "topics": [
+      "Dijkstra's Algorithm",
+      "Shortest Path",
+      "Minimum Spanning Tree",
+      "Prim's Algorithm",
+      "Kruskal's Algorithm",
+      "Union-Find Data Structure",
+      "Disjoint Sets",
+      "Union-by-Size Heuristic"
+    ]
+  }
+}
