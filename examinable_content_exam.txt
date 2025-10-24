@@ -263,7 +263,8 @@
 #### 10.5 Comparing AVL and Red-Black Trees
 
 * AVL: faster lookups, slower inserts.
-* RBT: faster inserts/deletes, used in libraries (e.g., maps/sets).
+* RBT: faster inserts, used in libraries (e.g., maps/sets).
+* Don't worry about RBT deletion. For 2-3 Search Trees, only focus on leaf node deletion.
 
 ---
 
