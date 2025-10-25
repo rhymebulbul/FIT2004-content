@@ -1,0 +1,556 @@
+{
+  "document_info": {
+    "title": "Week 12 Applied Sheet (Solutions)",
+    "topic": "Advanced Tree Data Structures",
+    "subtopics": ["AVL Trees", "Binary Search Trees", "2-3 Search Trees", "Red-Black Trees"]
+  },
+  "problems": [
+    {
+      "problem_number": 1,
+      "title": "AVL Tree Insertion with Rebalancing",
+      "description": "Insert 6 into the following AVL tree and show the rebalancing procedure step by step.",
+      "initial_tree": {
+        "root": 3,
+        "structure": "3 -> (2, 8); 2 -> (1, null); 8 -> (5, 9); 5 -> (4, 7)"
+      },
+      "solution": {
+        "steps": [
+          {
+            "step": 1,
+            "action": "Insert 6 using BST insertion",
+            "result": "6 becomes right child of 7",
+            "tree_state": "Imbalanced at node 8 (balance factor = 2)"
+          },
+          {
+            "step": 2,
+            "action": "Identify imbalance type",
+            "result": "Left-right imbalance at node 8",
+            "explanation": "Node 8 has taller left subtree and node 5 has taller right subtree"
+          },
+          {
+            "step": 3,
+            "action": "Perform first rotation (left rotation on node 5)",
+            "result": "Node 7 moves up, node 5 becomes left child of 7"
+          },
+          {
+            "step": 4,
+            "action": "Perform second rotation (right rotation on node 8)",
+            "result": "Node 7 becomes parent of nodes 5 and 8",
+            "final_tree": "Tree is now balanced"
+          }
+        ],
+        "key_concepts": [
+          "AVL trees maintain balance by ensuring balance factor is in {-1, 0, 1}",
+          "Left-right imbalance requires double rotation",
+          "Always perform rotations at lower levels first"
+        ]
+      }
+    },
+    {
+      "problem_number": 2,
+      "title": "BST Deletion Correctness - Successor Property",
+      "description": "Prove that the successor of a node with two children has no left child.",
+      "parts": [
+        {
+          "part": "a",
+          "question": "Prove that the successor of a node x with two children must be in the right subtree of x",
+          "solution": {
+            "proof_type": "Proof by contradiction",
+            "steps": [
+              "Suppose x and s (successor) have common ancestor a ≠ x, s in different subtrees",
+              "Then x < a < s, contradicting s being the successor",
+              "Suppose s is ancestor of x",
+              "Then x would be in left subtree of s, and right child r of x satisfies x < r < s",
+              "This contradicts s being the successor",
+              "Therefore x must be ancestor of s, and s must be in right subtree of x"
+            ],
+            "conclusion": "The successor must be in the right subtree"
+          }
+        },
+        {
+          "part": "b",
+          "question": "Use this fact to prove that the successor of x cannot have a left child",
+          "solution": {
+            "proof_type": "Proof by contradiction",
+            "steps": [
+              "Suppose s has left child t",
+              "By BST property: t < s",
+              "Since t is in right subtree of x: x < t",
+              "Therefore x < t < s, contradicting s being the successor",
+              "Thus s cannot have a left child"
+            ],
+            "conclusion": "The successor of a node with two children has no left child"
+          }
+        }
+      ],
+      "key_concepts": [
+        "Successor is the minimum value node greater than x",
+        "In BST deletion with two children, replace with successor",
+        "Successor will have at most one child (right child only)",
+        "This property ensures deletion algorithm correctness"
+      ]
+    },
+    {
+      "problem_number": 3,
+      "title": "Unique Insertion Point in BST",
+      "description": "Prove that for a BST T and integer x not in T, exactly one of these is true: (1) The successor of x has no left child, OR (2) The predecessor of x has no right child.",
+      "solution": {
+        "proof_structure": "Prove mutual exclusivity and exhaustiveness",
+        "steps": [
+          {
+            "claim": "Either s is ancestor of p, or p is ancestor of s",
+            "proof": "By contradiction - if neither is ancestor, they have common ancestor a with p < a < s, implying p < a < x or x < a < s, both impossible"
+          },
+          {
+            "case": "s is ancestor of p",
+            "analysis": "p must be in left subtree of s, so s has left child (Statement 1 false). If p had right child r, then p < r < s, implying p < r < x or x < r < s (both impossible), so p has no right child (Statement 2 true)"
+          },
+          {
+            "case": "p is ancestor of s",
+            "analysis": "s must be in right subtree of p, so p has right child (Statement 2 false). If s had left child ℓ, then p < ℓ < s, implying p < ℓ < x or x < ℓ < s (both impossible), so s has no left child (Statement 1 true)"
+          }
+        ],
+        "conclusion": "Exactly one statement is true, ensuring unique insertion point",
+        "insertion_rule": "x becomes left child of successor OR right child of predecessor",
+        "key_concepts": [
+          "BST has unique insertion point for each key",
+          "Predecessor p satisfies: p < x and no key k with p < k < x",
+          "Successor s satisfies: x < s and no key k with x < k < s",
+          "This property is essential for BST insertion correctness"
+        ]
+      }
+    },
+    {
+      "problem_number": 4,
+      "title": "AVL Right-Left Rotation Correctness",
+      "description": "Show that performing the rotation algorithm for the right-left case results in an AVL tree.",
+      "given": {
+        "initial_tree": "Node x (balance factor -2) with right child z (balance factor 1) and node y between them",
+        "subtrees": "ST1, ST2, ST3, ST4 are all AVL trees with equal heights h"
+      },
+      "solution": {
+        "analysis": [
+          "Given balance factors, all subtrees have height h",
+          "After double rotation: y becomes root with children x and z",
+          "Final balance factors: x=0, y=0, z=0",
+          "All nodes now have balance factors in {-1, 0, 1}"
+        ],
+        "conclusion": "The tree is now a valid AVL tree",
+        "key_concepts": [
+          "Right-left case requires double rotation",
+          "Rotations preserve BST property",
+          "Rotations restore AVL balance property",
+          "Height relationships determine final balance factors"
+        ]
+      }
+    },
+    {
+      "problem_number": 5,
+      "title": "2-3 Search Tree Operations",
+      "description": "Perform sequential operations on a 2-3 Search Tree and convert to Left-Leaning Red-Black Tree.",
+      "initial_tree": {
+        "structure": "Root: (15, 51); Level 2: (3, 6), (19, 28), 60; Level 3: 0, 4, 8, 12, 16, 18, 23, 25, 40, 59, 65, 70"
+      },
+      "operations": [
+        {
+          "operation": "Insert 5",
+          "process": "Find position (between 4 and 8), convert 2-node (4) to 3-node (4, 5)",
+          "result": "Simple insertion into 2-node"
+        },
+        {
+          "operation": "Insert 62",
+          "process": [
+            "Insert into 3-node (59, 65) creating temporary 4-node (59, 62, 65)",
+            "Split 4-node: promote middle element 62",
+            "Create two 2-nodes (59) and (65) with 62 promoted to parent"
+          ],
+          "result": "4-node split with promotion",
+          "key_concept": "4-nodes are not allowed and must be split immediately"
+        },
+        {
+          "operation": "Delete 59",
+          "process": [
+            "Maintain invariant: current node must be larger than 2-node",
+            "Combine 2-nodes and demote key 60 to create 4-node (59, 60, 62)",
+            "Delete 59 from 4-node",
+            "Result: 3-node (60, 62)"
+          ],
+          "key_concept": "Deletion maintains invariant to ensure safe removal"
+        },
+        {
+          "operation": "Insert 10",
+          "process": [
+            "Insert into 3-node (8, 12) creating 4-node (8, 10, 12)",
+            "Split 4-node: promote 10",
+            "Recursively promote causing root to become 4-node",
+            "Split root: new root is 15, tree height increases"
+          ],
+          "key_concept": "Tree height only increases when root splits"
+        },
+        {
+          "operation": "Delete 40",
+          "process": [
+            "Process root first (4-node check)",
+            "Navigate to 40 (a 2-node)",
+            "Rotate element from sibling 3-node (23, 28)",
+            "Delete 40 safely",
+            "Fix remaining 4-nodes during exit"
+          ],
+          "final_tree": "Root: 15; Level 2: (3, 10), (19, 25, 65); Leaves: 0, 4, 5, 8, 12, 16, 18, 23, 28, 60, 62, 70"
+        }
+      ],
+      "conversion_to_llrb": {
+        "description": "Convert final 2-3 tree to Left-Leaning Red-Black Tree",
+        "rules": [
+          "3-nodes become a black node with red left child",
+          "2-nodes become black nodes",
+          "All red links lean left"
+        ],
+        "key_concepts": [
+          "LLRB trees are isomorphic to 2-3 trees",
+          "Red links represent 3-nodes",
+          "Black height corresponds to 2-3 tree height"
+        ]
+      },
+      "key_concepts": [
+        "2-3 trees maintain perfect balance",
+        "2-nodes have 1 key and 2 children",
+        "3-nodes have 2 keys and 3 children",
+        "4-nodes are temporary and must be split",
+        "Height increases only when root splits",
+        "Deletion maintains invariant for safe removal"
+      ]
+    },
+    {
+      "problem_number": 6,
+      "title": "Left-Leaning Red-Black Tree Sequential Insertions",
+      "description": "Perform sequential insertions on empty LLRB tree, showing equivalent 2-3 tree and black height.",
+      "operations": [
+        {
+          "operation": "Insert 40",
+          "process": "Single node inserted as red, then root colored black",
+          "black_height": 0,
+          "equivalent_2_3": "Single node (40)"
+        },
+        {
+          "operation": "Insert 20",
+          "process": "Inserted as red left child of 40",
+          "black_height": 0,
+          "equivalent_2_3": "3-node (20, 40)"
+        },
+        {
+          "operation": "Insert 5",
+          "process": [
+            "Insert as red left child of 20",
+            "Right rotation at 40 (left-left case)",
+            "Color flip at 20 (two red children)",
+            "Root recolored to black"
+          ],
+          "black_height": 1,
+          "equivalent_2_3": "Root: 20; Children: 5, 40"
+        },
+        {
+          "operation": "Insert 1",
+          "process": "Simple red insertion as left child of 5",
+          "black_height": 1,
+          "equivalent_2_3": "Root: 20; Level 2: (1, 5), 40"
+        },
+        {
+          "operation": "Insert 32",
+          "process": "Simple red insertion as left child of 40",
+          "black_height": 1,
+          "equivalent_2_3": "Root: 20; Level 2: (1, 5), (32, 40)"
+        },
+        {
+          "operation": "Insert 64",
+          "process": [
+            "Insert as red right child of 40",
+            "Color flip at 40 (two red children)",
+            "Left rotation at 20 (red right child)"
+          ],
+          "black_height": 1,
+          "equivalent_2_3": "Root: (20, 40); Children: (1, 5), (32, 64)"
+        },
+        {
+          "operation": "Insert 13",
+          "process": [
+            "Insert as red right child of 5",
+            "Color flip at 5",
+            "Right rotation at 40 (left-left case)",
+            "Color flip at 20",
+            "Root recolored black"
+          ],
+          "black_height": 2,
+          "equivalent_2_3": "Root: 20; Level 2: 5, 40; Level 3: (1, 13), (32, 64)"
+        },
+        {
+          "operation": "Insert 5 (duplicate)",
+          "process": "Key already exists, tree unaltered",
+          "black_height": 2,
+          "note": "BSTs typically don't allow duplicates"
+        },
+        {
+          "operation": "Insert 38",
+          "process": [
+            "Insert as red right child of 32",
+            "Left rotation at 32 (red right child)"
+          ],
+          "black_height": 2,
+          "equivalent_2_3": "Adjusted structure with (32, 38)"
+        },
+        {
+          "operation": "Insert 36",
+          "process": [
+            "Insert as red right child of 32",
+            "Left rotation at 32",
+            "Right rotation at 38 (left-left case)",
+            "Color flip at 36"
+          ],
+          "black_height": 2,
+          "final_equivalent_2_3": "Root: 20; Level 2: 5, (36, 40); Level 3: (1, 13), (32, 38), 64"
+        }
+      ],
+      "insertion_rules": {
+        "rule_1": "All new nodes inserted as red",
+        "rule_2": "Left rotation if red right child and black left child",
+        "rule_3": "Right rotation if red left child and red left-left grandchild",
+        "rule_4": "Color flip if both children are red",
+        "rule_5": "Root always colored black after operations"
+      },
+      "key_concepts": [
+        "LLRB trees maintain balance through rotations and color flips",
+        "Black height increases only when root becomes red then recolored",
+        "Red links always lean left",
+        "Color flips correspond to 4-node splits in 2-3 trees",
+        "Black height equals height of equivalent 2-3 tree",
+        "Insertion is O(log n) with at most 2 rotations"
+      ]
+    },
+    {
+      "problem_number": 7,
+      "title": "Optimal Height BST Construction",
+      "description": "Design algorithm to create minimal height BST from distinct keys in O(n log n) time.",
+      "parts": [
+        {
+          "part": "a",
+          "question": "Design the algorithm",
+          "solution": {
+            "algorithm": "OPTIMAL_BST",
+            "pseudocode": [
+              "function OPTIMAL_BST(x[1..n]):",
+              "  if x is empty then return null",
+              "  mid = floor(n/2)",
+              "  root = Node(x[mid])",
+              "  root.left = OPTIMAL_BST(x[1..mid-1])",
+              "  root.right = OPTIMAL_BST(x[mid+1..n])",
+              "  return root"
+            ],
+            "preprocessing": "Sort keys first (O(n log n))",
+            "approach": "Recursive median insertion creates balanced tree",
+            "time_complexity": "O(n log n) for sorting + O(n) for tree construction = O(n log n)"
+          }
+        },
+        {
+          "part": "b",
+          "question": "Prove height is at most log(n)",
+          "solution": {
+            "proof_type": "Recurrence relation with telescoping",
+            "recurrence": "H(n) = 1 + H(⌊(n-1)/2⌋) ≤ 1 + H(n/2)",
+            "telescoping_steps": [
+              "H(n) ≤ 1 + H(n/2)",
+              "H(n) ≤ 2 + H(n/4)",
+              "H(n) ≤ 3 + H(n/8)",
+              "H(n) ≤ k + H(n/2^k)"
+            ],
+            "base_case": "H(1) = 0",
+            "conclusion": "Setting k = log(n): H(n) ≤ log(n) + H(1) = log(n)",
+            "interpretation": "Tree height is logarithmic in number of nodes"
+          }
+        },
+        {
+          "part": "c",
+          "question": "Prove Ω(n log n) lower bound for comparison-based construction",
+          "solution": {
+            "proof_type": "Reduction to sorting",
+            "argument": [
+              "If we could construct BST faster than O(n log n)",
+              "We could perform in-order traversal (O(n)) to get sorted keys",
+              "This would give sorting algorithm faster than O(n log n)",
+              "But Ω(n log n) is proven lower bound for comparison-based sorting",
+              "Therefore no faster algorithm exists"
+            ],
+            "conclusion": "Optimal BST construction is Θ(n log n)",
+            "key_concept": "Lower bound established via reduction from sorting"
+          }
+        }
+      ],
+      "key_concepts": [
+        "Balanced BST achieved by median insertion",
+        "Sorting is necessary preprocessing step",
+        "Height directly impacts search performance",
+        "Comparison-based lower bounds apply to tree construction",
+        "In-order traversal yields sorted sequence"
+      ]
+    },
+    {
+      "problem_number": 8,
+      "title": "AVL Tree Height Bound (Supplementary)",
+      "description": "Prove that AVL trees have height O(log n).",
+      "parts": [
+        {
+          "part": "a",
+          "question": "Write recurrence for n(h), minimum nodes in AVL tree of height h",
+          "solution": {
+            "recurrence": {
+              "base_cases": {
+                "h_0": "n(0) = 1",
+                "h_1": "n(1) = 2"
+              },
+              "recursive_case": "n(h) = 1 + n(h-1) + n(h-2) for h > 1",
+              "explanation": "Minimum occurs when subtrees differ in height by 1",
+              "intuition": "Root + minimal left subtree (h-1) + minimal right subtree (h-2)"
+            },
+            "connection_to_fibonacci": "Similar structure to Fibonacci recurrence"
+          }
+        },
+        {
+          "part": "b",
+          "question": "Find exact solution in terms of Fibonacci numbers",
+          "solution": {
+            "pattern_discovery": {
+              "h": [0, 1, 2, 3, 4, 5, 6, 7, 8],
+              "F_h": [1, 1, 2, 3, 5, 8, 13, 21, 34],
+              "n_h": [1, 2, 4, 7, 12, 20, 33, 54, 88],
+              "pattern": "n(h) = F(h+2) - 1"
+            },
+            "proof": {
+              "type": "Strong induction",
+              "base_cases": [
+                "n(0) = F(2) - 1 = 2 - 1 = 1 ✓",
+                "n(1) = F(3) - 1 = 3 - 1 = 2 ✓"
+              ],
+              "inductive_step": [
+                "Assume n(k) = F(k+2) - 1 for all k ≤ j",
+                "n(j+1) = 1 + n(j) + n(j-1)",
+                "= 1 + [F(j+2) - 1] + [F(j+1) - 1]",
+                "= F(j+2) + F(j+1) - 1",
+                "= F(j+3) - 1 ✓"
+              ],
+              "conclusion": "n(h) = F(h+2) - 1 for all h ≥ 0"
+            }
+          }
+        },
+        {
+          "part": "c",
+          "question": "Prove F(h) ≥ 1.5^(h-1)",
+          "solution": {
+            "proof": {
+              "type": "Mathematical induction",
+              "base_cases": [
+                "F(0) = 1 ≥ 1.5^(-1) ≈ 0.667 ✓",
+                "F(1) = 1 ≥ 1.5^0 = 1 ✓"
+              ],
+              "inductive_step": [
+                "Assume F(h-1) ≥ 1.5^(h-2) and F(h) ≥ 1.5^(h-1)",
+                "F(h+1) = F(h) + F(h-1)",
+                "≥ 1.5^(h-1) + 1.5^(h-2)",
+                "= 1.5 × 1.5^(h-2) + 1.5^(h-2)",
+                "= (1.5 + 1) × 1.5^(h-2)",
+                "= 2.5 × 1.5^(h-2)",
+                "≥ 2.25 × 1.5^(h-2)",
+                "= (1.5)^2 × 1.5^(h-2)",
+                "= 1.5^h ✓"
+              ],
+              "conclusion": "F(h) ≥ 1.5^(h-1) for all h ≥ 0"
+            }
+          }
+        },
+        {
+          "part": "d",
+          "question": "Prove AVL tree with n nodes has height O(log n)",
+          "solution": {
+            "proof_steps": [
+              "From parts (a), (b), (c): n(h) = F(h+2) - 1 ≥ 1.5^(h+1) - 1",
+              "Therefore: 1.5^(h+1) ≤ n(h) + 1",
+              "Taking logarithm: h + 1 ≤ log_1.5(n(h) + 1)",
+              "Thus: h ≤ log_1.5(n(h) + 1) - 1",
+              "Since log_1.5(x) = log(x) / log(1.5) = O(log x)",
+              "We have: h = O(log n)"
+            ],
+            "conclusion": "AVL trees guarantee logarithmic height",
+            "practical_bound": "h ≤ 1.44 log₂(n + 2) - 0.328"
+          }
+        }
+      ],
+      "key_concepts": [
+        "AVL trees maintain logarithmic height through balance property",
+        "Minimum node count related to Fibonacci sequence",
+        "Fibonacci numbers grow exponentially",
+        "Logarithmic height ensures O(log n) operations",
+        "Balance factor ∈ {-1, 0, 1} is sufficient for good performance"
+      ]
+    }
+  ],
+  "key_terminology": {
+    "avl_tree": "Self-balancing BST where heights of left and right subtrees differ by at most 1",
+    "balance_factor": "Height of right subtree minus height of left subtree",
+    "rotation": "Tree operation that preserves BST property while changing structure",
+    "left_left_case": "Imbalance where left child has taller left subtree; fixed by right rotation",
+    "left_right_case": "Imbalance where left child has taller right subtree; fixed by double rotation",
+    "right_left_case": "Imbalance where right child has taller left subtree; fixed by double rotation",
+    "right_right_case": "Imbalance where right child has taller right subtree; fixed by left rotation",
+    "successor": "Node with smallest key greater than given node",
+    "predecessor": "Node with largest key smaller than given node",
+    "2_3_tree": "Balanced search tree where nodes have 1-2 keys and 2-3 children",
+    "2_node": "Node with 1 key and 2 children",
+    "3_node": "Node with 2 keys and 3 children",
+    "4_node": "Temporary node with 3 keys and 4 children (must be split)",
+    "red_black_tree": "BST where nodes are colored red or black to maintain balance",
+    "left_leaning_rb_tree": "RB tree where red links always lean left; isomorphic to 2-3 trees",
+    "black_height": "Number of black nodes on path from root to leaf (excluding leaf)",
+    "color_flip": "Operation that changes colors of node and its children"
+  },
+  "algorithmic_concepts": {
+    "tree_rotation": {
+      "purpose": "Rebalance tree while maintaining BST property",
+      "types": ["left rotation", "right rotation", "double rotation"],
+      "complexity": "O(1) per rotation",
+      "invariant": "In-order traversal unchanged after rotation"
+    },
+    "avl_rebalancing": {
+      "trigger": "Balance factor becomes ±2 after insertion/deletion",
+      "cases": "LL, LR, RL, RR determined by balance factors",
+      "guarantee": "At most 2 rotations for insertion, O(log n) for deletion"
+    },
+    "2_3_insertion": {
+      "process": "Insert into leaf, split 4-nodes bottom-up",
+      "height_increase": "Only when root splits",
+      "complexity": "O(log n)"
+    },
+    "2_3_deletion": {
+      "invariant": "Current node must be larger than 2-node",
+      "techniques": ["borrowing from sibling", "merging nodes"],
+      "complexity": "O(log n)"
+    },
+    "llrb_operations": {
+      "insertion": "Insert as red, then fix violations with rotations and color flips",
+      "rules": ["red right child → left rotate", "red left and red left-left → right rotate", "both children red → color flip"],
+      "root_rule": "Root always black",
+      "complexity": "O(log n) with at most 3 rotations"
+    }
+  },
+  "theoretical_results": {
+    "avl_height_bound": "h ≤ 1.44 log₂(n + 2) - 0.328",
+    "red_black_height_bound": "h ≤ 2 log₂(n + 1)",
+    "optimal_bst_construction": "Θ(n log n) in comparison model",
+    "comparison_sorting_lower_bound": "Ω(n log n) for comparison-based algorithms",
+    "avl_vs_rb": "AVL more rigidly balanced (faster search), RB faster insertion/deletion"
+  },
+  "proof_techniques": {
+    "contradiction": "Used extensively in Problems 2 and 3 for BST properties",
+    "induction": "Mathematical induction for Fibonacci bounds (Problem 8)",
+    "strong_induction": "Used for recurrence relations",
+    "telescoping": "Solving recurrences by repeated substitution",
+    "reduction": "Problem 7c reduces BST construction to sorting to establish lower bound"
+  }
+}

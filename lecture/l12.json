@@ -1,0 +1,560 @@
+{
+  "document_metadata": {
+    "title": "FIT2004 - Algorithms and Data Structures",
+    "seminar": "Seminar 12 - Overview and Revision",
+    "instructor": "Rafael Dowsley",
+    "date": "20 October 2025",
+    "institution": "Monash University",
+    "total_pages": 52
+  },
+  "agenda": {
+    "topics_covered": [
+      {
+        "name": "Divide-and-Conquer",
+        "weeks": "W1-3"
+      },
+      {
+        "name": "Greedy Algorithms",
+        "weeks": "W4-5"
+      },
+      {
+        "name": "Dynamic Programming",
+        "weeks": "W6-7"
+      },
+      {
+        "name": "Network Flow",
+        "weeks": "W8-9"
+      },
+      {
+        "name": "Data Structures",
+        "weeks": "W10-11"
+      }
+    ],
+    "main_sections": [
+      "Design Principles",
+      "Review",
+      "Final Exam"
+    ]
+  },
+  "design_principles": {
+    "avoid_brute_force": {
+      "description": "Try to avoid brute-force solutions",
+      "definition": "Exhaustive search that tries each possibility (one at a time) in order to determine if it is the solution",
+      "issues": [
+        "Very often brute-force solutions will lead to algorithms with exponential complexity",
+        "Sometimes brute-force solutions still yield polynomial algorithms, but it is often possible to solve the problem more efficiently using other approaches"
+      ],
+      "examples": [
+        {
+          "problem": "Find a local maximum in an n-by-n matrix",
+          "brute_force": "O(n²) solution by testing each element",
+          "better_approach": "O(n) using Divide-and-Conquer"
+        },
+        {
+          "problem": "Find the closest pair of points among n points",
+          "brute_force": "O(n²) by computing distance between each pair",
+          "better_approach": "O(n log n) using Divide-and-Conquer"
+        }
+      ]
+    },
+    "unit_focus": {
+      "main_goals": [
+        "Solving problems with computers - efficiently",
+        "Developing your algorithm toolbox",
+        "Training your problem solving skills"
+      ],
+      "note": "The unit is not really about programming: Python used for assignments, but the subject is really language agnostic. Algorithms will be described in English, pseudocode, procedural set of instructions or Python."
+    },
+    "starting_strategies": {
+      "general_approach": "When dealing with a new problem, trying well-known problem solving strategies/algorithm design paradigms is normally a good starting point",
+      "strategies": [
+        {
+          "name": "Reduction/Adaptation",
+          "description": "Is the problem you are trying to solve a variant, extension, special case... of another problem for which you already know an efficient algorithm?",
+          "questions_to_ask": [
+            "Can you use that efficient algorithm as a subroutine to solve the new problem?",
+            "A slightly adapted version of that algorithm?",
+            "If the new problem is a special case of the more general problem, can you improve the efficiency of the general algorithm for solving this special case?"
+          ],
+          "examples": [
+            "The counting inversions problem can be easily solved by slightly adapting the Merge Sort algorithm",
+            "The circulation with demands problem can be reduced to a max-flow problem (and so Ford-Fulkerson method can be used to solve it)"
+          ]
+        },
+        {
+          "name": "Divide-and-Conquer Approach",
+          "description": "Is there an efficient way to divide the problem into smaller sub-instances, solve them and recombine the solutions of the sub-instances to get the solution of the original problem?",
+          "notes": [
+            "Can be useful when you already know a polynomial time solution but are trying to improve the efficiency further",
+            "Try to divide the work as equally as possible",
+            "Remember the difference in worst-case performance between Merge Sort (which always achieves a good split) and Quicksort with bad pivots"
+          ]
+        },
+        {
+          "name": "Greedy Algorithms",
+          "description": "Make a locally optimal choice at each stage and commit to it",
+          "characteristics": [
+            "It is often easy to come up with ideas of greedy algorithms to solve a problem, but many times they do not produce optimal solutions",
+            "Correctness proofs are very important",
+            "Try your greedy ideas on small inputs. If it fails, it will often give you further insights into the problem you are trying to solve. If it works, try to develop a correctness proof for your idea"
+          ],
+          "proof_techniques": [
+            {
+              "type": "Exchange Arguments",
+              "steps": [
+                "Consider an optimal solution and the solution output by your algorithm",
+                "If they are equal, you are done",
+                "Otherwise, keep changing the optimal solution step-by-step so that it becomes more similar to the solution output by your algorithm",
+                "Prove that no exchange step makes the solution worse"
+              ]
+            },
+            {
+              "type": "Stays Ahead",
+              "description": "Prove that your solution is optimal by showing that at each step your solution is ahead or at least equal to every other possible solution (in the relevant metric to your problem)"
+            }
+          ],
+          "notes": [
+            "Many times you can come up with multiple different greedy ideas, and none of them will work",
+            "Sometimes you can come up with multiple different greedy ideas, and only one of them works",
+            "A few times there are multiple different greedy ideas that work (e.g., minimum spanning trees)",
+            "Sometimes greedy is a good heuristic to get a 'good' solution to a (combinatorial) problem even if not optimal (and thus used to get 'good' solutions to NP-complete problems)"
+          ]
+        },
+        {
+          "name": "Dynamic Programming",
+          "key_principle": "Do not repeat work, store and re-use!",
+          "questions_to_ask": [
+            "Can you show that an optimal solution must be built from optimal solutions to subproblems in a small number of possible ways?",
+            "Can you formulate the recurrence for that?"
+          ],
+          "note": "Very powerful algorithm design paradigm!"
+        },
+        {
+          "name": "Network Flow",
+          "questions_to_ask": [
+            "Can your problem be reduced to a max-flow problem?",
+            "Min-cut problem?",
+            "Circulation with demands problem?"
+          ],
+          "applications": [
+            "Very powerful tool for solving combinatorial problems",
+            "Also for problems about the flow of material/data"
+          ]
+        },
+        {
+          "name": "Data Structures",
+          "principles": [
+            "Certain data representations are more efficient than others for a given problem",
+            "Choose the most appropriate data structure for your algorithm as this can impact its efficiency (e.g., priority queues for Dijkstra, union-find for Kruskal, efficient search and retrieval data structures)",
+            "Principle of parsimony: choose the simplest data structure that supports the operations needed by your algorithm (more supported operations generally leads to less efficient data structures)"
+          ]
+        }
+      ],
+      "practice_advice": {
+        "importance": "Practice is key to improve your intuition about what approaches may be (may not be) fruitful for solving a problem!",
+        "resources": [
+          "There are a lot of problems and supplementary problems in the Applied Class sheets. Solutions are provided.",
+          "You will get the most out of it if you try hard to solve them before looking at the solutions.",
+          "You can look for further problems in algorithms' textbooks."
+        ]
+      }
+    },
+    "exceptions_and_edge_cases": {
+      "note": "These are general guidelines. As always, there are many exceptions...",
+      "small_changes_big_impact": {
+        "description": "Sometimes slight changes in the problem definition make new techniques necessary to solve it",
+        "examples": [
+          {
+            "problem_family": "Shortest paths on a graph",
+            "variants": [
+              {
+                "type": "Unweighted edges",
+                "solution": "BFS",
+                "complexity": "Simple algorithm"
+              },
+              {
+                "type": "Non-negative weights only",
+                "solution": "Dijkstra's algorithm (greedy)",
+                "complexity": "More complex"
+              },
+              {
+                "type": "Possibly negative weights",
+                "solution": "Bellman-Ford algorithm (Dynamic Programming)",
+                "complexity": "Even more complex"
+              }
+            ]
+          },
+          {
+            "problem_family": "Interval scheduling",
+            "variants": [
+              {
+                "type": "Unweighted",
+                "description": "n requests with starting si and finishing fi times. Goal: Find a subset of mutually compatible requests of maximum size",
+                "solution": "Greedy: (1) sort requests by finishing time, (2) sequentially process the sorted requests adding to the solution each request that is compatible with all requests already in the solution"
+              },
+              {
+                "type": "Weighted",
+                "description": "The requests also have weights wi. Goal: Find a subset of mutually compatible requests of maximum total weight",
+                "solution": "Dynamic Programming"
+              }
+            ]
+          },
+          {
+            "problem_family": "Graph colouring",
+            "variants": [
+              {
+                "type": "2-colourable",
+                "solution": "BFS or DFS",
+                "complexity": "Easy"
+              },
+              {
+                "type": "3-colourable",
+                "solution": "NP-complete problem!",
+                "complexity": "Very hard"
+              }
+            ]
+          },
+          {
+            "problem_family": "Cut problems",
+            "variants": [
+              {
+                "type": "Min-cut",
+                "solution": "Ford-Fulkerson algorithm",
+                "complexity": "Polynomial time"
+              },
+              {
+                "type": "Max-cut",
+                "solution": "NP-hard problem",
+                "complexity": "Very hard"
+              }
+            ]
+          },
+          {
+            "problem_family": "Matching",
+            "variants": [
+              {
+                "type": "Bipartite matching",
+                "solution": "Network flow techniques",
+                "complexity": "Efficient"
+              },
+              {
+                "type": "3-dimensional matching",
+                "description": "Generalization of bipartite matching with 3 sets X, Y, Z of nodes, and hyperedges that contain one element from each of them",
+                "solution": "NP-hard",
+                "complexity": "Very hard"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "weekly_review": {
+    "seminar_1": {
+      "topics": [
+        "Divide-and-Conquer paradigm",
+        "Karatsuba's multiplication algorithm",
+        "Time complexity",
+        "Space complexity and auxiliary space complexity",
+        "Recurrence relations"
+      ]
+    },
+    "seminar_2": {
+      "topics": [
+        "Correctness proof",
+        "Loop invariants",
+        "Comparison-based sorting and its lower bound",
+        "Stability of sorting algorithms",
+        "Counting Sort",
+        "Radix Sort"
+      ]
+    },
+    "seminar_3": {
+      "topics": [
+        "Quicksort review",
+        "Partition out of place/in place/stable",
+        "Complexity analysis of Quicksort (best/worst/average)",
+        "k-th order statistic",
+        "Quickselect",
+        "Median of medians"
+      ]
+    },
+    "seminar_4": {
+      "topics": [
+        "Graph definitions",
+        "Graph representation (adjacency matrix vs adjacency list)",
+        "BFS",
+        "DFS",
+        "Applications of BFS and DFS"
+      ]
+    },
+    "seminar_5": {
+      "topics": [
+        "Greedy algorithms",
+        "Dijkstra's algorithm",
+        "Minimum spanning trees",
+        "Prim's algorithm",
+        "Kruskal's algorithm",
+        "Union-Find data structure",
+        "How to prove the correctness of greedy algorithms"
+      ]
+    },
+    "seminar_6": {
+      "topics": [
+        "Introduction to Dynamic Programming",
+        "Fibonacci",
+        "Coin change",
+        "Unbounded knapsack",
+        "0/1 knapsack",
+        "Edit distance",
+        "Constructing optimal solutions (backtracking vs decision array)"
+      ]
+    },
+    "seminar_7": {
+      "topics": [
+        "Dynamic Programming graph algorithms",
+        "Bellman-Ford algorithm for shortest paths on graphs with negative weights",
+        "All pairs shortest paths",
+        "Floyd-Warshall",
+        "Transitive closure"
+      ]
+    },
+    "seminar_8": {
+      "topics": [
+        "Flow network properties and max-flow problem",
+        "Ford-Fulkerson algorithm",
+        "Augmenting paths in the residual network",
+        "Complexity analysis of Ford-Fulkerson algorithm",
+        "Cuts",
+        "Connection between max-flow and min-cut problems",
+        "Proof of correctness of Ford-Fulkerson algorithm"
+      ]
+    },
+    "seminar_9": {
+      "topics": [
+        "Bipartite matching",
+        "Circulation with demands",
+        "Circulation with demands and lower bounds",
+        "Applications of network flow techniques to solve combinatorial problems"
+      ]
+    },
+    "seminar_10": {
+      "topics": [
+        "Retrieval data structures for strings",
+        "Trie (retrieval tree)",
+        "Suffix trie",
+        "Suffix tree"
+      ]
+    },
+    "seminar_11": {
+      "topics": [
+        "Search Trees",
+        "Problems with imbalanced Binary Search Trees",
+        "AVL Trees",
+        "Perfectly Balanced 2-3 Search Trees",
+        "Left-Leaning Red-Black Trees"
+      ]
+    }
+  },
+  "end_goals": {
+    "learning_objectives": [
+      "Understanding algorithm design paradigms",
+      {
+        "goal": "Developing a gut instinct of algorithmic complexity to be able to make good decisions for real-world deployments",
+        "sub_goals": [
+          "Internalize the concepts of asymptotical complexity",
+          "Being able to judge wisely when it is critical to analyse in details the complexity of some part of the solution"
+        ]
+      },
+      "Questions like 'Can I do it more efficiently?' should be internalized in your line of thoughts"
+    ],
+    "interview_relevance": {
+      "why_algorithms_in_interviews": [
+        "They provide a well-defined problem for which the quality of the solutions can be properly measured",
+        "They allow interviewers to assess your understanding of the CS fundamentals"
+      ]
+    }
+  },
+  "final_exam": {
+    "format": {
+      "total_marks": 50,
+      "exam_type": "Closed book. Only blank working sheets are allowed",
+      "complexity_note": "If a question asks for complexity, it means worst-case complexity unless otherwise specified"
+    },
+    "hurdles": {
+      "requirements": [
+        "At least 22.5 out of the 50 marks in the in-semester assessment tasks (quizzes, mid-semester test and assignment)",
+        "At least 22.5 out of the 50 marks in the final exam",
+        "At least 50 marks overall"
+      ]
+    },
+    "question_types": {
+      "essay_questions": {
+        "describe_algorithm": "You can write your idea in plain English",
+        "write_pseudocode": "You must write your idea in a more structured way (like the ones in Seminar slides or even Python code)"
+      },
+      "mcq_single_answer": {
+        "description": "Just select the correct answer",
+        "example": "What is the capital of Australia? (Sydney, Melbourne, Canberra, Brisbane)"
+      },
+      "mcq_multiple_answers": {
+        "description": "Just select all correct choices, and nothing else",
+        "example": "Which of those cities are state capitals? (Newcastle, Melbourne, Gold Coast, Brisbane)",
+        "scoring": [
+          "Every selected correct choice gives some positive marks",
+          "Every selected wrong choice deducts some marks so that it is not possible to simply choose all options to get full marks",
+          "Overall mark for each question never below 0",
+          "If not sure about one item, think carefully if you should select it or not!"
+        ]
+      },
+      "short_answer": {
+        "description": "Just type the numerical answer",
+        "example": "What is the square root of 36? Answer: 6"
+      },
+      "matching_question": {
+        "description": "For each part of the question, just select in the drop-down menu the correct answer for that part"
+      }
+    },
+    "non_examinable_content": {
+      "rule": "Anything marked 'not examinable' in the unit materials is not examinable"
+    },
+    "consultation_advice": {
+      "what_to_do": [
+        "Please come to the consultations prepared"
+      ],
+      "what_not_to_do": [
+        "Do not ask questions like 'Can you please explain Dynamic Programming from scratch?'",
+        "Don't try getting hints about the questions on final exam (e.g., Is Kruskal's algorithm going to be on the exam?)",
+        "Don't go there just to ask how hard the exam is"
+      ],
+      "exam_philosophy": [
+        "It is designed to test your knowledge of the unit",
+        "It is designed with spread of difficulty in mind"
+      ]
+    },
+    "preparation_suggestions": [
+      "Understand how each algorithm works",
+      "Practice writing pseudocode for each algorithm",
+      "Understand its complexity analysis",
+      "Don't confuse algorithms",
+      "Go over all material (Seminar slides, unit notes, Applied Class sheets)",
+      "Practice solving problems. Many supplementary problems available in the Applied Class sheets"
+    ]
+  },
+  "key_concepts_summary": {
+    "algorithm_design_paradigms": [
+      "Divide-and-Conquer",
+      "Greedy Algorithms",
+      "Dynamic Programming",
+      "Network Flow",
+      "Reduction/Adaptation"
+    ],
+    "important_algorithms": {
+      "divide_and_conquer": [
+        "Karatsuba's multiplication",
+        "Merge Sort",
+        "Quicksort",
+        "Quickselect",
+        "Median of medians",
+        "Closest pair of points"
+      ],
+      "greedy": [
+        "Dijkstra's algorithm",
+        "Prim's algorithm",
+        "Kruskal's algorithm",
+        "Interval scheduling"
+      ],
+      "dynamic_programming": [
+        "Fibonacci",
+        "Coin change",
+        "Knapsack (0/1 and unbounded)",
+        "Edit distance",
+        "Bellman-Ford algorithm",
+        "Floyd-Warshall",
+        "Weighted interval scheduling"
+      ],
+      "network_flow": [
+        "Ford-Fulkerson algorithm",
+        "Bipartite matching",
+        "Circulation with demands"
+      ],
+      "sorting": [
+        "Counting Sort",
+        "Radix Sort"
+      ],
+      "graph_traversal": [
+        "BFS",
+        "DFS"
+      ]
+    },
+    "data_structures": {
+      "basic": [
+        "Arrays",
+        "Linked lists",
+        "Stacks",
+        "Queues",
+        "Priority queues"
+      ],
+      "trees": [
+        "Binary Search Trees",
+        "AVL Trees",
+        "2-3 Search Trees",
+        "Left-Leaning Red-Black Trees"
+      ],
+      "string_structures": [
+        "Trie (retrieval tree)",
+        "Suffix trie",
+        "Suffix tree"
+      ],
+      "graph_representations": [
+        "Adjacency matrix",
+        "Adjacency list"
+      ],
+      "special": [
+        "Union-Find"
+      ]
+    },
+    "complexity_analysis": {
+      "types": [
+        "Time complexity",
+        "Space complexity",
+        "Auxiliary space complexity"
+      ],
+      "cases": [
+        "Best-case",
+        "Worst-case",
+        "Average-case"
+      ],
+      "tools": [
+        "Recurrence relations",
+        "Asymptotic notation (Big-O, Big-Theta, Big-Omega)"
+      ]
+    },
+    "proof_techniques": [
+      "Loop invariants",
+      "Correctness proofs",
+      "Exchange arguments (for greedy)",
+      "Stays ahead (for greedy)",
+      "Induction"
+    ],
+    "important_problems": {
+      "graph_problems": [
+        "Shortest paths",
+        "Minimum spanning trees",
+        "Graph colouring",
+        "Bipartite matching",
+        "Max-flow/Min-cut"
+      ],
+      "optimization_problems": [
+        "Interval scheduling",
+        "Knapsack",
+        "Edit distance"
+      ],
+      "searching_and_sorting": [
+        "k-th order statistic",
+        "Sorting with various constraints",
+        "Counting inversions"
+      ]
+    }
+  }
+}
