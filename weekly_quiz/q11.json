@@ -1,0 +1,136 @@
+{
+  "problem_type": "AVL Tree Operations",
+  "description": "Perform a sequence of insert operations on an initially empty AVL tree",
+  "operations": [
+    {
+      "operation": "insert",
+      "value": 50,
+      "order": 1
+    },
+    {
+      "operation": "insert",
+      "value": 100,
+      "order": 2
+    },
+    {
+      "operation": "insert",
+      "value": 200,
+      "order": 3
+    },
+    {
+      "operation": "insert",
+      "value": 150,
+      "order": 4
+    },
+    {
+      "operation": "insert",
+      "value": 175,
+      "order": 5
+    },
+    {
+      "operation": "insert",
+      "value": 180,
+      "order": 6
+    }
+  ],
+  "task": "Drag and drop values to their final positions in the AVL tree after all operations complete",
+  "constraints": {
+    "initial_state": "empty AVL tree",
+    "balancing": "AVL tree must maintain balance property after each insertion",
+    "balance_factor": "For each node, |height(left_subtree) - height(right_subtree)| <= 1",
+    "empty_nodes": "Empty nodes are represented as None"
+  },
+  "final_tree_structure": {
+    "description": "The diagram shows the final state after all insertions",
+    "visible_nodes": [
+      {
+        "value": 175,
+        "level": 1,
+        "position": "root",
+        "draggable": true
+      },
+      {
+        "value": 100,
+        "level": 2,
+        "position": "left child of 175",
+        "draggable": true
+      },
+      {
+        "value": 200,
+        "level": 2,
+        "position": "right child of 175",
+        "draggable": true
+      },
+      {
+        "value": 50,
+        "level": 3,
+        "position": "left child of 100",
+        "draggable": true
+      },
+      {
+        "value": 150,
+        "level": 3,
+        "position": "right child of 100",
+        "draggable": true
+      },
+      {
+        "value": 180,
+        "level": 3,
+        "position": "left child of 200",
+        "draggable": true
+      }
+    ],
+    "empty_nodes_count": 9,
+    "empty_node_positions": [
+      "left child of 50",
+      "right child of 50",
+      "left child of 150",
+      "right child of 150",
+      "left child of 180",
+      "right child of 180",
+      "left child of empty node under 200",
+      "right child of empty node under 200",
+      "additional empty positions at leaf level"
+    ]
+  },
+  "key_concepts": {
+    "avl_tree": {
+      "definition": "Self-balancing binary search tree where heights of left and right subtrees differ by at most 1",
+      "properties": [
+        "Binary search tree property: left < parent < right",
+        "Balance property: |BF| <= 1 for all nodes",
+        "Balance Factor (BF) = height(left_subtree) - height(right_subtree)"
+      ]
+    },
+    "rotations": {
+      "types": [
+        "Left rotation (LL)",
+        "Right rotation (RR)",
+        "Left-Right rotation (LR)",
+        "Right-Left rotation (RL)"
+      ],
+      "purpose": "Restore balance after insertion or deletion"
+    },
+    "insertion_process": [
+      "Insert node following BST property",
+      "Update heights going back up the tree",
+      "Check balance factor at each ancestor",
+      "Perform rotation if balance factor becomes > 1 or < -1"
+    ]
+  },
+  "solution_approach": {
+    "steps": [
+      "Insert values one by one in the given order",
+      "After each insertion, check balance factors from inserted node up to root",
+      "Apply appropriate rotations to maintain AVL property",
+      "Continue until all values are inserted",
+      "The final tree structure shown represents the balanced result"
+    ],
+    "expected_outcome": "All draggable values must be placed in positions that satisfy both BST ordering and AVL balance properties"
+  },
+  "verification_criteria": {
+    "bst_property": "For every node, all values in left subtree < node value < all values in right subtree",
+    "balance_property": "Every node has balance factor in range [-1, 0, 1]",
+    "completeness": "All 6 values (50, 100, 150, 175, 180, 200) are placed in the tree"
+  }
+}
