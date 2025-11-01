@@ -1,0 +1,191 @@
+{
+  "document_title": "Week 2 Preparation - Recurrence Relations",
+  "document_type": "Solutions",
+  "topic": "Algorithm Analysis and Recurrence Relations",
+  "key_concepts": [
+    "Recurrence relations",
+    "Time complexity analysis",
+    "Base cases and recurrence steps",
+    "Telescoping method",
+    "Closed form solutions",
+    "Recursive algorithm analysis"
+  ],
+  "advice": "Attempt problems thoroughly before looking at solutions. Simply reading solutions without thinking about problems will rob you of practice required to solve complicated problems. Memorizing solutions leads to poor exam performance. Thinking about a problem, even without solving it, greatly increases understanding of underlying concepts.",
+  "problems": [
+    {
+      "problem_number": 1,
+      "title": "Factorial Function",
+      "description": "Derive the recurrence relation that represents time complexity of factorial function",
+      "pseudocode": [
+        "function FACTORIAL(n)",
+        "  if n = 0 then return 1",
+        "  else return n × FACTORIAL(n − 1)"
+      ],
+      "solution": {
+        "recurrence_relation": "T(n) = T(n-1) + c if n > 0; T(n) = b if n = 0",
+        "base_case": "T(0) = b",
+        "recurrence_step": "T(n) = T(n-1) + c for n > 0",
+        "explanation": "Each recursive call reduces n by 1 and adds constant time c. Base case takes constant time b.",
+        "constants": {
+          "b": "constant time for base case",
+          "c": "constant time for recursive step"
+        }
+      }
+    },
+    {
+      "problem_number": 2,
+      "title": "Is Power of Two",
+      "description": "Derive recurrence relation for checking if number is power of two",
+      "pseudocode": [
+        "function IS_POWER_OF_TWO(n)",
+        "  if n = 1 then return true",
+        "  else if n < 1 then return false",
+        "  else return IS_POWER_OF_TWO(n/2)"
+      ],
+      "solution": {
+        "recurrence_relation": "T(n) = T(n/2) + c if n > 1; T(n) = b if n ≤ 1",
+        "base_case": "T(n) = b for n ≤ 1",
+        "recurrence_step": "T(n) = T(n/2) + c for n > 1",
+        "explanation": "Each recursive call divides n by 2 and adds constant time c. Base cases take constant time b.",
+        "constants": {
+          "b": "constant time for base case",
+          "c": "constant time for recursive step"
+        }
+      }
+    },
+    {
+      "problem_number": 3,
+      "title": "Find Minimum",
+      "description": "Derive recurrence relation for finding minimum element in array",
+      "pseudocode": [
+        "function FIND_MIN(arr[1..n])",
+        "  if n = 1 then return arr[1]",
+        "  else",
+        "    potentialMin = FIND_MIN(arr[2..n])",
+        "    if arr[1] > potentialMin then",
+        "      return potentialMin",
+        "    else return arr[1]"
+      ],
+      "solution": {
+        "recurrence_relation": "T(n) = T(n-1) + c if n > 1; T(n) = b if n = 1",
+        "base_case": "T(1) = b",
+        "recurrence_step": "T(n) = T(n-1) + c for n > 1",
+        "explanation": "Each recursive call reduces array size by 1 and performs constant time comparison c. Base case takes constant time b.",
+        "note": "n represents the number of elements in arr",
+        "constants": {
+          "b": "constant time for base case",
+          "c": "constant time for comparison and recursive step"
+        }
+      }
+    },
+    {
+      "problem_number": 4,
+      "title": "Closed Form Solution - Linear Recurrence",
+      "description": "Find closed form solution using telescoping method",
+      "recurrence_relation": "T(n) = T(n-1) + c if n > 0; T(n) = b if n = 0",
+      "hint": "Use telescoping to express T(n) in terms of T(n-2), then T(n-3), etc. until pattern emerges. Use base case to obtain formula depending only on n, b, c, not T(·).",
+      "solution": {
+        "method": "Telescoping",
+        "steps": [
+          "T(n) = T(n-1) + c",
+          "T(n) = (T(n-2) + c) + c = T(n-2) + 2c",
+          "T(n) = (T(n-3) + c) + 2c = T(n-3) + 3c"
+        ],
+        "pattern": "T(n) = T(n-k) + kc for all 0 ≤ k ≤ n",
+        "closed_form_derivation": [
+          "Set k = n to use base case",
+          "T(n) = T(n-n) + nc",
+          "T(n) = T(0) + nc",
+          "T(n) = b + nc"
+        ],
+        "closed_form": "T(n) = b + nc",
+        "verification": [
+          "T(n) = nc + b = (n-1)c + b + c = T(n-1) + c ✓",
+          "T(0) = b + 0 = b ✓"
+        ],
+        "complexity_class": "O(n) - Linear time"
+      }
+    },
+    {
+      "problem_number": 5,
+      "title": "Closed Form Solution - Exponential Recurrence",
+      "description": "Find closed form for geometric recurrence relation",
+      "recurrence_relation": "T(n) = 3T(n-1) if n > 0; T(n) = c if n = 0",
+      "solution": {
+        "method": "Telescoping",
+        "steps": [
+          "T(n) = 3T(n-1)",
+          "T(n) = 3(3T(n-2)) = 3²T(n-2)",
+          "T(n) = 3²(3T(n-3)) = 3³T(n-3)"
+        ],
+        "pattern": "T(n) = 3^k × T(n-k) for all 0 ≤ k ≤ n",
+        "closed_form_derivation": [
+          "Set k = n to use base case",
+          "T(n) = 3^n × T(n-n)",
+          "T(n) = 3^n × T(0)",
+          "T(n) = c × 3^n"
+        ],
+        "closed_form": "T(n) = c × 3^n",
+        "verification": [
+          "3T(n-1) = 3(c × 3^(n-1)) = c(3 × 3^(n-1)) = c × 3^n = T(n) ✓",
+          "T(0) = c × 3^0 = c ✓"
+        ],
+        "complexity_class": "O(3^n) - Exponential time"
+      }
+    }
+  ],
+  "key_techniques": {
+    "telescoping_method": {
+      "description": "Method of substituting recurrence relation into itself repeatedly to find pattern",
+      "steps": [
+        "Express T(n) in terms of T(n-1)",
+        "Substitute T(n-1) to get T(n) in terms of T(n-2)",
+        "Continue pattern to identify general form T(n) = f(T(n-k), k)",
+        "Set k = n to utilize base case",
+        "Eliminate recursive term T(·) to get closed form",
+        "Verify solution satisfies both recurrence and base case"
+      ],
+      "applicable_to": [
+        "Linear recurrences (T(n) = T(n-1) + f(n))",
+        "Geometric recurrences (T(n) = a × T(n-1))",
+        "Divide-and-conquer recurrences"
+      ]
+    },
+    "verification": {
+      "description": "Always verify closed form solution",
+      "steps": [
+        "Check that closed form satisfies the recurrence relation",
+        "Check that closed form satisfies the base case(s)",
+        "Both conditions must be met for valid solution"
+      ]
+    }
+  },
+  "recurrence_patterns": {
+    "linear_decrement": {
+      "form": "T(n) = T(n-1) + c",
+      "closed_form": "T(n) = b + nc",
+      "complexity": "O(n)",
+      "examples": ["Factorial", "Find minimum in array"]
+    },
+    "geometric_multiplication": {
+      "form": "T(n) = a × T(n-1)",
+      "closed_form": "T(n) = c × a^n",
+      "complexity": "O(a^n)",
+      "examples": ["Exponential growth problems"]
+    },
+    "divide_by_constant": {
+      "form": "T(n) = T(n/k) + c",
+      "closed_form": "T(n) = b + c × log_k(n)",
+      "complexity": "O(log n)",
+      "examples": ["Binary search", "Is power of two"]
+    }
+  },
+  "study_tips": [
+    "Always identify base case(s) first",
+    "Look for pattern in how problem size reduces",
+    "Constants b and c represent fixed operations independent of input size",
+    "Practice telescoping with different recurrence types",
+    "Always verify your closed form solution",
+    "Understand relationship between recurrence form and time complexity class"
+  ]
+}

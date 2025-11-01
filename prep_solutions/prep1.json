@@ -1,0 +1,359 @@
+{
+  "document": {
+    "title": "Prerequisites Revision Problems (Solutions)",
+    "metadata": {
+      "type": "solutions_manual",
+      "advice": "Attempt problems thoroughly before looking at solutions. Simply reading solutions without thinking robs you of practice. Memorizing solutions leads to poor exam performance. Thinking about problems increases understanding even without solving them."
+    },
+    "problems": [
+      {
+        "number": 1,
+        "topic": "Logarithm Properties",
+        "statement": "Show, using elementary properties of the logarithm function, that the following identities are true",
+        "parts": [
+          {
+            "part": "a",
+            "problem": "log₂((k+1)/2) + 1 = log₂(k + 1)",
+            "solution": {
+              "key_facts_used": [
+                "log₂(a) + log₂(b) = log₂(ab)",
+                "log₂(2) = 1"
+              ],
+              "steps": [
+                "log₂((k+1)/2) + 1 = log₂((k+1)/2) + log₂(2)",
+                "= log₂((k+1)/2 × 2)",
+                "= log₂(k + 1)"
+              ]
+            }
+          },
+          {
+            "part": "b",
+            "problem": "a^(log_b(n)) = n^(log_b(a)) for any base b > 1",
+            "solution": {
+              "key_facts_used": [
+                "a = b^(log_b(a)) since log and exponentiation are inverses",
+                "(x^p1)^p2 = x^(p1·p2)"
+              ],
+              "steps": [
+                "a^(log_b(n)) = (b^(log_b(a)))^(log_b(n))",
+                "= b^(log_b(a)·log_b(n))",
+                "= (b^(log_b(n)))^(log_b(a))",
+                "= n^(log_b(a))"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "number": 2,
+        "topic": "Mathematical Induction",
+        "statement": "Using mathematical induction, prove: Σ(i=1 to n) i = n(n+1)/2 for n ≥ 1",
+        "solution": {
+          "method": "mathematical_induction",
+          "definitions": {
+            "L(n)": "1 + 2 + ... + n",
+            "R(n)": "n(n+1)/2"
+          },
+          "goal": "Show L(n) = R(n) for all n ≥ 1",
+          "base_case": {
+            "n": 1,
+            "verification": "L(1) = 1 = 1(1+1)/2 = R(1)"
+          },
+          "inductive_case": {
+            "hypothesis": "Assume L(k) = R(k) for some k ≥ 1",
+            "to_prove": "L(k+1) = R(k+1)",
+            "steps": [
+              "L(k+1) = 1 + 2 + ... + k + (k+1) = L(k) + (k+1)",
+              "Apply inductive hypothesis: L(k) + (k+1) = R(k) + (k+1)",
+              "R(k) + (k+1) = k(k+1)/2 + (k+1)",
+              "= k(k+1)/2 + 2(k+1)/2",
+              "= (k(k+1) + 2(k+1))/2",
+              "= (k+1)(k+2)/2 = R(k+1)"
+            ]
+          },
+          "conclusion": "By induction, the identity holds for all n ≥ 1"
+        }
+      },
+      {
+        "number": 3,
+        "topic": "Mathematical Induction - Geometric Series",
+        "statement": "Using mathematical induction, prove: Σ(i=0 to n) r^i = (r^(n+1) - 1)/(r - 1) for all n ≥ 0, r ≠ 1",
+        "solution": {
+          "method": "mathematical_induction",
+          "definitions": {
+            "L(n)": "1 + r + r² + r³ + ... + r^n",
+            "R(n)": "(r^(n+1) - 1)/(r - 1)"
+          },
+          "base_case": {
+            "n": 0,
+            "verification": "R(0) = (r^(0+1) - 1)/(r - 1) = (r - 1)/(r - 1) = 1 = L(0)"
+          },
+          "inductive_case": {
+            "hypothesis": "Assume L(k) = R(k) for some k ≥ 0",
+            "steps": [
+              "L(k+1) = 1 + r + r² + ... + r^k + r^(k+1) = L(k) + r^(k+1)",
+              "Apply hypothesis: L(k) + r^(k+1) = R(k) + r^(k+1)",
+              "= (r^(k+1) - 1)/(r - 1) + r^(k+1)",
+              "= (r^(k+1) - 1)/(r - 1) + r^(k+1)(r - 1)/(r - 1)",
+              "= (r^(k+1) + r^(k+1)(r - 1) - 1)/(r - 1)",
+              "= (r^(k+1)(1 + r - 1) - 1)/(r - 1)",
+              "= (r^(k+1)·r - 1)/(r - 1)",
+              "= (r^(k+2) - 1)/(r - 1) = R(k+1)"
+            ]
+          }
+        }
+      },
+      {
+        "number": 4,
+        "topic": "Inequalities - Geometric Series Application",
+        "statement": "Using Problem 3, show: Σ(i=0 to n) 1/2^i < 2 for all n ≥ 1",
+        "solution": {
+          "approach": "Rewrite sum as geometric series with r = 1/2",
+          "steps": [
+            "Σ(i=0 to n) 1/2^i = Σ(i=0 to n) (1/2)^i",
+            "Using Problem 3 with r = 1/2:",
+            "= ((1/2)^(n+1) - 1)/(1/2 - 1)",
+            "= ((1/2)^n - 2)/(-1)",
+            "= 2 - (1/2)^n"
+          ],
+          "conclusion": "Since (1/2)^n > 0 for all n ≥ 1, we have 2 - (1/2)^n < 2"
+        }
+      },
+      {
+        "number": 5,
+        "topic": "Harmonic Numbers - Asymptotic Analysis",
+        "statement": "Analyze H(n) := Σ(i=1 to n) 1/i = 1 + 1/2 + 1/3 + ... + 1/n",
+        "parts": [
+          {
+            "part": "a",
+            "problem": "Prove H(n) > log_e(n)",
+            "hint": "Consider area under f(x) = 1/x using calculus"
+          },
+          {
+            "part": "b",
+            "problem": "Prove H(n) ≤ log_e(n) + 1"
+          },
+          {
+            "part": "c",
+            "problem": "Deduce H(n) = Θ(log(n))"
+          }
+        ],
+        "solution": {
+          "approach": "Geometric comparison with integral",
+          "visualization": "Rectangles above and below curve f(x) = 1/x",
+          "part_a": {
+            "explanation": "H(n) equals area of rectangles above the curve",
+            "integral": "∫[1 to n+1] 1/x dx = log_e(n+1)",
+            "conclusion": "H(n) > log_e(n+1) > log_e(n)"
+          },
+          "part_b": {
+            "explanation": "Shift rectangles 1 unit left; leftmost has area 1, others below curve",
+            "integral": "∫[1 to n] 1/x dx = log_e(n)",
+            "conclusion": "H(n) ≤ 1 + log_e(n)"
+          },
+          "part_c": {
+            "result": "log_e(n) < H(n) ≤ log_e(n) + 1",
+            "conclusion": "H(n) = Θ(log(n))"
+          },
+          "note": "Θ(f(n)) means both O(f(n)) and Ω(f(n))"
+        }
+      },
+      {
+        "number": 6,
+        "topic": "Mathematical Induction - Powers of 2",
+        "statement": "Prove: Σ(i=0 to n) 2^i = 2^(n+1) - 1 for all n ≥ 0",
+        "solution": {
+          "method": "mathematical_induction",
+          "definitions": {
+            "L(n)": "1 + 2 + 4 + ... + 2^n",
+            "R(n)": "2^(n+1) - 1"
+          },
+          "base_case": {
+            "n": 0,
+            "verification": "R(0) = 2^(0+1) - 1 = 2 - 1 = 1 = L(0)"
+          },
+          "inductive_case": {
+            "hypothesis": "Assume L(k) = R(k): 1 + 2 + 4 + ... + 2^k = 2^(k+1) - 1",
+            "steps": [
+              "L(k+1) = 1 + 2 + 4 + ... + 2^k + 2^(k+1) = L(k) + 2^(k+1)",
+              "Apply hypothesis: = R(k) + 2^(k+1)",
+              "= 2^(k+1) - 1 + 2^(k+1)",
+              "= 2·2^(k+1) - 1",
+              "= 2^(k+2) - 1 = R(k+1)"
+            ]
+          }
+        }
+      },
+      {
+        "number": 7,
+        "topic": "Big-O, Big-Θ, Big-Ω Notation",
+        "statement": "For T(n) = 3n² + 15log(n) + 100n, determine if statements are true/false",
+        "parts": [
+          {
+            "part": "a",
+            "statement": "T(n) = O(n³)",
+            "answer": "True",
+            "explanation": "Big-O demands upper bound. Choose c=10, n₀=4: T(n) ≤ c·n³ for all n ≥ n₀"
+          },
+          {
+            "part": "b",
+            "statement": "T(n) = Θ(n³)",
+            "answer": "False",
+            "explanation": "Though T(n) = O(n³), we cannot show T(n) = Ω(n³). No constants c, n₀ exist where T(n) ≥ c·n³ for all n ≥ n₀. For large n, c·n³ becomes too large."
+          },
+          {
+            "part": "c",
+            "statement": "T(n) = Ω(n)",
+            "answer": "True",
+            "explanation": "Big-Ω demands lower bound. Choose c=5, n₀=2: T(n) ≥ c·n for all n ≥ n₀"
+          }
+        ],
+        "recommendation": "Plot functions with appropriate c and n₀ values to confirm inequalities"
+      },
+      {
+        "number": 8,
+        "topic": "Big-Θ Complexity Analysis",
+        "statement": "Write Big-Θ function for each expression",
+        "parts": [
+          {
+            "part": "a",
+            "expression": "3n³ + 100n² + n",
+            "answer": "Θ(n³)",
+            "explanation": "n³ dominates n² and n as n gets large"
+          },
+          {
+            "part": "b",
+            "expression": "n³log(n) + 0.5n⁴ + 100n²",
+            "answer": "Θ(n⁴)",
+            "explanation": "n⁴ dominates n². Since n dominates log(n), n⁴ dominates n³log(n)"
+          },
+          {
+            "part": "c",
+            "expression": "5√n + 10log(n)",
+            "answer": "Θ(√n)",
+            "explanation": "√n = n^(1/2). For any k > 0, n^k dominates log(n)"
+          },
+          {
+            "part": "d",
+            "expression": "log(n) + log(log(n)) + log(log(log(n)))",
+            "answer": "Θ(log(n))",
+            "explanation": "Nested logs are smaller than single log"
+          },
+          {
+            "part": "e",
+            "expression": "2n log(n) + 8n log(n²)",
+            "answer": "Θ(n log(n))",
+            "explanation": "log(n²) = 2log(n), so both terms are same magnitude"
+          },
+          {
+            "part": "f",
+            "expression": "3n log(n) + 5n(log(n))²",
+            "answer": "Θ(n(log(n))²)",
+            "explanation": "(log(n))² dominates log(n) since log(n) is not O(1)"
+          },
+          {
+            "part": "g",
+            "expression": "log(n) + 2log²(n)",
+            "answer": "Θ(log²(n))",
+            "explanation": "log²(n) means (log(n))², which dominates log(n)"
+          },
+          {
+            "part": "h",
+            "expression": "3log(n) + (log(log(n)))²",
+            "answer": "Θ(log(n))",
+            "explanation": "Substitute n = 2^(2^k) to get 3·2^k + k². First term dominates."
+          }
+        ],
+        "key_concepts": [
+          "Identify fastest growing (dominant) term",
+          "n^k dominates log(n) for any k > 0",
+          "Nested logs grow slower than single log",
+          "Formally use Big-Θ definition with constants c and n₀"
+        ]
+      },
+      {
+        "number": 9,
+        "topic": "Algorithm Time Complexity Analysis",
+        "algorithms": {
+          "CountTotalBits": {
+            "pseudocode": [
+              "function COUNTTOTALBITS(arr[1...n])",
+              "  totalBits = 0",
+              "  for i = 1 to n do",
+              "    totalBits = totalBits + COUNTBITS(arr[i])",
+              "  return totalBits"
+            ]
+          },
+          "CountBits": {
+            "pseudocode": [
+              "function COUNTBITS(x)",
+              "  bits = 1",
+              "  while x > 1 do",
+              "    bits = bits + 1",
+              "    x = ⌊x/2⌋",
+              "  returns bits"
+            ],
+            "explanation": "Counts number of bits in integer by repeatedly dividing by 2"
+          }
+        },
+        "parts": [
+          {
+            "part": "a",
+            "scenario": "Array length n, 0 ≤ arr[i] ≤ 2^m - 1",
+            "answer": "Θ(mn)",
+            "explanation": "CountBits called n times. Each call costs Θ(m) since max bits is m. Total: n × m"
+          },
+          {
+            "part": "b",
+            "scenario": "Array length n where 1 ≤ n ≤ 1000000, 0 ≤ arr[i] ≤ 2^m - 1",
+            "answer": "Θ(m)",
+            "explanation": "n bounded by constant (1000000), so n = O(1). Constant calls to CountBits(m) = Θ(m)"
+          },
+          {
+            "part": "c",
+            "scenario": "Array length n, 0 ≤ arr[i] ≤ 2^32 - 1",
+            "answer": "Θ(n)",
+            "explanation": "n calls to CountBits. Each call is O(1) since max 32 bits (constant). Total: n × O(1) = Θ(n)"
+          }
+        ]
+      },
+      {
+        "number": 10,
+        "topic": "Fibonacci Sequence - Iterative vs Recursive",
+        "definition": "F(n) = F(n-1) + F(n-2), with F(1) = F(2) = 1",
+        "parts": [
+          {
+            "part": "a",
+            "task": "Write iterative Python function to compute nth Fibonacci number",
+            "requirements": [
+              "Use loops",
+              "Analyze time complexity",
+              "Analyze space complexity"
+            ],
+            "note": "Solution not provided - implementation exercise"
+          },
+          {
+            "part": "b",
+            "task": "Write recursive Python function to compute nth Fibonacci number",
+            "requirements": [
+              "Use recursion",
+              "Analyze time complexity",
+              "Analyze space complexity"
+            ],
+            "note": "Solution not provided - implementation exercise"
+          }
+        ],
+        "key_consideration": "Think carefully about assumptions made when analyzing complexities"
+      }
+    ],
+    "key_concepts_summary": {
+      "logarithm_properties": [
+        "log(a) + log(b) = log(ab)",
+        "log and exponentiation are inverses",
+        "(x^p1)^p2 = x^(p1·p2)"
+      ],
+      "mathematical_induction": {
+        "steps": [
+          "Base case: Verify for smallest value",
+          "Inductive hypothesis: Assume true for k",
+          "Inductive s,

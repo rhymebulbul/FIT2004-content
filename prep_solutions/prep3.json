@@ -1,0 +1,172 @@
+{
+  "document_metadata": {
+    "title": "Week 3 Preparation Solutions",
+    "topic": "Algorithm Correctness and Loop Invariants",
+    "document_type": "Solutions Guide",
+    "important_advice": "Students are strongly advised to attempt problems thoroughly before looking at solutions. Simply reading solutions without thinking about problems will rob students of practice required to solve complicated problems independently. Memorizing solutions will lead to poor exam performance. Thinking about a problem, even without solving it, greatly increases understanding of underlying concepts."
+  },
+  "problems": [
+    {
+      "problem_number": 1,
+      "title": "Minimum Element Algorithm - Loop Invariant Proof",
+      "problem_statement": "Consider the following algorithm that returns the minimum element of a given sequence A. Identify a useful invariant that is true at the beginning of each iteration of the for loop. Prove that it holds, and use it to show that the algorithm is correct.",
+      "algorithm": {
+        "name": "MINIMUM_ELEMENT",
+        "input": "A[1..n]",
+        "pseudocode": [
+          "function MINIMUM_ELEMENT(A[1..n])",
+          "  min = A[1]",
+          "  for i = 2 to n do",
+          "    if A[i] < min then",
+          "      min = A[i]",
+          "  return min"
+        ]
+      },
+      "solution": {
+        "loop_invariant": "At the start of every iteration, the value of min is the minimum element in the subarray A[1..i-1]",
+        "proof_structure": {
+          "base_case": {
+            "description": "At the start of the first iteration",
+            "requirement": "min must be the minimum element of subarray A[1..1]",
+            "verification": "This is just one element, namely A[1], and min is initialized to A[1], so the invariant holds at the start of the first iteration"
+          },
+          "inductive_step": {
+            "assumption": "The invariant holds at the start of some iteration, namely that min is the minimum element of the subarray A[1..i-1]",
+            "goal": "Show that the invariant still holds at the start of the next iteration, namely that min is the minimum element of the subarray A[1..i]",
+            "case_analysis": [
+              {
+                "case": "A[i] < min",
+                "reasoning": "A[i] is the minimum element of subarray A[1..i], since it is less than min and min is the minimum element of subarray A[1..i-1] by the invariant",
+                "action": "Set min = A[i]",
+                "result": "The invariant holds"
+              },
+              {
+                "case": "A[i] is not less than min",
+                "reasoning": "Since min was already the minimum of subarray A[1..i-1] and A[i] is not less than it, min is also the minimum element of subarray A[1..i]",
+                "action": "No modification needed",
+                "result": "The invariant holds"
+              }
+            ],
+            "conclusion": "Since the invariant holds at the start of the first loop, by induction it holds for all values of i, including at termination when i = n+1"
+          },
+          "correctness_proof": {
+            "at_termination": "i = n+1",
+            "invariant_states": "min is the minimum of subarray A[1..i-1] = A[1..n]",
+            "conclusion": "min is the minimum element in all of A, therefore the algorithm is correct"
+          }
+        },
+        "key_concepts": [
+          "Loop invariant",
+          "Inductive proof",
+          "Base case verification",
+          "Inductive step",
+          "Algorithm correctness",
+          "Subarray analysis"
+        ]
+      }
+    },
+    {
+      "problem_number": 2,
+      "title": "Linear Search - Loop Invariant Proof",
+      "problem_statement": "Consider the problem of finding a target value in a sequence (not necessarily sorted). Given below is pseudocode for a simple linear search that solves this problem. Identify a useful loop invariant that is true at the end of each iteration of the for loop and use it to prove that the algorithm is correct.",
+      "algorithm": {
+        "name": "LINEAR_SEARCH",
+        "input": "A[1..n], target",
+        "pseudocode": [
+          "function LINEAR_SEARCH(A[1..n], target)",
+          "  Set index = null",
+          "  for i = 1 to n do",
+          "    if A[i] = target then",
+          "      index = i",
+          "  return index"
+        ]
+      },
+      "solution": {
+        "loop_invariant": "At the end of iteration i, index is equal to the largest j ≤ i such that A[j] = target, or null if target is not in A[1..i]",
+        "correctness_proof": {
+          "at_last_iteration": "i = n",
+          "invariant_states": "index is equal to some j such that A[j] = target, or null if target is not in A[1..n]",
+          "conclusion": "This is correct behavior for the search algorithm"
+        },
+        "key_concepts": [
+          "Loop invariant at end of iteration",
+          "Linear search",
+          "Conditional assignment",
+          "Null value handling",
+          "Last occurrence tracking"
+        ],
+        "important_note": "This invariant tracks the LARGEST j, meaning if target appears multiple times, it returns the last occurrence"
+      }
+    },
+    {
+      "problem_number": 3,
+      "title": "Radix Sort Execution",
+      "problem_statement": "Show the steps taken by radix sort when sorting the integers 4329, 5169, 4321, 3369, 2121, 2099.",
+      "algorithm": {
+        "name": "RADIX_SORT",
+        "description": "Sorts integers by processing digits from least significant to most significant"
+      },
+      "solution": {
+        "initial_array": [4329, 5169, 4321, 3369, 2121, 2099],
+        "steps": [
+          {
+            "step_number": 1,
+            "digit_position": "ones place (rightmost)",
+            "result": [4321, 2121, 4329, 5169, 3369, 2099],
+            "explanation": "Sorted by last digit: 1, 1, 9, 9, 9, 9"
+          },
+          {
+            "step_number": 2,
+            "digit_position": "tens place",
+            "result": [4321, 2121, 4329, 5169, 3369, 2099],
+            "explanation": "Sorted by second-to-last digit: 2, 2, 2, 6, 6, 9"
+          },
+          {
+            "step_number": 3,
+            "digit_position": "hundreds place",
+            "result": [2099, 2121, 5169, 4321, 4329, 3369],
+            "explanation": "Sorted by third-to-last digit: 0, 1, 1, 3, 3, 3"
+          },
+          {
+            "step_number": 4,
+            "digit_position": "thousands place (leftmost)",
+            "result": [2099, 2121, 3369, 4321, 4329, 5169],
+            "explanation": "Sorted by first digit: 2, 2, 3, 4, 4, 5 - Final sorted result"
+          }
+        ],
+        "final_sorted_array": [2099, 2121, 3369, 4321, 4329, 5169],
+        "key_concepts": [
+          "Radix sort",
+          "Stable sorting",
+          "Digit-by-digit sorting",
+          "Least significant digit (LSD) first",
+          "Multi-pass sorting algorithm"
+        ],
+        "important_properties": [
+          "Radix sort processes digits from right to left (LSD to MSD)",
+          "Each pass must use a stable sort to preserve relative order",
+          "The number of passes equals the number of digits",
+          "Time complexity: O(d * (n + k)) where d is number of digits, n is array size, k is range of digits"
+        ]
+      }
+    }
+  ],
+  "key_learning_objectives": [
+    "Understanding and formulating loop invariants",
+    "Proving algorithm correctness using loop invariants",
+    "Distinguishing between invariants at beginning vs end of iterations",
+    "Base case and inductive step in correctness proofs",
+    "Understanding radix sort execution and stability",
+    "Tracing algorithm execution step by step"
+  ],
+  "proof_techniques": {
+    "loop_invariant_method": {
+      "components": [
+        "Initialization: Show invariant holds before first iteration",
+        "Maintenance: Show that if invariant holds before iteration, it holds after iteration",
+        "Termination: Show that when loop terminates, invariant gives useful property to show correctness"
+      ],
+      "connection_to_induction": "Loop invariant proofs use mathematical induction where the loop counter is the induction variable"
+    }
+  }
+}
