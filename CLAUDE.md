@@ -11,27 +11,110 @@ This is a FIT2004 (Algorithms and Data Structures) learning repository containin
 ## Repository Structure
 
 ```
-implementations-algorithms/    # Algorithm implementations organized by week
-├── w1/                       # Divide and Conquer (merge sort, binary search, inversions)
-├── w2/                       # Sorting algorithms (selection, counting, radix)
-├── w5/                       # Graph algorithms (Dijkstra, Prim, Kruskal, Union-Find)
-└── w6/                       # Dynamic Programming (coin change)
+implementations-algorithms/    # Algorithm implementations organized by week (15 files)
+├── w1/                       # Divide and Conquer (binarySearch, mergeSort, countInversions)
+├── w2/                       # Sorting algorithms (selectionSort, countingSort, radixSort, findingMin)
+├── w3/                       # Order Statistics (quickselect)
+├── w5/                       # Graph algorithms (dijkstra, prim, kruskal, unionFind, main)
+└── w6/                       # Dynamic Programming (coinChangeTopDown, coinChangeBottomUp)
 
-course_notes/                 # Structured course notes in JSON format
-├── chap_one.json through chap_eleven.json
+course_notes/                 # Structured course notes in JSON format (12 files)
+├── chap_one.json through chap_eleven.json, plus notes.txt
 
-lecture/                      # Lecture materials (l1.json through l9.json)
+lecture/                      # Lecture materials (12 files: l1.json through l12.json)
 
-weekly_quiz/                  # Quiz questions (q1.json through q6.json)
+weekly_quiz/                  # Quiz questions (11 files: q1.json through q11.json)
 
-exams/                        # Exam questions and solutions
-past_mid/                     # Past mid-semester exam materials
-applied_solutions/            # Applied problem solutions (2.txt through 6.txt)
-prep_solutions/               # Preparation solutions (prep.json)
+exams/                        # Exam questions and solutions (7 files)
+├── 21-1.json, 25-1.json     # Past exams from 2021, 2025
+├── s1.json, s2.json, s3.json # Practice exam sets
+├── EXAM_MARKS_DISTRIBUTION.md
+└── FINAL_EXAM_QUESTION_PATTERNS.md
 
-examinable_content_mid.txt    # Mid-semester examinable topics (COMPLETE)
-examinable_content_exam.txt   # Final exam examinable topics (to be populated)
+mid_semester_test/            # Dedicated mid-semester prep materials (13 files)
+├── FOCUSED_STUDY_PLAN.md
+├── MID_SEMESTER_TOPICS_CHECKLIST.md
+├── README.md
+├── analysis/                 # Recurrence relations guides
+└── order_statistics/         # Quickselect guides + 8 Python tracer examples
+
+past_mid/                     # Past mid-semester exam materials (5 files)
+├── question.json, solution.json
+├── mid_semester_study_guide.md
+├── network_infection_problems.md
+└── syllabus.json
+
+prep_solutions/               # Preparation solutions (13 files)
+├── prep.json, prep1.json through prep12.json
+
+applied_solutions/            # Applied problem solutions (11 files)
+├── 2.txt through 6.txt      # Text-format solutions
+└── 12.json                  # JSON-format solution
+
+topics/                       # Topic-specific study guides (13 markdown files, ~230KB)
+├── LOOP_INVARIANT_QUESTIONS_GUIDE.md (32KB)
+├── PROVE_CORRECTNESS_QUESTIONS_GUIDE.md (21KB)
+├── PROOF_CHECKLIST.md
+├── DAG_TOPOLOGICAL_SORT_EXAM_GUIDE.md (19KB)
+├── GRAPH_COMPLEXITY_EXAM_CHEATSHEET.md (11KB)
+├── DISCONNECTED_GRAPHS_CHECKLIST.md (60KB)
+├── ALGORITHM_EDGE_CASES_CHECKLIST.md (25KB)
+├── quick/                   # Quickselect & Order Statistics
+│   ├── QUICKSELECT_MEDIANS_EXAM_CHEATSHEET.md (21KB)
+│   ├── quickselect_partition_guide.md (11KB)
+│   └── k_partitioning_guide.md (21KB)
+├── trees/                   # Advanced tree topics
+│   ├── prep12_cheatsheet.md
+│   └── tree_rebalancing_properties.md
+└── recurrence/              # Recurrence relations
+    └── recurrence_quick_reference.md
+
+8_DAY_SPACED_REPETITION_SCHEDULE.md  # Strategic spaced repetition study plan (20KB)
+examinable_content_mid.txt           # Mid-semester examinable topics (COMPLETE, 160 lines)
+examinable_content_exam.txt          # Final exam examinable topics (308 lines, being populated)
+README.md                            # Comprehensive repository overview (27KB)
 ```
+
+## Materials Quick Reference Guide
+
+### Where to Find Specific Content
+
+**Algorithm Implementations:**
+- **Divide & Conquer:** `implementations-algorithms/w1/` (binarySearch, mergeSort, countInversions)
+- **Sorting:** `implementations-algorithms/w2/` (selectionSort, countingSort, radixSort)
+- **Order Statistics:** `implementations-algorithms/w3/quickselect.py`
+- **Graph Algorithms:** `implementations-algorithms/w5/` (dijkstra, prim, kruskal, unionFind)
+- **Dynamic Programming:** `implementations-algorithms/w6/` (coinChange variants)
+
+**Study Guides by Topic:**
+- **Loop Invariants:** `topics/LOOP_INVARIANT_QUESTIONS_GUIDE.md`
+- **Correctness Proofs:** `topics/PROVE_CORRECTNESS_QUESTIONS_GUIDE.md` + `topics/PROOF_CHECKLIST.md`
+- **Quickselect/Order Statistics:** `topics/quick/` (3 comprehensive guides)
+- **Graph Algorithms:** `topics/GRAPH_COMPLEXITY_EXAM_CHEATSHEET.md`, `topics/DAG_TOPOLOGICAL_SORT_EXAM_GUIDE.md`
+- **Disconnected Graphs:** `topics/DISCONNECTED_GRAPHS_CHECKLIST.md`
+- **Algorithm Edge Cases:** `topics/ALGORITHM_EDGE_CASES_CHECKLIST.md`
+- **Recurrence Relations:** `topics/recurrence/recurrence_quick_reference.md`
+- **Advanced Trees:** `topics/trees/` (prep12_cheatsheet, tree_rebalancing_properties)
+
+**Exam Preparation:**
+- **Mid-Semester Focus:** `mid_semester_test/` (13 files with focused study plan)
+- **Past Mid-Semester Exams:** `past_mid/` (questions, solutions, study guide)
+- **Final Exam Materials:** `exams/` (past exams 2021, 2025 + practice sets s1-s3)
+- **Practice Problems:** `weekly_quiz/` (q1-q11), `prep_solutions/` (prep + prep1-prep12)
+- **Applied Problems:** `applied_solutions/` (2.txt through 6.txt, 12.json)
+
+**Conceptual Learning:**
+- **Course Notes:** `course_notes/` (chap_one through chap_eleven JSON files)
+- **Lecture Materials:** `lecture/` (l1 through l12 JSON files)
+- **Study Schedule:** `8_DAY_SPACED_REPETITION_SCHEDULE.md`
+
+**Scope Verification:**
+- **Mid-Semester Topics:** `examinable_content_mid.txt` (COMPLETE - authoritative source)
+- **Final Exam Topics:** `examinable_content_exam.txt` (being populated)
+
+### Total Materials Count
+- **~107 files** covering algorithm implementations, study guides, exam prep, and practice problems
+- **All mid-semester content COMPLETE** and ready for deferred test preparation
 
 ## Exam Scope and Study Materials
 

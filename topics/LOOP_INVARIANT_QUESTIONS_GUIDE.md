@@ -307,6 +307,17 @@ This proves the correctness of the result.
 
 ---
 
+### Key Insight: The Two-Step Process
+
+When using an invariant to prove correctness, you're doing **two things in sequence**:
+
+1. **Replace the loop variable with the termination value** (usually `i=n`) to see what the invariant says about the **whole list**, not just some iteration
+2. **Find the actual output of the algorithm** and verify if it matches the expected behavior
+
+**Think of it as:** "What does the invariant claim when the loop finishes?" → "What does the algorithm return?" → "Do these match?"
+
+---
+
 ### Example: Modular Arithmetic Correctness
 
 **Exam:** Past Exam 1, Question 2c (part of 4-mark question)
@@ -325,17 +336,31 @@ def sum_factor(L, m):
 
 **Question:** (c) Now use your invariant to argue that the algorithm is correct.
 
-**Answer:**
+**Answer (Following the Two-Step Process):**
 
-The for loop terminates when `i=n`. At this point, by the invariant:
+**Step 1: Replace loop variable with termination value**
 
+The for loop terminates when `i=n`.
+
+Substitute `i=n` into the invariant `s = sum(L[0..i-1]) % m`:
 ```
-s = sum(L[0..n-1]) % m = sum(L) % m
+s = sum(L[0..n-1]) % m
 ```
 
-The function returns `(s == 0)`, which is **True** if and only if `sum(L) % m == 0`, meaning m divides sum(L).
+Since `L[0..n-1]` represents the entire list (all elements from index 0 to n-1), we can simplify:
+```
+s = sum(L) % m
+```
 
-This matches the specification exactly: the algorithm returns True iff m is a factor of sum(L).
+Now we know what `s` contains when the loop finishes: the remainder of the entire list's sum divided by m.
+
+**Step 2: Find the actual output and verify correctness**
+
+The function returns `s == 0`, which evaluates to:
+- **True** if `s = 0`, meaning `sum(L) % m == 0`, meaning m divides sum(L)
+- **False** otherwise
+
+This matches the specification exactly: the algorithm returns True if and only if m is a factor of sum(L). ✓
 
 **Key Concepts:**
 - Modular arithmetic properties: `(a + b) % m = ((a % m) + b) % m`
