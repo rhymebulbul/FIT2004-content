@@ -1,0 +1,1012 @@
+{
+  "exam": "FIT2004 Algorithms and Data Structures - Exam 25-2",
+  "institution": "Monash University",
+  "total_questions": 14,
+  "part": 3,
+  "total_parts": 3,
+  "questions_in_part": 4,
+  "part_summary": {
+    "questions_covered": [11, 12, 13, 14],
+    "total_marks_available": null,
+    "part_3_total_marks_obtained": null,
+    "marks_breakdown": [
+      {
+        "question_number": 11,
+        "marks_available": null,
+        "marks_obtained": null,
+        "topic": "Dynamic Programming Grid Problem",
+        "status": "pending"
+      },
+      {
+        "question_number": 12,
+        "marks_available": null,
+        "marks_obtained": null,
+        "topic": "Dynamic Programming Grid Problem",
+        "status": "pending"
+      },
+      {
+        "question_number": 13,
+        "marks_available": null,
+        "marks_obtained": null,
+        "topic": "Network Flow - Bipartite Matching",
+        "status": "pending"
+      },
+      {
+        "question_number": 14,
+        "marks_available": null,
+        "marks_obtained": null,
+        "topic": "Graph Theory - DAG Detection",
+        "status": "pending"
+      }
+    ]
+  },
+  "questions": [
+    {
+      "exam_metadata": {
+        "unit_code": "FIT2004",
+        "unit_name": "Algorithms and data structures",
+        "question_number": 14,
+        "total_questions": 15,
+        "marks": 5,
+        "time_remaining": "0:14:09",
+        "attempt_status": "attempted",
+        "questions_attempted": "15/15"
+      },
+      "question": {
+        "id": "Q14",
+        "type": "proof",
+        "topic": "Binary Search Trees",
+        "subtopics": [
+          "Tree Structure Properties",
+          "Successor/Predecessor Relationships",
+          "Proof by Induction",
+          "Binary Tree Invariants"
+        ],
+        "marks_allocated": 5,
+        "marks_obtained": 0,
+        "difficulty": "advanced",
+        "problem_statement": {
+          "description": "Let T be a binary search tree of unique integers and let x be an integer that is not contained in T. Assume that x is neither smaller than all of the elements in T nor bigger than all of the elements in T. Give a rigorous proof that for every T and x satisfying those conditions exactly one of the following statements is true:",
+          "statements_to_prove": [
+            {
+              "statement_number": 1,
+              "statement": "The successor of x in T has a left child."
+            },
+            {
+              "statement_number": 2,
+              "statement": "The predecessor of x in T has a right child."
+            }
+          ],
+          "constraints": [
+            "T is a binary search tree",
+            "All integers in T are unique",
+            "x is not contained in T",
+            "x is not smaller than all elements in T",
+            "x is not bigger than all elements in T"
+          ],
+          "proof_requirement": "Prove that EXACTLY ONE of the two statements is true (mutually exclusive and exhaustive)"
+        },
+        "key_concepts": {
+          "successor_definition": "The successor of x in T is the smallest element in T that is greater than x",
+          "predecessor_definition": "The predecessor of x in T is the largest element in T that is smaller than x",
+          "binary_search_tree_property": "For every node n, all elements in the left subtree are smaller than n, and all elements in the right subtree are greater than n",
+          "structural_observation": "In a binary search tree, either the successor of x has a left child, or the predecessor of x has a right child"
+        },
+        "proof_approach": {
+          "method": "Proof by cases / Structural analysis",
+          "key_observations": [
+            "Since x is not in T and is between min(T) and max(T), both successor and predecessor must exist",
+            "Need to analyze the relationship between successor and predecessor nodes",
+            "Consider the path taken during binary search for x",
+            "Analyze where the search would terminate and the relationship to successor/predecessor"
+          ],
+          "proof_structure": [
+            "Establish that successor and predecessor exist (from constraints)",
+            "Analyze the structural relationship between successor and predecessor",
+            "Show that if statement 1 is false (successor has no left child), then statement 2 must be true",
+            "Show that if statement 2 is false (predecessor has no right child), then statement 1 must be true",
+            "Prove mutual exclusivity (both cannot be true simultaneously)"
+          ]
+        },
+        "solution_hints": {
+          "hint_1": "Consider what happens during a binary search for x in T",
+          "hint_2": "If the successor has no left child, what does that tell you about its position relative to the predecessor?",
+          "hint_3": "Think about the last node visited in a binary search for x - how does it relate to successor/predecessor?",
+          "hint_4": "Use the BST property: if successor s has no left child, where must the predecessor p be located?"
+        },
+        "related_concepts": {
+          "binary_search_tree_traversal": "In-order traversal gives sorted sequence",
+          "node_relationships": "Successor and predecessor are consecutive in in-order traversal",
+          "structural_properties": "A node's successor can be in its right subtree or be an ancestor"
+        }
+      },
+      "student_answer": {
+        "timestamp_saved": "0:14:15",
+        "answer_text": "We know that in a binary search tree, either the successor of x has a left child, or the predecessor of x has a right child.\n\nThis is from the definition of successor and predecessor nodes in a binary search tree.\n\nNow suppose for induction we say the hypothesis that statement 2 is true.",
+        "answer_status": "incomplete",
+        "proof_stage_reached": "initial_setup",
+        "approach_used": "attempted_induction",
+        "completeness": "incomplete - only stated intent to use induction, did not complete proof",
+        "correctness_assessment": {
+          "opening_claim": "partially_correct - the claim is true but not yet proven",
+          "justification": "insufficient - stating 'from the definition' is not rigorous",
+          "proof_method": "unclear - induction is mentioned but not the appropriate method for this problem",
+          "logical_structure": "incomplete"
+        }
+      },
+      "expected_solution": {
+        "proof_outline": "",
+        "key_steps": [],
+        "mathematical_formulation": "",
+        "complexity_analysis": "N/A - this is a proof question",
+        "correctness_argument": "",
+        "edge_cases": []
+      },
+      "grading_rubric": {
+        "total_marks": 5,
+        "criteria": [
+          {
+            "criterion": "Proof structure and rigor",
+            "marks": 2,
+            "requirements": [
+              "Clear case analysis or logical structure",
+              "Rigorous justification of each step",
+              "Proper use of BST properties"
+            ]
+          },
+          {
+            "criterion": "Proving exactly one statement is true",
+            "marks": 2,
+            "requirements": [
+              "Show at least one must be true (exhaustive)",
+              "Show both cannot be true simultaneously (mutually exclusive)"
+            ]
+          },
+          {
+            "criterion": "Correct use of definitions",
+            "marks": 1,
+            "requirements": [
+              "Proper use of successor definition",
+              "Proper use of predecessor definition",
+              "Correct application of BST invariants"
+            ]
+          }
+        ],
+        "common_mistakes": [
+          "Assuming the result without proof",
+          "Not addressing mutual exclusivity",
+          "Incorrect application of induction (not appropriate for this problem)",
+          "Vague appeals to 'definition' without rigorous argument"
+        ]
+      },
+      "learning_objectives_assessed": [
+        "Understanding of binary search tree structure",
+        "Ability to construct rigorous proofs about tree properties",
+        "Understanding successor and predecessor relationships",
+        "Proof techniques for tree invariants"
+      ],
+      "related_questions": [],
+      "tags": [
+        "binary_search_tree",
+        "proof",
+        "tree_structure",
+        "successor",
+        "predecessor",
+        "invariants",
+        "structural_analysis"
+      ],
+      "additional_notes": {
+        "exam_context": "Question 14 of 15 in FIT2004 exam",
+        "time_pressure": "Only ~14 minutes remaining when viewing this question",
+        "question_notes_available": true,
+        "all_questions_attempted": true
+      }
+    },
+    {
+      "exam_metadata": {
+        "course": "FIT2004",
+        "course_name": "Algorithms and data structures",
+        "question_number": 13,
+        "total_questions": 15,
+        "marks": 5,
+        "time_saved": "0:15:05",
+        "attempt_status": "attempted"
+      },
+      "question": {
+        "type": "graph_algorithms",
+        "subtopics": [
+          "network_flow",
+          "bipartite_matching",
+          "edge_disjoint_paths",
+          "flow_decomposition"
+        ],
+        "title": "Evacuation Route Planning",
+        "problem_statement": {
+          "context": "You are trying to determine evacuation routes for emergency situations.",
+          "input": {
+            "graph": {
+              "type": "directed_graph",
+              "weighted": false,
+              "notation": "G=(V, E)",
+              "description": "A directed, unweighted graph"
+            },
+            "vertex_subsets": [
+              {
+                "name": "P",
+                "description": "The set of populated vertices",
+                "properties": [
+                  "Starting points for evacuation paths"
+                ]
+              },
+              {
+                "name": "S",
+                "description": "The set of safe vertices",
+                "properties": [
+                  "Ending points for evacuation paths"
+                ]
+              }
+            ],
+            "constraints": [
+              "P \u2286 V",
+              "S \u2286 V",
+              "P and S are disjoint sets (P \u2229 S = \u2205)"
+            ]
+          },
+          "valid_evacuation_paths_definition": {
+            "description": "A set of valid evacuation paths is defined as a set of paths in G such that:",
+            "conditions": [
+              {
+                "condition": "Every evacuation path starts at a vertex in P",
+                "formal": "\u2200 path \u2208 valid_paths: start(path) \u2208 P"
+              },
+              {
+                "condition": "Each vertex in P is the starting point of exactly one evacuation path",
+                "formal": "\u2200 v \u2208 P: |{path \u2208 valid_paths : start(path) = v}| = 1",
+                "implication": "One-to-one correspondence between P vertices and paths"
+              },
+              {
+                "condition": "Every evacuation path ends at a vertex in S",
+                "formal": "\u2200 path \u2208 valid_paths: end(path) \u2208 S"
+              },
+              {
+                "condition": "The paths do not share any edges",
+                "formal": "\u2200 path1, path2 \u2208 valid_paths, path1 \u2260 path2: E(path1) \u2229 E(path2) = \u2205",
+                "key_insight": "This means they are edge disjoint paths"
+              }
+            ],
+            "key_property": "edge_disjoint_paths",
+            "cardinality": "|valid_paths| = |P|"
+          },
+          "task": {
+            "description": "Describe an efficient algorithm to determine if there exists any set of valid evacuation paths and return one such set if it exists. Otherwise, return None.",
+            "output": {
+              "if_exists": "A set of |P| edge-disjoint paths from P to S",
+              "if_not_exists": "None"
+            },
+            "requirements": [
+              "Analyse its complexity",
+              "Try to obtain an asymptotical upper bound as good as possible"
+            ]
+          }
+        },
+        "solution_approach": {
+          "algorithm_type": "network_flow",
+          "specific_technique": "maximum_flow_with_modifications",
+          "key_observations": [
+            {
+              "observation": "Given P & S are disjoint sets, at first glance we could possibly run bipartite matching modelling the problem as max flow using ford fulkerson.",
+              "issue": "However, for that we would need to add capacities for all edges between the two bipartite sets, so max flow isn't the best choice.",
+              "why_not_optimal": "Standard bipartite matching assumes direct edges between the two sets, but here we have an arbitrary graph G"
+            },
+            {
+              "observation": "It is worth noting that the evacuation paths must not share any edges. This means they are edge disjoint paths.",
+              "implication": "This is the key constraint that shapes the solution approach"
+            },
+            {
+              "observation": "As such, if we model as bipartite matching problem, and use an algorithm such as the one from the applied to find the edge disjoint paths, between the two sets, then we can check if a valid set of evacuation paths exists and return the set of paths or return None if not.",
+              "approach": "Use edge-disjoint paths algorithm adapted for this specific problem structure"
+            }
+          ],
+          "algorithm_framework": {
+            "step1": {
+              "description": "Graph transformation",
+              "actions": [
+                "Create a super source s connected to all vertices in P",
+                "Create a super sink t connected from all vertices in S",
+                "Set all edge capacities to 1 (to enforce edge-disjoint property)"
+              ],
+              "graph_construction": {
+                "vertices": "V' = V \u222a {s, t}",
+                "edges": [
+                  "E' = E (original edges with capacity 1)",
+                  "\u2200 v \u2208 P: add edge (s, v) with capacity 1",
+                  "\u2200 v \u2208 S: add edge (v, t) with capacity 1"
+                ]
+              }
+            },
+            "step2": {
+              "description": "Run maximum flow algorithm",
+              "algorithm_options": [
+                "Ford-Fulkerson with BFS (Edmonds-Karp)",
+                "Dinic's algorithm",
+                "Push-relabel"
+              ],
+              "goal": "Find maximum flow from s to t in transformed graph"
+            },
+            "step3": {
+              "description": "Check feasibility and extract paths",
+              "feasibility_check": {
+                "condition": "max_flow_value == |P|",
+                "if_true": "Valid evacuation paths exist",
+                "if_false": "No valid set exists, return None"
+              },
+              "path_extraction": {
+                "method": "Flow decomposition",
+                "description": "Decompose the flow into |P| edge-disjoint paths from s to t",
+                "output": "Remove super source and sink edges to get paths from P to S"
+              }
+            }
+          },
+          "correctness_argument": {
+            "necessity": [
+              "If valid evacuation paths exist, then each vertex in P must be able to send 1 unit of flow to some vertex in S",
+              "Edge-disjoint constraint means each edge can carry at most 1 unit of flow",
+              "Therefore, maximum flow must be at least |P|"
+            ],
+            "sufficiency": [
+              "If max flow equals |P|, then by flow decomposition, we can extract |P| edge-disjoint paths",
+              "Each path starts from s, goes through exactly one vertex in P, ends at exactly one vertex in S via t",
+              "By integer flow property and capacity constraints, these paths are edge-disjoint"
+            ],
+            "flow_decomposition_property": "Any integer flow of value k can be decomposed into at most k paths and |E| cycles. Since we have no cycles with super source/sink, we get exactly k paths."
+          },
+          "complexity_analysis": {
+            "graph_transformation": {
+              "time": "O(|V| + |E|)",
+              "space": "O(|V| + |E|)",
+              "justification": "Adding super source and sink with edges to P and S"
+            },
+            "max_flow_computation": {
+              "edmonds_karp": {
+                "time": "O(|V| \u00d7 |E|\u00b2)",
+                "justification": "Standard Edmonds-Karp complexity"
+              },
+              "dinics_algorithm": {
+                "time": "O(|V|\u00b2 \u00d7 |E|)",
+                "justification": "Dinic's algorithm on unit capacity network"
+              },
+              "specialized_unit_capacity": {
+                "time": "O(|E| \u00d7 min(|P|, |S|))",
+                "justification": "For unit capacity networks, flow value bounded by min(|P|, |S|), and each augmenting path takes O(|E|) time",
+                "note": "This is the tightest bound for this specific problem"
+              }
+            },
+            "path_extraction": {
+              "time": "O(|V| + |E|)",
+              "justification": "Flow decomposition by DFS/BFS traversal"
+            },
+            "overall_complexity": {
+              "best_bound": "O(|E| \u00d7 min(|P|, |S|))",
+              "practical_bound": "O(|V|\u00b2 \u00d7 |E|) with Dinic's",
+              "note": "The actual complexity depends on the max flow algorithm chosen"
+            },
+            "space_complexity": "O(|V| + |E|)"
+          }
+        },
+        "student_answer": {
+          "submitted": true,
+          "content": {
+            "paragraph1": "Given P & S are disjoint sets, at first glance we could possibly run bipartite matching modelling the problem as max flow using ford fulkerson.",
+            "paragraph2": "However, for that we would need to add capacities for all edges between the two bipartite sets, so max flow isn't the best choice.",
+            "paragraph3": "It is worth noting that the evacuation paths must not share any edges. This means they are edge disjoint paths.",
+            "paragraph4": "As such, if we model as bipartite matching problem, and use an algorithm such as the one from the applied to find the edge disjoint paths, between the two sets, then we can check if a valid set of evacuation paths exists and return the set of paths or return None if not.",
+            "paragraph5": "We construct a super source connected to all populated vertices, and a super sink connected from all safe vertices.",
+            "paragraph6": "Then run DFS modified for edge disjoint paths, keeping count of active branches for DFS and tracking all paths.",
+            "paragraph7": "DFS time complexity is O(V+E) for adjacency list representation."
+          },
+          "approach_summary": "Edge-disjoint paths using DFS with super source/sink construction",
+          "algorithm_steps": [
+            "Construct super source connected to all vertices in P",
+            "Construct super sink connected from all vertices in S",
+            "Run modified DFS for edge-disjoint paths",
+            "Track active branches and all paths during DFS",
+            "Return paths if |paths| = |P|, otherwise return None"
+          ],
+          "complexity_provided": "O(V+E) for DFS with adjacency list",
+          "completeness": "good",
+          "strengths": [
+            "Identified edge-disjoint paths problem",
+            "Described super source/sink construction",
+            "Specified DFS-based approach",
+            "Provided time complexity analysis"
+          ],
+          "missing_elements": [
+            "More detailed explanation of how DFS tracks edge-disjoint paths",
+            "Handling when flow < |P|"
+          ]
+        },
+        "expected_solution": {
+          "algorithm_pseudocode": "",
+          "complexity_analysis": "",
+          "correctness_proof": "",
+          "notes": "To be filled after marking"
+        },
+        "marking_criteria": {
+          "total_marks": 5,
+          "rubric": {
+            "algorithm_description": {
+              "marks": 2,
+              "expectations": [
+                "Clear description of graph transformation (super source/sink)",
+                "Specification of max flow algorithm to use",
+                "Path extraction method"
+              ]
+            },
+            "correctness": {
+              "marks": 1.5,
+              "expectations": [
+                "Correct identification of edge-disjoint paths problem",
+                "Proper use of unit capacities",
+                "Correct feasibility check (flow == |P|)"
+              ]
+            },
+            "complexity_analysis": {
+              "marks": 1.5,
+              "expectations": [
+                "Time complexity with justification",
+                "Best possible asymptotic bound",
+                "Recognition of unit capacity optimization"
+              ]
+            }
+          }
+        },
+        "grading": {
+          "marks_available": 5,
+          "marks_obtained": 1,
+          "feedback": "Partial credit - mentioned edge-disjoint paths and some algorithm components, but answer lacks sufficient detail and completeness for full marks"
+        },
+        "related_concepts": {
+          "graph_theory": [
+            "directed_graphs",
+            "edge_disjoint_paths",
+            "path_decomposition"
+          ],
+          "network_flow": [
+            "maximum_flow",
+            "ford_fulkerson",
+            "edmonds_karp",
+            "dinics_algorithm",
+            "unit_capacity_networks",
+            "flow_decomposition",
+            "augmenting_paths",
+            "residual_graphs"
+          ],
+          "matching_theory": [
+            "bipartite_matching",
+            "maximum_matching",
+            "matching_via_max_flow"
+          ],
+          "problem_transformations": [
+            "super_source_sink_construction",
+            "capacity_assignment",
+            "graph_reduction"
+          ]
+        },
+        "edge_cases_and_special_conditions": [
+          {
+            "case": "|P| > |S|",
+            "implication": "Cannot have valid evacuation paths (pigeonhole principle with edge-disjoint constraint)",
+            "max_flow_result": "Flow will be less than |P|"
+          },
+          {
+            "case": "|S| \u2265 |P| but insufficient edge connectivity",
+            "implication": "Max flow < |P| due to bottleneck edges",
+            "example": "If there's a cut with capacity < |P| separating P from S"
+          },
+          {
+            "case": "P and S overlap",
+            "implication": "Violates problem constraint (disjoint sets)",
+            "handling": "Problem states they are disjoint"
+          },
+          {
+            "case": "Multiple edge-disjoint path sets exist",
+            "implication": "Algorithm returns any one valid set",
+            "note": "Any maximum flow with value |P| is valid"
+          },
+          {
+            "case": "Graph is disconnected",
+            "implication": "Some P vertices may not reach any S vertices",
+            "max_flow_result": "Flow < |P|, return None"
+          }
+        ],
+        "alternative_approaches": {
+          "approach1": {
+            "name": "Direct bipartite matching (incorrect interpretation)",
+            "description": "Try to model as standard bipartite matching between P and S",
+            "issue": "Doesn't account for the arbitrary graph structure between P and S; assumes direct edges",
+            "when_it_works": "Only if every vertex has edges only to P or only to S (actual bipartite graph)"
+          },
+          "approach2": {
+            "name": "Multiple shortest paths",
+            "description": "Find |P| shortest paths from P to S greedily",
+            "issue": "Greedy approach may not find edge-disjoint paths even if they exist",
+            "example": "First path might use critical edge that's needed by other paths"
+          },
+          "approach3": {
+            "name": "Vertex-disjoint paths (over-constrained)",
+            "description": "Find paths that don't share vertices",
+            "issue": "Too restrictive; problem only requires edge-disjoint paths",
+            "note": "Would miss valid solutions"
+          }
+        },
+        "practical_considerations": {
+          "implementation_notes": [
+            "Use adjacency list for sparse graphs",
+            "Track used edges during path extraction",
+            "Can modify max flow algorithm to directly output paths",
+            "For very large |P|, Dinic's or push-relabel preferred"
+          ],
+          "optimization_opportunities": [
+            "Early termination if flow reaches |P|",
+            "Use unit capacity optimizations in max flow",
+            "Bidirectional search for path augmentation",
+            "Parallel path finding (if multiple paths needed)"
+          ]
+        }
+      },
+      "exam_context": {
+        "question_position": "13 of 15",
+        "time_remaining": "0:14:56",
+        "previously_flagged": true,
+        "navigation_status": "all_questions_attempted"
+      }
+    },
+    {
+      "metadata": {
+        "course": "FIT2004 Algorithms and Data Structures",
+        "institution": "Monash University",
+        "assessment_type": "Exam",
+        "question_number": 15,
+        "total_questions": 15,
+        "marks": 5,
+        "time_saved": "0:23:35",
+        "attempt_status": "attempted",
+        "topics": [
+          "String Algorithms",
+          "Trie Data Structure",
+          "Prefix Trie",
+          "Supersequence",
+          "String Pattern Matching"
+        ]
+      },
+      "problem_statement": {
+        "definition": {
+          "supersequence": "A supersequence of a string S is a string that contains S as a subsequence."
+        },
+        "problem_description": "For positive integers n and k, consider an alphabet of size n and a list of input strings S\u2081, S\u2082, ..., S\u2096 over that alphabet. Describe the details of an O(n*k) algorithm to determine if there exists a string X such that no character is repeated in X and that X is a supersequence of every input string.",
+        "constraints": {
+          "time_complexity": "O(n*k)",
+          "alphabet_size": "n (positive integer)",
+          "number_of_strings": "k (positive integer)",
+          "string_constraint": "X must have no repeated characters",
+          "supersequence_requirement": "X must be a supersequence of every input string S\u2081, S\u2082, ..., S\u2096"
+        },
+        "key_observations": [
+          "Considering the worst case time complexity is bounded by O(n*k), suppose we store the strings from the list in a prefix trie",
+          "Assuming that we are expected to find the supersequence from the given input strings as no further information is provided",
+          "A substring would be a prefix of suffix"
+        ]
+      },
+      "student_answer": {
+        "approach": "Prefix Trie with Path Analysis",
+        "algorithm_description": [
+          {
+            "step": 1,
+            "action": "Insert strings into prefix trie",
+            "detail": "When inserting a new string from the list into the trie, we can check if a supersequence of the entire trie such that no character is repeated in X exists already."
+          },
+          {
+            "step": 2,
+            "action": "Path sharing in trie",
+            "detail": "Given in a trie, the subsequences will share the same paths, i.e. they will use common characters that already exist in the trie and branch out when not, it is possible to find the supersequence of those strings in the trie."
+          },
+          {
+            "step": 3,
+            "action": "Character constraint checking",
+            "detail": "Now, given the supersequence has to be for every input string, that means that each input string must share some character with our supersequence in the trie in order to be a supersequence."
+          }
+        ],
+        "key_insights": [
+          "The trie structure naturally captures common prefixes among strings",
+          "A valid supersequence must traverse paths that cover all input strings",
+          "The no-repeated-character constraint means each character can only appear once in X",
+          "Path sharing in the trie indicates which characters are common across different strings"
+        ],
+        "completeness": "partial",
+        "notes": "Answer provides conceptual framework but lacks complete algorithmic details for verification and construction of X"
+      },
+      "solution_framework": {
+        "expected_components": [
+          "Prefix trie construction algorithm",
+          "Method to check if valid supersequence exists",
+          "Handling of no-repeated-character constraint",
+          "Verification that X is supersequence of all input strings",
+          "Complexity analysis showing O(n*k) bound"
+        ],
+        "data_structures": {
+          "primary": "Prefix Trie",
+          "node_properties": [
+            "character value",
+            "children mapping",
+            "end-of-string marker",
+            "visited status (for path tracking)"
+          ]
+        },
+        "algorithmic_techniques": [
+          "Trie construction and traversal",
+          "Path analysis in tree structure",
+          "Character frequency/usage tracking",
+          "Subsequence verification"
+        ],
+        "complexity_analysis": {
+          "time_complexity": {
+            "target": "O(n*k)",
+            "breakdown": {
+              "trie_construction": "O(total characters across all k strings)",
+              "verification": "must fit within O(n*k) bound",
+              "per_string_processing": "O(n) per string, k strings total"
+            }
+          },
+          "space_complexity": {
+            "trie_storage": "O(n*k) in worst case",
+            "auxiliary_space": "O(n) for character tracking"
+          }
+        }
+      },
+      "problem_characteristics": {
+        "difficulty": "high",
+        "requires_understanding_of": [
+          "Trie data structure and operations",
+          "Subsequence vs substring vs supersequence definitions",
+          "Character constraint satisfaction",
+          "Graph path properties in tree structures",
+          "Complexity analysis"
+        ],
+        "common_pitfalls": [
+          "Confusing subsequence with substring",
+          "Not properly handling the no-repeated-character constraint",
+          "Incorrect complexity analysis",
+          "Missing the verification that X covers all input strings",
+          "Not considering how trie structure aids in finding common paths"
+        ]
+      },
+      "test_cases": {
+        "example_scenarios": [
+          {
+            "case": "Simple valid case",
+            "input": {
+              "alphabet_size": 3,
+              "strings": [
+                "AB",
+                "AC",
+                "BC"
+              ],
+              "k": 3
+            },
+            "expected_output": {
+              "exists": true,
+              "possible_X": "ABC",
+              "explanation": "ABC contains AB, AC, and BC as subsequences with no repeated characters"
+            }
+          },
+          {
+            "case": "Invalid case - repeated character required",
+            "input": {
+              "alphabet_size": 2,
+              "strings": [
+                "ABA"
+              ],
+              "k": 1
+            },
+            "expected_output": {
+              "exists": false,
+              "explanation": "ABA requires A to appear twice in any supersequence, violating the no-repeat constraint"
+            }
+          },
+          {
+            "case": "Edge case - empty strings",
+            "input": {
+              "alphabet_size": 5,
+              "strings": [
+                "",
+                "",
+                ""
+              ],
+              "k": 3
+            },
+            "expected_output": {
+              "exists": true,
+              "possible_X": "",
+              "explanation": "Empty string is supersequence of all empty strings"
+            }
+          }
+        ]
+      },
+      "expected_solution": {
+        "status": "to_be_filled",
+        "complete_algorithm": null,
+        "correctness_proof": null,
+        "complexity_justification": null,
+        "edge_case_handling": null
+      },
+      "assessment": {
+        "student_performance": {
+          "marks_obtained": 0,
+          "marks_possible": 5,
+          "feedback": null,
+          "strengths": [
+            "Correct identification of prefix trie as key data structure",
+            "Understanding of path sharing concept",
+            "Recognition of character constraint importance"
+          ],
+          "areas_for_improvement": [
+            "More detailed algorithmic steps needed",
+            "Explicit verification procedure missing",
+            "Complexity analysis incomplete",
+            "Construction of X not fully specified"
+          ]
+        }
+      },
+      "learning_objectives": {
+        "concepts_tested": [
+          "Trie data structure implementation and applications",
+          "String subsequence properties",
+          "Algorithm design with complexity constraints",
+          "Character usage and constraint satisfaction",
+          "Path analysis in tree structures"
+        ],
+        "skills_assessed": [
+          "Ability to select appropriate data structure for problem",
+          "Algorithm design within complexity bounds",
+          "Clear explanation of algorithmic approach",
+          "Understanding of string relationships (subsequence, supersequence)",
+          "Complexity analysis"
+        ]
+      },
+      "related_concepts": {
+        "prerequisite_knowledge": [
+          "Trie construction and operations",
+          "Subsequence definition and properties",
+          "Big-O notation and complexity analysis",
+          "Tree traversal algorithms"
+        ],
+        "related_problems": [
+          "Longest common subsequence",
+          "Shortest common supersequence",
+          "Trie-based string matching",
+          "Character constraint satisfaction problems"
+        ],
+        "extensions": [
+          "What if repeated characters were allowed?",
+          "How to find the shortest valid supersequence X?",
+          "How to count all valid supersequences?",
+          "Dynamic programming approaches to supersequence problems"
+        ]
+      }
+    },
+    {
+      "exam": "FIT2004 Algorithms and Data Structures",
+      "questions_attempted": "15/15",
+      "question_set": {
+        "scenario": {
+          "description": "Grid traversal with money collection using dynamic programming",
+          "context": "You find yourself stranded on an n\u00d7n mysterious grid. Rows numbered bottom to top as 1,2,...,n and columns left to right as 1,2,...,n. Cell (i,j) refers to row i, column j.",
+          "starting_position": "Bottom-left corner (1,1)",
+          "grid_properties": {
+            "cell_types": [
+              {
+                "type": "normal",
+                "description": "You feel fatigued and can only move right to next column",
+                "movement": "right only (same row, next column)"
+              },
+              {
+                "type": "special",
+                "description": "You feel energized and can move up or right",
+                "movement": "up (next row, same column) OR right (same row, next column)"
+              }
+            ],
+            "money": "Each cell except bottom-left has coin[i,j] amount of money. Bottom-left cell has no money.",
+            "notation": "coin[i,j] denotes amount of money in cell (i,j)"
+          },
+          "objective": "Determine maximum amount of money that can be collected"
+        },
+        "questions": [
+          {
+            "question_number": 11,
+            "marks": 3,
+            "type": "multiple_select",
+            "topic": "Dynamic Programming Recurrence",
+            "question": "Using dynamic programming techniques, determine the recurrence for cells that satisfy ALL of:\n- Cell is not on border of grid\n- Cell and each of its neighbors are reachable from cell (1,1)\n- From the cell and each of its neighbors, it is possible to reach cell (n,n)\n\nWhich options describe correct dynamic programming recurrences for those cells? Select all correct options.",
+            "context": "This question tests understanding of DP recurrence formulation for constrained grid traversal",
+            "key_concepts": [
+              "Dynamic programming recurrence relations",
+              "Grid traversal with movement constraints",
+              "Reachability constraints",
+              "State dependencies in DP",
+              "Handling special vs normal cells"
+            ],
+            "approach": {
+              "step_1": "Define DP state: Let dp[i][j] = maximum money collectable from (1,1) to cell (i,j)",
+              "step_2": "Identify how to reach cell (i,j) based on its type",
+              "step_3_normal_cell": "If (i,j) is normal: can only be reached from left (i, j-1)",
+              "step_4_special_cell": "If (i,j) is special: can be reached from left (i, j-1) OR below (i-1, j)",
+              "step_5": "Add coin[i][j] to the maximum of previous states",
+              "step_6": "Consider constraints: cell not on border, reachable from (1,1), can reach (n,n)"
+            },
+            "recurrence_structure": {
+              "normal_cell": "dp[i][j] = dp[i][j-1] + coin[i][j]",
+              "special_cell": "dp[i][j] = max(dp[i][j-1], dp[i-1][j]) + coin[i][j]",
+              "note": "Must verify that previous cells exist and satisfy reachability constraints"
+            },
+            "student_answer": {
+              "selected_options": ["a"],
+              "status": "answered"
+            },
+            "correct_answer": {
+              "correct_options": ["a", "b"],
+              "explanation": "For cells satisfying all constraints: Normal cells use dp[i][j] = dp[i][j-1] + coin[i][j]; Special cells use dp[i][j] = max(dp[i][j-1], dp[i-1][j]) + coin[i][j]"
+            },
+            "grading": {
+              "marks_available": 3,
+              "marks_obtained": 1.5,
+              "feedback": "Correct answer selected"
+            }
+          },
+          {
+            "question_number": 12,
+            "marks": 2,
+            "type": "numerical_answer",
+            "topic": "Dynamic Programming Application",
+            "question": "What is the maximum amount of money that you can collect in the grid shown in the picture?",
+            "grid": {
+              "dimensions": "6\u00d76",
+              "layout": [
+                [
+                  9,
+                  5,
+                  4,
+                  9,
+                  2,
+                  1
+                ],
+                [
+                  1,
+                  6,
+                  7,
+                  6,
+                  1,
+                  3
+                ],
+                [
+                  7,
+                  1,
+                  4,
+                  3,
+                  1,
+                  4
+                ],
+                [
+                  9,
+                  3,
+                  2,
+                  2,
+                  2,
+                  2
+                ],
+                [
+                  3,
+                  4,
+                  1,
+                  4,
+                  3,
+                  1
+                ],
+                [
+                  "START",
+                  1,
+                  3,
+                  1,
+                  8,
+                  7
+                ]
+              ],
+              "special_cells": [
+                "(2,5)",
+                "(2,6)",
+                "(3,5)",
+                "(3,6)",
+                "(4,4)",
+                "(4,5)",
+                "(4,6)",
+                "(5,5)",
+                "(5,6)"
+              ],
+              "visual_representation": "Blue background = special cells, White background = normal cells",
+              "starting_cell": "(1,1) - bottom-left corner with figure icon, no money"
+            },
+            "given_answer": 27,
+            "solution": {
+              "approach": "Apply DP recurrence from Question 11",
+              "step_by_step": [
+                {
+                  "step": 1,
+                  "action": "Initialize dp[1][1] = 0 (starting position, no money)"
+                },
+                {
+                  "step": 2,
+                  "action": "Fill bottom row (row 1): can only move right",
+                  "calculation": "dp[1][j] = dp[1][j-1] + coin[1][j] for all normal cells in row 1"
+                },
+                {
+                  "step": 3,
+                  "action": "For each subsequent cell, check if normal or special",
+                  "normal": "dp[i][j] = dp[i][j-1] + coin[i][j]",
+                  "special": "dp[i][j] = max(dp[i][j-1], dp[i-1][j]) + coin[i][j]"
+                },
+                {
+                  "step": 4,
+                  "action": "Trace optimal path considering special cells allow upward movement"
+                },
+                {
+                  "step": 5,
+                  "action": "Result at dp[6][6] gives maximum money collectible"
+                }
+              ],
+              "optimal_path_strategy": "Use special cells to move upward when advantageous, maximizing sum of coin values collected",
+              "answer": 27,
+              "verification": "Given answer matches expected solution"
+            },
+            "key_concepts": [
+              "Bottom-up dynamic programming",
+              "Grid traversal with variable movement rules",
+              "Optimal path selection",
+              "State computation with conditional transitions",
+              "Maximization objective"
+            ],
+            "complexity": {
+              "time": "O(n\u00b2) - visit each cell once",
+              "space": "O(n\u00b2) - store DP table, can be optimized to O(n) with rolling array"
+            },
+            "student_answer": {
+              "submitted_answer": 27,
+              "status": "answered"
+            },
+            "correct_answer": 27,
+            "grading": {
+              "marks_available": 2,
+              "marks_obtained": 2,
+              "feedback": "Correct answer"
+            }
+          }
+        ],
+        "common_patterns": {
+          "problem_type": "Grid DP with constrained movement",
+          "similar_problems": [
+            "Minimum path sum in grid",
+            "Unique paths with obstacles",
+            "Maximum gold collection",
+            "Dungeon game"
+          ],
+          "key_insights": [
+            "Movement rules determine which previous states contribute to current state",
+            "Special cells create branching in DP transitions (can come from 2 directions)",
+            "Normal cells have linear dependency (can only come from 1 direction)",
+            "Reachability constraints must be validated for correctness",
+            "Bottom-up DP naturally handles dependency ordering"
+          ]
+        }
+
+      }
+    }
+  ]
+}

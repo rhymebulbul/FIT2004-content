@@ -21,20 +21,48 @@
 
 Use **Master Theorem**:
 
-Let f(n) = O(n^d) where d is the degree of the polynomial.
+Let f(n) = O(n^c) where c is the degree of the polynomial.
 
-1. **If a < b^d:** T(n) = O(n^d) - *Work dominates*
-2. **If a = b^d:** T(n) = O(n^d log n) - *Balanced*
-3. **If a > b^d:** T(n) = O(n^(log_b a)) - *Recursion dominates*
+#### **🎯 EXAM METHOD: No Calculator Needed!**
+
+**Traditional approach:** Calculate c_critical = log_b(a), then compare c vs c_critical
+
+**⚡ BETTER APPROACH:** Compare **b^c vs a** (eliminates logarithm calculations!)
+
+| Comparison | What it means | Dominating term | Result |
+|------------|---------------|-----------------|---------|
+| **b^c < a** | c < c_critical | **Recursion wins** | Θ(n^(log_b(a))) |
+| **b^c = a** | c = c_critical | **Tied, add log** | Θ(n^c log n) |
+| **b^c > a** | c > c_critical | **f(n) wins** | Θ(n^c) |
+
+**Why this works:** Raising both sides of "c vs log_b(a)" by base b gives "b^c vs a"
+
+#### **Mnemonic: "Big Base Power = Big Work"**
+
+- If **b^c > a**: "My work per level (b^c) beats my subproblems (a)" → **work dominates** → **Θ(n^c)**
+- If **b^c < a**: "My subproblems (a) beat my work (b^c)" → **recursion dominates** → **Θ(n^(log_b(a)))**
+- If **b^c = a**: "Perfectly balanced" → **add log factor** → **Θ(n^c log n)**
 
 #### Common Examples:
 
-| Recurrence | a | b | d | Comparison | Result | Algorithm |
-|------------|---|---|---|------------|--------|-----------|
-| T(n) = T(n/2) + O(1) | 1 | 2 | 0 | 1=2^0 | O(log n) | Binary search |
-| T(n) = 2T(n/2) + O(n) | 2 | 2 | 1 | 2=2^1 | O(n log n) | Merge sort |
-| T(n) = 3T(n/2) + O(n) | 3 | 2 | 1 | 3>2^1 | O(n^1.58) | Karatsuba |
-| T(n) = T(n/2) + O(n) | 1 | 2 | 1 | 1<2^1 | O(n) | - |
+| Recurrence | a | b | c | **b^c vs a** | Comparison | Result | Algorithm |
+|------------|---|---|---|------------|------------|--------|-----------|
+| T(n) = T(n/2) + O(1) | 1 | 2 | 0 | 2^0=1 **vs** 1 | 1=1 | **O(log n)** | Binary search |
+| T(n) = 2T(n/2) + O(n) | 2 | 2 | 1 | 2^1=2 **vs** 2 | 2=2 | **O(n log n)** | Merge sort |
+| T(n) = 3T(n/2) + O(n) | 3 | 2 | 1 | 2^1=2 **vs** 3 | 2<3 | **O(n^1.58)** | Karatsuba |
+| T(n) = T(n/2) + O(n) | 1 | 2 | 1 | 2^1=2 **vs** 1 | 2>1 | **O(n)** | - |
+| T(n) = 8T(n/2) + O(n²) | 8 | 2 | 2 | 2^2=4 **vs** 8 | 4<8 | **O(n³)** | - |
+| T(n) = 4T(n/2) + O(n²) | 4 | 2 | 2 | 2^2=4 **vs** 4 | 4=4 | **O(n² log n)** | - |
+| T(n) = 2T(n/2) + O(n³) | 2 | 2 | 3 | 2^3=8 **vs** 2 | 8>2 | **O(n³)** | - |
+
+#### **Powers You Can Do Mentally (No Calculator!)**
+
+```
+2¹=2   2²=4   2³=8   2⁴=16  2⁵=32
+3¹=3   3²=9   3³=27  3⁴=81
+4¹=4   4²=16  4³=64
+5²=25
+```
 
 ---
 
@@ -140,10 +168,16 @@ T(n) = 2T(n/2) + 1        → O(n)      [Recursion dominates]
 ### Problem 2
 **Q:** T(n) = 4T(n/2) + n with T(1)=1
 
-**Solution:**
-- Master Theorem: a=4, b=2, d=1
-- Compare: 4 vs 2¹ → 4 > 2, so a > b^d
-- Use case 3: O(n^(log₂ 4)) = O(n²)
+**Solution (Calculator-Free Method):**
+- a=4, b=2, c=1 (since f(n)=n¹)
+- Calculate: b^c = 2¹ = 2
+- Compare: 2 < 4 (so b^c < a)
+- Recursion dominates → Use O(n^(log_b a))
+- **Answer: O(n^(log₂ 4)) = O(n²)**
+
+**Old Method (for reference):**
+- c_critical = log₂(4) = 2
+- Compare c vs c_critical: 1 < 2
 - **Answer: O(n²)**
 
 ### Problem 3
@@ -193,14 +227,22 @@ T(n) = 2T(n/2) + 1        → O(n)      [Recursion dominates]
 T(n) = T(n-c) + O(n^k) → O(n^(k+1))
 ```
 
-### Type 2 (Master Theorem)
+### Type 2 (Master Theorem) - Calculator-Free Method!
 ```
-T(n) = aT(n/b) + O(n^d)
+T(n) = aT(n/b) + O(n^c)
 
-If a < b^d: O(n^d)
-If a = b^d: O(n^d log n)
-If a > b^d: O(n^(log_b a))
+Step 1: Calculate b^c (easy mental math!)
+Step 2: Compare b^c with a
+
+If b^c < a: O(n^(log_b a))  [Recursion dominates]
+If b^c = a: O(n^c log n)     [Balanced - add log]
+If b^c > a: O(n^c)           [Work dominates]
 ```
+
+**Example:** T(n) = 8T(n/2) + n²
+- b^c = 2² = 4
+- Compare: 4 < 8
+- Answer: O(n^(log₂ 8)) = O(n³)
 
 ### Common Sums
 ```

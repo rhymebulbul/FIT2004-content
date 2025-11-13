@@ -1,0 +1,43 @@
+Here some exam feedback:
+
+Question 1: Question about the space, auxiliary space, and time complexities of the recursive function. The main thing to remember is the space necessary to store the call stack.
+
+Question 2: A loop invariant question regarding an algorithm very similar to the one in Problem 5 of Week 3 Applied.
+
+Question 3: A MCQ question about the complexity implications of using adjacency lists vs adjacency matrix in graph algorithms. Please remember that for many of the algorithms taught in this unit, adjacency lists should be used to achieve the optimal complexity.
+
+Question 4: A question about memo filling in dynamic programming.
+
+Question 5: A MCQ question about the correctness guarantees of greedy graph algorithms. Please keep in mind that Dijkstra's algorithm has quite different requirements than Prim's/Kruskal's algorithms. See Problem 2 of Week 6 Applied for instance.
+
+Question 6: A question about tracing the execution of Floyd-Warshall algorithm
+
+Question 7: A question about finding the min-cut (similar to the quiz question).
+
+Question 8: A question about solving small examples of circulation with demands and lower bounds. This question had the best average performance in the cohort.
+
+Question 9: A question about the number of nodes in a suffix tree. In case of doubt about how to convert suffix tries to suffix trees, please check Seminar 10 slides/unit notes.
+
+Question 10: Question about insertions in a 2-3 Search Tree.
+
+Questions 11-12: Dynamic programming grid problem in the line of Problems 2 and 3 of Week 7 Applied. There are two distinct dynamic programming recurrences that are correct for the problem (like in the applied problems).
+
+Question 13: Combines ideas from Problems 2 and 6 of the Week 9 Applied.
+
+Create a super source and a super sink. Connect the super source to each node in P with edges of capacity 1. Connect each node in S to the super sink with edges of capacity |P| or bigger.
+
+Run Ford-Fulkerson to check if a solution exists (all outgoing edges of source saturated) and extract it.
+
+Prove that this is O(EV) as flow is upper-bound by O(V).
+
+Question 14: Rephrasing of Question 3 of Week 12 Applied
+
+Question 15:  The supersequence without repeated characters question is about detecting cycles in a directed graph (i.e., detecting whether it is a DAG or not):
+
+Check that no string is longer than n. Note that if any string is longer than n then there is no feasible solution.
+
+Model as a directed graph with one node per character of the alphabet and edges between subsequent letters of each string.
+
+Determine if there are cycles on the directed graph (Problem 3 of Week 5 Applied).
+
+The question was not asking to output one supersequence without repeated characters, but a topological sort of the DAG would give it.

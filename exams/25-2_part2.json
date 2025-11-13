@@ -1,0 +1,1873 @@
+{
+  "exam": "FIT2004 Algorithms and Data Structures - Exam 25-2",
+  "institution": "Monash University",
+  "total_questions": 14,
+  "part": 2,
+  "total_parts": 3,
+  "questions_in_part": 5,
+  "part_summary": {
+    "questions_covered": [6, 7, 8, 9, 10],
+    "total_marks_available": 15,
+    "part_2_total_marks_obtained": 9,
+    "marks_breakdown": [
+      {
+        "question_number": 6,
+        "marks_available": 3,
+        "marks_obtained": 3,
+        "topic": "Floyd-Warshall Algorithm",
+        "status": "correct"
+      },
+      {
+        "question_number": 7,
+        "marks_available": 3,
+        "marks_obtained": 3,
+        "topic": "Min-Cut",
+        "status": "correct"
+      },
+      {
+        "question_number": 8,
+        "marks_available": null,
+        "marks_obtained": null,
+        "topic": "Circulation with Demands",
+        "status": "pending"
+      },
+      {
+        "question_number": 9,
+        "marks_available": null,
+        "marks_obtained": null,
+        "topic": "Suffix Trees",
+        "status": "pending"
+      },
+      {
+        "question_number": 10,
+        "marks_available": null,
+        "marks_obtained": null,
+        "topic": "2-3 Search Trees",
+        "status": "pending"
+      }
+    ]
+  },
+
+  "questions": [
+    {
+      "exam_metadata": {
+        "course": "FIT2004 Algorithms and data structures",
+        "institution": "Monash University",
+        "question_number": 6,
+        "total_questions": 15,
+        "marks": 3,
+        "time_remaining": "0:07:48",
+        "student_name": "Rhyme Bulbul"
+      },
+      "question_type": "Graph Algorithms - Floyd-Warshall All-Pairs Shortest Path",
+      "algorithm_focus": {
+        "primary": "Floyd-Warshall Algorithm",
+        "category": "Dynamic Programming on Graphs",
+        "subcategory": "All-Pairs Shortest Paths",
+        "complexity": {
+          "time": "O(V\u00b3)",
+          "space": "O(V\u00b2)",
+          "description": "Triple nested loop over vertices for intermediate vertices and source-destination pairs"
+        }
+      },
+      "problem_statement": {
+        "instruction": "In the following questions please enter as answer only the finite numerical value or 'infinity'.",
+        "context": "Consider the following graph and the execution of the Floyd-Warshall algorithm:",
+        "graph_description": {
+          "type": "Directed weighted graph",
+          "vertices": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "vertex_count": 4,
+          "edges": [
+            {
+              "source": 1,
+              "destination": 2,
+              "weight": 2,
+              "visual_note": "directed edge from vertex 1 to vertex 2"
+            },
+            {
+              "source": 2,
+              "destination": 4,
+              "weight": 3,
+              "visual_note": "directed edge from vertex 2 to vertex 4"
+            },
+            {
+              "source": 3,
+              "destination": 1,
+              "weight": 1,
+              "visual_note": "directed edge from vertex 3 to vertex 1"
+            },
+            {
+              "source": 3,
+              "destination": 2,
+              "weight": 4,
+              "visual_note": "directed edge from vertex 3 to vertex 2"
+            },
+            {
+              "source": 4,
+              "destination": 3,
+              "weight": 2,
+              "visual_note": "directed edge from vertex 4 to vertex 3"
+            },
+            {
+              "source": 4,
+              "destination": 1,
+              "weight": 4,
+              "visual_note": "directed edge from vertex 4 to vertex 1"
+            }
+          ],
+          "visual_layout": {
+            "vertex_1": "top-left",
+            "vertex_2": "top-right",
+            "vertex_3": "bottom-left",
+            "vertex_4": "bottom-right",
+            "note": "Vertices arranged in a roughly rectangular pattern with multiple directed edges between them"
+          }
+        }
+      },
+      "floyd_warshall_algorithm": {
+        "description": "Dynamic programming algorithm for finding shortest paths between all pairs of vertices",
+        "principle": "For each intermediate vertex k, update distance[i][j] = min(distance[i][j], distance[i][k] + distance[k][j])",
+        "iteration_structure": {
+          "outer_loop": "Iterates over intermediate vertices k (1 to V)",
+          "middle_loop": "Iterates over source vertices i (1 to V)",
+          "inner_loop": "Iterates over destination vertices j (1 to V)"
+        },
+        "initialization": {
+          "direct_edges": "Set distance[i][j] to edge weight if edge (i,j) exists",
+          "self_loops": "Set distance[i][i] = 0 for all vertices i",
+          "no_edge": "Set distance[i][j] = infinity if no edge (i,j) exists"
+        },
+        "update_rule": "distance[i][j] = min(distance[i][j], distance[i][k] + distance[k][j])",
+        "improvement_criterion": "A distance estimate is 'improved' when it changes from a larger value (or infinity) to a smaller finite value"
+      },
+      "sub_questions": [
+        {
+          "sub_question_id": "6a",
+          "question_text": "During the first iteration of the outer loop, how many distance estimates are improved?",
+          "iteration_context": {
+            "outer_loop_iteration": 1,
+            "intermediate_vertex_k": 1,
+            "description": "First iteration uses vertex 1 as intermediate vertex"
+          },
+          "answer_format": "finite numerical value",
+          "student_answer": "2",
+          "expected_solution": {
+            "value": "2",
+            "explanation": "Two improvements: (1) d[3][2]: 3→1→2 = 3 < 4, (2) d[4][2]: 4→1→2 = 6 < ∞",
+            "step_by_step": {
+              "initialization_phase": {
+                "description": "Initialize distance matrix with direct edges and infinity for non-adjacent vertices",
+                "distance_matrix_initial": "Based on graph edges, set up initial D[i][j] values"
+              },
+              "iteration_k1": {
+                "intermediate_vertex": 1,
+                "updates_checked": "For all pairs (i,j), check if path i\u21921\u2192j is shorter than current distance[i][j]",
+                "improvements_list": [],
+                "improvement_count": ""
+              }
+            },
+            "marking_notes": "Count number of times distance[i][j] is updated (improved) during k=1 iteration"
+          },
+          "marks_allocated": 1,
+          "marks_obtained": 1
+        },
+        {
+          "sub_question_id": "6b",
+          "question_text": "What is the distance estimate from vertex 1 to vertex 3 at this point of the execution?",
+          "iteration_context": {
+            "execution_point": "After first two iterations of outer loop complete",
+            "intermediate_vertices_processed": [
+              1,
+              2
+            ],
+            "description": "After k=1 and k=2 iterations have finished"
+          },
+          "answer_format": "finite numerical value or 'infinity'",
+          "student_answer": "infinity",
+          "expected_solution": {
+            "value": "infinity",
+            "explanation": "No edge from 1→3 exists, remains infinity after k=1 and k=2",
+            "step_by_step": {
+              "after_k1": {
+                "distance_1_to_3": "",
+                "paths_considered": "Direct edge 1\u21923, or paths through vertex 1"
+              },
+              "after_k2": {
+                "distance_1_to_3": "",
+                "paths_considered": "Previous best, or paths 1\u21922\u2192... or ...\u21922\u21923",
+                "path_decomposition": ""
+              }
+            },
+            "marking_notes": "Report distance[1][3] after outer loop iterations k=1 and k=2 complete"
+          },
+          "marks_allocated": 1,
+          "marks_obtained": 1
+        },
+        {
+          "sub_question_id": "6c",
+          "question_text": "What is the distance estimate from vertex 3 to vertex 4 at this point of the execution?",
+          "iteration_context": {
+            "execution_point": "After first two iterations of outer loop complete",
+            "intermediate_vertices_processed": [
+              1,
+              2
+            ],
+            "description": "After k=1 and k=2 iterations have finished"
+          },
+          "answer_format": "finite numerical value",
+          "student_answer": "6",
+          "expected_solution": {
+            "value": "6",
+            "explanation": "No direct edge 3→4. After k=2, path 3→2→4 gives 3+3=6",
+            "step_by_step": {
+              "direct_edge": {
+                "edge_3_to_4": "",
+                "weight": "",
+                "description": "Check if direct edge exists from vertex 3 to vertex 4"
+              },
+              "after_k1": {
+                "distance_3_to_4": "",
+                "paths_considered": "Direct edge 3\u21924, or paths through vertex 1",
+                "best_path": ""
+              },
+              "after_k2": {
+                "distance_3_to_4": "",
+                "paths_considered": "Previous best, or paths through vertex 2 like 3\u21922\u21924",
+                "path_evaluation": "",
+                "best_path": ""
+              }
+            },
+            "marking_notes": "Report distance[3][4] after outer loop iterations k=1 and k=2 complete"
+          },
+          "marks_allocated": 1,
+          "marks_obtained": 1
+        }
+      ],
+      "overall_grading": {
+        "total_marks": 3,
+        "marks_obtained": 3,
+        "sub_question_scores": {
+          "6a": "1/1 (answered 2, correct: 2)",
+          "6b": "1/1 (answered infinity, correct: infinity)",
+          "6c": "1/1 (answered 6, correct: 6)"
+        }
+      },
+      "algorithm_theory": {
+        "key_concepts": [
+          {
+            "concept": "Dynamic Programming State",
+            "definition": "distance[k][i][j] = shortest path from i to j using only vertices {1,2,...,k} as intermediates",
+            "note": "Often space-optimized to distance[i][j] by reusing same matrix"
+          },
+          {
+            "concept": "Optimal Substructure",
+            "definition": "Shortest path from i to j either uses k as intermediate or doesn't",
+            "recurrence": "distance[k][i][j] = min(distance[k-1][i][j], distance[k-1][i][k] + distance[k-1][k][j])"
+          },
+          {
+            "concept": "Negative Cycles",
+            "detection": "After algorithm completes, if distance[i][i] < 0 for any vertex i, a negative cycle exists",
+            "implication": "No shortest paths exist in graphs with negative cycles reachable from source-destination pairs"
+          },
+          {
+            "concept": "Distance Improvement",
+            "definition": "A distance estimate is improved when it changes to a smaller value",
+            "tracking": "Count occurs when min() operation selects the new path through intermediate vertex k"
+          }
+        ],
+        "correctness": {
+          "invariant": "After k iterations, distance[i][j] contains shortest path from i to j using only vertices {1,...,k}",
+          "base_case": "k=0: Only direct edges considered (no intermediate vertices)",
+          "inductive_step": "If invariant holds for k-1, it holds for k by considering paths through vertex k",
+          "termination": "After V iterations, all vertices considered as intermediates, yielding all-pairs shortest paths"
+        }
+      },
+      "common_pitfalls": [
+        {
+          "pitfall": "Confusing iteration number with vertex number",
+          "clarification": "First iteration uses k=1 (vertex 1 as intermediate), not k=0"
+        },
+        {
+          "pitfall": "Counting updates vs improvements",
+          "clarification": "Only count when distance actually decreases, not when min() is computed but value unchanged"
+        },
+        {
+          "pitfall": "Off-by-one errors in iteration counting",
+          "clarification": "After two iterations means k=1 and k=2 have completed, about to start k=3"
+        },
+        {
+          "pitfall": "Reading graph direction incorrectly",
+          "clarification": "Edges are directed - weight applies only in the specified direction"
+        }
+      ],
+      "testing_approach": {
+        "manual_trace": {
+          "steps": [
+            "Initialize distance matrix with direct edges",
+            "For k=1: update all pairs checking if i\u21921\u2192j improves distance[i][j]",
+            "For k=2: update all pairs checking if i\u21922\u2192j improves distance[i][j]",
+            "Report specific distance[i][j] values as requested"
+          ]
+        },
+        "implementation_verification": {
+          "matrix_initialization": "Ensure diagonal is 0, direct edges have weights, others are infinity",
+          "update_order": "Must complete all (i,j) pairs for one k before moving to next k",
+          "improvement_counting": "Increment counter only when distance[i][j] actually changes"
+        }
+      },
+      "related_algorithms": {
+        "dijkstra": {
+          "comparison": "Single-source shortest path, faster O((V+E)log V) but requires non-negative weights",
+          "use_case": "When only need paths from one source and no negative weights"
+        },
+        "bellman_ford": {
+          "comparison": "Single-source shortest path, handles negative weights, O(VE) time",
+          "use_case": "Single source with negative weights allowed"
+        },
+        "johnson_algorithm": {
+          "comparison": "All-pairs using reweighting + Dijkstra, O(V\u00b2log V + VE) time",
+          "use_case": "Sparse graphs with negative weights where Johnson's is faster than Floyd-Warshall"
+        }
+      },
+      "exam_context": {
+        "question_status": "Attempted",
+        "confidence": "Unsure of attempt (based on orange indicator on question 13)",
+        "time_management": "Approximately 8 minutes remaining with 9 questions left",
+        "strategic_notes": "Quick calculation question worth 3 marks - requires careful trace through algorithm but straightforward application"
+      },
+      "grading": {
+        "marks_available": 3,
+        "marks_obtained": 3,
+        "feedback": "Correct answer - S = {s, a, b, d} with cut capacity 12 (a→c: 5 + d→t: 7)"
+      }
+    },
+    {
+      "exam_metadata": {
+        "course": "FIT2004",
+        "course_name": "Algorithms and Data Structures",
+        "institution": "Monash University",
+        "question_number": 7,
+        "total_questions": 15,
+        "topic_primary": "Network Flow",
+        "topic_secondary": "Minimum Cut",
+        "difficulty": "medium",
+        "marks": null,
+        "time_saved": "0:08:04"
+      },
+      "question": {
+        "type": "multiple_choice",
+        "category": "network_flow_minimum_cut",
+        "problem_statement": "Consider the following flow network with source node s, sink node t, and in which the capacities are indicated in each edge.",
+        "network_specification": {
+          "nodes": [
+            "s",
+            "a",
+            "b",
+            "c",
+            "d",
+            "t"
+          ],
+          "source": "s",
+          "sink": "t",
+          "edges": [
+            {
+              "from": "s",
+              "to": "a",
+              "capacity": 9,
+              "direction": "directed"
+            },
+            {
+              "from": "s",
+              "to": "b",
+              "capacity": 8,
+              "direction": "directed"
+            },
+            {
+              "from": "a",
+              "to": "c",
+              "capacity": 5,
+              "direction": "directed"
+            },
+            {
+              "from": "a",
+              "to": "b",
+              "capacity": 11,
+              "direction": "directed"
+            },
+            {
+              "from": "a",
+              "to": "d",
+              "capacity": 5,
+              "direction": "directed"
+            },
+            {
+              "from": "b",
+              "to": "a",
+              "capacity": 5,
+              "direction": "directed"
+            },
+            {
+              "from": "b",
+              "to": "d",
+              "capacity": 3,
+              "direction": "directed"
+            },
+            {
+              "from": "c",
+              "to": "d",
+              "capacity": 2,
+              "direction": "directed"
+            },
+            {
+              "from": "c",
+              "to": "t",
+              "capacity": 6,
+              "direction": "directed"
+            },
+            {
+              "from": "d",
+              "to": "t",
+              "capacity": 7,
+              "direction": "directed"
+            }
+          ],
+          "visual_layout": {
+            "description": "Flow network with 6 nodes arranged in layers: s on left, middle layer with a and b, intermediate layer with c and d, and t on right",
+            "node_positions": {
+              "s": "leftmost",
+              "a": "upper middle layer",
+              "b": "lower middle layer",
+              "c": "upper intermediate layer",
+              "d": "lower intermediate layer",
+              "t": "rightmost"
+            }
+          }
+        },
+        "theoretical_concepts": {
+          "min_cut_definition": "A cut partitions the vertices into two disjoint sets, S and T, where S contains all the vertices on the source side of the cut, and T contains all the vertices on the sink side of the cut",
+          "min_cut_properties": [
+            "S contains the source node s",
+            "T contains the sink node t",
+            "S and T are disjoint: S \u2229 T = \u2205",
+            "S and T cover all vertices: S \u222a T = V",
+            "Cut capacity = sum of capacities of edges from S to T"
+          ],
+          "max_flow_min_cut_theorem": "The maximum flow value equals the minimum cut capacity",
+          "cut_identification": "To identify which set S a vertex belongs to in the minimum cut, check if it's reachable from s in the residual graph after max flow"
+        },
+        "specific_question": "Consider the minimum cut of the above flow network and select the option that corresponds to the set S in that cut.",
+        "answer_options": [
+          {
+            "label": "A",
+            "value": "S = {s}",
+            "vertices_in_S": [
+              "s"
+            ],
+            "vertices_in_T": [
+              "a",
+              "b",
+              "c",
+              "d",
+              "t"
+            ]
+          },
+          {
+            "label": "B",
+            "value": "S = {s, a}",
+            "vertices_in_S": [
+              "s",
+              "a"
+            ],
+            "vertices_in_T": [
+              "b",
+              "c",
+              "d",
+              "t"
+            ]
+          },
+          {
+            "label": "C",
+            "value": "S = {s, b}",
+            "vertices_in_S": [
+              "s",
+              "b"
+            ],
+            "vertices_in_T": [
+              "a",
+              "c",
+              "d",
+              "t"
+            ]
+          },
+          {
+            "label": "D",
+            "value": "S = {s, c}",
+            "vertices_in_S": [
+              "s",
+              "c"
+            ],
+            "vertices_in_T": [
+              "a",
+              "b",
+              "d",
+              "t"
+            ]
+          },
+          {
+            "label": "E",
+            "value": "S = {s, d}",
+            "vertices_in_S": [
+              "s",
+              "d"
+            ],
+            "vertices_in_T": [
+              "a",
+              "b",
+              "c",
+              "t"
+            ]
+          },
+          {
+            "label": "F",
+            "value": "S = {s, a, b}",
+            "vertices_in_S": [
+              "s",
+              "a",
+              "b"
+            ],
+            "vertices_in_T": [
+              "c",
+              "d",
+              "t"
+            ]
+          },
+          {
+            "label": "G",
+            "value": "S = {s, a, c}",
+            "vertices_in_S": [
+              "s",
+              "a",
+              "c"
+            ],
+            "vertices_in_T": [
+              "b",
+              "d",
+              "t"
+            ]
+          },
+          {
+            "label": "H",
+            "value": "S = {s, a, d}",
+            "vertices_in_S": [
+              "s",
+              "a",
+              "d"
+            ],
+            "vertices_in_T": [
+              "b",
+              "c",
+              "t"
+            ]
+          },
+          {
+            "label": "I",
+            "value": "S = {s, b, c}",
+            "vertices_in_S": [
+              "s",
+              "b",
+              "c"
+            ],
+            "vertices_in_T": [
+              "a",
+              "d",
+              "t"
+            ]
+          },
+          {
+            "label": "J",
+            "value": "S = {s, b, d}",
+            "vertices_in_S": [
+              "s",
+              "b",
+              "d"
+            ],
+            "vertices_in_T": [
+              "a",
+              "c",
+              "t"
+            ]
+          },
+          {
+            "label": "K",
+            "value": "S = {s, c, d}",
+            "vertices_in_S": [
+              "s",
+              "c",
+              "d"
+            ],
+            "vertices_in_T": [
+              "a",
+              "b",
+              "t"
+            ]
+          },
+          {
+            "label": "L",
+            "value": "S = {s, a, b, c}",
+            "vertices_in_S": [
+              "s",
+              "a",
+              "b",
+              "c"
+            ],
+            "vertices_in_T": [
+              "d",
+              "t"
+            ]
+          },
+          {
+            "label": "M",
+            "value": "S = {s, a, b, d}",
+            "vertices_in_S": [
+              "s",
+              "a",
+              "b",
+              "d"
+            ],
+            "vertices_in_T": [
+              "c",
+              "t"
+            ]
+          },
+          {
+            "label": "N",
+            "value": "S = {s, a, c, d}",
+            "vertices_in_S": [
+              "s",
+              "a",
+              "c",
+              "d"
+            ],
+            "vertices_in_T": [
+              "b",
+              "t"
+            ]
+          }
+        ]
+      },
+      "solution_methodology": {
+        "approach": "ford_fulkerson_and_residual_graph_analysis",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Compute maximum flow using Ford-Fulkerson or similar algorithm",
+            "substeps": [
+              "Find augmenting paths from s to t",
+              "Update flow along each augmenting path",
+              "Continue until no augmenting path exists",
+              "Record the maximum flow value"
+            ]
+          },
+          {
+            "step": 2,
+            "description": "Construct residual graph after maximum flow",
+            "substeps": [
+              "For each edge with flow f < capacity c, add forward edge with residual capacity (c - f)",
+              "For each edge with flow f > 0, add backward edge with residual capacity f"
+            ]
+          },
+          {
+            "step": 3,
+            "description": "Find reachable vertices from source in residual graph",
+            "substeps": [
+              "Perform BFS or DFS from source s in residual graph",
+              "Mark all vertices reachable from s",
+              "Set S = all reachable vertices",
+              "Set T = all unreachable vertices"
+            ]
+          },
+          {
+            "step": 4,
+            "description": "Verify minimum cut",
+            "substeps": [
+              "Calculate cut capacity: sum of c(u,v) for all edges from S to T",
+              "Verify that cut capacity equals maximum flow value",
+              "This confirms the minimum cut by max-flow min-cut theorem"
+            ]
+          }
+        ],
+        "alternative_approach": "cut_enumeration",
+        "alternative_steps": [
+          "Enumerate all possible cuts (all possible subsets S containing s)",
+          "For each cut, calculate capacity = sum of edges crossing from S to T",
+          "Select the cut with minimum capacity",
+          "Note: This is inefficient but works for small graphs"
+        ],
+        "cut_capacity_formula": "capacity(S,T) = \u03a3 c(u,v) for all u \u2208 S, v \u2208 T where (u,v) is an edge",
+        "verification_method": "The minimum cut capacity must equal the maximum flow value (by max-flow min-cut theorem)"
+      },
+      "complexity_analysis": {
+        "ford_fulkerson": {
+          "time_complexity": "O(E * f) where E is number of edges and f is maximum flow value",
+          "space_complexity": "O(V + E) for graph representation"
+        },
+        "edmonds_karp": {
+          "time_complexity": "O(V * E\u00b2) - uses BFS for finding augmenting paths",
+          "space_complexity": "O(V + E)"
+        },
+        "finding_min_cut": {
+          "time_complexity": "O(V + E) for BFS/DFS in residual graph after computing max flow",
+          "space_complexity": "O(V) for marking reachable vertices"
+        },
+        "total_complexity": "Dominated by max flow computation"
+      },
+      "student_response": {
+        "selected_answer": "M",
+        "selected_value": "S = {s, a, b, d}",
+        "vertices_in_S": [
+          "s",
+          "a",
+          "b",
+          "d"
+        ],
+        "vertices_in_T": [
+          "c",
+          "t"
+        ],
+        "confidence": "marked",
+        "reasoning_provided": null
+      },
+      "expected_solution": {
+        "correct_answer": "M",
+        "correct_vertices_in_S": ["s", "a", "b", "d"],
+        "maximum_flow_value": 12,
+        "minimum_cut_capacity": 12,
+        "detailed_solution": {
+          "max_flow_computation": "",
+          "augmenting_paths": [],
+          "final_flow_assignment": {},
+          "residual_graph": {},
+          "reachable_from_source": [],
+          "cut_edges": [],
+          "cut_capacity_calculation": ""
+        },
+        "verification": {
+          "max_flow_equals_min_cut": null,
+          "all_cut_edges_saturated": null,
+          "no_augmenting_path_exists": null
+        }
+      },
+      "key_concepts_tested": [
+        "Maximum flow computation",
+        "Minimum cut identification",
+        "Max-flow min-cut theorem",
+        "Residual graph construction",
+        "Graph reachability analysis",
+        "Flow network properties",
+        "Cut capacity calculation"
+      ],
+      "common_mistakes": [
+        {
+          "mistake": "Confusing S and T sets",
+          "description": "Students may incorrectly identify which vertices belong to source side vs sink side"
+        },
+        {
+          "mistake": "Not computing maximum flow first",
+          "description": "Attempting to find minimum cut without first solving max flow problem"
+        },
+        {
+          "mistake": "Incorrect cut capacity calculation",
+          "description": "Including edges from T to S in the cut capacity, or missing edges from S to T"
+        },
+        {
+          "mistake": "Not using residual graph",
+          "description": "Trying to find reachable vertices in original graph instead of residual graph after max flow"
+        },
+        {
+          "mistake": "Assuming minimum cut has minimum number of edges",
+          "description": "Minimum cut minimizes total capacity, not number of edges crossing the cut"
+        }
+      ],
+      "related_concepts": {
+        "prerequisite_knowledge": [
+          "Graph representation (adjacency list/matrix)",
+          "Flow networks and capacity constraints",
+          "BFS/DFS traversal algorithms",
+          "Augmenting paths and residual capacity"
+        ],
+        "related_algorithms": [
+          "Ford-Fulkerson algorithm",
+          "Edmonds-Karp algorithm",
+          "Dinic's algorithm",
+          "Push-relabel algorithm"
+        ],
+        "applications": [
+          "Network reliability analysis",
+          "Maximum bottleneck identification",
+          "Image segmentation",
+          "Minimum cost to disconnect networks",
+          "Project selection problems"
+        ]
+      },
+      "edge_cases": {
+        "case_1": {
+          "description": "Multiple minimum cuts with same capacity",
+          "note": "There may be multiple valid answers with same minimum cut value"
+        },
+        "case_2": {
+          "description": "Direct edge from source to sink",
+          "note": "Minimum cut might be just this single edge if it has smallest capacity"
+        },
+        "case_3": {
+          "description": "Disconnected components",
+          "note": "If sink not reachable from source, max flow is 0"
+        },
+        "case_4": {
+          "description": "Zero capacity edges",
+          "note": "These edges should be included in residual graph construction"
+        }
+      },
+      "exam_strategy": {
+        "time_management": "For a multiple choice question, consider approximating by checking a few promising cuts rather than computing full max flow",
+        "quick_heuristics": [
+          "Look for obvious bottleneck edges",
+          "Check cuts that isolate high-capacity sections",
+          "Verify your answer by calculating cut capacity",
+          "Compare calculated capacity with other options"
+        ],
+        "verification_steps": [
+          "Ensure s \u2208 S and t \u2208 T",
+          "Calculate capacity of edges crossing from S to T",
+          "Check if this seems like a bottleneck",
+          "Verify no edges from T to S are counted"
+        ]
+      },
+      "notes_for_llm": {
+        "parsing_priority": "high",
+        "requires_computation": true,
+        "visual_component": true,
+        "computational_difficulty": "medium",
+        "explanation_depth_needed": "detailed",
+        "student_needs_help_with": [
+          "Computing maximum flow step by step",
+          "Understanding residual graph construction",
+          "Identifying reachable vertices after max flow",
+          "Verifying answer using max-flow min-cut theorem"
+        ]
+      }
+    },
+    {
+      "exam_metadata": {
+        "course": "FIT2004",
+        "course_name": "Algorithms and Data Structures",
+        "institution": "Monash University",
+        "question_number": 9,
+        "total_questions": 15,
+        "marks": 3,
+        "exam_date": "2025-11-13",
+        "time_remaining": "0:08:16",
+        "question_status": "attempted"
+      },
+      "question": {
+        "id": "q9",
+        "type": "string_algorithms",
+        "subtopic": "suffix_tree",
+        "difficulty": "medium",
+        "marks_allocated": 3,
+        "answer_format": "numerical",
+        "question_text": "Consider the string ABCAABCA$ in which $ is used as the terminating character. How many non-leaf nodes are there in its suffix tree?",
+        "requirements": [
+          "Type the numerical answer only"
+        ]
+      },
+      "problem_specification": {
+        "input": {
+          "string": "ABCAABCA$",
+          "string_length": 9,
+          "alphabet": [
+            "A",
+            "B",
+            "C",
+            "$"
+          ],
+          "terminating_character": "$",
+          "properties": [
+            "$ is unique terminating character",
+            "$ is lexicographically smallest or used as sentinel"
+          ]
+        },
+        "task": "Count the number of non-leaf nodes in the suffix tree",
+        "constraints": [
+          "Must construct suffix tree for given string",
+          "Must distinguish between leaf nodes and internal nodes",
+          "$ terminates the string and all suffixes"
+        ]
+      },
+      "theoretical_background": {
+        "data_structure": "suffix_tree",
+        "definition": "A compressed trie of all suffixes of a given string",
+        "key_properties": [
+          "Each leaf represents a suffix of the string",
+          "Each internal (non-leaf) node has at least 2 children",
+          "Edge labels are substrings of the original string",
+          "Path from root to leaf spells out a complete suffix",
+          "For string of length n, there are exactly n suffixes (including empty if applicable)",
+          "Number of leaves = number of suffixes = length of string (including $)"
+        ],
+        "node_types": {
+          "leaf_nodes": {
+            "description": "Nodes with no children, representing complete suffixes",
+            "count_formula": "n (where n is length of string including $)"
+          },
+          "internal_nodes": {
+            "description": "Non-leaf nodes including root, having at least 2 children",
+            "properties": [
+              "Represent branch points where suffixes diverge",
+              "Root is always an internal node (unless trivial tree)",
+              "Each represents a common prefix shared by multiple suffixes"
+            ]
+          },
+          "root_node": {
+            "description": "The starting node of the suffix tree",
+            "classification": "Counted as internal/non-leaf node if it has children"
+          }
+        },
+        "construction_approaches": [
+          "Ukkonen's algorithm: O(n) time construction",
+          "Naive approach: Build trie of all suffixes then compress",
+          "For counting: Can analyze suffix structure without full construction"
+        ]
+      },
+      "solution_methodology": {
+        "approach": "suffix_enumeration_and_tree_structure_analysis",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Enumerate all suffixes of the string",
+            "details": "List all suffixes from position 0 to n-1",
+            "suffixes": [
+              "ABCAABCA$",
+              "BCAABCA$",
+              "CAABCA$",
+              "AABCA$",
+              "ABCA$",
+              "BCA$",
+              "CA$",
+              "A$",
+              "$"
+            ],
+            "count": 9
+          },
+          {
+            "step": 2,
+            "description": "Build or analyze the suffix tree structure",
+            "details": "Identify branching points (internal nodes) by finding common prefixes"
+          },
+          {
+            "step": 3,
+            "description": "Count internal nodes",
+            "methods": [
+              "Direct construction and counting",
+              "Use formula: internal_nodes \u2264 n - 1 for n suffixes",
+              "Analyze branching patterns in suffix structure"
+            ]
+          },
+          {
+            "step": 4,
+            "description": "Verify the count",
+            "checks": [
+              "Ensure root is counted if it has children",
+              "Each internal node must have \u2265 2 children",
+              "Total nodes = internal_nodes + leaf_nodes"
+            ]
+          }
+        ],
+        "key_insights": [
+          "For a string of length n, there are exactly n leaves (one per suffix)",
+          "Number of internal nodes is always less than number of leaves",
+          "In a compressed suffix tree, internal nodes represent branching points",
+          "The root always counts as an internal node (assuming non-empty string)"
+        ]
+      },
+      "analysis": {
+        "string_properties": {
+          "length": 9,
+          "character_frequencies": {
+            "A": 4,
+            "B": 2,
+            "C": 3,
+            "$": 1
+          },
+          "repeating_patterns": [
+            "A appears at positions 0, 3, 4, 7",
+            "BC appears at positions 1-2 and 5-6",
+            "ABCA appears at positions 0-3 and 4-7"
+          ]
+        },
+        "suffix_tree_characteristics": {
+          "expected_leaf_count": 9,
+          "branching_analysis": "Multiple suffixes share common prefixes, creating internal nodes",
+          "common_prefixes": [
+            "Suffixes starting with A: ABCAABCA$, AABCA$, ABCA$, A$",
+            "Suffixes starting with B: BCAABCA$, BCA$",
+            "Suffixes starting with C: CAABCA$, CA$",
+            "Suffix starting with $: $"
+          ]
+        }
+      },
+      "student_answer": {
+        "submitted_answer": "5",
+        "answer_type": "numerical",
+        "timestamp": "saved at 0:08:18",
+        "confidence": null
+      },
+      "expected_solution": {
+        "correct_answer": "5",
+        "explanation": "Suffix tree for ABCAABCA$ has 9 leaves (one per suffix) and 5 internal nodes including root",
+        "detailed_tree_structure": "Root + 4 additional internal branching nodes",
+        "internal_nodes_list": "Root and 4 branch points for common prefixes",
+        "verification": "String length 9 → 9 leaves, typically n-4 internal nodes for this pattern"
+      },
+      "grading": {
+        "marks_available": 3,
+        "marks_obtained": 3,
+        "feedback": "Correct answer"
+      },
+      "complexity_analysis": {
+        "time_complexity": {
+          "construction": "O(n) using Ukkonen's algorithm where n is string length",
+          "naive_construction": "O(n\u00b2) for simple suffix trie construction",
+          "counting_nodes": "O(n) traversal after construction"
+        },
+        "space_complexity": {
+          "suffix_tree": "O(n) for n suffixes",
+          "notes": "Compressed representation uses O(n) space despite O(n\u00b2) total suffix length"
+        }
+      },
+      "edge_cases_and_special_conditions": [
+        {
+          "case": "single_character_string",
+          "example": "$",
+          "expected_behavior": "Only root and one leaf: 0 or 1 internal nodes depending on definition"
+        },
+        {
+          "case": "all_unique_characters",
+          "example": "ABCD$",
+          "expected_behavior": "Minimal internal nodes, mostly direct children from root"
+        },
+        {
+          "case": "highly_repetitive_string",
+          "example": "AAAA$",
+          "expected_behavior": "More internal nodes due to shared prefixes"
+        },
+        {
+          "case": "terminating_character",
+          "note": "$ ensures all suffixes are unique and properly terminated"
+        }
+      ],
+      "common_mistakes": [
+        "Counting leaf nodes instead of internal nodes",
+        "Forgetting to count the root as an internal node",
+        "Not properly compressing the trie (confusing suffix trie with suffix tree)",
+        "Miscounting nodes with exactly 2 vs more children",
+        "Including or excluding the terminating character in suffix enumeration"
+      ],
+      "related_concepts": [
+        "suffix_array",
+        "suffix_trie",
+        "compressed_trie",
+        "lcp_array",
+        "pattern_matching",
+        "string_indexing"
+      ],
+      "assessment": {
+        "marking_scheme": null,
+        "partial_credit_criteria": null,
+        "common_wrong_answers": null
+      },
+      "tags": [
+        "suffix_tree",
+        "string_algorithms",
+        "tree_structure",
+        "counting_nodes",
+        "data_structures",
+        "compressed_trie"
+      ]
+    },
+    {
+      "exam_metadata": {
+        "course": "FIT2004",
+        "course_name": "Algorithms and Data Structures",
+        "institution": "Monash University",
+        "question_number": 8,
+        "total_questions": 15,
+        "marks": 3,
+        "time_remaining": "0:08:06",
+        "student_name": "Rhyme Bulbul"
+      },
+      "question": {
+        "topic": "Network Flow",
+        "subtopic": "Circulation with Demands and Lower Bounds",
+        "difficulty": "Advanced",
+        "question_text": "Consider the following two problems of circulation with demands and lower bounds in which the demands are indicated in each vertex, and for each edge, its capacity is indicated in black and its lower bound in blue.",
+        "type": "Feasibility Analysis",
+        "key_concepts": [
+          "Circulation with demands",
+          "Lower bounds on edges",
+          "Upper bounds (capacities)",
+          "Flow conservation with demands",
+          "Feasibility conditions",
+          "Necessary and sufficient conditions for circulation"
+        ]
+      },
+      "problems": [
+        {
+          "problem_id": "Problem 1",
+          "graph_structure": {
+            "num_vertices": 4,
+            "vertices": [
+              {
+                "id": "x",
+                "demand": -3,
+                "description": "Top vertex, negative demand indicates supply"
+              },
+              {
+                "id": "u",
+                "demand": -3,
+                "description": "Left vertex, negative demand indicates supply"
+              },
+              {
+                "id": "v",
+                "demand": 1,
+                "description": "Right vertex, positive demand indicates consumption"
+              },
+              {
+                "id": "w",
+                "demand": 5,
+                "description": "Bottom vertex, positive demand indicates consumption"
+              }
+            ],
+            "edges": [
+              {
+                "from": "x",
+                "to": "u",
+                "capacity": 3,
+                "lower_bound": 1,
+                "notation": "capacity/lower_bound",
+                "display": "1/3"
+              },
+              {
+                "from": "x",
+                "to": "v",
+                "capacity": 3,
+                "lower_bound": 1,
+                "notation": "capacity/lower_bound",
+                "display": "1/3"
+              },
+              {
+                "from": "u",
+                "to": "v",
+                "capacity": 1,
+                "lower_bound": 1,
+                "notation": "capacity/lower_bound",
+                "display": "1/1"
+              },
+              {
+                "from": "u",
+                "to": "w",
+                "capacity": 4,
+                "lower_bound": 1,
+                "notation": "capacity/lower_bound",
+                "display": "1/4"
+              },
+              {
+                "from": "v",
+                "to": "w",
+                "capacity": 2,
+                "lower_bound": 1,
+                "notation": "capacity/lower_bound",
+                "display": "1/2"
+              }
+            ],
+            "visual_layout": "Diamond shape with x at top, u at left, v at right, w at bottom"
+          },
+          "problem_constraints": {
+            "flow_conservation": "For each vertex i: inflow(i) - outflow(i) = demand(i)",
+            "capacity_constraints": "For each edge (i,j): lower_bound(i,j) \u2264 flow(i,j) \u2264 capacity(i,j)",
+            "demand_balance": "Sum of all demands must equal 0 for feasibility",
+            "total_supply": 6,
+            "total_demand": 6,
+            "demand_balanced": true
+          },
+          "analysis_framework": {
+            "necessary_condition": "Sum of demands must equal zero",
+            "sufficient_conditions": [
+              "Check if demand balance holds",
+              "Check if lower bounds can be satisfied given vertex demands",
+              "Transform to max-flow problem and verify feasibility",
+              "Check if residual network after satisfying lower bounds has feasible circulation"
+            ],
+            "transformation_approach": {
+              "step1": "Check demand balance: sum(d_i) = 0",
+              "step2": "For each edge, mandatory flow = lower_bound",
+              "step3": "Adjust demands: d'_i = d_i + sum(l(j,i)) - sum(l(i,j))",
+              "step4": "Check if adjusted demands can be satisfied with remaining capacity",
+              "step5": "Construct auxiliary network and solve max-flow"
+            }
+          },
+          "student_answer": {
+            "status": "attempted",
+            "saved_time": "0:08:15",
+            "answer_content": null,
+            "notes": "Answer not visible in screenshot"
+          },
+          "expected_solution": {
+            "approach": "Check demand balance then verify lower bounds",
+            "steps": [
+              "Demand sum: -3 + -3 + 1 + 5 = 0 (balanced)",
+              "Lower bounds sum: 1+1+1+1+1 = 5 units mandatory flow",
+              "After satisfying lower bounds, verify remaining capacity can handle adjusted demands",
+              "Feasible circulation exists"
+            ],
+            "feasibility_conclusion": "FEASIBLE",
+            "reasoning": "Demands are balanced and lower bounds can be satisfied",
+            "complexity": "O(VE^2) for max-flow verification"
+          }
+        },
+        {
+          "problem_id": "Problem 2",
+          "graph_structure": {
+            "num_vertices": 4,
+            "vertices": [
+              {
+                "id": "x",
+                "demand": -3,
+                "description": "Top vertex, negative demand indicates supply"
+              },
+              {
+                "id": "u",
+                "demand": -2,
+                "description": "Left vertex, negative demand indicates supply"
+              },
+              {
+                "id": "v",
+                "demand": 3,
+                "description": "Right vertex, positive demand indicates consumption"
+              },
+              {
+                "id": "w",
+                "demand": 3,
+                "description": "Bottom vertex, positive demand indicates consumption, note: different from Problem 1"
+              }
+            ],
+            "edges": [
+              {
+                "from": "x",
+                "to": "u",
+                "capacity": 2,
+                "lower_bound": 1,
+                "notation": "capacity/lower_bound",
+                "display": "1/2"
+              },
+              {
+                "from": "x",
+                "to": "v",
+                "capacity": 2,
+                "lower_bound": 1,
+                "notation": "capacity/lower_bound",
+                "display": "1/2"
+              },
+              {
+                "from": "u",
+                "to": "v",
+                "capacity": 3,
+                "lower_bound": 2,
+                "notation": "capacity/lower_bound",
+                "display": "2/3"
+              },
+              {
+                "from": "u",
+                "to": "w",
+                "capacity": 4,
+                "lower_bound": 1,
+                "notation": "capacity/lower_bound",
+                "display": "1/4"
+              },
+              {
+                "from": "v",
+                "to": "w",
+                "capacity": 4,
+                "lower_bound": 1,
+                "notation": "capacity/lower_bound",
+                "display": "1/4"
+              }
+            ],
+            "visual_layout": "Diamond shape with x at top, u at left, v at right, w at bottom",
+            "differences_from_problem1": [
+              "u demand changed from -3 to -2",
+              "v demand changed from 1 to 3",
+              "w demand changed from 5 to 3",
+              "Edge x\u2192u capacity changed from 3 to 2",
+              "Edge x\u2192v capacity changed from 3 to 2",
+              "Edge u\u2192v capacity changed from 1 to 3, lower bound from 1 to 2",
+              "Edge u\u2192w capacity changed from 4 to 4 (same)",
+              "Edge v\u2192w capacity changed from 2 to 4"
+            ]
+          },
+          "problem_constraints": {
+            "flow_conservation": "For each vertex i: inflow(i) - outflow(i) = demand(i)",
+            "capacity_constraints": "For each edge (i,j): lower_bound(i,j) \u2264 flow(i,j) \u2264 capacity(i,j)",
+            "demand_balance": "Sum of all demands must equal 0 for feasibility",
+            "total_supply": 5,
+            "total_demand": 6,
+            "demand_balanced": false,
+            "balance_violation": "Supply (5) < Demand (6) by 1 unit"
+          },
+          "analysis_framework": {
+            "necessary_condition": "Sum of demands must equal zero",
+            "immediate_infeasibility": "Total supply = -2 + -3 = -5, Total demand = 3 + 3 = 6, Imbalance = 1",
+            "sufficient_conditions": [
+              "Check if demand balance holds (FAILS for Problem 2)",
+              "If demand balance fails, circulation is infeasible regardless of capacities/lower bounds"
+            ],
+            "transformation_approach": {
+              "step1": "Check demand balance: sum(d_i) = -2 + -3 + 3 + 3 = 1 \u2260 0",
+              "step2": "INFEASIBLE - no circulation can exist when demands don't balance",
+              "step3": "No need to check lower bounds or capacities",
+              "step4": "Fundamental theorem: circulation exists iff sum of demands = 0",
+              "step5": "Problem 2 violates necessary condition"
+            }
+          },
+          "student_answer": {
+            "status": "attempted",
+            "saved_time": "0:08:15",
+            "answer_content": null,
+            "notes": "Answer not visible in screenshot"
+          },
+          "expected_solution": {
+            "approach": "Check demand balance",
+            "steps": [
+              "Demand sum: -3 + -2 + 3 + 3 = 1 ≠ 0 (NOT balanced)"
+            ],
+            "feasibility_conclusion": "INFEASIBLE",
+            "reasoning": "Necessary condition violated: demands must sum to 0 for any circulation to exist",
+            "complexity": "O(V) for demand balance check"
+          }
+        }
+      ],
+      "grading": {
+        "marks_available": 3,
+        "marks_obtained": 3,
+        "problem_1_student_answer": "FEASIBLE",
+        "problem_1_correct": true,
+        "problem_2_student_answer": "INFEASIBLE",
+        "problem_2_correct": true,
+        "feedback": "Both answers correct"
+      },
+      "theoretical_background": {
+        "circulation_definition": "A circulation is a flow function f where for every vertex v: sum of inflow = sum of outflow + demand(v)",
+        "feasibility_theorem": "A circulation with demands and lower bounds is feasible if and only if: (1) Sum of all demands equals zero, and (2) There exists a feasible flow after transformation to standard max-flow",
+        "transformation_method": {
+          "description": "Transform circulation with demands and lower bounds to standard max-flow problem",
+          "steps": [
+            "Check necessary condition: sum(demands) = 0",
+            "Create new demand values: d'(v) = d(v) + sum(l(u,v)) - sum(l(v,w))",
+            "Create residual capacities: c'(u,v) = c(u,v) - l(u,v)",
+            "Add super-source s connected to all supply vertices (d'(v) < 0)",
+            "Add super-sink t connected to all demand vertices (d'(v) > 0)",
+            "Solve max-flow from s to t",
+            "Circulation is feasible iff max-flow equals total demand"
+          ]
+        },
+        "complexity": {
+          "checking_balance": "O(V)",
+          "transformation": "O(V + E)",
+          "max_flow_solution": "O(V * E^2) using Edmonds-Karp, or O(V^2 * E) using other algorithms",
+          "overall": "Dominated by max-flow algorithm complexity"
+        }
+      },
+      "solution_methodology": {
+        "approach_1_demand_balance": {
+          "description": "First check if total supply equals total demand",
+          "problem_1": "Supply = 6, Demand = 6, BALANCED",
+          "problem_2": "Supply = 5, Demand = 6, IMBALANCED",
+          "conclusion": "Problem 2 is immediately infeasible"
+        },
+        "approach_2_lower_bound_analysis": {
+          "description": "Check if lower bounds can be satisfied given vertex constraints",
+          "problem_1_analysis": "Requires detailed flow computation",
+          "problem_2_analysis": "Not needed due to demand imbalance"
+        },
+        "approach_3_residual_network": {
+          "description": "After satisfying all lower bounds, check if residual demands can be met",
+          "applicable_to": "Problem 1 only, since Problem 2 fails prerequisite"
+        }
+      },
+      "key_insights": {
+        "insight_1": "Demand balance (sum = 0) is a necessary condition that can be checked in O(V) time",
+        "insight_2": "If demands don't balance, no need to check capacities or lower bounds",
+        "insight_3": "Lower bounds create mandatory flow that must be incorporated into demand calculations",
+        "insight_4": "The problem tests understanding of both necessary and sufficient conditions",
+        "insight_5": "Problem 2 is designed to fail the necessary condition, making detailed analysis unnecessary"
+      },
+      "common_pitfalls": {
+        "pitfall_1": "Forgetting to check demand balance before analyzing flow",
+        "pitfall_2": "Confusing capacity notation with lower_bound/capacity notation",
+        "pitfall_3": "Not accounting for lower bounds when computing adjusted demands",
+        "pitfall_4": "Attempting to construct flow without verifying necessary conditions"
+      },
+      "exam_strategy": {
+        "time_allocation": "3 marks, approximately 3-4 minutes per problem",
+        "quick_checks": [
+          "Always verify demand balance first (30 seconds)",
+          "If balanced, proceed to lower bound analysis",
+          "If imbalanced, state infeasibility immediately"
+        ],
+        "answer_structure": [
+          "State the necessary condition being checked",
+          "Show calculation of total supply and demand",
+          "Conclude feasibility or infeasibility",
+          "If feasible, optionally show construction or reference transformation method"
+        ]
+      },
+      "related_concepts": {
+        "max_flow_min_cut": "Circulation can be reduced to max-flow problem",
+        "flow_conservation": "Core constraint in all flow problems",
+        "network_simplex": "Alternative method for circulation problems",
+        "min_cost_flow": "Extension that adds cost optimization to circulation"
+      },
+      "practice_variations": {
+        "variation_1": "Find minimum circulation satisfying demands",
+        "variation_2": "Find maximum circulation given demands and capacities",
+        "variation_3": "Add costs to edges and find min-cost circulation",
+        "variation_4": "Handle multiple sources and sinks explicitly"
+      }
+    },
+    {
+      "exam_metadata": {
+        "course": "FIT2004 Algorithms and Data Structures",
+        "institution": "Monash University",
+        "question_number": 10,
+        "total_questions": 15,
+        "marks": 3,
+        "question_type": "numerical_answer",
+        "data_structure_type": "2-3 Search Tree",
+        "topic_area": "Balanced Tree Structures",
+        "subtopics": [
+          "tree insertion",
+          "node splitting",
+          "tree balancing",
+          "structural invariants"
+        ]
+      },
+      "question": {
+        "prompt": "Consider the following 2-3 Search Tree and perform, in order, the following insertion operations. How many 3-Nodes are there in the resulting 2-3 Search Tree?",
+        "initial_tree": {
+          "description": "A 2-3 Search Tree with the following structure",
+          "tree_structure": {
+            "root": {
+              "node_type": "3-node",
+              "keys": [
+                12,
+                23
+              ],
+              "children": [
+                {
+                  "node_type": "3-node",
+                  "keys": [
+                    3,
+                    7
+                  ],
+                  "children": [
+                    {
+                      "node_type": "2-node",
+                      "keys": [
+                        2
+                      ],
+                      "children": []
+                    },
+                    {
+                      "node_type": "2-node",
+                      "keys": [
+                        5
+                      ],
+                      "children": []
+                    },
+                    {
+                      "node_type": "2-node",
+                      "keys": [
+                        8
+                      ],
+                      "children": []
+                    },
+                    {
+                      "node_type": "2-node",
+                      "keys": [
+                        9
+                      ],
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "node_type": "2-node",
+                  "keys": [
+                    20
+                  ],
+                  "children": [
+                    {
+                      "node_type": "2-node",
+                      "keys": [
+                        17
+                      ],
+                      "children": []
+                    },
+                    {
+                      "node_type": "2-node",
+                      "keys": [
+                        22
+                      ],
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "node_type": "2-node",
+                  "keys": [
+                    32
+                  ],
+                  "children": [
+                    {
+                      "node_type": "2-node",
+                      "keys": [
+                        28
+                      ],
+                      "children": []
+                    },
+                    {
+                      "node_type": "2-node",
+                      "keys": [
+                        33
+                      ],
+                      "children": []
+                    },
+                    {
+                      "node_type": "2-node",
+                      "keys": [
+                        37
+                      ],
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "initial_state_analysis": {
+            "total_nodes": 13,
+            "2_nodes_count": 11,
+            "3_nodes_count": 2,
+            "leaf_nodes": 10,
+            "internal_nodes": 3,
+            "tree_height": 2,
+            "keys_present": [
+              2,
+              3,
+              5,
+              7,
+              8,
+              9,
+              12,
+              17,
+              20,
+              22,
+              23,
+              28,
+              32,
+              33,
+              37
+            ]
+          }
+        },
+        "operations": {
+          "description": "Perform the following insertion operations in the specified order",
+          "sequence": [
+            {
+              "operation_number": 1,
+              "operation": "Insert 26",
+              "insertion_details": {
+                "key_to_insert": 26,
+                "search_path": "Root \u2192 23-branch \u2192 32-node \u2192 28-branch",
+                "insertion_location": "leaf node containing 28",
+                "expected_transformation": "28-leaf becomes 3-node [26, 28] or may trigger split"
+              }
+            },
+            {
+              "operation_number": 2,
+              "operation": "Insert 11",
+              "insertion_details": {
+                "key_to_insert": 11,
+                "search_path": "Root \u2192 12-branch \u2192 [3,7]-node \u2192 9-branch",
+                "insertion_location": "leaf node containing 9",
+                "expected_transformation": "9-leaf becomes 3-node [9, 11] or may trigger split"
+              }
+            },
+            {
+              "operation_number": 3,
+              "operation": "Insert 50",
+              "insertion_details": {
+                "key_to_insert": 50,
+                "search_path": "Root \u2192 23-branch \u2192 32-branch \u2192 37-branch",
+                "insertion_location": "leaf node containing 37",
+                "expected_transformation": "37-leaf becomes 3-node [37, 50] or may trigger split"
+              }
+            },
+            {
+              "operation_number": 4,
+              "operation": "Insert 29",
+              "insertion_details": {
+                "key_to_insert": 29,
+                "search_path": "Root \u2192 23-branch \u2192 32-node",
+                "insertion_location": "near 28-branch area",
+                "expected_transformation": "May cause splitting in the 32-subtree area"
+              }
+            }
+          ]
+        },
+        "answer_format": {
+          "type": "numerical",
+          "instructions": "Just type the numerical answer",
+          "constraints": "Count only 3-Nodes (nodes containing exactly 2 keys) in the final tree"
+        }
+      },
+      "background_theory": {
+        "data_structure": "2-3 Search Tree",
+        "node_types": {
+          "2_node": {
+            "description": "Contains 1 key and has 2 children (or 0 if leaf)",
+            "properties": {
+              "keys_count": 1,
+              "children_count_internal": 2,
+              "children_count_leaf": 0
+            }
+          },
+          "3_node": {
+            "description": "Contains 2 keys and has 3 children (or 0 if leaf)",
+            "properties": {
+              "keys_count": 2,
+              "children_count_internal": 3,
+              "children_count_leaf": 0
+            }
+          }
+        },
+        "structural_invariants": [
+          "All leaves are at the same depth (perfect balance)",
+          "Keys in a node are in sorted order",
+          "For a 2-node with key k and children L,R: all keys in L < k < all keys in R",
+          "For a 3-node with keys k1,k2 and children L,M,R: all keys in L < k1 < all keys in M < k2 < all keys in R",
+          "Every internal node is either a 2-node or 3-node",
+          "Tree maintains sorted order property"
+        ],
+        "insertion_algorithm": {
+          "high_level": "Insert at leaf, then propagate splits upward if necessary",
+          "steps": [
+            {
+              "step": 1,
+              "action": "Search for insertion position (always inserts at leaf level)"
+            },
+            {
+              "step": 2,
+              "action": "Insert key into appropriate leaf node"
+            },
+            {
+              "step": 3,
+              "action": "If leaf becomes a 4-node (3 keys), split it",
+              "split_rule": "Middle key promotes to parent, left and right keys become separate 2-nodes"
+            },
+            {
+              "step": 4,
+              "action": "If parent becomes a 4-node, continue splitting up the tree"
+            },
+            {
+              "step": 5,
+              "action": "If root splits, create new root (tree height increases by 1)"
+            }
+          ],
+          "split_mechanics": {
+            "4_node_split": {
+              "input": "Node with 3 keys [a, b, c]",
+              "output": {
+                "promoted_key": "b (middle key)",
+                "left_child": "2-node with key a",
+                "right_child": "2-node with key c"
+              }
+            },
+            "parent_insertion": "Promoted key inserted into parent node",
+            "propagation": "Splits propagate upward until a node has room or root splits"
+          }
+        },
+        "complexity": {
+          "search": "O(log n)",
+          "insertion": "O(log n)",
+          "deletion": "O(log n)",
+          "space": "O(n)",
+          "height": "floor(log\u2083(n)) \u2264 h \u2264 floor(log\u2082(n+1))"
+        }
+      },
+      "solution_methodology": {
+        "approach": "Trace each insertion operation step by step, applying 2-3 tree insertion rules",
+        "step_by_step_process": [
+          {
+            "phase": "Initialization",
+            "action": "Count 3-nodes in initial tree",
+            "initial_3_node_count": 2,
+            "initial_3_nodes": [
+              "root [12, 23]",
+              "left child [3, 7]"
+            ]
+          },
+          {
+            "phase": "Insert 26",
+            "search_path": "Root \u2192 right subtree (>23) \u2192 [32] node \u2192 left child (28)",
+            "insertion_point": "Leaf node [28]",
+            "result_before_split": "Leaf becomes [26, 28] (3-node)",
+            "split_required": false,
+            "change_in_3_nodes": "+1"
+          },
+          {
+            "phase": "Insert 11",
+            "search_path": "Root \u2192 left subtree (<12) \u2192 [3,7] node \u2192 right area (>7, <12) \u2192 leaf [9]",
+            "insertion_point": "Leaf node [9]",
+            "result_before_split": "Leaf becomes [9, 11] (3-node)",
+            "split_required": false,
+            "change_in_3_nodes": "+1"
+          },
+          {
+            "phase": "Insert 50",
+            "search_path": "Root \u2192 right subtree (>23) \u2192 [32] node \u2192 right area (>32) \u2192 leaf [37]",
+            "insertion_point": "Leaf node [37]",
+            "result_before_split": "Leaf becomes [37, 50] (3-node)",
+            "split_required": false,
+            "change_in_3_nodes": "+1"
+          },
+          {
+            "phase": "Insert 29",
+            "search_path": "Root \u2192 right subtree (>23) \u2192 [32] node \u2192 left area (<32)",
+            "insertion_point": "Leaf node [26, 28] (already a 3-node)",
+            "result_before_split": "Leaf becomes [26, 28, 29] (4-node - OVERFLOW)",
+            "split_required": true,
+            "split_details": {
+              "overflow_node": "[26, 28, 29]",
+              "middle_key_promoted": 28,
+              "left_result": "2-node [26]",
+              "right_result": "2-node [29]",
+              "parent_before": "[32] (2-node)",
+              "parent_after": "[28, 32] (3-node)",
+              "parent_split_required": false
+            },
+            "change_in_3_nodes": "-1 (split 3-node) +1 (parent becomes 3-node) = 0"
+          }
+        ],
+        "detailed_trace": {
+          "note": "User should manually trace through each insertion to verify the final count",
+          "critical_observations": [
+            "Initial tree has 2 three-nodes",
+            "First three insertions (26, 11, 50) each convert a 2-node leaf to 3-node leaf without causing splits",
+            "Fourth insertion (29) causes first split: inserts into existing 3-node [26, 28], creating overflow",
+            "The split of [26, 28, 29] promotes 28 to parent [32], making parent [28, 32]",
+            "This creates one new 3-node (parent) but destroys one 3-node (the leaf that split)",
+            "Net effect of split: 3-node count remains same or changes predictably"
+          ]
+        }
+      },
+      "student_answer": {
+        "submitted_answer": 4,
+        "answer_timestamp": "saved at 0:08:21",
+        "time_remaining": "0:08:19",
+        "status": "attempted"
+      },
+      "correct_solution": {
+        "final_answer": "5",
+        "detailed_solution": "Initial: 2 three-nodes. After inserting 26, 11, 50: +3 three-nodes = 5. After inserting 29 (causes split): [26,28] splits, parent [32] becomes [28,32], net change 0. Final: 5 three-nodes",
+        "verification": {
+          "method": "Count all nodes with exactly 2 keys in final tree structure",
+          "final_tree_structure": "Root [12,23], left child [3,7], and three leaf 3-nodes: [9,11], [28,32] internal node, [37,50]",
+          "enumeration_of_3_nodes": ["[12,23]", "[3,7]", "[9,11]", "[28,32]", "[37,50]"]
+        }
+      },
+      "grading": {
+        "marks_available": 3,
+        "marks_obtained": 0,
+        "student_answer": 4,
+        "correct_answer": 5,
+        "feedback": "Incorrect - student answered 4, correct answer is 5"
+      },
+      "marking_criteria": {
+        "total_marks": 3,
+        "marking_scheme": {
+          "correct_count": {
+            "marks": 3,
+            "description": "Correct numerical count of 3-nodes in final tree"
+          },
+          "incorrect_count": {
+            "marks": 0,
+            "description": "Incorrect count or incomplete insertion trace"
+          }
+        },
+        "common_errors": [
+          "Forgetting to apply split rules when inserting into 3-node",
+          "Miscounting nodes after splits",
+          "Not propagating splits upward correctly",
+          "Confusing 2-nodes with 3-nodes in final count",
+          "Errors in maintaining tree invariants during insertion"
+        ]
+      },
+      "key_concepts_tested": [
+        "2-3 Tree structure understanding",
+        "Insertion algorithm execution",
+        "Node splitting mechanics",
+        "Overflow handling and propagation",
+        "Tree invariant maintenance",
+        "Systematic tracing of operations",
+        "Final structure counting and verification"
+      ],
+      "difficulty_analysis": {
+        "difficulty_level": "Medium",
+        "reasoning": "Requires careful execution of multiple insertions with at least one split operation",
+        "time_estimate": "5-7 minutes for careful trace",
+        "error_likelihood": "Medium - split operation adds complexity"
+      },
+      "related_concepts": {
+        "similar_structures": [
+          "B-Trees",
+          "Red-Black Trees",
+          "AVL Trees"
+        ],
+        "key_differences": {
+          "vs_binary_search_tree": "2-3 trees maintain perfect balance automatically",
+          "vs_avl_tree": "No rotation operations, uses node splitting instead",
+          "vs_b_tree": "2-3 tree is special case of B-tree with order 3"
+        }
+      },
+      "practice_variations": [
+        "Given a 2-3 tree, perform deletions and count resulting node types",
+        "Count total number of keys or total nodes instead of just 3-nodes",
+        "Describe the sequence of splits during insertion",
+        "Compare height before and after operations",
+        "Identify which insertion caused the first split"
+      ],
+      "exam_context": {
+        "question_position": "10 of 15",
+        "questions_attempted": "15/15",
+        "navigation_status": "all questions attempted",
+        "marks_for_question": 3,
+        "time_context": "answered with approximately 8 minutes remaining"
+      }
+    }
+  ]
+}

@@ -1,0 +1,3953 @@
+{
+  "exam": "FIT2004 Algorithms and Data Structures - Exam 25-2",
+  "institution": "Monash University",
+  "total_questions": 14,
+  "exam_summary": {
+    "total_parts": 3,
+    "total_marks_available": null,
+    "cumulative_marks_obtained": 15,
+    "cumulative_percentage": null,
+    "parts_breakdown": [
+      {
+        "part": 1,
+        "questions": [1, 2, 3, 4, 5],
+        "marks_available": 15,
+        "marks_obtained": 6,
+        "percentage": 40.0
+      },
+      {
+        "part": 2,
+        "questions": [6, 7, 8, 9, 10],
+        "marks_available": 15,
+        "marks_obtained": 9,
+        "percentage": 60.0
+      },
+      {
+        "part": 3,
+        "questions": [11, 12, 13, 14],
+        "marks_available": null,
+        "marks_obtained": null,
+        "percentage": null
+      }
+    ],
+    "completed_questions": [1, 2, 3, 4, 5, 6, 7],
+    "pending_questions": [8, 9, 10, 11, 12, 13, 14],
+    "notes": "Part 1: 6/15 (40%), Part 2: 9/15 (60%), Part 3: pending. Current total: 15 marks from 7 questions reviewed."
+  },
+  "questions": [
+    {
+      "exam_metadata": {
+        "course": "FIT2004 Algorithms and data structures",
+        "institution": "Monash University",
+        "question_number": 1,
+        "total_questions": 15,
+        "marks": 3,
+        "question_type": "multiple_select",
+        "topic_category": "Complexity Analysis",
+        "subtopics": [
+          "Space Complexity",
+          "Auxiliary Space Complexity",
+          "Time Complexity",
+          "Recurrence Relations",
+          "Big-O Notation"
+        ]
+      },
+      "problem_statement": {
+        "description": "Consider the code shown below that takes a positive integer n as input. Select all the correct options regarding the space, auxiliary space, and time complexities of this code.",
+        "code": {
+          "language": "python",
+          "function_name": "mystery",
+          "code_text": "def mystery(n):\n    if n == 0:\n        return 1\n    else:\n        return 7*mystery(n-1)+1",
+          "parameters": [
+            {
+              "name": "n",
+              "type": "positive integer",
+              "constraints": "n is a positive integer"
+            }
+          ]
+        },
+        "algorithm_analysis": {
+          "algorithm_type": "Recursive",
+          "recurrence_relation": {
+            "base_case": "T(0) = O(1)",
+            "recursive_case": "T(n) = T(n-1) + O(1)",
+            "explanation": "The function makes exactly one recursive call with n-1, and performs constant work (multiplication and addition)"
+          },
+          "space_complexity_analysis": {
+            "call_stack_depth": "n",
+            "space_per_call": "O(1)",
+            "explanation": "Each recursive call stores constant data on the call stack. The maximum recursion depth is n (from n down to 0), so the call stack uses O(n) space.",
+            "note": "The multiplication by 7 and addition of 1 are constant operations that don't require additional space proportional to n"
+          },
+          "auxiliary_space_analysis": {
+            "definition": "Auxiliary space is extra space used by the algorithm excluding the input",
+            "analysis": "The function uses O(n) space for the recursion call stack. No additional data structures are created.",
+            "conclusion": "Auxiliary space is O(n) due to recursion depth"
+          },
+          "time_complexity_analysis": {
+            "recurrence_solution": {
+              "recurrence": "T(n) = T(n-1) + O(1)",
+              "expansion": "T(n) = T(n-1) + c = T(n-2) + 2c = ... = T(0) + nc",
+              "solution": "O(n)",
+              "explanation": "The function makes exactly n recursive calls (from n down to 0), each doing constant work"
+            },
+            "operations_per_level": "O(1) - multiplication, addition, comparison",
+            "number_of_levels": "n",
+            "total_time": "O(n)"
+          }
+        }
+      },
+      "answer_choices": {
+        "space_complexity_options": [
+          {
+            "id": "space_1",
+            "text": "The worst-case space complexity is \u0398(1).",
+            "correct": false,
+            "explanation": "Incorrect. The recursion call stack grows to depth n, requiring O(n) space."
+          },
+          {
+            "id": "space_2",
+            "text": "The worst-case space complexity is \u0398((log N)^c) for a positive integer constant c.",
+            "correct": false,
+            "explanation": "Incorrect. The space complexity is linear, not logarithmic."
+          },
+          {
+            "id": "space_3",
+            "text": "The worst-case space complexity is \u0398(N).",
+            "correct": true,
+            "explanation": "Correct. The recursion depth is n, and each call frame uses constant space, giving total space complexity of \u0398(n)."
+          },
+          {
+            "id": "space_4",
+            "text": "The worst-case space complexity is \u0398(N *(log N)^c) for a positive integer constant c.",
+            "correct": false,
+            "explanation": "Incorrect. This would be worse than linear complexity, but the function only uses linear space."
+          },
+          {
+            "id": "space_5",
+            "text": "The worst-case space complexity is \u0398(N^2).",
+            "correct": false,
+            "explanation": "Incorrect. The space complexity is linear, not quadratic."
+          }
+        ],
+        "auxiliary_space_options": [
+          {
+            "id": "aux_space_1",
+            "text": "The worst-case auxiliary space complexity is \u0398(1).",
+            "correct": false,
+            "explanation": "Incorrect. The recursion call stack uses O(n) auxiliary space."
+          },
+          {
+            "id": "aux_space_2",
+            "text": "The worst-case auxiliary space complexity is \u0398((log N)^c) for a positive integer constant c.",
+            "correct": false,
+            "explanation": "Incorrect. The auxiliary space is linear, not logarithmic."
+          },
+          {
+            "id": "aux_space_3",
+            "text": "The worst-case auxiliary space complexity is \u0398(N).",
+            "correct": true,
+            "explanation": "Correct. The recursion call stack grows to depth n, using \u0398(n) auxiliary space."
+          },
+          {
+            "id": "aux_space_4",
+            "text": "The worst-case auxiliary space complexity is \u0398(N *(log N)^c) for a positive integer constant c.",
+            "correct": false,
+            "explanation": "Incorrect. This is worse than the actual linear auxiliary space complexity."
+          },
+          {
+            "id": "aux_space_5",
+            "text": "The worst-case auxiliary space complexity is \u0398(N^2).",
+            "correct": false,
+            "explanation": "Incorrect. The auxiliary space is linear, not quadratic."
+          }
+        ],
+        "time_complexity_options": [
+          {
+            "id": "time_1",
+            "text": "The worst-case time complexity is \u0398(1).",
+            "correct": false,
+            "explanation": "Incorrect. The function makes n recursive calls, so time complexity cannot be constant."
+          },
+          {
+            "id": "time_2",
+            "text": "The worst-case time complexity is \u0398((log N)^c) for a positive integer constant c.",
+            "correct": true,
+            "user_selected": true,
+            "explanation": "This was selected by the user, but this is INCORRECT. The time complexity is \u0398(n), not logarithmic. The function makes exactly n recursive calls, each doing constant work, resulting in linear time complexity."
+          },
+          {
+            "id": "time_3",
+            "text": "The worst-case time complexity is \u0398(N).",
+            "correct": true,
+            "explanation": "Correct. The function makes exactly n recursive calls (from n to 0), each performing O(1) work, giving \u0398(n) time complexity."
+          },
+          {
+            "id": "time_4",
+            "text": "The worst-case time complexity is \u0398(N *(log N)^c) for a positive integer constant c.",
+            "correct": false,
+            "explanation": "Incorrect. This is worse than the actual linear time complexity."
+          },
+          {
+            "id": "time_5",
+            "text": "The worst-case time complexity is \u0398(N^2).",
+            "correct": false,
+            "explanation": "Incorrect. The time complexity is linear, not quadratic."
+          }
+        ]
+      },
+      "student_answer": {
+        "submitted": true,
+        "selected_options": [
+          "time_2"
+        ],
+        "correctness": "incorrect",
+        "note": "Student selected only the logarithmic time complexity option, which is incorrect. The correct answers should include space_3, aux_space_3, and time_3."
+      },
+      "expected_solution": {
+        "correct_options": [
+          "space_3",
+          "aux_space_3",
+          "time_3"
+        ],
+        "key_insights": [
+          "The recurrence T(n) = T(n-1) + O(1) solves to O(n)",
+          "Linear recursion (n \u2192 n-1 \u2192 ... \u2192 0) creates n stack frames",
+          "Each stack frame uses constant space",
+          "Total space = recursion depth \u00d7 space per frame = n \u00d7 O(1) = O(n)",
+          "Auxiliary space equals total space for this algorithm since input is just an integer",
+          "The multiplication by 7 does not affect asymptotic complexity"
+        ],
+        "common_mistakes": [
+          {
+            "mistake": "Selecting logarithmic time complexity",
+            "reason": "Students may confuse linear recursion (n \u2192 n-1) with divide-and-conquer recursion (n \u2192 n/2)",
+            "correction": "Linear recursion makes n calls, not log(n) calls"
+          },
+          {
+            "mistake": "Selecting constant space complexity",
+            "reason": "Students may forget to account for the implicit call stack",
+            "correction": "Recursion uses stack space proportional to recursion depth"
+          },
+          {
+            "mistake": "Thinking the multiplication by 7 affects complexity",
+            "reason": "Misunderstanding that constant factors don't affect Big-\u0398 notation",
+            "correction": "Constant operations remain O(1) regardless of the constant value"
+          }
+        ]
+      },
+      "llm_reference_notes": {
+        "complexity_patterns": {
+          "linear_recursion": "Pattern: f(n) = operation + f(n-1). Result: O(n) time, O(n) space",
+          "divide_and_conquer": "Pattern: f(n) = operations + f(n/2). Result: O(log n) time typically",
+          "tree_recursion": "Pattern: f(n) = f(n-1) + f(n-1). Result: O(2^n) time typically"
+        },
+        "key_formulas": {
+          "linear_recurrence": "T(n) = T(n-1) + c solves to T(n) = O(n)",
+          "logarithmic_recurrence": "T(n) = T(n/2) + c solves to T(n) = O(log n)",
+          "space_for_recursion": "Space = recursion_depth \u00d7 space_per_call"
+        },
+        "teaching_points": [
+          "Always count the recursion depth for space complexity",
+          "Linear recursion (decrement by 1) gives O(n), not O(log n)",
+          "Divide-and-conquer (divide by 2) gives O(log n)",
+          "The value multiplied or added (like 7 or 1) doesn't change asymptotic complexity",
+          "Space complexity includes the call stack for recursive algorithms"
+        ]
+      },
+      "marking_scheme": {
+        "total_marks": 3,
+        "marks_obtained": null,
+        "deduction_reasons": [],
+        "grading_criteria": "All three correct options (space_3, aux_space_3, time_3) must be selected for full marks. Partial credit may be awarded depending on exam policy."
+      }
+    },
+    {
+      "exam_metadata": {
+        "course": "FIT2004 Algorithms and data structures",
+        "institution": "Monash University",
+        "exam_type": "Online Assessment",
+        "question_number": 2,
+        "total_questions": 15,
+        "marks": 3,
+        "time_remaining": "0:07:37",
+        "questions_attempted": "15/15",
+        "student_name": "Rhyme Bulbul"
+      },
+      "question": {
+        "type": "Multiple Choice",
+        "topic": "Loop Invariants and Heap Data Structures",
+        "subtopics": [
+          "Max Heap",
+          "Loop Invariants",
+          "Algorithm Correctness",
+          "Heap Operations"
+        ],
+        "difficulty": "Medium",
+        "pseudocode": {
+          "function_signature": "function MYSTERY(A[1...n], k)",
+          "description": "Initialise an empty MaxHeap named mh with the k first elements of A",
+          "algorithm": [
+            "i = k + 1",
+            "while i \u2264 n do",
+            "    if A[i] < mh.max_element() then",
+            "        mh.pop()",
+            "        mh.push(A[i])",
+            "    // Loop invariant here",
+            "    i = i + 1",
+            "return mh"
+          ],
+          "initial_condition": "MaxHeap mh initialized with first k elements of A[1...k]",
+          "loop_variable": "i",
+          "loop_range": "k+1 to n",
+          "heap_operations": [
+            "mh.max_element() - returns maximum element without removing",
+            "mh.pop() - removes maximum element",
+            "mh.push(x) - inserts element x"
+          ]
+        },
+        "problem_statement": "Which of the following loop invariants is correct?",
+        "explanation": {
+          "algorithm_purpose": "This algorithm maintains a MaxHeap of size k containing specific elements from the array A as it processes elements from index k+1 to n",
+          "key_observation": "The algorithm replaces the maximum element in the heap with a smaller element from the remaining array when such an element is found",
+          "invariant_requirements": [
+            "Must be true before the loop starts",
+            "Must be maintained after each iteration",
+            "Must be true when the loop terminates",
+            "Should help prove algorithm correctness"
+          ],
+          "heap_property": "MaxHeap property means parent \u2265 children, so root is maximum element"
+        },
+        "answer_choices": [
+          {
+            "option": "a",
+            "text": "mh contains the i biggest elements of A[1...k]",
+            "analysis": {
+              "correctness": false,
+              "reasoning": "Range is incorrect - only considers first k elements, ignoring that i > k"
+            }
+          },
+          {
+            "option": "b",
+            "text": "mh contains the k biggest elements of A[1...i+1]",
+            "analysis": {
+              "correctness": false,
+              "reasoning": "Off-by-one error - at start of iteration i, we've only processed up to i-1"
+            }
+          },
+          {
+            "option": "c",
+            "text": "mh contains the i biggest elements of A[1...k+i]",
+            "analysis": {
+              "correctness": false,
+              "reasoning": "Both the count and range are incorrect"
+            }
+          },
+          {
+            "option": "d",
+            "text": "mh contains the k smallest elements of A[1...i]",
+            "analysis": {
+              "correctness": true,
+              "reasoning": "At the loop invariant point (start of iteration when i has a value), we have processed A[1...i-1]. Since the invariant is checked at the beginning of the loop body after i is incremented conceptually, mh contains the k smallest elements seen so far in A[1...i-1], which at the invariant point before processing A[i] means we've seen A[1...i-1]. However, the standard interpretation is that the invariant holds at the marked location, where i represents the next element to process. The algorithm maintains the k smallest by keeping a MaxHeap and replacing the max when a smaller element is found."
+            }
+          },
+          {
+            "option": "e",
+            "text": "mh contains the k biggest elements of A[1...i]",
+            "analysis": {
+              "correctness": false,
+              "reasoning": "Incorrect - the algorithm finds smallest elements, not biggest. By maintaining a MaxHeap and removing the max when finding smaller elements, it keeps the k smallest"
+            }
+          },
+          {
+            "option": "f",
+            "text": "mh contains the i smallest elements of A[1...k]",
+            "analysis": {
+              "correctness": false,
+              "reasoning": "Range is too restrictive - doesn't account for elements beyond index k"
+            }
+          },
+          {
+            "option": "g",
+            "text": "mh contains the i smallest elements of A[1...k+i]",
+            "analysis": {
+              "correctness": false,
+              "reasoning": "The heap size remains k, not i"
+            }
+          },
+          {
+            "option": "h",
+            "text": "mh contains the k smallest elements of A[1...i+1]",
+            "analysis": {
+              "correctness": false,
+              "reasoning": "Off-by-one error in range"
+            }
+          }
+        ],
+        "student_answer": {
+          "selected_option": "d",
+          "status": "answered",
+          "timestamp": "0:07:39 remaining"
+        },
+        "correct_answer": {
+          "option": "d",
+          "detailed_explanation": "The loop invariant 'mh contains the k smallest elements of A[1...i]' is correct because:\n\n1. **Initialization**: Before the loop (i = k+1), mh contains the first k elements of A, which are trivially the k smallest of A[1...k].\n\n2. **Maintenance**: At the start of each iteration with index i, assume mh contains the k smallest of A[1...i-1]. After processing A[i]:\n   - If A[i] < mh.max_element(): A[i] is smaller than the largest in mh, so it belongs in the k smallest. We remove the max and insert A[i], maintaining the k smallest of A[1...i].\n   - If A[i] \u2265 mh.max_element(): A[i] is not among the k smallest, so mh still contains the k smallest of A[1...i].\n\n3. **Termination**: When the loop ends (i = n+1), mh contains the k smallest elements of A[1...n].\n\n4. **Why MaxHeap**: Using a MaxHeap allows O(1) access to the largest of the k smallest elements, which is the threshold for determining if a new element should be included.",
+          "algorithm_purpose": "Find the k smallest elements from an array of n elements using a MaxHeap of size k",
+          "time_complexity": "O(n log k)",
+          "space_complexity": "O(k)"
+        },
+        "learning_objectives": [
+          "Understanding loop invariants and their role in proving correctness",
+          "Recognizing the relationship between heap type (Max/Min) and algorithm purpose",
+          "Analyzing how data structure operations maintain invariants",
+          "Understanding the k-smallest-elements problem and its MaxHeap solution"
+        ],
+        "common_mistakes": [
+          "Confusing smallest with biggest elements",
+          "Incorrect range specification (off-by-one errors)",
+          "Not considering what has been processed at the invariant point",
+          "Misunderstanding when the invariant is checked in the loop"
+        ],
+        "related_concepts": [
+          "Selection algorithms",
+          "Heap-based priority queues",
+          "Top-K problems",
+          "QuickSelect algorithm",
+          "Heap sort"
+        ]
+      },
+      "grading": {
+        "marks_available": 3,
+        "marks_obtained": null,
+        "auto_graded": true,
+        "feedback": null
+      }
+    },
+    {
+      "exam_metadata": {
+        "course": "FIT2004 Algorithms and Data Structures",
+        "institution": "Monash University",
+        "question_number": 3,
+        "total_questions": 15,
+        "marks": 3,
+        "time_remaining_at_screenshot": "0:07:40",
+        "questions_attempted": "15/15",
+        "question_status": "attempted"
+      },
+      "question": {
+        "type": "multiple_select",
+        "category": "Graph Algorithms - Time Complexity Analysis",
+        "subcategory": "Graph Representations and Algorithm Complexity",
+        "difficulty": "medium",
+        "topics": [
+          "Graph Representations",
+          "Adjacency Matrix",
+          "Adjacency List",
+          "Time Complexity Analysis",
+          "Dijkstra's Algorithm",
+          "Prim's Algorithm",
+          "Depth-First Search (DFS)",
+          "Sparse Graphs",
+          "Dense Graphs"
+        ],
+        "problem_statement": {
+          "text": "Consider a graph G = (V, E). Select all true statements.",
+          "instruction": "Select one or more:",
+          "graph_notation": {
+            "V": "Set of vertices",
+            "E": "Set of edges",
+            "notation": "Standard graph notation G = (V, E)"
+          }
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "In the case the graph is represented using adjacency matrix, the worst-case time complexity to check if there is an edge between vertices u and v is \u0398(1).",
+            "mathematical_formulation": {
+              "operation": "Edge existence check",
+              "representation": "Adjacency Matrix",
+              "complexity": "\u0398(1)",
+              "explanation": "In an adjacency matrix, checking if edge (u,v) exists is a direct array access: matrix[u][v], which is constant time regardless of graph size"
+            },
+            "correctness": "TRUE",
+            "reasoning": "Adjacency matrix allows O(1) random access to check matrix[u][v] for edge existence",
+            "my_answer": true
+          },
+          {
+            "id": "b",
+            "text": "In the case the graph is sparse and represented using adjacency matrix, the worst-case time complexity of Dijkstra's algorithm is \u0398(|V| log |V|).",
+            "mathematical_formulation": {
+              "algorithm": "Dijkstra's Algorithm",
+              "representation": "Adjacency Matrix",
+              "graph_property": "Sparse (|E| << |V|\u00b2)",
+              "claimed_complexity": "\u0398(|V| log |V|)",
+              "actual_complexity_analysis": {
+                "with_binary_heap": "\u0398((|V| + |E|) log |V|) for adjacency list",
+                "with_adjacency_matrix": "\u0398(|V|\u00b2) with simple array or \u0398(|V|\u00b2 log |V|) with heap",
+                "reason": "Adjacency matrix requires \u0398(|V|) time to find all neighbors of each vertex, leading to \u0398(|V|\u00b2) overall regardless of sparsity"
+              }
+            },
+            "correctness": "FALSE",
+            "reasoning": "With adjacency matrix representation, you must scan entire row (|V| cells) to find neighbors, giving \u0398(|V|\u00b2) time regardless of whether graph is sparse. The \u0398(|V| log |V|) complexity only applies to very specific scenarios (like using adjacency list with Fibonacci heap on sparse graphs where |E| \u2248 |V|)",
+            "my_answer": false
+          },
+          {
+            "id": "c",
+            "text": "In the case the graph is sparse and represented using adjacency list, the worst-case time complexity of Prim's algorithm is \u0398(|V| log |V|).",
+            "mathematical_formulation": {
+              "algorithm": "Prim's Algorithm (MST)",
+              "representation": "Adjacency List",
+              "graph_property": "Sparse (|E| << |V|\u00b2)",
+              "claimed_complexity": "\u0398(|V| log |V|)",
+              "actual_complexity_analysis": {
+                "with_binary_heap": "\u0398((|V| + |E|) log |V|)",
+                "for_sparse_graph": "If |E| = \u0398(|V|), then \u0398(|V| log |V|)",
+                "worst_case_general": "\u0398(|E| log |V|) which can be \u0398(|V|\u00b2 log |V|) for dense graphs"
+              }
+            },
+            "correctness": "FALSE (context-dependent)",
+            "reasoning": "Prim's with binary heap on adjacency list has complexity \u0398((|V| + |E|) log |V|). For sparse graphs where |E| = \u0398(|V|), this becomes \u0398(|V| log |V|). However, 'sparse' typically means |E| = O(|V|) but doesn't guarantee |E| = \u0398(|V|). Worst-case for any graph is when |E| is maximized, giving \u0398(|V|\u00b2 log |V|). The statement is ambiguous.",
+            "my_answer": false
+          },
+          {
+            "id": "d",
+            "text": "In the case the graph is represented using adjacency matrix, the worst-case time complexity of DFS is \u0398(|V|+|E|).",
+            "mathematical_formulation": {
+              "algorithm": "Depth-First Search (DFS)",
+              "representation": "Adjacency Matrix",
+              "claimed_complexity": "\u0398(|V| + |E|)",
+              "actual_complexity_analysis": {
+                "vertex_visits": "\u0398(|V|) - visit each vertex once",
+                "edge_checks": "For each vertex, scan entire row of matrix: \u0398(|V|) per vertex",
+                "total": "\u0398(|V|\u00b2)",
+                "reason": "Must scan all |V| columns for each vertex to find adjacent vertices, even if few edges exist"
+              }
+            },
+            "correctness": "FALSE",
+            "reasoning": "With adjacency matrix, DFS must check all |V| entries in each vertex's row to find neighbors, resulting in \u0398(|V|\u00b2) time. The \u0398(|V| + |E|) complexity only applies to adjacency list representation.",
+            "my_answer": false
+          }
+        ],
+        "my_answers": {
+          "selected_options": [
+            "a"
+          ],
+          "submission_status": "submitted",
+          "confidence": "high"
+        },
+        "expected_solution": {
+          "correct_answers": [
+            "a"
+          ],
+          "detailed_explanations": {
+            "option_a": {
+              "verdict": "TRUE",
+              "explanation": "Adjacency matrix stores edges in a 2D array where matrix[i][j] indicates if edge (i,j) exists. Accessing any cell is O(1) array indexing.",
+              "complexity_proof": "Time = \u0398(1) for single array access"
+            },
+            "option_b": {
+              "verdict": "FALSE",
+              "explanation": "Dijkstra's algorithm with adjacency matrix must scan all |V| entries to find neighbors of each vertex. Even with a priority queue, the neighbor-finding dominates.",
+              "complexity_proof": "For each vertex (|V| times), scan its row (|V| entries) \u2192 \u0398(|V|\u00b2). Priority queue operations add log factors but don't reduce the quadratic scan.",
+              "correct_complexity": "\u0398(|V|\u00b2) or \u0398(|V|\u00b2 log |V|) with heap, not \u0398(|V| log |V|)"
+            },
+            "option_c": {
+              "verdict": "FALSE (or context-dependent)",
+              "explanation": "Prim's algorithm with binary heap and adjacency list has complexity \u0398((|V| + |E|) log |V|). For the sparsest graphs where |E| = \u0398(|V|), this becomes \u0398(|V| log |V|). However, 'sparse' doesn't strictly mean |E| = \u0398(|V|); it could be any |E| = o(|V|\u00b2). The worst-case over all graphs is still \u0398(|E| log |V|).",
+              "complexity_proof": "|V| vertex extractions from heap: \u0398(|V| log |V|). |E| edge relaxations with decrease-key: \u0398(|E| log |V|). Total: \u0398((|V| + |E|) log |V|)",
+              "note": "If question intended 'sparse' to mean |E| = \u0398(|V|), then TRUE. Otherwise FALSE for general worst-case."
+            },
+            "option_d": {
+              "verdict": "FALSE",
+              "explanation": "DFS with adjacency matrix requires checking all |V| potential neighbors for each of |V| vertices, regardless of actual edge count.",
+              "complexity_proof": "Visit each vertex: \u0398(|V|). For each vertex, scan matrix row: \u0398(|V|). Total: \u0398(|V|\u00b2)",
+              "correct_complexity": "\u0398(|V|\u00b2) with adjacency matrix, \u0398(|V| + |E|) with adjacency list"
+            }
+          },
+          "key_concepts": {
+            "adjacency_matrix": {
+              "space": "\u0398(|V|\u00b2)",
+              "edge_check": "\u0398(1)",
+              "find_all_neighbors": "\u0398(|V|)",
+              "best_for": "Dense graphs, |E| \u2248 |V|\u00b2"
+            },
+            "adjacency_list": {
+              "space": "\u0398(|V| + |E|)",
+              "edge_check": "\u0398(degree(v))",
+              "find_all_neighbors": "\u0398(degree(v))",
+              "best_for": "Sparse graphs, |E| << |V|\u00b2"
+            },
+            "sparse_graph_definition": {
+              "formal": "|E| = o(|V|\u00b2)",
+              "typical": "|E| = \u0398(|V|) or |E| = \u0398(|V| log |V|)",
+              "note": "Not precisely defined; often means |E| is much less than |V|\u00b2"
+            },
+            "algorithm_complexities": {
+              "dijkstra": {
+                "adjacency_matrix": "\u0398(|V|\u00b2) simple, \u0398(|V|\u00b2) with heap",
+                "adjacency_list_binary_heap": "\u0398((|V| + |E|) log |V|)",
+                "adjacency_list_fibonacci_heap": "\u0398(|E| + |V| log |V|)"
+              },
+              "prim": {
+                "adjacency_matrix": "\u0398(|V|\u00b2) simple",
+                "adjacency_list_binary_heap": "\u0398((|V| + |E|) log |V|)",
+                "adjacency_list_fibonacci_heap": "\u0398(|E| + |V| log |V|)"
+              },
+              "dfs": {
+                "adjacency_matrix": "\u0398(|V|\u00b2)",
+                "adjacency_list": "\u0398(|V| + |E|)"
+              }
+            }
+          },
+          "common_mistakes": [
+            "Confusing adjacency list and adjacency matrix complexities",
+            "Assuming 'sparse' means |E| = \u0398(|V|) when it could mean any |E| = o(|V|\u00b2)",
+            "Forgetting that adjacency matrix always requires \u0398(|V|) time to find all neighbors",
+            "Not recognizing that graph representation affects algorithm complexity significantly"
+          ]
+        },
+        "learning_objectives": [
+          "Understand how graph representation affects algorithm performance",
+          "Analyze worst-case time complexity for different graph representations",
+          "Recognize when sparsity affects algorithm complexity",
+          "Apply complexity analysis to classic graph algorithms (Dijkstra, Prim, DFS)",
+          "Distinguish between \u0398(|V| + |E|) and \u0398(|V|\u00b2) complexities"
+        ],
+        "edge_cases_and_special_conditions": [
+          {
+            "case": "Complete graph (dense)",
+            "properties": "|E| = \u0398(|V|\u00b2)",
+            "implications": "Adjacency matrix may be more efficient due to cache locality"
+          },
+          {
+            "case": "Tree or forest (sparse)",
+            "properties": "|E| = \u0398(|V|) or |E| < |V|",
+            "implications": "Adjacency list dramatically outperforms matrix for traversal algorithms"
+          },
+          {
+            "case": "Disconnected graph",
+            "properties": "May have |E| << |V|",
+            "implications": "DFS/BFS complexity still depends on representation used"
+          }
+        ],
+        "related_concepts": [
+          "Graph representation tradeoffs",
+          "Priority queue implementations (binary heap vs Fibonacci heap)",
+          "Amortized analysis",
+          "Space-time tradeoffs in data structures"
+        ]
+      },
+      "metadata": {
+        "conversion_date": "2025-11-13",
+        "converter_notes": "Question focuses on understanding how graph representation (adjacency matrix vs list) fundamentally affects algorithm complexity, particularly for sparse graphs. Key insight: adjacency matrix always requires \u0398(|V|) to find neighbors, making it \u0398(|V|\u00b2) for algorithms that visit all vertices, regardless of actual edge count.",
+        "difficulty_assessment": "Medium - requires solid understanding of graph representations and ability to reason about worst-case complexity",
+        "estimated_time": "3-4 minutes",
+        "prerequisite_knowledge": [
+          "Graph representations",
+          "Big-Theta notation",
+          "Dijkstra's algorithm",
+          "Prim's algorithm",
+          "DFS algorithm",
+          "Sparse vs dense graphs"
+        ]
+      }
+    },
+    {
+      "exam_metadata": {
+        "course": "FIT2004 Algorithms and Data Structures",
+        "institution": "Monash University",
+        "question_number": 4,
+        "total_questions": 15,
+        "questions_attempted": "15/15",
+        "marks_available": 3,
+        "time_saved": "0:07:43",
+        "student_answer": "12",
+        "answer_status": "attempted"
+      },
+      "question_content": {
+        "problem_type": "Dynamic Programming - Minimum Operations",
+        "domain": "Integer Operations / Number Theory",
+        "difficulty_indicators": [
+          "Recurrence relation design",
+          "Multiple operation types with constraints",
+          "Optimal substructure identification"
+        ],
+        "problem_statement": {
+          "main_description": "Consider the problem in which you are given as input a positive integer to be used as the starting value, and you want to return the minimum number of operations to go from the starting value to 1 given that the allowed operations are:",
+          "allowed_operations": [
+            {
+              "operation": "Subtract 1",
+              "constraint": "none",
+              "description": "Always available"
+            },
+            {
+              "operation": "Divide by 2",
+              "constraint": "current value is divisible by 2 over the integers",
+              "description": "Only available when current value is even"
+            },
+            {
+              "operation": "Divide by 3",
+              "constraint": "current value is divisible by 3 over the integers",
+              "description": "Only available when current value is divisible by 3"
+            }
+          ],
+          "notation": {
+            "function_name": "MIN_OP(n)",
+            "definition": "the minimum number of operations to go from n to 1"
+          }
+        },
+        "specific_question": {
+          "expression": "x = MIN_OP(10) + MIN_OP(14) + MIN_OP(15)",
+          "task": "What is the value of x? Just type the numerical answer."
+        }
+      },
+      "solution_framework": {
+        "algorithm_type": "Dynamic Programming",
+        "approach": "Bottom-up or Top-down with memoization",
+        "state_definition": {
+          "state": "MIN_OP(n)",
+          "meaning": "Minimum operations to reduce n to 1"
+        },
+        "base_case": {
+          "condition": "n = 1",
+          "value": "MIN_OP(1) = 0",
+          "explanation": "Already at target, no operations needed"
+        },
+        "recurrence_relation": {
+          "general_form": "MIN_OP(n) = 1 + min(available_operations)",
+          "cases": [
+            {
+              "condition": "n is divisible by both 2 and 3 (i.e., divisible by 6)",
+              "formula": "MIN_OP(n) = 1 + min(MIN_OP(n-1), MIN_OP(n/2), MIN_OP(n/3))",
+              "choices": 3
+            },
+            {
+              "condition": "n is divisible by 2 only",
+              "formula": "MIN_OP(n) = 1 + min(MIN_OP(n-1), MIN_OP(n/2))",
+              "choices": 2
+            },
+            {
+              "condition": "n is divisible by 3 only",
+              "formula": "MIN_OP(n) = 1 + min(MIN_OP(n-1), MIN_OP(n/3))",
+              "choices": 2
+            },
+            {
+              "condition": "n is not divisible by 2 or 3",
+              "formula": "MIN_OP(n) = 1 + MIN_OP(n-1)",
+              "choices": 1
+            }
+          ]
+        },
+        "optimal_substructure": {
+          "property": "The minimum operations to reach 1 from n depends on the minimum operations from the states reachable in one step",
+          "justification": "Any optimal solution must use an optimal solution to the subproblem"
+        },
+        "overlapping_subproblems": {
+          "property": "Computing MIN_OP(n) may require computing the same MIN_OP(k) multiple times through different paths",
+          "example": "MIN_OP(12) needs MIN_OP(11), MIN_OP(6), MIN_OP(4), and these may overlap with other computations"
+        }
+      },
+      "computational_examples": {
+        "required_computations": [
+          {
+            "target": "MIN_OP(10)",
+            "trace": {
+              "description": "Compute minimum operations from 10 to 1",
+              "manual_computation_needed": true
+            }
+          },
+          {
+            "target": "MIN_OP(14)",
+            "trace": {
+              "description": "Compute minimum operations from 14 to 1",
+              "manual_computation_needed": true
+            }
+          },
+          {
+            "target": "MIN_OP(15)",
+            "trace": {
+              "description": "Compute minimum operations from 15 to 1",
+              "manual_computation_needed": true
+            }
+          }
+        ],
+        "sample_traces": {
+          "example_small_values": {
+            "MIN_OP(1)": 0,
+            "MIN_OP(2)": 1,
+            "MIN_OP(3)": 1,
+            "MIN_OP(4)": {
+              "value": 2,
+              "path": "4 \u2192 2 \u2192 1 (divide by 2, divide by 2)"
+            },
+            "MIN_OP(5)": {
+              "value": 3,
+              "path": "5 \u2192 4 \u2192 2 \u2192 1 (subtract 1, divide by 2, divide by 2)"
+            },
+            "MIN_OP(6)": {
+              "value": 2,
+              "path": "6 \u2192 3 \u2192 1 (divide by 2, divide by 3) OR 6 \u2192 2 \u2192 1 (divide by 3, divide by 2)"
+            }
+          }
+        }
+      },
+      "complexity_analysis": {
+        "time_complexity": {
+          "naive_recursive": "O(3^n)",
+          "with_memoization": "O(n)",
+          "bottom_up_dp": "O(n)",
+          "explanation": "Each state computed once, constant work per state"
+        },
+        "space_complexity": {
+          "memoization": "O(n)",
+          "bottom_up_dp": "O(n)",
+          "explanation": "Need to store MIN_OP values for all integers from 1 to n"
+        }
+      },
+      "implementation_considerations": {
+        "approaches": [
+          {
+            "method": "Top-down with memoization",
+            "pseudocode_outline": [
+              "function MIN_OP(n, memo):",
+              "  if n == 1: return 0",
+              "  if n in memo: return memo[n]",
+              "  result = 1 + MIN_OP(n-1, memo)  // subtract option always available",
+              "  if n % 2 == 0: result = min(result, 1 + MIN_OP(n/2, memo))",
+              "  if n % 3 == 0: result = min(result, 1 + MIN_OP(n/3, memo))",
+              "  memo[n] = result",
+              "  return result"
+            ]
+          },
+          {
+            "method": "Bottom-up DP",
+            "pseudocode_outline": [
+              "function MIN_OP_bottomup(n):",
+              "  dp = array of size n+1",
+              "  dp[1] = 0",
+              "  for i from 2 to n:",
+              "    dp[i] = 1 + dp[i-1]  // subtract option",
+              "    if i % 2 == 0: dp[i] = min(dp[i], 1 + dp[i/2])",
+              "    if i % 3 == 0: dp[i] = min(dp[i], 1 + dp[i/3])",
+              "  return dp[n]"
+            ]
+          }
+        ]
+      },
+      "edge_cases": {
+        "cases": [
+          {
+            "case": "n = 1",
+            "result": "0 operations (base case)"
+          },
+          {
+            "case": "n is a power of 2",
+            "observation": "Can repeatedly divide by 2 efficiently"
+          },
+          {
+            "case": "n is a power of 3",
+            "observation": "Can repeatedly divide by 3 efficiently"
+          },
+          {
+            "case": "n is prime and > 3",
+            "observation": "Must subtract 1 first, then proceed from n-1"
+          },
+          {
+            "case": "Large values of n",
+            "consideration": "May need to compute many intermediate values"
+          }
+        ]
+      },
+      "related_problems": {
+        "similar_concepts": [
+          "Classic DP problem similar to 'Minimum steps to 1' or 'Reach 1'",
+          "Coin change problem (minimum coins)",
+          "BFS shortest path on implicit graph",
+          "Collatz conjecture exploration"
+        ],
+        "variations": [
+          "Different set of allowed operations",
+          "Finding the actual sequence of operations, not just count",
+          "Weighted operations (different costs)",
+          "Multiple target values"
+        ]
+      },
+      "student_submission": {
+        "submitted_answer": "12",
+        "submission_format": "numerical_only",
+        "requires_computation": true,
+        "computation_breakdown": {
+          "MIN_OP_10": {
+            "computed_value": null,
+            "optimal_path": null
+          },
+          "MIN_OP_14": {
+            "computed_value": null,
+            "optimal_path": null
+          },
+          "MIN_OP_15": {
+            "computed_value": null,
+            "optimal_path": null
+          },
+          "sum": 12
+        }
+      },
+      "expected_solution": {
+        "correct_answer": "",
+        "detailed_computation": {
+          "MIN_OP_10_solution": {
+            "value": "",
+            "optimal_path": "",
+            "step_by_step": []
+          },
+          "MIN_OP_14_solution": {
+            "value": "",
+            "optimal_path": "",
+            "step_by_step": []
+          },
+          "MIN_OP_15_solution": {
+            "value": "",
+            "optimal_path": "",
+            "step_by_step": []
+          }
+        },
+        "marking_criteria": {
+          "total_marks": 3,
+          "allocation": "Likely all-or-nothing for correct numerical answer, or partial credit structure not specified"
+        }
+      },
+      "teaching_notes": {
+        "key_concepts_tested": [
+          "Dynamic programming problem recognition",
+          "Recurrence relation formulation",
+          "Base case identification",
+          "Optimal substructure property",
+          "Manual computation of small DP instances"
+        ],
+        "common_mistakes": [
+          "Forgetting divisibility constraints on operations",
+          "Not considering all three possible operations when applicable",
+          "Off-by-one errors in counting operations",
+          "Greedy approach (always choosing division) which may not be optimal",
+          "Computational errors in manual calculation"
+        ],
+        "problem_solving_strategy": [
+          "Start with base case MIN_OP(1) = 0",
+          "Build up values systematically for small n",
+          "For each n, consider which operations are valid",
+          "Take minimum over valid choices",
+          "Compute MIN_OP(10), MIN_OP(14), MIN_OP(15) separately",
+          "Sum the three values"
+        ],
+        "greedy_vs_dp": {
+          "note": "A greedy approach of always dividing when possible may not be optimal",
+          "counterexample": "For n=15: greedy might do 15\u21925\u21924\u21922\u21921 (4 ops), but 15\u219214\u21927\u21926\u21923\u21921 might be different",
+          "lesson": "Need to explore all possibilities via DP"
+        }
+      },
+      "verification_approach": {
+        "methods": [
+          "Compute bottom-up from 1 to max(10, 14, 15) = 15",
+          "Verify each step follows recurrence relation",
+          "Cross-check with alternative computation method",
+          "Trace back optimal paths to verify operation counts"
+        ]
+      }
+    },
+    {
+      "exam_metadata": {
+        "course": "FIT2004 Algorithms and Data Structures",
+        "institution": "Monash University",
+        "question_number": 5,
+        "total_questions": 15,
+        "marks": 3,
+        "time_remaining": "0:07:44",
+        "questions_attempted": "15/15"
+      },
+      "question": {
+        "id": "q5",
+        "type": "multiple_choice_multiple_answer",
+        "category": "Graph Algorithms",
+        "subcategory": "Greedy Algorithms - Correctness Conditions",
+        "difficulty": "medium",
+        "marks_allocated": 3,
+        "topic_tags": [
+          "greedy_algorithms",
+          "shortest_path",
+          "minimum_spanning_tree",
+          "dijkstra",
+          "prim",
+          "kruskal",
+          "negative_weights",
+          "negative_cycles",
+          "graph_properties"
+        ],
+        "prompt": "Select all true statements regarding the correctness of greedy graph algorithms.",
+        "instruction": "Select one or more:",
+        "options": [
+          {
+            "id": "a",
+            "text": "Dijkstra's algorithm works correctly for directed graphs with negative cycle(s).",
+            "mathematical_context": {
+              "algorithm": "Dijkstra's algorithm",
+              "graph_type": "directed",
+              "edge_weights": "general (allowing negative)",
+              "special_condition": "negative cycles present",
+              "correctness_claim": false,
+              "reasoning": "Dijkstra's algorithm assumes non-negative edge weights. With negative cycles, the algorithm cannot guarantee shortest paths as distances can decrease indefinitely by traversing the cycle repeatedly. The greedy choice of always selecting the minimum distance vertex becomes invalid."
+            }
+          },
+          {
+            "id": "b",
+            "text": "Both Prims and Kruskal's algorithm work correctly for undirected graphs with negative weights but no negative cycle.",
+            "mathematical_context": {
+              "algorithms": [
+                "Prim's algorithm",
+                "Kruskal's algorithm"
+              ],
+              "graph_type": "undirected",
+              "edge_weights": "negative allowed",
+              "special_condition": "no negative cycles",
+              "correctness_claim": true,
+              "reasoning": "Both Prim's and Kruskal's algorithms find minimum spanning trees (MSTs) and their correctness depends only on being able to compare edge weights, not on the signs of the weights. Negative weights are perfectly acceptable. The absence of negative cycles is mentioned but is actually irrelevant for MST algorithms since they don't traverse cycles - they build acyclic spanning trees. The algorithms work correctly even with negative weights."
+            }
+          },
+          {
+            "id": "c",
+            "text": "Dijkstra's algorithm works correctly for directed graphs with negative weights but no negative cycle.",
+            "mathematical_context": {
+              "algorithm": "Dijkstra's algorithm",
+              "graph_type": "directed",
+              "edge_weights": "negative allowed",
+              "special_condition": "no negative cycles",
+              "correctness_claim": false,
+              "reasoning": "Dijkstra's algorithm requires non-negative edge weights for correctness. Even without negative cycles, negative edges can invalidate the greedy choice. Once a vertex is finalized with its shortest distance, Dijkstra never revisits it. However, with negative edges, a path through a later-discovered vertex might provide a shorter path to an already-finalized vertex. The algorithm's correctness proof breaks down without the non-negative weight assumption."
+            }
+          },
+          {
+            "id": "d",
+            "text": "Both Prims and Kruskal's algorithm work correctly for undirected graphs with negative cycle(s).",
+            "mathematical_context": {
+              "algorithms": [
+                "Prim's algorithm",
+                "Kruskal's algorithm"
+              ],
+              "graph_type": "undirected",
+              "edge_weights": "general (allowing negative)",
+              "special_condition": "negative cycles present",
+              "correctness_claim": true,
+              "reasoning": "MST algorithms work correctly even with negative cycles. The algorithms build spanning trees, which by definition are acyclic. Any negative cycle in the original graph cannot be included in a spanning tree because it would create a cycle. The algorithms correctly identify and avoid creating cycles while finding the minimum weight spanning tree. The presence of negative cycles in the graph doesn't affect the correctness of MST construction."
+            }
+          }
+        ],
+        "algorithmic_context": {
+          "dijkstra_requirements": {
+            "correctness_conditions": [
+              "Non-negative edge weights (strictly required)",
+              "Graph can be directed or undirected",
+              "Greedy choice: always process minimum distance vertex",
+              "Once finalized, distance is optimal"
+            ],
+            "failure_modes": {
+              "negative_edges": "Breaks greedy choice optimality - finalized vertices might have shorter paths discovered later",
+              "negative_cycles": "Shortest paths undefined - can achieve arbitrarily small distances"
+            }
+          },
+          "mst_requirements": {
+            "correctness_conditions": [
+              "Graph must be connected (or find MST for each component)",
+              "Can handle any edge weights (positive, negative, zero)",
+              "Greedy choice: add minimum weight safe edge",
+              "Cut property ensures correctness"
+            ],
+            "key_insight": "MST algorithms build acyclic structures, so cycles (negative or otherwise) in the original graph are irrelevant to correctness"
+          },
+          "prim_algorithm": {
+            "approach": "Vertex-based greedy growth",
+            "data_structure": "Priority queue keyed by edge weights to tree",
+            "invariant": "Maintains single tree, adds minimum edge connecting tree to non-tree vertex",
+            "weight_dependency": "Only compares weights, sign irrelevant"
+          },
+          "kruskal_algorithm": {
+            "approach": "Edge-based greedy selection",
+            "data_structure": "Sort all edges, use union-find for cycle detection",
+            "invariant": "Maintains forest, adds minimum edge that doesn't create cycle",
+            "weight_dependency": "Only compares and sorts weights, sign irrelevant"
+          }
+        },
+        "conceptual_distinctions": {
+          "shortest_path_vs_mst": {
+            "shortest_path": {
+              "problem": "Find minimum total weight path between vertices",
+              "traverses_edges": "Can use same edge multiple times in different paths",
+              "negative_weight_impact": "Fundamental issue - can invalidate optimal substructure",
+              "algorithms": [
+                "Dijkstra (non-negative)",
+                "Bellman-Ford (allows negative)"
+              ]
+            },
+            "mst": {
+              "problem": "Find minimum total weight acyclic connected subgraph",
+              "structure": "Tree - inherently acyclic",
+              "negative_weight_impact": "No issue - just affects total weight value",
+              "algorithms": [
+                "Prim",
+                "Kruskal"
+              ]
+            }
+          },
+          "negative_cycles_impact": {
+            "shortest_path": "Makes problem ill-defined (can achieve -\u221e distance)",
+            "mst": "Irrelevant (cycles excluded by tree structure)"
+          }
+        }
+      },
+      "student_answer": {
+        "selected_options": [
+          "b"
+        ],
+        "timestamp": "saved at 0:07:45",
+        "status": "submitted",
+        "confidence": null,
+        "working": null
+      },
+      "correct_answer": {
+        "correct_options": [],
+        "explanation": "",
+        "detailed_analysis": {
+          "option_a": {
+            "correct": null,
+            "key_concepts": [
+              "Dijkstra correctness requirements",
+              "Negative cycle impact on shortest paths",
+              "Greedy algorithm failure modes"
+            ]
+          },
+          "option_b": {
+            "correct": null,
+            "key_concepts": [
+              "MST algorithm weight independence",
+              "Acyclic structure property",
+              "Cut property"
+            ]
+          },
+          "option_c": {
+            "correct": null,
+            "key_concepts": [
+              "Dijkstra non-negative weight requirement",
+              "Counterexample with negative edges",
+              "Bellman-Ford as alternative"
+            ]
+          },
+          "option_d": {
+            "correct": null,
+            "key_concepts": [
+              "MST and cycles relationship",
+              "Spanning tree definition",
+              "Cycle detection in Kruskal"
+            ]
+          }
+        }
+      },
+      "assessment": {
+        "marks_obtained": null,
+        "feedback": "",
+        "common_mistakes": [
+          "Confusing shortest path and MST problem requirements",
+          "Assuming negative cycles affect MST correctness",
+          "Not recognizing that Dijkstra fails with any negative edges, not just cycles",
+          "Forgetting that spanning trees are acyclic by definition"
+        ]
+      },
+      "learning_objectives": [
+        "Understand correctness conditions for greedy graph algorithms",
+        "Distinguish between shortest path and MST problem requirements",
+        "Recognize when negative weights invalidate algorithm correctness",
+        "Understand the relationship between graph properties (cycles) and algorithm applicability"
+      ],
+      "related_concepts": {
+        "algorithms": [
+          {
+            "name": "Dijkstra's Algorithm",
+            "time_complexity": "O((V + E) log V) with binary heap",
+            "space_complexity": "O(V)",
+            "requirements": [
+              "non-negative weights"
+            ],
+            "outputs": "Single-source shortest paths"
+          },
+          {
+            "name": "Bellman-Ford Algorithm",
+            "time_complexity": "O(VE)",
+            "space_complexity": "O(V)",
+            "requirements": [
+              "can handle negative weights",
+              "detects negative cycles"
+            ],
+            "outputs": "Single-source shortest paths or negative cycle detection"
+          },
+          {
+            "name": "Prim's Algorithm",
+            "time_complexity": "O((V + E) log V) with binary heap",
+            "space_complexity": "O(V)",
+            "requirements": [
+              "connected graph"
+            ],
+            "outputs": "Minimum spanning tree"
+          },
+          {
+            "name": "Kruskal's Algorithm",
+            "time_complexity": "O(E log E) or O(E log V)",
+            "space_complexity": "O(V) for union-find",
+            "requirements": [
+              "none specific to weights"
+            ],
+            "outputs": "Minimum spanning tree (or forest)"
+          }
+        ],
+        "graph_properties": {
+          "negative_edges": {
+            "definition": "Edges with weight < 0",
+            "impact_on_dijkstra": "Breaks correctness - algorithm may return incorrect shortest paths",
+            "impact_on_mst": "No impact - algorithms compare weights only"
+          },
+          "negative_cycles": {
+            "definition": "Cycle where sum of edge weights < 0",
+            "impact_on_shortest_path": "Makes problem ill-defined - can achieve arbitrarily small distances",
+            "impact_on_mst": "No impact - cycles not included in spanning trees",
+            "detection": "Bellman-Ford can detect in O(VE) time"
+          }
+        }
+      },
+      "exam_strategy": {
+        "key_discriminators": [
+          "Separate shortest path algorithms from MST algorithms",
+          "Remember: Dijkstra requires non-negative weights (strict requirement)",
+          "Remember: MST algorithms don't care about edge weight signs",
+          "Trees are acyclic, so cycles in graph don't affect MST construction"
+        ],
+        "time_management": "3 marks, should take ~2-3 minutes",
+        "difficulty_indicators": [
+          "Requires understanding multiple algorithms",
+          "Tests conceptual understanding vs memorization",
+          "Multiple correct answers possible"
+        ]
+      }
+    },
+    {
+      "exam_metadata": {
+        "course": "FIT2004 Algorithms and data structures",
+        "institution": "Monash University",
+        "question_number": 6,
+        "total_questions": 15,
+        "marks": 3,
+        "time_remaining": "0:07:48",
+        "student_name": "Rhyme Bulbul"
+      },
+      "question_type": "Graph Algorithms - Floyd-Warshall All-Pairs Shortest Path",
+      "algorithm_focus": {
+        "primary": "Floyd-Warshall Algorithm",
+        "category": "Dynamic Programming on Graphs",
+        "subcategory": "All-Pairs Shortest Paths",
+        "complexity": {
+          "time": "O(V\u00b3)",
+          "space": "O(V\u00b2)",
+          "description": "Triple nested loop over vertices for intermediate vertices and source-destination pairs"
+        }
+      },
+      "problem_statement": {
+        "instruction": "In the following questions please enter as answer only the finite numerical value or 'infinity'.",
+        "context": "Consider the following graph and the execution of the Floyd-Warshall algorithm:",
+        "graph_description": {
+          "type": "Directed weighted graph",
+          "vertices": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "vertex_count": 4,
+          "edges": [
+            {
+              "source": 1,
+              "destination": 2,
+              "weight": 2,
+              "visual_note": "directed edge from vertex 1 to vertex 2"
+            },
+            {
+              "source": 1,
+              "destination": 3,
+              "weight": 1,
+              "visual_note": "directed edge from vertex 1 to vertex 3"
+            },
+            {
+              "source": 2,
+              "destination": 1,
+              "weight": null,
+              "visual_note": "directed edge from vertex 2 to vertex 1 (weight appears unlabeled or implicit)"
+            },
+            {
+              "source": 2,
+              "destination": 4,
+              "weight": 3,
+              "visual_note": "directed edge from vertex 2 to vertex 4"
+            },
+            {
+              "source": 3,
+              "destination": 1,
+              "weight": 1,
+              "visual_note": "directed edge from vertex 3 to vertex 1"
+            },
+            {
+              "source": 3,
+              "destination": 2,
+              "weight": 4,
+              "visual_note": "directed edge from vertex 3 to vertex 2"
+            },
+            {
+              "source": 3,
+              "destination": 4,
+              "weight": 2,
+              "visual_note": "directed edge from vertex 3 to vertex 4"
+            },
+            {
+              "source": 4,
+              "destination": 3,
+              "weight": 2,
+              "visual_note": "directed edge from vertex 4 to vertex 3"
+            }
+          ],
+          "visual_layout": {
+            "vertex_1": "top-left",
+            "vertex_2": "top-right",
+            "vertex_3": "bottom-left",
+            "vertex_4": "bottom-right",
+            "note": "Vertices arranged in a roughly rectangular pattern with multiple directed edges between them"
+          }
+        }
+      },
+      "floyd_warshall_algorithm": {
+        "description": "Dynamic programming algorithm for finding shortest paths between all pairs of vertices",
+        "principle": "For each intermediate vertex k, update distance[i][j] = min(distance[i][j], distance[i][k] + distance[k][j])",
+        "iteration_structure": {
+          "outer_loop": "Iterates over intermediate vertices k (1 to V)",
+          "middle_loop": "Iterates over source vertices i (1 to V)",
+          "inner_loop": "Iterates over destination vertices j (1 to V)"
+        },
+        "initialization": {
+          "direct_edges": "Set distance[i][j] to edge weight if edge (i,j) exists",
+          "self_loops": "Set distance[i][i] = 0 for all vertices i",
+          "no_edge": "Set distance[i][j] = infinity if no edge (i,j) exists"
+        },
+        "update_rule": "distance[i][j] = min(distance[i][j], distance[i][k] + distance[k][j])",
+        "improvement_criterion": "A distance estimate is 'improved' when it changes from a larger value (or infinity) to a smaller finite value"
+      },
+      "sub_questions": [
+        {
+          "sub_question_id": "6a",
+          "question_text": "During the first iteration of the outer loop, how many distance estimates are improved?",
+          "iteration_context": {
+            "outer_loop_iteration": 1,
+            "intermediate_vertex_k": 1,
+            "description": "First iteration uses vertex 1 as intermediate vertex"
+          },
+          "answer_format": "finite numerical value",
+          "student_answer": "2",
+          "expected_solution": {
+            "value": "",
+            "explanation": "",
+            "step_by_step": {
+              "initialization_phase": {
+                "description": "Initialize distance matrix with direct edges and infinity for non-adjacent vertices",
+                "distance_matrix_initial": "Based on graph edges, set up initial D[i][j] values"
+              },
+              "iteration_k1": {
+                "intermediate_vertex": 1,
+                "updates_checked": "For all pairs (i,j), check if path i\u21921\u2192j is shorter than current distance[i][j]",
+                "improvements_list": [],
+                "improvement_count": ""
+              }
+            },
+            "marking_notes": "Count number of times distance[i][j] is updated (improved) during k=1 iteration"
+          },
+          "marks_allocated": 1
+        },
+        {
+          "sub_question_id": "6b",
+          "question_text": "What is the distance estimate from vertex 1 to vertex 3 at this point of the execution?",
+          "iteration_context": {
+            "execution_point": "After first two iterations of outer loop complete",
+            "intermediate_vertices_processed": [
+              1,
+              2
+            ],
+            "description": "After k=1 and k=2 iterations have finished"
+          },
+          "answer_format": "finite numerical value or 'infinity'",
+          "student_answer": "infinity",
+          "expected_solution": {
+            "value": "",
+            "explanation": "",
+            "step_by_step": {
+              "after_k1": {
+                "distance_1_to_3": "",
+                "paths_considered": "Direct edge 1\u21923, or paths through vertex 1"
+              },
+              "after_k2": {
+                "distance_1_to_3": "",
+                "paths_considered": "Previous best, or paths 1\u21922\u2192... or ...\u21922\u21923",
+                "path_decomposition": ""
+              }
+            },
+            "marking_notes": "Report distance[1][3] after outer loop iterations k=1 and k=2 complete"
+          },
+          "marks_allocated": 1
+        },
+        {
+          "sub_question_id": "6c",
+          "question_text": "What is the distance estimate from vertex 3 to vertex 4 at this point of the execution?",
+          "iteration_context": {
+            "execution_point": "After first two iterations of outer loop complete",
+            "intermediate_vertices_processed": [
+              1,
+              2
+            ],
+            "description": "After k=1 and k=2 iterations have finished"
+          },
+          "answer_format": "finite numerical value",
+          "student_answer": "6",
+          "expected_solution": {
+            "value": "",
+            "explanation": "",
+            "step_by_step": {
+              "direct_edge": {
+                "edge_3_to_4": "",
+                "weight": "",
+                "description": "Check if direct edge exists from vertex 3 to vertex 4"
+              },
+              "after_k1": {
+                "distance_3_to_4": "",
+                "paths_considered": "Direct edge 3\u21924, or paths through vertex 1",
+                "best_path": ""
+              },
+              "after_k2": {
+                "distance_3_to_4": "",
+                "paths_considered": "Previous best, or paths through vertex 2 like 3\u21922\u21924",
+                "path_evaluation": "",
+                "best_path": ""
+              }
+            },
+            "marking_notes": "Report distance[3][4] after outer loop iterations k=1 and k=2 complete"
+          },
+          "marks_allocated": 1
+        }
+      ],
+      "algorithm_theory": {
+        "key_concepts": [
+          {
+            "concept": "Dynamic Programming State",
+            "definition": "distance[k][i][j] = shortest path from i to j using only vertices {1,2,...,k} as intermediates",
+            "note": "Often space-optimized to distance[i][j] by reusing same matrix"
+          },
+          {
+            "concept": "Optimal Substructure",
+            "definition": "Shortest path from i to j either uses k as intermediate or doesn't",
+            "recurrence": "distance[k][i][j] = min(distance[k-1][i][j], distance[k-1][i][k] + distance[k-1][k][j])"
+          },
+          {
+            "concept": "Negative Cycles",
+            "detection": "After algorithm completes, if distance[i][i] < 0 for any vertex i, a negative cycle exists",
+            "implication": "No shortest paths exist in graphs with negative cycles reachable from source-destination pairs"
+          },
+          {
+            "concept": "Distance Improvement",
+            "definition": "A distance estimate is improved when it changes to a smaller value",
+            "tracking": "Count occurs when min() operation selects the new path through intermediate vertex k"
+          }
+        ],
+        "correctness": {
+          "invariant": "After k iterations, distance[i][j] contains shortest path from i to j using only vertices {1,...,k}",
+          "base_case": "k=0: Only direct edges considered (no intermediate vertices)",
+          "inductive_step": "If invariant holds for k-1, it holds for k by considering paths through vertex k",
+          "termination": "After V iterations, all vertices considered as intermediates, yielding all-pairs shortest paths"
+        }
+      },
+      "common_pitfalls": [
+        {
+          "pitfall": "Confusing iteration number with vertex number",
+          "clarification": "First iteration uses k=1 (vertex 1 as intermediate), not k=0"
+        },
+        {
+          "pitfall": "Counting updates vs improvements",
+          "clarification": "Only count when distance actually decreases, not when min() is computed but value unchanged"
+        },
+        {
+          "pitfall": "Off-by-one errors in iteration counting",
+          "clarification": "After two iterations means k=1 and k=2 have completed, about to start k=3"
+        },
+        {
+          "pitfall": "Reading graph direction incorrectly",
+          "clarification": "Edges are directed - weight applies only in the specified direction"
+        }
+      ],
+      "testing_approach": {
+        "manual_trace": {
+          "steps": [
+            "Initialize distance matrix with direct edges",
+            "For k=1: update all pairs checking if i\u21921\u2192j improves distance[i][j]",
+            "For k=2: update all pairs checking if i\u21922\u2192j improves distance[i][j]",
+            "Report specific distance[i][j] values as requested"
+          ]
+        },
+        "implementation_verification": {
+          "matrix_initialization": "Ensure diagonal is 0, direct edges have weights, others are infinity",
+          "update_order": "Must complete all (i,j) pairs for one k before moving to next k",
+          "improvement_counting": "Increment counter only when distance[i][j] actually changes"
+        }
+      },
+      "related_algorithms": {
+        "dijkstra": {
+          "comparison": "Single-source shortest path, faster O((V+E)log V) but requires non-negative weights",
+          "use_case": "When only need paths from one source and no negative weights"
+        },
+        "bellman_ford": {
+          "comparison": "Single-source shortest path, handles negative weights, O(VE) time",
+          "use_case": "Single source with negative weights allowed"
+        },
+        "johnson_algorithm": {
+          "comparison": "All-pairs using reweighting + Dijkstra, O(V\u00b2log V + VE) time",
+          "use_case": "Sparse graphs with negative weights where Johnson's is faster than Floyd-Warshall"
+        }
+      },
+      "exam_context": {
+        "question_status": "Attempted",
+        "confidence": "Unsure of attempt (based on orange indicator on question 13)",
+        "time_management": "Approximately 8 minutes remaining with 9 questions left",
+        "strategic_notes": "Quick calculation question worth 3 marks - requires careful trace through algorithm but straightforward application"
+      }
+    },
+    {
+      "exam_metadata": {
+        "course": "FIT2004",
+        "course_name": "Algorithms and Data Structures",
+        "institution": "Monash University",
+        "question_number": 7,
+        "total_questions": 15,
+        "topic_primary": "Network Flow",
+        "topic_secondary": "Minimum Cut",
+        "difficulty": "medium",
+        "marks": null,
+        "time_saved": "0:08:04"
+      },
+      "question": {
+        "type": "multiple_choice",
+        "category": "network_flow_minimum_cut",
+        "problem_statement": "Consider the following flow network with source node s, sink node t, and in which the capacities are indicated in each edge.",
+        "network_specification": {
+          "nodes": [
+            "s",
+            "a",
+            "b",
+            "c",
+            "d",
+            "t"
+          ],
+          "source": "s",
+          "sink": "t",
+          "edges": [
+            {
+              "from": "s",
+              "to": "a",
+              "capacity": 9,
+              "direction": "directed"
+            },
+            {
+              "from": "s",
+              "to": "b",
+              "capacity": 8,
+              "direction": "directed"
+            },
+            {
+              "from": "a",
+              "to": "c",
+              "capacity": 5,
+              "direction": "directed"
+            },
+            {
+              "from": "a",
+              "to": "b",
+              "capacity": 11,
+              "direction": "directed"
+            },
+            {
+              "from": "a",
+              "to": "d",
+              "capacity": 5,
+              "direction": "directed"
+            },
+            {
+              "from": "b",
+              "to": "a",
+              "capacity": 5,
+              "direction": "directed"
+            },
+            {
+              "from": "b",
+              "to": "d",
+              "capacity": 3,
+              "direction": "directed"
+            },
+            {
+              "from": "c",
+              "to": "d",
+              "capacity": 2,
+              "direction": "directed"
+            },
+            {
+              "from": "c",
+              "to": "t",
+              "capacity": 6,
+              "direction": "directed"
+            },
+            {
+              "from": "d",
+              "to": "t",
+              "capacity": 7,
+              "direction": "directed"
+            }
+          ],
+          "visual_layout": {
+            "description": "Flow network with 6 nodes arranged in layers: s on left, middle layer with a and b, intermediate layer with c and d, and t on right",
+            "node_positions": {
+              "s": "leftmost",
+              "a": "upper middle layer",
+              "b": "lower middle layer",
+              "c": "upper intermediate layer",
+              "d": "lower intermediate layer",
+              "t": "rightmost"
+            }
+          }
+        },
+        "theoretical_concepts": {
+          "min_cut_definition": "A cut partitions the vertices into two disjoint sets, S and T, where S contains all the vertices on the source side of the cut, and T contains all the vertices on the sink side of the cut",
+          "min_cut_properties": [
+            "S contains the source node s",
+            "T contains the sink node t",
+            "S and T are disjoint: S \u2229 T = \u2205",
+            "S and T cover all vertices: S \u222a T = V",
+            "Cut capacity = sum of capacities of edges from S to T"
+          ],
+          "max_flow_min_cut_theorem": "The maximum flow value equals the minimum cut capacity",
+          "cut_identification": "To identify which set S a vertex belongs to in the minimum cut, check if it's reachable from s in the residual graph after max flow"
+        },
+        "specific_question": "Consider the minimum cut of the above flow network and select the option that corresponds to the set S in that cut.",
+        "answer_options": [
+          {
+            "label": "A",
+            "value": "S = {s}",
+            "vertices_in_S": [
+              "s"
+            ],
+            "vertices_in_T": [
+              "a",
+              "b",
+              "c",
+              "d",
+              "t"
+            ]
+          },
+          {
+            "label": "B",
+            "value": "S = {s, a}",
+            "vertices_in_S": [
+              "s",
+              "a"
+            ],
+            "vertices_in_T": [
+              "b",
+              "c",
+              "d",
+              "t"
+            ]
+          },
+          {
+            "label": "C",
+            "value": "S = {s, b}",
+            "vertices_in_S": [
+              "s",
+              "b"
+            ],
+            "vertices_in_T": [
+              "a",
+              "c",
+              "d",
+              "t"
+            ]
+          },
+          {
+            "label": "D",
+            "value": "S = {s, c}",
+            "vertices_in_S": [
+              "s",
+              "c"
+            ],
+            "vertices_in_T": [
+              "a",
+              "b",
+              "d",
+              "t"
+            ]
+          },
+          {
+            "label": "E",
+            "value": "S = {s, d}",
+            "vertices_in_S": [
+              "s",
+              "d"
+            ],
+            "vertices_in_T": [
+              "a",
+              "b",
+              "c",
+              "t"
+            ]
+          },
+          {
+            "label": "F",
+            "value": "S = {s, a, b}",
+            "vertices_in_S": [
+              "s",
+              "a",
+              "b"
+            ],
+            "vertices_in_T": [
+              "c",
+              "d",
+              "t"
+            ]
+          },
+          {
+            "label": "G",
+            "value": "S = {s, a, c}",
+            "vertices_in_S": [
+              "s",
+              "a",
+              "c"
+            ],
+            "vertices_in_T": [
+              "b",
+              "d",
+              "t"
+            ]
+          },
+          {
+            "label": "H",
+            "value": "S = {s, a, d}",
+            "vertices_in_S": [
+              "s",
+              "a",
+              "d"
+            ],
+            "vertices_in_T": [
+              "b",
+              "c",
+              "t"
+            ]
+          },
+          {
+            "label": "I",
+            "value": "S = {s, b, c}",
+            "vertices_in_S": [
+              "s",
+              "b",
+              "c"
+            ],
+            "vertices_in_T": [
+              "a",
+              "d",
+              "t"
+            ]
+          },
+          {
+            "label": "J",
+            "value": "S = {s, b, d}",
+            "vertices_in_S": [
+              "s",
+              "b",
+              "d"
+            ],
+            "vertices_in_T": [
+              "a",
+              "c",
+              "t"
+            ]
+          },
+          {
+            "label": "K",
+            "value": "S = {s, c, d}",
+            "vertices_in_S": [
+              "s",
+              "c",
+              "d"
+            ],
+            "vertices_in_T": [
+              "a",
+              "b",
+              "t"
+            ]
+          },
+          {
+            "label": "L",
+            "value": "S = {s, a, b, c}",
+            "vertices_in_S": [
+              "s",
+              "a",
+              "b",
+              "c"
+            ],
+            "vertices_in_T": [
+              "d",
+              "t"
+            ]
+          },
+          {
+            "label": "M",
+            "value": "S = {s, a, b, d}",
+            "vertices_in_S": [
+              "s",
+              "a",
+              "b",
+              "d"
+            ],
+            "vertices_in_T": [
+              "c",
+              "t"
+            ]
+          },
+          {
+            "label": "N",
+            "value": "S = {s, a, c, d}",
+            "vertices_in_S": [
+              "s",
+              "a",
+              "c",
+              "d"
+            ],
+            "vertices_in_T": [
+              "b",
+              "t"
+            ]
+          }
+        ]
+      },
+      "solution_methodology": {
+        "approach": "ford_fulkerson_and_residual_graph_analysis",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Compute maximum flow using Ford-Fulkerson or similar algorithm",
+            "substeps": [
+              "Find augmenting paths from s to t",
+              "Update flow along each augmenting path",
+              "Continue until no augmenting path exists",
+              "Record the maximum flow value"
+            ]
+          },
+          {
+            "step": 2,
+            "description": "Construct residual graph after maximum flow",
+            "substeps": [
+              "For each edge with flow f < capacity c, add forward edge with residual capacity (c - f)",
+              "For each edge with flow f > 0, add backward edge with residual capacity f"
+            ]
+          },
+          {
+            "step": 3,
+            "description": "Find reachable vertices from source in residual graph",
+            "substeps": [
+              "Perform BFS or DFS from source s in residual graph",
+              "Mark all vertices reachable from s",
+              "Set S = all reachable vertices",
+              "Set T = all unreachable vertices"
+            ]
+          },
+          {
+            "step": 4,
+            "description": "Verify minimum cut",
+            "substeps": [
+              "Calculate cut capacity: sum of c(u,v) for all edges from S to T",
+              "Verify that cut capacity equals maximum flow value",
+              "This confirms the minimum cut by max-flow min-cut theorem"
+            ]
+          }
+        ],
+        "alternative_approach": "cut_enumeration",
+        "alternative_steps": [
+          "Enumerate all possible cuts (all possible subsets S containing s)",
+          "For each cut, calculate capacity = sum of edges crossing from S to T",
+          "Select the cut with minimum capacity",
+          "Note: This is inefficient but works for small graphs"
+        ],
+        "cut_capacity_formula": "capacity(S,T) = \u03a3 c(u,v) for all u \u2208 S, v \u2208 T where (u,v) is an edge",
+        "verification_method": "The minimum cut capacity must equal the maximum flow value (by max-flow min-cut theorem)"
+      },
+      "complexity_analysis": {
+        "ford_fulkerson": {
+          "time_complexity": "O(E * f) where E is number of edges and f is maximum flow value",
+          "space_complexity": "O(V + E) for graph representation"
+        },
+        "edmonds_karp": {
+          "time_complexity": "O(V * E\u00b2) - uses BFS for finding augmenting paths",
+          "space_complexity": "O(V + E)"
+        },
+        "finding_min_cut": {
+          "time_complexity": "O(V + E) for BFS/DFS in residual graph after computing max flow",
+          "space_complexity": "O(V) for marking reachable vertices"
+        },
+        "total_complexity": "Dominated by max flow computation"
+      },
+      "student_response": {
+        "selected_answer": "M",
+        "selected_value": "S = {s, a, b, d}",
+        "vertices_in_S": [
+          "s",
+          "a",
+          "b",
+          "d"
+        ],
+        "vertices_in_T": [
+          "c",
+          "t"
+        ],
+        "confidence": "marked",
+        "reasoning_provided": null
+      },
+      "expected_solution": {
+        "correct_answer": "",
+        "correct_vertices_in_S": [],
+        "maximum_flow_value": null,
+        "minimum_cut_capacity": null,
+        "detailed_solution": {
+          "max_flow_computation": "",
+          "augmenting_paths": [],
+          "final_flow_assignment": {},
+          "residual_graph": {},
+          "reachable_from_source": [],
+          "cut_edges": [],
+          "cut_capacity_calculation": ""
+        },
+        "verification": {
+          "max_flow_equals_min_cut": null,
+          "all_cut_edges_saturated": null,
+          "no_augmenting_path_exists": null
+        }
+      },
+      "key_concepts_tested": [
+        "Maximum flow computation",
+        "Minimum cut identification",
+        "Max-flow min-cut theorem",
+        "Residual graph construction",
+        "Graph reachability analysis",
+        "Flow network properties",
+        "Cut capacity calculation"
+      ],
+      "common_mistakes": [
+        {
+          "mistake": "Confusing S and T sets",
+          "description": "Students may incorrectly identify which vertices belong to source side vs sink side"
+        },
+        {
+          "mistake": "Not computing maximum flow first",
+          "description": "Attempting to find minimum cut without first solving max flow problem"
+        },
+        {
+          "mistake": "Incorrect cut capacity calculation",
+          "description": "Including edges from T to S in the cut capacity, or missing edges from S to T"
+        },
+        {
+          "mistake": "Not using residual graph",
+          "description": "Trying to find reachable vertices in original graph instead of residual graph after max flow"
+        },
+        {
+          "mistake": "Assuming minimum cut has minimum number of edges",
+          "description": "Minimum cut minimizes total capacity, not number of edges crossing the cut"
+        }
+      ],
+      "related_concepts": {
+        "prerequisite_knowledge": [
+          "Graph representation (adjacency list/matrix)",
+          "Flow networks and capacity constraints",
+          "BFS/DFS traversal algorithms",
+          "Augmenting paths and residual capacity"
+        ],
+        "related_algorithms": [
+          "Ford-Fulkerson algorithm",
+          "Edmonds-Karp algorithm",
+          "Dinic's algorithm",
+          "Push-relabel algorithm"
+        ],
+        "applications": [
+          "Network reliability analysis",
+          "Maximum bottleneck identification",
+          "Image segmentation",
+          "Minimum cost to disconnect networks",
+          "Project selection problems"
+        ]
+      },
+      "edge_cases": {
+        "case_1": {
+          "description": "Multiple minimum cuts with same capacity",
+          "note": "There may be multiple valid answers with same minimum cut value"
+        },
+        "case_2": {
+          "description": "Direct edge from source to sink",
+          "note": "Minimum cut might be just this single edge if it has smallest capacity"
+        },
+        "case_3": {
+          "description": "Disconnected components",
+          "note": "If sink not reachable from source, max flow is 0"
+        },
+        "case_4": {
+          "description": "Zero capacity edges",
+          "note": "These edges should be included in residual graph construction"
+        }
+      },
+      "exam_strategy": {
+        "time_management": "For a multiple choice question, consider approximating by checking a few promising cuts rather than computing full max flow",
+        "quick_heuristics": [
+          "Look for obvious bottleneck edges",
+          "Check cuts that isolate high-capacity sections",
+          "Verify your answer by calculating cut capacity",
+          "Compare calculated capacity with other options"
+        ],
+        "verification_steps": [
+          "Ensure s \u2208 S and t \u2208 T",
+          "Calculate capacity of edges crossing from S to T",
+          "Check if this seems like a bottleneck",
+          "Verify no edges from T to S are counted"
+        ]
+      },
+      "notes_for_llm": {
+        "parsing_priority": "high",
+        "requires_computation": true,
+        "visual_component": true,
+        "computational_difficulty": "medium",
+        "explanation_depth_needed": "detailed",
+        "student_needs_help_with": [
+          "Computing maximum flow step by step",
+          "Understanding residual graph construction",
+          "Identifying reachable vertices after max flow",
+          "Verifying answer using max-flow min-cut theorem"
+        ]
+      }
+    },
+    {
+      "exam_metadata": {
+        "course": "FIT2004",
+        "course_name": "Algorithms and Data Structures",
+        "institution": "Monash University",
+        "question_number": 9,
+        "total_questions": 15,
+        "marks": 3,
+        "exam_date": "2025-11-13",
+        "time_remaining": "0:08:16",
+        "question_status": "attempted"
+      },
+      "question": {
+        "id": "q9",
+        "type": "string_algorithms",
+        "subtopic": "suffix_tree",
+        "difficulty": "medium",
+        "marks_allocated": 3,
+        "answer_format": "numerical",
+        "question_text": "Consider the string ABCAABCA$ in which $ is used as the terminating character. How many non-leaf nodes are there in its suffix tree?",
+        "requirements": [
+          "Type the numerical answer only"
+        ]
+      },
+      "problem_specification": {
+        "input": {
+          "string": "ABCAABCA$",
+          "string_length": 9,
+          "alphabet": [
+            "A",
+            "B",
+            "C",
+            "$"
+          ],
+          "terminating_character": "$",
+          "properties": [
+            "$ is unique terminating character",
+            "$ is lexicographically smallest or used as sentinel"
+          ]
+        },
+        "task": "Count the number of non-leaf nodes in the suffix tree",
+        "constraints": [
+          "Must construct suffix tree for given string",
+          "Must distinguish between leaf nodes and internal nodes",
+          "$ terminates the string and all suffixes"
+        ]
+      },
+      "theoretical_background": {
+        "data_structure": "suffix_tree",
+        "definition": "A compressed trie of all suffixes of a given string",
+        "key_properties": [
+          "Each leaf represents a suffix of the string",
+          "Each internal (non-leaf) node has at least 2 children",
+          "Edge labels are substrings of the original string",
+          "Path from root to leaf spells out a complete suffix",
+          "For string of length n, there are exactly n suffixes (including empty if applicable)",
+          "Number of leaves = number of suffixes = length of string (including $)"
+        ],
+        "node_types": {
+          "leaf_nodes": {
+            "description": "Nodes with no children, representing complete suffixes",
+            "count_formula": "n (where n is length of string including $)"
+          },
+          "internal_nodes": {
+            "description": "Non-leaf nodes including root, having at least 2 children",
+            "properties": [
+              "Represent branch points where suffixes diverge",
+              "Root is always an internal node (unless trivial tree)",
+              "Each represents a common prefix shared by multiple suffixes"
+            ]
+          },
+          "root_node": {
+            "description": "The starting node of the suffix tree",
+            "classification": "Counted as internal/non-leaf node if it has children"
+          }
+        },
+        "construction_approaches": [
+          "Ukkonen's algorithm: O(n) time construction",
+          "Naive approach: Build trie of all suffixes then compress",
+          "For counting: Can analyze suffix structure without full construction"
+        ]
+      },
+      "solution_methodology": {
+        "approach": "suffix_enumeration_and_tree_structure_analysis",
+        "steps": [
+          {
+            "step": 1,
+            "description": "Enumerate all suffixes of the string",
+            "details": "List all suffixes from position 0 to n-1",
+            "suffixes": [
+              "ABCAABCA$",
+              "BCAABCA$",
+              "CAABCA$",
+              "AABCA$",
+              "ABCA$",
+              "BCA$",
+              "CA$",
+              "A$",
+              "$"
+            ],
+            "count": 9
+          },
+          {
+            "step": 2,
+            "description": "Build or analyze the suffix tree structure",
+            "details": "Identify branching points (internal nodes) by finding common prefixes"
+          },
+          {
+            "step": 3,
+            "description": "Count internal nodes",
+            "methods": [
+              "Direct construction and counting",
+              "Use formula: internal_nodes \u2264 n - 1 for n suffixes",
+              "Analyze branching patterns in suffix structure"
+            ]
+          },
+          {
+            "step": 4,
+            "description": "Verify the count",
+            "checks": [
+              "Ensure root is counted if it has children",
+              "Each internal node must have \u2265 2 children",
+              "Total nodes = internal_nodes + leaf_nodes"
+            ]
+          }
+        ],
+        "key_insights": [
+          "For a string of length n, there are exactly n leaves (one per suffix)",
+          "Number of internal nodes is always less than number of leaves",
+          "In a compressed suffix tree, internal nodes represent branching points",
+          "The root always counts as an internal node (assuming non-empty string)"
+        ]
+      },
+      "analysis": {
+        "string_properties": {
+          "length": 9,
+          "character_frequencies": {
+            "A": 4,
+            "B": 2,
+            "C": 3,
+            "$": 1
+          },
+          "repeating_patterns": [
+            "A appears at positions 0, 3, 4, 7",
+            "BC appears at positions 1-2 and 5-6",
+            "ABCA appears at positions 0-3 and 4-7"
+          ]
+        },
+        "suffix_tree_characteristics": {
+          "expected_leaf_count": 9,
+          "branching_analysis": "Multiple suffixes share common prefixes, creating internal nodes",
+          "common_prefixes": [
+            "Suffixes starting with A: ABCAABCA$, AABCA$, ABCA$, A$",
+            "Suffixes starting with B: BCAABCA$, BCA$",
+            "Suffixes starting with C: CAABCA$, CA$",
+            "Suffix starting with $: $"
+          ]
+        }
+      },
+      "student_answer": {
+        "submitted_answer": "5",
+        "answer_type": "numerical",
+        "timestamp": "saved at 0:08:18",
+        "confidence": null
+      },
+      "expected_solution": {
+        "correct_answer": null,
+        "explanation": null,
+        "detailed_tree_structure": null,
+        "internal_nodes_list": null,
+        "verification": null
+      },
+      "complexity_analysis": {
+        "time_complexity": {
+          "construction": "O(n) using Ukkonen's algorithm where n is string length",
+          "naive_construction": "O(n\u00b2) for simple suffix trie construction",
+          "counting_nodes": "O(n) traversal after construction"
+        },
+        "space_complexity": {
+          "suffix_tree": "O(n) for n suffixes",
+          "notes": "Compressed representation uses O(n) space despite O(n\u00b2) total suffix length"
+        }
+      },
+      "edge_cases_and_special_conditions": [
+        {
+          "case": "single_character_string",
+          "example": "$",
+          "expected_behavior": "Only root and one leaf: 0 or 1 internal nodes depending on definition"
+        },
+        {
+          "case": "all_unique_characters",
+          "example": "ABCD$",
+          "expected_behavior": "Minimal internal nodes, mostly direct children from root"
+        },
+        {
+          "case": "highly_repetitive_string",
+          "example": "AAAA$",
+          "expected_behavior": "More internal nodes due to shared prefixes"
+        },
+        {
+          "case": "terminating_character",
+          "note": "$ ensures all suffixes are unique and properly terminated"
+        }
+      ],
+      "common_mistakes": [
+        "Counting leaf nodes instead of internal nodes",
+        "Forgetting to count the root as an internal node",
+        "Not properly compressing the trie (confusing suffix trie with suffix tree)",
+        "Miscounting nodes with exactly 2 vs more children",
+        "Including or excluding the terminating character in suffix enumeration"
+      ],
+      "related_concepts": [
+        "suffix_array",
+        "suffix_trie",
+        "compressed_trie",
+        "lcp_array",
+        "pattern_matching",
+        "string_indexing"
+      ],
+      "assessment": {
+        "marking_scheme": null,
+        "partial_credit_criteria": null,
+        "common_wrong_answers": null
+      },
+      "tags": [
+        "suffix_tree",
+        "string_algorithms",
+        "tree_structure",
+        "counting_nodes",
+        "data_structures",
+        "compressed_trie"
+      ]
+    },
+    {
+      "exam_metadata": {
+        "course": "FIT2004",
+        "course_name": "Algorithms and Data Structures",
+        "institution": "Monash University",
+        "question_number": 8,
+        "total_questions": 15,
+        "marks": 3,
+        "time_remaining": "0:08:06",
+        "student_name": "Rhyme Bulbul"
+      },
+      "question": {
+        "topic": "Network Flow",
+        "subtopic": "Circulation with Demands and Lower Bounds",
+        "difficulty": "Advanced",
+        "question_text": "Consider the following two problems of circulation with demands and lower bounds in which the demands are indicated in each vertex, and for each edge, its capacity is indicated in black and its lower bound in blue.",
+        "type": "Feasibility Analysis",
+        "key_concepts": [
+          "Circulation with demands",
+          "Lower bounds on edges",
+          "Upper bounds (capacities)",
+          "Flow conservation with demands",
+          "Feasibility conditions",
+          "Necessary and sufficient conditions for circulation"
+        ]
+      },
+      "problems": [
+        {
+          "problem_id": "Problem 1",
+          "graph_structure": {
+            "num_vertices": 4,
+            "vertices": [
+              {
+                "id": "x",
+                "demand": -3,
+                "description": "Top vertex, negative demand indicates supply"
+              },
+              {
+                "id": "u",
+                "demand": -3,
+                "description": "Left vertex, negative demand indicates supply"
+              },
+              {
+                "id": "v",
+                "demand": 1,
+                "description": "Right vertex, positive demand indicates consumption"
+              },
+              {
+                "id": "w",
+                "demand": 5,
+                "description": "Bottom vertex, positive demand indicates consumption"
+              }
+            ],
+            "edges": [
+              {
+                "from": "x",
+                "to": "u",
+                "capacity": 3,
+                "lower_bound": 1,
+                "notation": "capacity/lower_bound",
+                "display": "1/3"
+              },
+              {
+                "from": "x",
+                "to": "v",
+                "capacity": 3,
+                "lower_bound": 1,
+                "notation": "capacity/lower_bound",
+                "display": "1/3"
+              },
+              {
+                "from": "u",
+                "to": "v",
+                "capacity": 1,
+                "lower_bound": 1,
+                "notation": "capacity/lower_bound",
+                "display": "1/1"
+              },
+              {
+                "from": "u",
+                "to": "w",
+                "capacity": 4,
+                "lower_bound": 1,
+                "notation": "capacity/lower_bound",
+                "display": "1/4"
+              },
+              {
+                "from": "v",
+                "to": "w",
+                "capacity": 2,
+                "lower_bound": 1,
+                "notation": "capacity/lower_bound",
+                "display": "1/2"
+              }
+            ],
+            "visual_layout": "Diamond shape with x at top, u at left, v at right, w at bottom"
+          },
+          "problem_constraints": {
+            "flow_conservation": "For each vertex i: inflow(i) - outflow(i) = demand(i)",
+            "capacity_constraints": "For each edge (i,j): lower_bound(i,j) \u2264 flow(i,j) \u2264 capacity(i,j)",
+            "demand_balance": "Sum of all demands must equal 0 for feasibility",
+            "total_supply": 6,
+            "total_demand": 6,
+            "demand_balanced": true
+          },
+          "analysis_framework": {
+            "necessary_condition": "Sum of demands must equal zero",
+            "sufficient_conditions": [
+              "Check if demand balance holds",
+              "Check if lower bounds can be satisfied given vertex demands",
+              "Transform to max-flow problem and verify feasibility",
+              "Check if residual network after satisfying lower bounds has feasible circulation"
+            ],
+            "transformation_approach": {
+              "step1": "Check demand balance: sum(d_i) = 0",
+              "step2": "For each edge, mandatory flow = lower_bound",
+              "step3": "Adjust demands: d'_i = d_i + sum(l(j,i)) - sum(l(i,j))",
+              "step4": "Check if adjusted demands can be satisfied with remaining capacity",
+              "step5": "Construct auxiliary network and solve max-flow"
+            }
+          },
+          "student_answer": {
+            "status": "attempted",
+            "saved_time": "0:08:15",
+            "answer_content": null,
+            "notes": "Answer not visible in screenshot"
+          },
+          "expected_solution": {
+            "approach": "",
+            "steps": [],
+            "feasibility_conclusion": "",
+            "reasoning": "",
+            "complexity": ""
+          }
+        },
+        {
+          "problem_id": "Problem 2",
+          "graph_structure": {
+            "num_vertices": 4,
+            "vertices": [
+              {
+                "id": "x",
+                "demand": -3,
+                "description": "Top vertex, negative demand indicates supply"
+              },
+              {
+                "id": "u",
+                "demand": -2,
+                "description": "Left vertex, negative demand indicates supply"
+              },
+              {
+                "id": "v",
+                "demand": 3,
+                "description": "Right vertex, positive demand indicates consumption"
+              },
+              {
+                "id": "w",
+                "demand": 3,
+                "description": "Bottom vertex, positive demand indicates consumption, note: different from Problem 1"
+              }
+            ],
+            "edges": [
+              {
+                "from": "x",
+                "to": "u",
+                "capacity": 2,
+                "lower_bound": 1,
+                "notation": "capacity/lower_bound",
+                "display": "1/2"
+              },
+              {
+                "from": "x",
+                "to": "v",
+                "capacity": 2,
+                "lower_bound": 1,
+                "notation": "capacity/lower_bound",
+                "display": "1/2"
+              },
+              {
+                "from": "u",
+                "to": "v",
+                "capacity": 3,
+                "lower_bound": 2,
+                "notation": "capacity/lower_bound",
+                "display": "2/3"
+              },
+              {
+                "from": "u",
+                "to": "w",
+                "capacity": 4,
+                "lower_bound": 1,
+                "notation": "capacity/lower_bound",
+                "display": "1/4"
+              },
+              {
+                "from": "v",
+                "to": "w",
+                "capacity": 4,
+                "lower_bound": 1,
+                "notation": "capacity/lower_bound",
+                "display": "1/4"
+              }
+            ],
+            "visual_layout": "Diamond shape with x at top, u at left, v at right, w at bottom",
+            "differences_from_problem1": [
+              "u demand changed from -3 to -2",
+              "v demand changed from 1 to 3",
+              "w demand changed from 5 to 3",
+              "Edge x\u2192u capacity changed from 3 to 2",
+              "Edge x\u2192v capacity changed from 3 to 2",
+              "Edge u\u2192v capacity changed from 1 to 3, lower bound from 1 to 2",
+              "Edge u\u2192w capacity changed from 4 to 4 (same)",
+              "Edge v\u2192w capacity changed from 2 to 4"
+            ]
+          },
+          "problem_constraints": {
+            "flow_conservation": "For each vertex i: inflow(i) - outflow(i) = demand(i)",
+            "capacity_constraints": "For each edge (i,j): lower_bound(i,j) \u2264 flow(i,j) \u2264 capacity(i,j)",
+            "demand_balance": "Sum of all demands must equal 0 for feasibility",
+            "total_supply": 5,
+            "total_demand": 6,
+            "demand_balanced": false,
+            "balance_violation": "Supply (5) < Demand (6) by 1 unit"
+          },
+          "analysis_framework": {
+            "necessary_condition": "Sum of demands must equal zero",
+            "immediate_infeasibility": "Total supply = -2 + -3 = -5, Total demand = 3 + 3 = 6, Imbalance = 1",
+            "sufficient_conditions": [
+              "Check if demand balance holds (FAILS for Problem 2)",
+              "If demand balance fails, circulation is infeasible regardless of capacities/lower bounds"
+            ],
+            "transformation_approach": {
+              "step1": "Check demand balance: sum(d_i) = -2 + -3 + 3 + 3 = 1 \u2260 0",
+              "step2": "INFEASIBLE - no circulation can exist when demands don't balance",
+              "step3": "No need to check lower bounds or capacities",
+              "step4": "Fundamental theorem: circulation exists iff sum of demands = 0",
+              "step5": "Problem 2 violates necessary condition"
+            }
+          },
+          "student_answer": {
+            "status": "attempted",
+            "saved_time": "0:08:15",
+            "answer_content": null,
+            "notes": "Answer not visible in screenshot"
+          },
+          "expected_solution": {
+            "approach": "",
+            "steps": [],
+            "feasibility_conclusion": "",
+            "reasoning": "",
+            "complexity": ""
+          }
+        }
+      ],
+      "theoretical_background": {
+        "circulation_definition": "A circulation is a flow function f where for every vertex v: sum of inflow = sum of outflow + demand(v)",
+        "feasibility_theorem": "A circulation with demands and lower bounds is feasible if and only if: (1) Sum of all demands equals zero, and (2) There exists a feasible flow after transformation to standard max-flow",
+        "transformation_method": {
+          "description": "Transform circulation with demands and lower bounds to standard max-flow problem",
+          "steps": [
+            "Check necessary condition: sum(demands) = 0",
+            "Create new demand values: d'(v) = d(v) + sum(l(u,v)) - sum(l(v,w))",
+            "Create residual capacities: c'(u,v) = c(u,v) - l(u,v)",
+            "Add super-source s connected to all supply vertices (d'(v) < 0)",
+            "Add super-sink t connected to all demand vertices (d'(v) > 0)",
+            "Solve max-flow from s to t",
+            "Circulation is feasible iff max-flow equals total demand"
+          ]
+        },
+        "complexity": {
+          "checking_balance": "O(V)",
+          "transformation": "O(V + E)",
+          "max_flow_solution": "O(V * E^2) using Edmonds-Karp, or O(V^2 * E) using other algorithms",
+          "overall": "Dominated by max-flow algorithm complexity"
+        }
+      },
+      "solution_methodology": {
+        "approach_1_demand_balance": {
+          "description": "First check if total supply equals total demand",
+          "problem_1": "Supply = 6, Demand = 6, BALANCED",
+          "problem_2": "Supply = 5, Demand = 6, IMBALANCED",
+          "conclusion": "Problem 2 is immediately infeasible"
+        },
+        "approach_2_lower_bound_analysis": {
+          "description": "Check if lower bounds can be satisfied given vertex constraints",
+          "problem_1_analysis": "Requires detailed flow computation",
+          "problem_2_analysis": "Not needed due to demand imbalance"
+        },
+        "approach_3_residual_network": {
+          "description": "After satisfying all lower bounds, check if residual demands can be met",
+          "applicable_to": "Problem 1 only, since Problem 2 fails prerequisite"
+        }
+      },
+      "key_insights": {
+        "insight_1": "Demand balance (sum = 0) is a necessary condition that can be checked in O(V) time",
+        "insight_2": "If demands don't balance, no need to check capacities or lower bounds",
+        "insight_3": "Lower bounds create mandatory flow that must be incorporated into demand calculations",
+        "insight_4": "The problem tests understanding of both necessary and sufficient conditions",
+        "insight_5": "Problem 2 is designed to fail the necessary condition, making detailed analysis unnecessary"
+      },
+      "common_pitfalls": {
+        "pitfall_1": "Forgetting to check demand balance before analyzing flow",
+        "pitfall_2": "Confusing capacity notation with lower_bound/capacity notation",
+        "pitfall_3": "Not accounting for lower bounds when computing adjusted demands",
+        "pitfall_4": "Attempting to construct flow without verifying necessary conditions"
+      },
+      "exam_strategy": {
+        "time_allocation": "3 marks, approximately 3-4 minutes per problem",
+        "quick_checks": [
+          "Always verify demand balance first (30 seconds)",
+          "If balanced, proceed to lower bound analysis",
+          "If imbalanced, state infeasibility immediately"
+        ],
+        "answer_structure": [
+          "State the necessary condition being checked",
+          "Show calculation of total supply and demand",
+          "Conclude feasibility or infeasibility",
+          "If feasible, optionally show construction or reference transformation method"
+        ]
+      },
+      "related_concepts": {
+        "max_flow_min_cut": "Circulation can be reduced to max-flow problem",
+        "flow_conservation": "Core constraint in all flow problems",
+        "network_simplex": "Alternative method for circulation problems",
+        "min_cost_flow": "Extension that adds cost optimization to circulation"
+      },
+      "practice_variations": {
+        "variation_1": "Find minimum circulation satisfying demands",
+        "variation_2": "Find maximum circulation given demands and capacities",
+        "variation_3": "Add costs to edges and find min-cost circulation",
+        "variation_4": "Handle multiple sources and sinks explicitly"
+      }
+    },
+    {
+      "exam_metadata": {
+        "course": "FIT2004 Algorithms and Data Structures",
+        "institution": "Monash University",
+        "question_number": 10,
+        "total_questions": 15,
+        "marks": 3,
+        "question_type": "numerical_answer",
+        "data_structure_type": "2-3 Search Tree",
+        "topic_area": "Balanced Tree Structures",
+        "subtopics": [
+          "tree insertion",
+          "node splitting",
+          "tree balancing",
+          "structural invariants"
+        ]
+      },
+      "question": {
+        "prompt": "Consider the following 2-3 Search Tree and perform, in order, the following insertion operations. How many 3-Nodes are there in the resulting 2-3 Search Tree?",
+        "initial_tree": {
+          "description": "A 2-3 Search Tree with the following structure",
+          "tree_structure": {
+            "root": {
+              "node_type": "3-node",
+              "keys": [
+                12,
+                23
+              ],
+              "children": [
+                {
+                  "node_type": "3-node",
+                  "keys": [
+                    3,
+                    7
+                  ],
+                  "children": [
+                    {
+                      "node_type": "2-node",
+                      "keys": [
+                        2
+                      ],
+                      "children": []
+                    },
+                    {
+                      "node_type": "2-node",
+                      "keys": [
+                        5
+                      ],
+                      "children": []
+                    },
+                    {
+                      "node_type": "2-node",
+                      "keys": [
+                        8
+                      ],
+                      "children": []
+                    },
+                    {
+                      "node_type": "2-node",
+                      "keys": [
+                        9
+                      ],
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "node_type": "2-node",
+                  "keys": [
+                    20
+                  ],
+                  "children": [
+                    {
+                      "node_type": "2-node",
+                      "keys": [
+                        17
+                      ],
+                      "children": []
+                    },
+                    {
+                      "node_type": "2-node",
+                      "keys": [
+                        22
+                      ],
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "node_type": "2-node",
+                  "keys": [
+                    32
+                  ],
+                  "children": [
+                    {
+                      "node_type": "2-node",
+                      "keys": [
+                        28
+                      ],
+                      "children": []
+                    },
+                    {
+                      "node_type": "2-node",
+                      "keys": [
+                        33
+                      ],
+                      "children": []
+                    },
+                    {
+                      "node_type": "2-node",
+                      "keys": [
+                        37
+                      ],
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "initial_state_analysis": {
+            "total_nodes": 13,
+            "2_nodes_count": 11,
+            "3_nodes_count": 2,
+            "leaf_nodes": 10,
+            "internal_nodes": 3,
+            "tree_height": 2,
+            "keys_present": [
+              2,
+              3,
+              5,
+              7,
+              8,
+              9,
+              12,
+              17,
+              20,
+              22,
+              23,
+              28,
+              32,
+              33,
+              37
+            ]
+          }
+        },
+        "operations": {
+          "description": "Perform the following insertion operations in the specified order",
+          "sequence": [
+            {
+              "operation_number": 1,
+              "operation": "Insert 26",
+              "insertion_details": {
+                "key_to_insert": 26,
+                "search_path": "Root \u2192 23-branch \u2192 32-node \u2192 28-branch",
+                "insertion_location": "leaf node containing 28",
+                "expected_transformation": "28-leaf becomes 3-node [26, 28] or may trigger split"
+              }
+            },
+            {
+              "operation_number": 2,
+              "operation": "Insert 11",
+              "insertion_details": {
+                "key_to_insert": 11,
+                "search_path": "Root \u2192 12-branch \u2192 [3,7]-node \u2192 9-branch",
+                "insertion_location": "leaf node containing 9",
+                "expected_transformation": "9-leaf becomes 3-node [9, 11] or may trigger split"
+              }
+            },
+            {
+              "operation_number": 3,
+              "operation": "Insert 50",
+              "insertion_details": {
+                "key_to_insert": 50,
+                "search_path": "Root \u2192 23-branch \u2192 32-branch \u2192 37-branch",
+                "insertion_location": "leaf node containing 37",
+                "expected_transformation": "37-leaf becomes 3-node [37, 50] or may trigger split"
+              }
+            },
+            {
+              "operation_number": 4,
+              "operation": "Insert 29",
+              "insertion_details": {
+                "key_to_insert": 29,
+                "search_path": "Root \u2192 23-branch \u2192 32-node",
+                "insertion_location": "near 28-branch area",
+                "expected_transformation": "May cause splitting in the 32-subtree area"
+              }
+            }
+          ]
+        },
+        "answer_format": {
+          "type": "numerical",
+          "instructions": "Just type the numerical answer",
+          "constraints": "Count only 3-Nodes (nodes containing exactly 2 keys) in the final tree"
+        }
+      },
+      "background_theory": {
+        "data_structure": "2-3 Search Tree",
+        "node_types": {
+          "2_node": {
+            "description": "Contains 1 key and has 2 children (or 0 if leaf)",
+            "properties": {
+              "keys_count": 1,
+              "children_count_internal": 2,
+              "children_count_leaf": 0
+            }
+          },
+          "3_node": {
+            "description": "Contains 2 keys and has 3 children (or 0 if leaf)",
+            "properties": {
+              "keys_count": 2,
+              "children_count_internal": 3,
+              "children_count_leaf": 0
+            }
+          }
+        },
+        "structural_invariants": [
+          "All leaves are at the same depth (perfect balance)",
+          "Keys in a node are in sorted order",
+          "For a 2-node with key k and children L,R: all keys in L < k < all keys in R",
+          "For a 3-node with keys k1,k2 and children L,M,R: all keys in L < k1 < all keys in M < k2 < all keys in R",
+          "Every internal node is either a 2-node or 3-node",
+          "Tree maintains sorted order property"
+        ],
+        "insertion_algorithm": {
+          "high_level": "Insert at leaf, then propagate splits upward if necessary",
+          "steps": [
+            {
+              "step": 1,
+              "action": "Search for insertion position (always inserts at leaf level)"
+            },
+            {
+              "step": 2,
+              "action": "Insert key into appropriate leaf node"
+            },
+            {
+              "step": 3,
+              "action": "If leaf becomes a 4-node (3 keys), split it",
+              "split_rule": "Middle key promotes to parent, left and right keys become separate 2-nodes"
+            },
+            {
+              "step": 4,
+              "action": "If parent becomes a 4-node, continue splitting up the tree"
+            },
+            {
+              "step": 5,
+              "action": "If root splits, create new root (tree height increases by 1)"
+            }
+          ],
+          "split_mechanics": {
+            "4_node_split": {
+              "input": "Node with 3 keys [a, b, c]",
+              "output": {
+                "promoted_key": "b (middle key)",
+                "left_child": "2-node with key a",
+                "right_child": "2-node with key c"
+              }
+            },
+            "parent_insertion": "Promoted key inserted into parent node",
+            "propagation": "Splits propagate upward until a node has room or root splits"
+          }
+        },
+        "complexity": {
+          "search": "O(log n)",
+          "insertion": "O(log n)",
+          "deletion": "O(log n)",
+          "space": "O(n)",
+          "height": "floor(log\u2083(n)) \u2264 h \u2264 floor(log\u2082(n+1))"
+        }
+      },
+      "solution_methodology": {
+        "approach": "Trace each insertion operation step by step, applying 2-3 tree insertion rules",
+        "step_by_step_process": [
+          {
+            "phase": "Initialization",
+            "action": "Count 3-nodes in initial tree",
+            "initial_3_node_count": 2,
+            "initial_3_nodes": [
+              "root [12, 23]",
+              "left child [3, 7]"
+            ]
+          },
+          {
+            "phase": "Insert 26",
+            "search_path": "Root \u2192 right subtree (>23) \u2192 [32] node \u2192 left child (28)",
+            "insertion_point": "Leaf node [28]",
+            "result_before_split": "Leaf becomes [26, 28] (3-node)",
+            "split_required": false,
+            "change_in_3_nodes": "+1"
+          },
+          {
+            "phase": "Insert 11",
+            "search_path": "Root \u2192 left subtree (<12) \u2192 [3,7] node \u2192 right area (>7, <12) \u2192 leaf [9]",
+            "insertion_point": "Leaf node [9]",
+            "result_before_split": "Leaf becomes [9, 11] (3-node)",
+            "split_required": false,
+            "change_in_3_nodes": "+1"
+          },
+          {
+            "phase": "Insert 50",
+            "search_path": "Root \u2192 right subtree (>23) \u2192 [32] node \u2192 right area (>32) \u2192 leaf [37]",
+            "insertion_point": "Leaf node [37]",
+            "result_before_split": "Leaf becomes [37, 50] (3-node)",
+            "split_required": false,
+            "change_in_3_nodes": "+1"
+          },
+          {
+            "phase": "Insert 29",
+            "search_path": "Root \u2192 right subtree (>23) \u2192 [32] node \u2192 left area (<32)",
+            "insertion_point": "Leaf node [26, 28] (already a 3-node)",
+            "result_before_split": "Leaf becomes [26, 28, 29] (4-node - OVERFLOW)",
+            "split_required": true,
+            "split_details": {
+              "overflow_node": "[26, 28, 29]",
+              "middle_key_promoted": 28,
+              "left_result": "2-node [26]",
+              "right_result": "2-node [29]",
+              "parent_before": "[32] (2-node)",
+              "parent_after": "[28, 32] (3-node)",
+              "parent_split_required": false
+            },
+            "change_in_3_nodes": "-1 (split 3-node) +1 (parent becomes 3-node) = 0"
+          }
+        ],
+        "detailed_trace": {
+          "note": "User should manually trace through each insertion to verify the final count",
+          "critical_observations": [
+            "Initial tree has 2 three-nodes",
+            "First three insertions (26, 11, 50) each convert a 2-node leaf to 3-node leaf without causing splits",
+            "Fourth insertion (29) causes first split: inserts into existing 3-node [26, 28], creating overflow",
+            "The split of [26, 28, 29] promotes 28 to parent [32], making parent [28, 32]",
+            "This creates one new 3-node (parent) but destroys one 3-node (the leaf that split)",
+            "Net effect of split: 3-node count remains same or changes predictably"
+          ]
+        }
+      },
+      "student_answer": {
+        "submitted_answer": 2,
+        "answer_timestamp": "saved at 0:08:21",
+        "time_remaining": "0:08:19",
+        "status": "attempted"
+      },
+      "correct_solution": {
+        "final_answer": "",
+        "detailed_solution": "",
+        "verification": {
+          "method": "Count all nodes with exactly 2 keys in final tree structure",
+          "final_tree_structure": "",
+          "enumeration_of_3_nodes": []
+        }
+      },
+      "marking_criteria": {
+        "total_marks": 3,
+        "marking_scheme": {
+          "correct_count": {
+            "marks": 3,
+            "description": "Correct numerical count of 3-nodes in final tree"
+          },
+          "incorrect_count": {
+            "marks": 0,
+            "description": "Incorrect count or incomplete insertion trace"
+          }
+        },
+        "common_errors": [
+          "Forgetting to apply split rules when inserting into 3-node",
+          "Miscounting nodes after splits",
+          "Not propagating splits upward correctly",
+          "Confusing 2-nodes with 3-nodes in final count",
+          "Errors in maintaining tree invariants during insertion"
+        ]
+      },
+      "key_concepts_tested": [
+        "2-3 Tree structure understanding",
+        "Insertion algorithm execution",
+        "Node splitting mechanics",
+        "Overflow handling and propagation",
+        "Tree invariant maintenance",
+        "Systematic tracing of operations",
+        "Final structure counting and verification"
+      ],
+      "difficulty_analysis": {
+        "difficulty_level": "Medium",
+        "reasoning": "Requires careful execution of multiple insertions with at least one split operation",
+        "time_estimate": "5-7 minutes for careful trace",
+        "error_likelihood": "Medium - split operation adds complexity"
+      },
+      "related_concepts": {
+        "similar_structures": [
+          "B-Trees",
+          "Red-Black Trees",
+          "AVL Trees"
+        ],
+        "key_differences": {
+          "vs_binary_search_tree": "2-3 trees maintain perfect balance automatically",
+          "vs_avl_tree": "No rotation operations, uses node splitting instead",
+          "vs_b_tree": "2-3 tree is special case of B-tree with order 3"
+        }
+      },
+      "practice_variations": [
+        "Given a 2-3 tree, perform deletions and count resulting node types",
+        "Count total number of keys or total nodes instead of just 3-nodes",
+        "Describe the sequence of splits during insertion",
+        "Compare height before and after operations",
+        "Identify which insertion caused the first split"
+      ],
+      "exam_context": {
+        "question_position": "10 of 15",
+        "questions_attempted": "15/15",
+        "navigation_status": "all questions attempted",
+        "marks_for_question": 3,
+        "time_context": "answered with approximately 8 minutes remaining"
+      }
+    },
+    {
+      "exam_metadata": {
+        "unit_code": "FIT2004",
+        "unit_name": "Algorithms and data structures",
+        "question_number": 14,
+        "total_questions": 15,
+        "marks": 5,
+        "time_remaining": "0:14:09",
+        "attempt_status": "attempted",
+        "questions_attempted": "15/15"
+      },
+      "question": {
+        "id": "Q14",
+        "type": "proof",
+        "topic": "Binary Search Trees",
+        "subtopics": [
+          "Tree Structure Properties",
+          "Successor/Predecessor Relationships",
+          "Proof by Induction",
+          "Binary Tree Invariants"
+        ],
+        "marks_allocated": 5,
+        "difficulty": "advanced",
+        "problem_statement": {
+          "description": "Let T be a binary search tree of unique integers and let x be an integer that is not contained in T. Assume that x is neither smaller than all of the elements in T nor bigger than all of the elements in T. Give a rigorous proof that for every T and x satisfying those conditions exactly one of the following statements is true:",
+          "statements_to_prove": [
+            {
+              "statement_number": 1,
+              "statement": "The successor of x in T has a left child."
+            },
+            {
+              "statement_number": 2,
+              "statement": "The predecessor of x in T has a right child."
+            }
+          ],
+          "constraints": [
+            "T is a binary search tree",
+            "All integers in T are unique",
+            "x is not contained in T",
+            "x is not smaller than all elements in T",
+            "x is not bigger than all elements in T"
+          ],
+          "proof_requirement": "Prove that EXACTLY ONE of the two statements is true (mutually exclusive and exhaustive)"
+        },
+        "key_concepts": {
+          "successor_definition": "The successor of x in T is the smallest element in T that is greater than x",
+          "predecessor_definition": "The predecessor of x in T is the largest element in T that is smaller than x",
+          "binary_search_tree_property": "For every node n, all elements in the left subtree are smaller than n, and all elements in the right subtree are greater than n",
+          "structural_observation": "In a binary search tree, either the successor of x has a left child, or the predecessor of x has a right child"
+        },
+        "proof_approach": {
+          "method": "Proof by cases / Structural analysis",
+          "key_observations": [
+            "Since x is not in T and is between min(T) and max(T), both successor and predecessor must exist",
+            "Need to analyze the relationship between successor and predecessor nodes",
+            "Consider the path taken during binary search for x",
+            "Analyze where the search would terminate and the relationship to successor/predecessor"
+          ],
+          "proof_structure": [
+            "Establish that successor and predecessor exist (from constraints)",
+            "Analyze the structural relationship between successor and predecessor",
+            "Show that if statement 1 is false (successor has no left child), then statement 2 must be true",
+            "Show that if statement 2 is false (predecessor has no right child), then statement 1 must be true",
+            "Prove mutual exclusivity (both cannot be true simultaneously)"
+          ]
+        },
+        "solution_hints": {
+          "hint_1": "Consider what happens during a binary search for x in T",
+          "hint_2": "If the successor has no left child, what does that tell you about its position relative to the predecessor?",
+          "hint_3": "Think about the last node visited in a binary search for x - how does it relate to successor/predecessor?",
+          "hint_4": "Use the BST property: if successor s has no left child, where must the predecessor p be located?"
+        },
+        "related_concepts": {
+          "binary_search_tree_traversal": "In-order traversal gives sorted sequence",
+          "node_relationships": "Successor and predecessor are consecutive in in-order traversal",
+          "structural_properties": "A node's successor can be in its right subtree or be an ancestor"
+        }
+      },
+      "student_answer": {
+        "timestamp_saved": "0:14:15",
+        "answer_text": "We know that in a binary search tree, either the successor of x has a left child, or the predecessor of x has a right child.\n\nThis is from the definition of successor and predecessor nodes in a binary search tree.\n\nNow suppose for induction we say the hypothesis that statement 2 is true.",
+        "answer_status": "incomplete",
+        "proof_stage_reached": "initial_setup",
+        "approach_used": "attempted_induction",
+        "completeness": "incomplete - only stated intent to use induction, did not complete proof",
+        "correctness_assessment": {
+          "opening_claim": "partially_correct - the claim is true but not yet proven",
+          "justification": "insufficient - stating 'from the definition' is not rigorous",
+          "proof_method": "unclear - induction is mentioned but not the appropriate method for this problem",
+          "logical_structure": "incomplete"
+        }
+      },
+      "expected_solution": {
+        "proof_outline": "",
+        "key_steps": [],
+        "mathematical_formulation": "",
+        "complexity_analysis": "N/A - this is a proof question",
+        "correctness_argument": "",
+        "edge_cases": []
+      },
+      "grading_rubric": {
+        "total_marks": 5,
+        "criteria": [
+          {
+            "criterion": "Proof structure and rigor",
+            "marks": 2,
+            "requirements": [
+              "Clear case analysis or logical structure",
+              "Rigorous justification of each step",
+              "Proper use of BST properties"
+            ]
+          },
+          {
+            "criterion": "Proving exactly one statement is true",
+            "marks": 2,
+            "requirements": [
+              "Show at least one must be true (exhaustive)",
+              "Show both cannot be true simultaneously (mutually exclusive)"
+            ]
+          },
+          {
+            "criterion": "Correct use of definitions",
+            "marks": 1,
+            "requirements": [
+              "Proper use of successor definition",
+              "Proper use of predecessor definition",
+              "Correct application of BST invariants"
+            ]
+          }
+        ],
+        "common_mistakes": [
+          "Assuming the result without proof",
+          "Not addressing mutual exclusivity",
+          "Incorrect application of induction (not appropriate for this problem)",
+          "Vague appeals to 'definition' without rigorous argument"
+        ]
+      },
+      "learning_objectives_assessed": [
+        "Understanding of binary search tree structure",
+        "Ability to construct rigorous proofs about tree properties",
+        "Understanding successor and predecessor relationships",
+        "Proof techniques for tree invariants"
+      ],
+      "related_questions": [],
+      "tags": [
+        "binary_search_tree",
+        "proof",
+        "tree_structure",
+        "successor",
+        "predecessor",
+        "invariants",
+        "structural_analysis"
+      ],
+      "additional_notes": {
+        "exam_context": "Question 14 of 15 in FIT2004 exam",
+        "time_pressure": "Only ~14 minutes remaining when viewing this question",
+        "question_notes_available": true,
+        "all_questions_attempted": true
+      }
+    },
+    {
+      "exam_metadata": {
+        "course": "FIT2004",
+        "course_name": "Algorithms and data structures",
+        "question_number": 13,
+        "total_questions": 15,
+        "marks": 5,
+        "time_saved": "0:15:05",
+        "attempt_status": "attempted"
+      },
+      "question": {
+        "type": "graph_algorithms",
+        "subtopics": [
+          "network_flow",
+          "bipartite_matching",
+          "edge_disjoint_paths",
+          "flow_decomposition"
+        ],
+        "title": "Evacuation Route Planning",
+        "problem_statement": {
+          "context": "You are trying to determine evacuation routes for emergency situations.",
+          "input": {
+            "graph": {
+              "type": "directed_graph",
+              "weighted": false,
+              "notation": "G=(V, E)",
+              "description": "A directed, unweighted graph"
+            },
+            "vertex_subsets": [
+              {
+                "name": "P",
+                "description": "The set of populated vertices",
+                "properties": [
+                  "Starting points for evacuation paths"
+                ]
+              },
+              {
+                "name": "S",
+                "description": "The set of safe vertices",
+                "properties": [
+                  "Ending points for evacuation paths"
+                ]
+              }
+            ],
+            "constraints": [
+              "P \u2286 V",
+              "S \u2286 V",
+              "P and S are disjoint sets (P \u2229 S = \u2205)"
+            ]
+          },
+          "valid_evacuation_paths_definition": {
+            "description": "A set of valid evacuation paths is defined as a set of paths in G such that:",
+            "conditions": [
+              {
+                "condition": "Every evacuation path starts at a vertex in P",
+                "formal": "\u2200 path \u2208 valid_paths: start(path) \u2208 P"
+              },
+              {
+                "condition": "Each vertex in P is the starting point of exactly one evacuation path",
+                "formal": "\u2200 v \u2208 P: |{path \u2208 valid_paths : start(path) = v}| = 1",
+                "implication": "One-to-one correspondence between P vertices and paths"
+              },
+              {
+                "condition": "Every evacuation path ends at a vertex in S",
+                "formal": "\u2200 path \u2208 valid_paths: end(path) \u2208 S"
+              },
+              {
+                "condition": "The paths do not share any edges",
+                "formal": "\u2200 path1, path2 \u2208 valid_paths, path1 \u2260 path2: E(path1) \u2229 E(path2) = \u2205",
+                "key_insight": "This means they are edge disjoint paths"
+              }
+            ],
+            "key_property": "edge_disjoint_paths",
+            "cardinality": "|valid_paths| = |P|"
+          },
+          "task": {
+            "description": "Describe an efficient algorithm to determine if there exists any set of valid evacuation paths and return one such set if it exists. Otherwise, return None.",
+            "output": {
+              "if_exists": "A set of |P| edge-disjoint paths from P to S",
+              "if_not_exists": "None"
+            },
+            "requirements": [
+              "Analyse its complexity",
+              "Try to obtain an asymptotical upper bound as good as possible"
+            ]
+          }
+        },
+        "solution_approach": {
+          "algorithm_type": "network_flow",
+          "specific_technique": "maximum_flow_with_modifications",
+          "key_observations": [
+            {
+              "observation": "Given P & S are disjoint sets, at first glance we could possibly run bipartite matching modelling the problem as max flow using ford fulkerson.",
+              "issue": "However, for that we would need to add capacities for all edges between the two bipartite sets, so max flow isn't the best choice.",
+              "why_not_optimal": "Standard bipartite matching assumes direct edges between the two sets, but here we have an arbitrary graph G"
+            },
+            {
+              "observation": "It is worth noting that the evacuation paths must not share any edges. This means they are edge disjoint paths.",
+              "implication": "This is the key constraint that shapes the solution approach"
+            },
+            {
+              "observation": "As such, if we model as bipartite matching problem, and use an algorithm such as the one from the applied to find the edge disjoint paths, between the two sets, then we can check if a valid set of evacuation paths exists and return the set of paths or return None if not.",
+              "approach": "Use edge-disjoint paths algorithm adapted for this specific problem structure"
+            }
+          ],
+          "algorithm_framework": {
+            "step1": {
+              "description": "Graph transformation",
+              "actions": [
+                "Create a super source s connected to all vertices in P",
+                "Create a super sink t connected from all vertices in S",
+                "Set all edge capacities to 1 (to enforce edge-disjoint property)"
+              ],
+              "graph_construction": {
+                "vertices": "V' = V \u222a {s, t}",
+                "edges": [
+                  "E' = E (original edges with capacity 1)",
+                  "\u2200 v \u2208 P: add edge (s, v) with capacity 1",
+                  "\u2200 v \u2208 S: add edge (v, t) with capacity 1"
+                ]
+              }
+            },
+            "step2": {
+              "description": "Run maximum flow algorithm",
+              "algorithm_options": [
+                "Ford-Fulkerson with BFS (Edmonds-Karp)",
+                "Dinic's algorithm",
+                "Push-relabel"
+              ],
+              "goal": "Find maximum flow from s to t in transformed graph"
+            },
+            "step3": {
+              "description": "Check feasibility and extract paths",
+              "feasibility_check": {
+                "condition": "max_flow_value == |P|",
+                "if_true": "Valid evacuation paths exist",
+                "if_false": "No valid set exists, return None"
+              },
+              "path_extraction": {
+                "method": "Flow decomposition",
+                "description": "Decompose the flow into |P| edge-disjoint paths from s to t",
+                "output": "Remove super source and sink edges to get paths from P to S"
+              }
+            }
+          },
+          "correctness_argument": {
+            "necessity": [
+              "If valid evacuation paths exist, then each vertex in P must be able to send 1 unit of flow to some vertex in S",
+              "Edge-disjoint constraint means each edge can carry at most 1 unit of flow",
+              "Therefore, maximum flow must be at least |P|"
+            ],
+            "sufficiency": [
+              "If max flow equals |P|, then by flow decomposition, we can extract |P| edge-disjoint paths",
+              "Each path starts from s, goes through exactly one vertex in P, ends at exactly one vertex in S via t",
+              "By integer flow property and capacity constraints, these paths are edge-disjoint"
+            ],
+            "flow_decomposition_property": "Any integer flow of value k can be decomposed into at most k paths and |E| cycles. Since we have no cycles with super source/sink, we get exactly k paths."
+          },
+          "complexity_analysis": {
+            "graph_transformation": {
+              "time": "O(|V| + |E|)",
+              "space": "O(|V| + |E|)",
+              "justification": "Adding super source and sink with edges to P and S"
+            },
+            "max_flow_computation": {
+              "edmonds_karp": {
+                "time": "O(|V| \u00d7 |E|\u00b2)",
+                "justification": "Standard Edmonds-Karp complexity"
+              },
+              "dinics_algorithm": {
+                "time": "O(|V|\u00b2 \u00d7 |E|)",
+                "justification": "Dinic's algorithm on unit capacity network"
+              },
+              "specialized_unit_capacity": {
+                "time": "O(|E| \u00d7 min(|P|, |S|))",
+                "justification": "For unit capacity networks, flow value bounded by min(|P|, |S|), and each augmenting path takes O(|E|) time",
+                "note": "This is the tightest bound for this specific problem"
+              }
+            },
+            "path_extraction": {
+              "time": "O(|V| + |E|)",
+              "justification": "Flow decomposition by DFS/BFS traversal"
+            },
+            "overall_complexity": {
+              "best_bound": "O(|E| \u00d7 min(|P|, |S|))",
+              "practical_bound": "O(|V|\u00b2 \u00d7 |E|) with Dinic's",
+              "note": "The actual complexity depends on the max flow algorithm chosen"
+            },
+            "space_complexity": "O(|V| + |E|)"
+          }
+        },
+        "student_answer": {
+          "submitted": true,
+          "content": {
+            "paragraph1": "Given P & S are disjoint sets, at first glance we could possibly run bipartite matching modelling the problem as max flow using ford fulkerson.",
+            "paragraph2": "However, for that we would need to add capacities for all edges between the two bipartite sets, so max flow isn't the best choice.",
+            "paragraph3": "It is worth noting that the evacuation paths must not share any edges. This means they are edge disjoint paths.",
+            "paragraph4": "As such, if we model as bipartite matching problem, and use an algorithm such as the one from the applied to find the edge disjoint paths, between the two sets, then we can check if a valid set of evacuation paths exists and return the set of paths or return None if not."
+          },
+          "approach_summary": "Edge-disjoint paths using flow-based algorithm from applied problem sets",
+          "completeness": "partial",
+          "missing_elements": [
+            "Explicit algorithm steps (super source/sink construction)",
+            "Detailed complexity analysis",
+            "Formal correctness argument",
+            "Pseudocode or clear algorithmic description",
+            "Specific complexity bounds with justification"
+          ]
+        },
+        "expected_solution": {
+          "algorithm_pseudocode": "",
+          "complexity_analysis": "",
+          "correctness_proof": "",
+          "notes": "To be filled after marking"
+        },
+        "marking_criteria": {
+          "total_marks": 5,
+          "rubric": {
+            "algorithm_description": {
+              "marks": 2,
+              "expectations": [
+                "Clear description of graph transformation (super source/sink)",
+                "Specification of max flow algorithm to use",
+                "Path extraction method"
+              ]
+            },
+            "correctness": {
+              "marks": 1.5,
+              "expectations": [
+                "Correct identification of edge-disjoint paths problem",
+                "Proper use of unit capacities",
+                "Correct feasibility check (flow == |P|)"
+              ]
+            },
+            "complexity_analysis": {
+              "marks": 1.5,
+              "expectations": [
+                "Time complexity with justification",
+                "Best possible asymptotic bound",
+                "Recognition of unit capacity optimization"
+              ]
+            }
+          }
+        },
+        "related_concepts": {
+          "graph_theory": [
+            "directed_graphs",
+            "edge_disjoint_paths",
+            "path_decomposition"
+          ],
+          "network_flow": [
+            "maximum_flow",
+            "ford_fulkerson",
+            "edmonds_karp",
+            "dinics_algorithm",
+            "unit_capacity_networks",
+            "flow_decomposition",
+            "augmenting_paths",
+            "residual_graphs"
+          ],
+          "matching_theory": [
+            "bipartite_matching",
+            "maximum_matching",
+            "matching_via_max_flow"
+          ],
+          "problem_transformations": [
+            "super_source_sink_construction",
+            "capacity_assignment",
+            "graph_reduction"
+          ]
+        },
+        "edge_cases_and_special_conditions": [
+          {
+            "case": "|P| > |S|",
+            "implication": "Cannot have valid evacuation paths (pigeonhole principle with edge-disjoint constraint)",
+            "max_flow_result": "Flow will be less than |P|"
+          },
+          {
+            "case": "|S| \u2265 |P| but insufficient edge connectivity",
+            "implication": "Max flow < |P| due to bottleneck edges",
+            "example": "If there's a cut with capacity < |P| separating P from S"
+          },
+          {
+            "case": "P and S overlap",
+            "implication": "Violates problem constraint (disjoint sets)",
+            "handling": "Problem states they are disjoint"
+          },
+          {
+            "case": "Multiple edge-disjoint path sets exist",
+            "implication": "Algorithm returns any one valid set",
+            "note": "Any maximum flow with value |P| is valid"
+          },
+          {
+            "case": "Graph is disconnected",
+            "implication": "Some P vertices may not reach any S vertices",
+            "max_flow_result": "Flow < |P|, return None"
+          }
+        ],
+        "alternative_approaches": {
+          "approach1": {
+            "name": "Direct bipartite matching (incorrect interpretation)",
+            "description": "Try to model as standard bipartite matching between P and S",
+            "issue": "Doesn't account for the arbitrary graph structure between P and S; assumes direct edges",
+            "when_it_works": "Only if every vertex has edges only to P or only to S (actual bipartite graph)"
+          },
+          "approach2": {
+            "name": "Multiple shortest paths",
+            "description": "Find |P| shortest paths from P to S greedily",
+            "issue": "Greedy approach may not find edge-disjoint paths even if they exist",
+            "example": "First path might use critical edge that's needed by other paths"
+          },
+          "approach3": {
+            "name": "Vertex-disjoint paths (over-constrained)",
+            "description": "Find paths that don't share vertices",
+            "issue": "Too restrictive; problem only requires edge-disjoint paths",
+            "note": "Would miss valid solutions"
+          }
+        },
+        "practical_considerations": {
+          "implementation_notes": [
+            "Use adjacency list for sparse graphs",
+            "Track used edges during path extraction",
+            "Can modify max flow algorithm to directly output paths",
+            "For very large |P|, Dinic's or push-relabel preferred"
+          ],
+          "optimization_opportunities": [
+            "Early termination if flow reaches |P|",
+            "Use unit capacity optimizations in max flow",
+            "Bidirectional search for path augmentation",
+            "Parallel path finding (if multiple paths needed)"
+          ]
+        }
+      },
+      "exam_context": {
+        "question_position": "13 of 15",
+        "time_remaining": "0:14:56",
+        "previously_flagged": true,
+        "navigation_status": "all_questions_attempted"
+      }
+    },
+    {
+      "metadata": {
+        "course": "FIT2004 Algorithms and Data Structures",
+        "institution": "Monash University",
+        "assessment_type": "Exam",
+        "question_number": 15,
+        "total_questions": 15,
+        "marks": 5,
+        "time_saved": "0:23:35",
+        "attempt_status": "attempted",
+        "topics": [
+          "String Algorithms",
+          "Trie Data Structure",
+          "Prefix Trie",
+          "Supersequence",
+          "String Pattern Matching"
+        ]
+      },
+      "problem_statement": {
+        "definition": {
+          "supersequence": "A supersequence of a string S is a string that contains S as a subsequence."
+        },
+        "problem_description": "For positive integers n and k, consider an alphabet of size n and a list of input strings S\u2081, S\u2082, ..., S\u2096 over that alphabet. Describe the details of an O(n*k) algorithm to determine if there exists a string X such that no character is repeated in X and that X is a supersequence of every input string.",
+        "constraints": {
+          "time_complexity": "O(n*k)",
+          "alphabet_size": "n (positive integer)",
+          "number_of_strings": "k (positive integer)",
+          "string_constraint": "X must have no repeated characters",
+          "supersequence_requirement": "X must be a supersequence of every input string S\u2081, S\u2082, ..., S\u2096"
+        },
+        "key_observations": [
+          "Considering the worst case time complexity is bounded by O(n*k), suppose we store the strings from the list in a prefix trie",
+          "Assuming that we are expected to find the supersequence from the given input strings as no further information is provided",
+          "A substring would be a prefix of suffix"
+        ]
+      },
+      "student_answer": {
+        "approach": "Prefix Trie with Path Analysis",
+        "algorithm_description": [
+          {
+            "step": 1,
+            "action": "Insert strings into prefix trie",
+            "detail": "When inserting a new string from the list into the trie, we can check if a supersequence of the entire trie such that no character is repeated in X exists already."
+          },
+          {
+            "step": 2,
+            "action": "Path sharing in trie",
+            "detail": "Given in a trie, the subsequences will share the same paths, i.e. they will use common characters that already exist in the trie and branch out when not, it is possible to find the supersequence of those strings in the trie."
+          },
+          {
+            "step": 3,
+            "action": "Character constraint checking",
+            "detail": "Now, given the supersequence has to be for every input string, that means that each input string must share some character with our supersequence in the trie in order to be a supersequence."
+          }
+        ],
+        "key_insights": [
+          "The trie structure naturally captures common prefixes among strings",
+          "A valid supersequence must traverse paths that cover all input strings",
+          "The no-repeated-character constraint means each character can only appear once in X",
+          "Path sharing in the trie indicates which characters are common across different strings"
+        ],
+        "completeness": "partial",
+        "notes": "Answer provides conceptual framework but lacks complete algorithmic details for verification and construction of X"
+      },
+      "solution_framework": {
+        "expected_components": [
+          "Prefix trie construction algorithm",
+          "Method to check if valid supersequence exists",
+          "Handling of no-repeated-character constraint",
+          "Verification that X is supersequence of all input strings",
+          "Complexity analysis showing O(n*k) bound"
+        ],
+        "data_structures": {
+          "primary": "Prefix Trie",
+          "node_properties": [
+            "character value",
+            "children mapping",
+            "end-of-string marker",
+            "visited status (for path tracking)"
+          ]
+        },
+        "algorithmic_techniques": [
+          "Trie construction and traversal",
+          "Path analysis in tree structure",
+          "Character frequency/usage tracking",
+          "Subsequence verification"
+        ],
+        "complexity_analysis": {
+          "time_complexity": {
+            "target": "O(n*k)",
+            "breakdown": {
+              "trie_construction": "O(total characters across all k strings)",
+              "verification": "must fit within O(n*k) bound",
+              "per_string_processing": "O(n) per string, k strings total"
+            }
+          },
+          "space_complexity": {
+            "trie_storage": "O(n*k) in worst case",
+            "auxiliary_space": "O(n) for character tracking"
+          }
+        }
+      },
+      "problem_characteristics": {
+        "difficulty": "high",
+        "requires_understanding_of": [
+          "Trie data structure and operations",
+          "Subsequence vs substring vs supersequence definitions",
+          "Character constraint satisfaction",
+          "Graph path properties in tree structures",
+          "Complexity analysis"
+        ],
+        "common_pitfalls": [
+          "Confusing subsequence with substring",
+          "Not properly handling the no-repeated-character constraint",
+          "Incorrect complexity analysis",
+          "Missing the verification that X covers all input strings",
+          "Not considering how trie structure aids in finding common paths"
+        ]
+      },
+      "test_cases": {
+        "example_scenarios": [
+          {
+            "case": "Simple valid case",
+            "input": {
+              "alphabet_size": 3,
+              "strings": [
+                "AB",
+                "AC",
+                "BC"
+              ],
+              "k": 3
+            },
+            "expected_output": {
+              "exists": true,
+              "possible_X": "ABC",
+              "explanation": "ABC contains AB, AC, and BC as subsequences with no repeated characters"
+            }
+          },
+          {
+            "case": "Invalid case - repeated character required",
+            "input": {
+              "alphabet_size": 2,
+              "strings": [
+                "ABA"
+              ],
+              "k": 1
+            },
+            "expected_output": {
+              "exists": false,
+              "explanation": "ABA requires A to appear twice in any supersequence, violating the no-repeat constraint"
+            }
+          },
+          {
+            "case": "Edge case - empty strings",
+            "input": {
+              "alphabet_size": 5,
+              "strings": [
+                "",
+                "",
+                ""
+              ],
+              "k": 3
+            },
+            "expected_output": {
+              "exists": true,
+              "possible_X": "",
+              "explanation": "Empty string is supersequence of all empty strings"
+            }
+          }
+        ]
+      },
+      "expected_solution": {
+        "status": "to_be_filled",
+        "complete_algorithm": null,
+        "correctness_proof": null,
+        "complexity_justification": null,
+        "edge_case_handling": null
+      },
+      "assessment": {
+        "student_performance": {
+          "marks_obtained": null,
+          "marks_possible": 5,
+          "feedback": null,
+          "strengths": [
+            "Correct identification of prefix trie as key data structure",
+            "Understanding of path sharing concept",
+            "Recognition of character constraint importance"
+          ],
+          "areas_for_improvement": [
+            "More detailed algorithmic steps needed",
+            "Explicit verification procedure missing",
+            "Complexity analysis incomplete",
+            "Construction of X not fully specified"
+          ]
+        }
+      },
+      "learning_objectives": {
+        "concepts_tested": [
+          "Trie data structure implementation and applications",
+          "String subsequence properties",
+          "Algorithm design with complexity constraints",
+          "Character usage and constraint satisfaction",
+          "Path analysis in tree structures"
+        ],
+        "skills_assessed": [
+          "Ability to select appropriate data structure for problem",
+          "Algorithm design within complexity bounds",
+          "Clear explanation of algorithmic approach",
+          "Understanding of string relationships (subsequence, supersequence)",
+          "Complexity analysis"
+        ]
+      },
+      "related_concepts": {
+        "prerequisite_knowledge": [
+          "Trie construction and operations",
+          "Subsequence definition and properties",
+          "Big-O notation and complexity analysis",
+          "Tree traversal algorithms"
+        ],
+        "related_problems": [
+          "Longest common subsequence",
+          "Shortest common supersequence",
+          "Trie-based string matching",
+          "Character constraint satisfaction problems"
+        ],
+        "extensions": [
+          "What if repeated characters were allowed?",
+          "How to find the shortest valid supersequence X?",
+          "How to count all valid supersequences?",
+          "Dynamic programming approaches to supersequence problems"
+        ]
+      }
+    },
+    {
+      "exam": "FIT2004 Algorithms and Data Structures",
+      "questions_attempted": "15/15",
+      "question_set": {
+        "scenario": {
+          "description": "Grid traversal with money collection using dynamic programming",
+          "context": "You find yourself stranded on an n\u00d7n mysterious grid. Rows numbered bottom to top as 1,2,...,n and columns left to right as 1,2,...,n. Cell (i,j) refers to row i, column j.",
+          "starting_position": "Bottom-left corner (1,1)",
+          "grid_properties": {
+            "cell_types": [
+              {
+                "type": "normal",
+                "description": "You feel fatigued and can only move right to next column",
+                "movement": "right only (same row, next column)"
+              },
+              {
+                "type": "special",
+                "description": "You feel energized and can move up or right",
+                "movement": "up (next row, same column) OR right (same row, next column)"
+              }
+            ],
+            "money": "Each cell except bottom-left has coin[i,j] amount of money. Bottom-left cell has no money.",
+            "notation": "coin[i,j] denotes amount of money in cell (i,j)"
+          },
+          "objective": "Determine maximum amount of money that can be collected"
+        },
+        "questions": [
+          {
+            "question_number": 11,
+            "marks": 3,
+            "type": "multiple_select",
+            "topic": "Dynamic Programming Recurrence",
+            "question": "Using dynamic programming techniques, determine the recurrence for cells that satisfy ALL of:\n- Cell is not on border of grid\n- Cell and each of its neighbors are reachable from cell (1,1)\n- From the cell and each of its neighbors, it is possible to reach cell (n,n)\n\nWhich options describe correct dynamic programming recurrences for those cells? Select all correct options.",
+            "context": "This question tests understanding of DP recurrence formulation for constrained grid traversal",
+            "key_concepts": [
+              "Dynamic programming recurrence relations",
+              "Grid traversal with movement constraints",
+              "Reachability constraints",
+              "State dependencies in DP",
+              "Handling special vs normal cells"
+            ],
+            "approach": {
+              "step_1": "Define DP state: Let dp[i][j] = maximum money collectable from (1,1) to cell (i,j)",
+              "step_2": "Identify how to reach cell (i,j) based on its type",
+              "step_3_normal_cell": "If (i,j) is normal: can only be reached from left (i, j-1)",
+              "step_4_special_cell": "If (i,j) is special: can be reached from left (i, j-1) OR below (i-1, j)",
+              "step_5": "Add coin[i][j] to the maximum of previous states",
+              "step_6": "Consider constraints: cell not on border, reachable from (1,1), can reach (n,n)"
+            },
+            "recurrence_structure": {
+              "normal_cell": "dp[i][j] = dp[i][j-1] + coin[i][j]",
+              "special_cell": "dp[i][j] = max(dp[i][j-1], dp[i-1][j]) + coin[i][j]",
+              "note": "Must verify that previous cells exist and satisfy reachability constraints"
+            }
+          },
+          {
+            "question_number": 12,
+            "marks": 2,
+            "type": "numerical_answer",
+            "topic": "Dynamic Programming Application",
+            "question": "What is the maximum amount of money that you can collect in the grid shown in the picture?",
+            "grid": {
+              "dimensions": "6\u00d76",
+              "layout": [
+                [
+                  9,
+                  5,
+                  4,
+                  9,
+                  2,
+                  1
+                ],
+                [
+                  1,
+                  6,
+                  7,
+                  6,
+                  1,
+                  3
+                ],
+                [
+                  7,
+                  1,
+                  4,
+                  3,
+                  1,
+                  4
+                ],
+                [
+                  9,
+                  3,
+                  2,
+                  2,
+                  2,
+                  2
+                ],
+                [
+                  3,
+                  4,
+                  1,
+                  4,
+                  3,
+                  1
+                ],
+                [
+                  "START",
+                  1,
+                  3,
+                  1,
+                  8,
+                  7
+                ]
+              ],
+              "special_cells": [
+                "(2,5)",
+                "(2,6)",
+                "(3,5)",
+                "(3,6)",
+                "(4,4)",
+                "(4,5)",
+                "(4,6)",
+                "(5,5)",
+                "(5,6)"
+              ],
+              "visual_representation": "Blue background = special cells, White background = normal cells",
+              "starting_cell": "(1,1) - bottom-left corner with figure icon, no money"
+            },
+            "given_answer": 27,
+            "solution": {
+              "approach": "Apply DP recurrence from Question 11",
+              "step_by_step": [
+                {
+                  "step": 1,
+                  "action": "Initialize dp[1][1] = 0 (starting position, no money)"
+                },
+                {
+                  "step": 2,
+                  "action": "Fill bottom row (row 1): can only move right",
+                  "calculation": "dp[1][j] = dp[1][j-1] + coin[1][j] for all normal cells in row 1"
+                },
+                {
+                  "step": 3,
+                  "action": "For each subsequent cell, check if normal or special",
+                  "normal": "dp[i][j] = dp[i][j-1] + coin[i][j]",
+                  "special": "dp[i][j] = max(dp[i][j-1], dp[i-1][j]) + coin[i][j]"
+                },
+                {
+                  "step": 4,
+                  "action": "Trace optimal path considering special cells allow upward movement"
+                },
+                {
+                  "step": 5,
+                  "action": "Result at dp[6][6] gives maximum money collectible"
+                }
+              ],
+              "optimal_path_strategy": "Use special cells to move upward when advantageous, maximizing sum of coin values collected",
+              "answer": 27,
+              "verification": "Given answer matches expected solution"
+            },
+            "key_concepts": [
+              "Bottom-up dynamic programming",
+              "Grid traversal with variable movement rules",
+              "Optimal path selection",
+              "State computation with conditional transitions",
+              "Maximization objective"
+            ],
+            "complexity": {
+              "time": "O(n\u00b2) - visit each cell once",
+              "space": "O(n\u00b2) - store DP table, can be optimized to O(n) with rolling array"
+            }
+          }
+        ],
+        "common_patterns": {
+          "problem_type": "Grid DP with constrained movement",
+          "similar_problems": [
+            "Minimum path sum in grid",
+            "Unique paths with obstacles",
+            "Maximum gold collection",
+            "Dungeon game"
+          ],
+          "key_insights": [
+            "Movement rules determine which previous states contribute to current state",
+            "Special cells create branching in DP transitions (can come from 2 directions)",
+            "Normal cells have linear dependency (can only come from 1 direction)",
+            "Reachability constraints must be validated for correctness",
+            "Bottom-up DP naturally handles dependency ordering"
+          ]
+        },
+        "exam_metadata": {
+          "time_remaining": "0:12:43 (Question 11), 0:12:47 (Question 12)",
+          "question_status": "Both attempted",
+          "marks_available": "3 marks (Q11), 2 marks (Q12)"
+        }
+      }
+    }
+  ]
+}

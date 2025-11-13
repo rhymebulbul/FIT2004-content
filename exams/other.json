@@ -1,0 +1,262 @@
+{
+  "section": {
+    "title": "Section 4: Search and Retrieval Trees",
+    "total_weight": "7 marks",
+    "description": "This section covers AVL trees, Red-Black trees, and Tries",
+    "number_of_questions": 4,
+    "topics": ["AVL Trees", "Red-Black Trees", "Tries", "Suffix Tries"]
+  },
+  "questions": [
+    {
+      "question_id": "4",
+      "marks": 4,
+      "topic": "AVL Trees",
+      "subtopic": "Insertion and Balancing",
+      "question_text": "Show how the following AVL tree is balanced after 17 is added. You need to identify each case (e.g., left-left case) and show how each rotation is done. You must also include the balance factors for the nodes in your figures.",
+      "initial_tree": {
+        "description": "AVL tree with structure shown in Figure 2",
+        "structure": {
+          "root": 20,
+          "nodes": {
+            "20": {
+              "left": 15,
+              "right": 25
+            },
+            "15": {
+              "left": 14,
+              "right": 18
+            },
+            "25": {
+              "left": null,
+              "right": 30
+            },
+            "14": {
+              "left": null,
+              "right": null
+            },
+            "18": {
+              "left": 16,
+              "right": 19
+            },
+            "30": {
+              "left": null,
+              "right": null
+            },
+            "16": {
+              "left": null,
+              "right": null
+            },
+            "19": {
+              "left": null,
+              "right": null
+            }
+          }
+        },
+        "visual_representation": "See Figure 2 in original document"
+      },
+      "operation": {
+        "type": "insert",
+        "value": 17
+      },
+      "requirements": [
+        "Identify the rotation case (e.g., left-left, left-right, right-left, right-right)",
+        "Show how each rotation is performed step by step",
+        "Include balance factors for all nodes in each figure",
+        "Show intermediate steps if multiple rotations are needed"
+      ],
+      "key_concepts": [
+        "AVL tree balance factors",
+        "AVL tree rotation types",
+        "AVL tree rebalancing after insertion",
+        "Balance factor calculation: height(left subtree) - height(right subtree)"
+      ],
+      "solution_approach": [
+        "Insert 17 into the tree following BST insertion rules",
+        "Calculate balance factors for all nodes on the path from 17 to root",
+        "Identify the first unbalanced node (balance factor > 1 or < -1)",
+        "Determine the rotation case based on the path taken",
+        "Apply appropriate rotation(s) to restore balance",
+        "Recalculate balance factors after rotation"
+      ]
+    },
+    {
+      "question_id": "A",
+      "topic": "AVL Trees",
+      "subtopic": "Sequential Insertion",
+      "question_text": "Starting with an initially empty AVL-tree, show what happens as the following elements are inserted in the given order: 50, 70, 30, 10, 20, 15",
+      "initial_state": "Empty AVL tree",
+      "operation": {
+        "type": "sequential_insertions",
+        "values": [50, 70, 30, 10, 20, 15],
+        "order": "sequential"
+      },
+      "requirements": [
+        "Show the tree after each insertion",
+        "Indicate when rotations occur",
+        "Show balance factors for nodes",
+        "Identify the type of rotation performed (if any)"
+      ],
+      "key_concepts": [
+        "AVL tree insertion algorithm",
+        "Balance factor maintenance",
+        "Rotation triggering conditions",
+        "Multiple sequential rebalancing operations"
+      ],
+      "solution_approach": [
+        "Insert each element one at a time in the given order",
+        "After each insertion, check balance factors along the insertion path",
+        "Perform necessary rotations to maintain AVL property",
+        "Show the complete tree structure after each step"
+      ]
+    },
+    {
+      "question_id": "B",
+      "topic": "AVL Trees",
+      "subtopic": "Sequential Insertion",
+      "question_text": "Show the sequence of trees that results from inserting the values 6, 2, 4, 3, 1 into an initially empty AVL tree. Show the tree after each insertion.",
+      "initial_state": "Empty AVL tree",
+      "operation": {
+        "type": "sequential_insertions",
+        "values": [6, 2, 4, 3, 1],
+        "order": "sequential"
+      },
+      "requirements": [
+        "Show the tree structure after each individual insertion",
+        "Display all intermediate states",
+        "Include balance factors",
+        "Show rotations performed at each step"
+      ],
+      "key_concepts": [
+        "AVL tree insertion",
+        "Balance factor calculation",
+        "Rotation types and their triggers",
+        "Tree rebalancing process"
+      ],
+      "solution_approach": [
+        "Start with empty tree",
+        "Insert 6 (becomes root)",
+        "Insert 2 (left child of 6)",
+        "Insert 4 (right child of 2, may trigger rotation)",
+        "Insert 3 (may trigger rotation)",
+        "Insert 1 (may trigger rotation)",
+        "Show complete tree after each step with balance factors"
+      ]
+    },
+    {
+      "question_id": "C",
+      "topic": "Red-Black Trees",
+      "subtopic": "Sequential Insertion",
+      "question_text": "Show the sequence of trees that results from inserting the values 6, 2, 4, 3, 1 into an initially empty Red-Black tree. Show the tree after each insertion. Indicate a black node by a box and a red node by a circle.",
+      "initial_state": "Empty Red-Black tree",
+      "operation": {
+        "type": "sequential_insertions",
+        "values": [6, 2, 4, 3, 1],
+        "order": "sequential"
+      },
+      "requirements": [
+        "Show the tree structure after each individual insertion",
+        "Use boxes to indicate black nodes",
+        "Use circles to indicate red nodes",
+        "Show all recoloring and rotation operations",
+        "Maintain Red-Black tree properties at each step"
+      ],
+      "red_black_properties": [
+        "Every node is either red or black",
+        "The root is always black",
+        "All leaves (NIL) are black",
+        "If a node is red, then both its children are black",
+        "Every path from root to leaf contains the same number of black nodes"
+      ],
+      "key_concepts": [
+        "Red-Black tree insertion algorithm",
+        "Node coloring rules",
+        "Recoloring operations",
+        "Rotations in Red-Black trees",
+        "Maintaining black-height property"
+      ],
+      "solution_approach": [
+        "Insert each node as red (except root)",
+        "Check for Red-Black property violations",
+        "Apply recoloring and/or rotations to fix violations",
+        "Show complete tree with colors after each insertion",
+        "Ensure root is black after each operation"
+      ],
+      "visual_notation": {
+        "black_node": "box/square shape",
+        "red_node": "circle shape"
+      }
+    },
+    {
+      "question_id": "D",
+      "topic": "Tries",
+      "subtopic": "Compressed Suffix Tries",
+      "question_text": "Draw a compressed suffix trie for the text \"ananana\".",
+      "input": {
+        "text": "ananana",
+        "length": 7,
+        "suffixes": [
+          "ananana$",
+          "nanana$",
+          "anana$",
+          "nana$",
+          "ana$",
+          "na$",
+          "a$",
+          "$"
+        ]
+      },
+      "requirements": [
+        "Build a compressed suffix trie (not a full trie)",
+        "Include all suffixes of the text",
+        "Compress paths with single children",
+        "Add termination symbol ($) to mark suffix endings",
+        "Label edges with substrings (not individual characters)"
+      ],
+      "key_concepts": [
+        "Suffix trie construction",
+        "Trie compression (path compression)",
+        "Suffix terminology",
+        "String matching data structures",
+        "Space optimization through compression"
+      ],
+      "solution_approach": [
+        "Generate all suffixes of 'ananana' (including empty suffix with $)",
+        "Build a trie with these suffixes",
+        "Compress chains of nodes with single children into single edges",
+        "Label edges with the corresponding substring",
+        "Ensure each suffix path ends at a leaf or marked node"
+      ],
+      "difference_from_standard_trie": "In a compressed trie, edges are labeled with strings (substrings) rather than single characters, and nodes with only one child are merged with their parent to save space",
+      "expected_output_characteristics": {
+        "structure": "Tree with compressed paths",
+        "edge_labels": "Substrings of 'ananana'",
+        "leaf_nodes": "Represent complete suffixes",
+        "internal_nodes": "Branch points where suffixes diverge"
+      }
+    }
+  ],
+  "general_notes": {
+    "avl_trees": {
+      "balance_factor": "height(left_subtree) - height(right_subtree)",
+      "balanced_condition": "balance factor ∈ {-1, 0, 1}",
+      "rotation_cases": {
+        "left_left": "Single right rotation",
+        "right_right": "Single left rotation",
+        "left_right": "Left rotation on left child, then right rotation on node",
+        "right_left": "Right rotation on right child, then left rotation on node"
+      }
+    },
+    "red_black_trees": {
+      "insertion_color": "New nodes are inserted as red (except root)",
+      "fixing_violations": [
+        "If parent is black, no violation",
+        "If parent is red, check uncle's color",
+        "Recolor or rotate based on uncle's color and node positions"
+      ]
+    },
+    "tries": {
+      "compression": "Merge nodes with single children to reduce space",
+      "suffix_termination": "Use $ or similar symbol to mark end of suffixes"
+    }
+  }
+}

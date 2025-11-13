@@ -1,0 +1,213 @@
+{
+  "exam_metadata": {
+    "exam_name": "FIT2004 Mid-Semester Test",
+    "total_questions": 5,
+    "total_marks": 10,
+    "marks_per_question": 2,
+    "feedback_source": "Official teaching team feedback"
+  },
+  "questions": [
+    {
+      "question_number": 1,
+      "topic": "Recurrence Relations",
+      "marks": 2,
+      "statement": "A question about solving a recurrence relation.",
+      "correct_answer": "Θ(n³)",
+      "explanation": {
+        "feedback": "On average this was done well.",
+        "recommendation": "Review materials from the first weeks and practice solving recurrence relations."
+      }
+    },
+    {
+      "question_number": 2,
+      "topic": "Sorting Strings in Linear Time",
+      "marks": 2,
+      "statement": "A question about sorting strings in linear time in regards to the total number of characters between all strings.",
+      "reference": "Applied 3 Problem 3",
+      "correct_answer": "See Applied 3 Problem 3 for the complete solution",
+      "explanation": {
+        "feedback": "Students either got this completely wrong or correct.",
+        "note": "There was no expectation of writing code",
+        "recommendation": "Review the applied question to see the answer"
+      }
+    },
+    {
+      "question_number": 3,
+      "topic": "Topological Sorting / Orderings",
+      "marks": 2,
+      "statement": "A question in regards to topological sorting's / orderings of a presented graph.",
+      "correct_answer": "Identify all true and false statements about possible orderings",
+      "common_mistakes": [
+        "Many students identified a singular false statement, but often chose other true statements",
+        "Some would choose/not choose contradicting statements",
+        "Example contradiction: Not ticking 'there can't exist an ordering' (meaning you believed it to be true), but then not ticking many orderings (meaning you believed those to be true) - this is a logical contradiction"
+      ],
+      "key_insight": "Ensure your selected answers are logically consistent and non-contradictory"
+    },
+    {
+      "question_number": 4,
+      "topic": "Proving Correctness of Kruskal's Algorithm",
+      "marks": 2,
+      "statement": "A question about proving the correctness of Kruskal's algorithm.",
+      "correct_answer": "Use loop invariant proof with initialization, maintenance, and termination",
+      "loop_invariant": "At each step, the set of edges chosen so far can be extended to form an MST",
+      "proof_structure": {
+        "initialization": "Initially we have no edges. The empty set can trivially be extended to an MST. ✓",
+        "maintenance": "Assume after adding k edges, set A can be extended to some MST T. When adding next edge e:\n  Case 1: If e is in T, then A ∪ {e} ⊆ T, so can extend to T.\n  Case 2: If e not in T, use exchange argument to show A ∪ {e} can be extended to another MST T'.",
+        "termination": "After n-1 edges, we have a complete spanning tree that IS an MST. ✓"
+      },
+      "performance": "Very poor performance",
+      "common_mistakes": [
+        "Did not identify the correct invariant",
+        "Failed to show why the invariant statement is true (initialization, maintenance, termination)",
+        "Simply described the algorithm itself, which is NOT a proof of correctness"
+      ],
+      "recommendation": "Review the lecture or the notes to see how to properly prove the correctness of Kruskal's"
+    },
+    {
+      "question_number": 5,
+      "topic": "Network Infection with 0-1 BFS and Super Source",
+      "marks": 2,
+      "statement": "A question that utilized concepts from Problem 4 of Week 5 Applied and Problem 6 of Week 6 Applied.",
+      "reference_problems": [
+        "Week 5 Applied Problem 4",
+        "Week 6 Applied Problem 6"
+      ],
+      "correct_answer": {
+        "step_1": "Edge weights: Make all E_w edges (weak) weight 0, E_s edges (strong) weight 1",
+        "step_2": "Super source: Create a super source that connects to all the nodes in subset I (initially infected)",
+        "step_3": "0-1 BFS: Run BFS from super source using a double-ended queue (deque)",
+        "step_4": "BFS processing: When processing neighbors:\n  - If edge weight 0 (weak): Place neighbor at the START of the queue, set distance = current node's distance\n  - If edge weight 1 (strong): Place at the END of the queue, set distance = current node's distance + 1",
+        "step_5": "Track distances: Keep track of node distances from the super source",
+        "answer": "The answer is the node with the longest stored distance - 1 (to account for super source)\n  OR alternatively, make the edge weight from super source to starting nodes 0"
+      },
+      "complete_solution_example": {
+        "algorithm": "0-1 BFS with Super Source",
+        "steps": [
+          "1. Assign weights: weak edges = 0, strong edges = 1",
+          "2. Create super source connecting to all initially infected nodes (weight 0 edges)",
+          "3. Initialize distances to infinity, set super source distance to 0",
+          "4. Use deque for 0-1 BFS starting from super source",
+          "5. For each node u in deque:",
+          "     For each neighbor v:",
+          "       If edge is weight 0: add v to FRONT of deque, dist[v] = dist[u]",
+          "       If edge is weight 1: add v to BACK of deque, dist[v] = dist[u] + 1",
+          "       Only update if new distance is smaller (relaxation)",
+          "6. Answer = max(all distances) - 1 (or 0 if super source edges are weight 0)"
+        ],
+        "time_complexity": "O(V + E)",
+        "why_super_source": "Handles multiple initially infected locations elegantly",
+        "why_01_bfs": "Efficient O(V+E) algorithm for graphs with only 0 and 1 edge weights"
+      },
+      "common_mistakes": [
+        "Stated minimum spanning tree algorithms (Prim's or Kruskal's) - WRONG problem type",
+        "Correctly stated edge weights and BFS but left out the super source",
+        "Did NOT describe how to correctly perform BFS using 0 or 1 edges (deque with front/back insertion)",
+        "Some stated Dijkstra's to handle 0 and 1 edges, but this wouldn't meet the O(V+E) time complexity requirement"
+      ],
+      "performance": "Poor performance",
+      "recommendation": "Review Week 5 Applied Problem 4 and Week 6 Applied Problem 6 to see how to combine them to solve this question"
+    }
+  ],
+  "overall_feedback": {
+    "key_issues": [
+      "Low engagement with applied classes is a major factor in poor performance",
+      "Students who don't regularly engage have a high chance of failing"
+    ],
+    "recommendations": [
+      "Attend and engage with applied classes regularly",
+      "Review past applied problems - exam questions are often combinations of applied problems",
+      "Practice proof techniques (loop invariants) - don't just describe algorithms",
+      "Understand 0-1 BFS and when to use it vs Dijkstra vs MST algorithms"
+    ]
+  },
+  "study_priorities": {
+    "question_1": "Practice recurrence relations from first weeks",
+    "question_2": "Review Applied 3 Problem 3 (string sorting)",
+    "question_3": "Understand topological sorting and check for logical consistency in answers",
+    "question_4": "Learn proper correctness proofs with loop invariants (not just algorithm descriptions)",
+    "question_5": "Combine Week 5 Applied Problem 4 + Week 6 Applied Problem 6 (0-1 BFS + super source)"
+  },
+  "student_performance": {
+    "total_marks": "5.5/10",
+    "breakdown": {
+      "question_1": {
+        "marks_received": "2/2",
+        "feedback": "Correct, well done."
+      },
+      "question_2": {
+        "marks_received": "2/2",
+        "feedback": "The solution is quadratic rather than linear, as padding with whitespaces increases the time complexity.",
+        "note": "Despite receiving full marks, the approach had complexity issues worth noting"
+      },
+      "question_3": {
+        "marks_received": "0/2",
+        "feedback": "You selected the first, third, and fourth options, but only the first option is correct — the topological order is A, B, C, D, E.",
+        "what_went_wrong": "Selected incorrect options (third and fourth) in addition to the correct one (first)",
+        "correct_topological_order": "A, B, C, D, E",
+        "action_items": [
+          "Review topological sorting fundamentals",
+          "Practice identifying all valid topological orderings",
+          "Ensure selected options don't contradict each other"
+        ]
+      },
+      "question_4": {
+        "marks_received": "1/2",
+        "feedback": "You correctly stated the invariant of Kruskal's algorithm, but the proof for maintaining the invariant is not correct. Please refer to the course notes for details.",
+        "what_went_right": "Correctly identified the loop invariant",
+        "what_went_wrong": "Failed to properly prove the maintenance step of the invariant",
+        "action_items": [
+          "Review loop invariant proof structure (initialization, maintenance, termination)",
+          "Study the exchange argument for Kruskal's maintenance proof",
+          "Practice writing complete correctness proofs, not just algorithm descriptions"
+        ]
+      },
+      "question_5": {
+        "marks_received": "0.5/2",
+        "feedback": "You received 0.5 mark since you demonstrated a partial idea of how to solve this question. The question combines Problem 4 of Week 5 Applied and Problem 6 of Week 6 Applied. 1 mark for creating a super source and connecting it to each computer in I with an edge of weight 0, and another mark for explaining how to solve it in O(|V| + |E|) using either a deque or two queues.",
+        "what_went_right": "Demonstrated partial understanding of the problem approach",
+        "what_went_wrong": [
+          "Did not mention creating a super source connected to all initially infected nodes",
+          "Did not explain the 0-1 BFS technique using deque/two queues",
+          "Missing the O(V+E) complexity justification"
+        ],
+        "required_components": {
+          "component_1": "Super source creation (1 mark): Create super source, connect to all nodes in I with weight-0 edges",
+          "component_2": "0-1 BFS explanation (1 mark): Use deque - add weight-0 neighbors to front, weight-1 neighbors to back; achieves O(V+E) complexity"
+        },
+        "action_items": [
+          "Study Week 5 Applied Problem 4 (super source technique)",
+          "Study Week 6 Applied Problem 6 (0-1 BFS with deque)",
+          "Practice combining multiple techniques to solve complex problems",
+          "Review when to use 0-1 BFS vs Dijkstra vs MST algorithms"
+        ]
+      }
+    },
+    "areas_for_improvement": {
+      "high_priority": [
+        "Correctness proofs with loop invariants (Q4) - need to master maintenance step proofs",
+        "0-1 BFS and super source techniques (Q5) - critical for graph problems with 0/1 weights",
+        "Topological sorting - ensure understanding of all valid orderings (Q3)"
+      ],
+      "medium_priority": [
+        "Time complexity analysis for string/array operations (Q2) - consider padding/shifting costs"
+      ],
+      "strengths": [
+        "Recurrence relation solving (Q1) - perfect score",
+        "Loop invariant identification (Q4) - correctly stated the invariant"
+      ]
+    },
+    "next_steps": {
+      "immediate": [
+        "Review course notes on Kruskal's correctness proof (especially maintenance step with exchange argument)",
+        "Work through Week 5 Applied Problem 4 and Week 6 Applied Problem 6",
+        "Practice topological sorting problems with multiple valid orderings"
+      ],
+      "ongoing": [
+        "Practice writing complete correctness proofs (not just algorithm descriptions)",
+        "Study when to apply different graph algorithms (0-1 BFS vs Dijkstra vs BFS vs MST)",
+        "Build intuition for combining multiple algorithmic techniques"
+      ]
+    }
+  }
+}
