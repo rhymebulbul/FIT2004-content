@@ -1,42 +1,49 @@
 {
   "exam": "FIT2004 Algorithms and Data Structures - Exam 25-2",
   "institution": "Monash University",
-  "total_questions": 14,
+  "total_questions": 15,
   "part": 3,
   "total_parts": 3,
-  "questions_in_part": 4,
+  "questions_in_part": 5,
   "part_summary": {
-    "questions_covered": [11, 12, 13, 14],
-    "total_marks_available": null,
-    "part_3_total_marks_obtained": null,
+    "questions_covered": [11, 12, 13, 14, 15],
+    "total_marks_available": 20,
+    "part_3_total_marks_obtained": 4.5,
     "marks_breakdown": [
       {
         "question_number": 11,
-        "marks_available": null,
-        "marks_obtained": null,
+        "marks_available": 3,
+        "marks_obtained": 1.5,
         "topic": "Dynamic Programming Grid Problem",
-        "status": "pending"
+        "status": "partial"
       },
       {
         "question_number": 12,
-        "marks_available": null,
-        "marks_obtained": null,
+        "marks_available": 2,
+        "marks_obtained": 2,
         "topic": "Dynamic Programming Grid Problem",
-        "status": "pending"
+        "status": "correct"
       },
       {
         "question_number": 13,
-        "marks_available": null,
-        "marks_obtained": null,
+        "marks_available": 5,
+        "marks_obtained": 1,
         "topic": "Network Flow - Bipartite Matching",
-        "status": "pending"
+        "status": "incorrect"
       },
       {
         "question_number": 14,
-        "marks_available": null,
-        "marks_obtained": null,
-        "topic": "Graph Theory - DAG Detection",
-        "status": "pending"
+        "marks_available": 5,
+        "marks_obtained": 0,
+        "topic": "Binary Search Trees - Proof",
+        "status": "incorrect"
+      },
+      {
+        "question_number": 15,
+        "marks_available": 5,
+        "marks_obtained": 0,
+        "topic": "String Algorithms - Trie Supersequence",
+        "status": "incorrect"
       }
     ]
   },

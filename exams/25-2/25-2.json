@@ -1,12 +1,12 @@
 {
   "exam": "FIT2004 Algorithms and Data Structures - Exam 25-2",
   "institution": "Monash University",
-  "total_questions": 14,
+  "total_questions": 15,
   "exam_summary": {
     "total_parts": 3,
-    "total_marks_available": null,
-    "cumulative_marks_obtained": 15,
-    "cumulative_percentage": null,
+    "total_marks_available": 50,
+    "cumulative_marks_obtained": 22.5,
+    "cumulative_percentage": 45.0,
     "parts_breakdown": [
       {
         "part": 1,
@@ -19,20 +19,20 @@
         "part": 2,
         "questions": [6, 7, 8, 9, 10],
         "marks_available": 15,
-        "marks_obtained": 9,
-        "percentage": 60.0
+        "marks_obtained": 12,
+        "percentage": 80.0
       },
       {
         "part": 3,
-        "questions": [11, 12, 13, 14],
-        "marks_available": null,
-        "marks_obtained": null,
-        "percentage": null
+        "questions": [11, 12, 13, 14, 15],
+        "marks_available": 20,
+        "marks_obtained": 4.5,
+        "percentage": 22.5
       }
     ],
-    "completed_questions": [1, 2, 3, 4, 5, 6, 7],
-    "pending_questions": [8, 9, 10, 11, 12, 13, 14],
-    "notes": "Part 1: 6/15 (40%), Part 2: 9/15 (60%), Part 3: pending. Current total: 15 marks from 7 questions reviewed."
+    "completed_questions": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+    "pending_questions": [],
+    "notes": "Part 1: 6/15 (40%), Part 2: 12/15 (80%), Part 3: 4.5/20 (22.5%). Total: 22.5/50 (45%)."
   },
   "questions": [
     {

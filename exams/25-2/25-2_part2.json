@@ -26,24 +26,24 @@
       },
       {
         "question_number": 8,
-        "marks_available": null,
-        "marks_obtained": null,
+        "marks_available": 3,
+        "marks_obtained": 3,
         "topic": "Circulation with Demands",
-        "status": "pending"
+        "status": "correct"
       },
       {
         "question_number": 9,
-        "marks_available": null,
-        "marks_obtained": null,
+        "marks_available": 3,
+        "marks_obtained": 3,
         "topic": "Suffix Trees",
-        "status": "pending"
+        "status": "correct"
       },
       {
         "question_number": 10,
-        "marks_available": null,
-        "marks_obtained": null,
+        "marks_available": 3,
+        "marks_obtained": 0,
         "topic": "2-3 Search Trees",
-        "status": "pending"
+        "status": "incorrect"
       }
     ]
   },
