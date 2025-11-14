@@ -20,1197 +20,174 @@
       "marks": 3,
       "type": "multiple_select",
       "topic": "Complexity Analysis - Recursion",
+      "solution_file": "25-2_question_1_solution.md",
+
       "problem_statement": {
         "description": "Consider the code shown below that takes a positive integer n as input. Select all the correct options regarding the space, auxiliary space, and time complexities of this code.",
-        "code": {
-          "language": "python",
-          "function_name": "mystery",
-          "code_text": "def mystery(n):\n    if n == 0:\n        return 1\n    else:\n        return 7*mystery(n-1)+1",
-          "parameters": [
-            {
-              "name": "n",
-              "type": "positive integer",
-              "constraints": "n is a positive integer"
-            }
-          ]
-        },
-        "algorithm_analysis": {
-          "algorithm_type": "Recursive",
-          "recurrence_relation": {
-            "base_case": "T(0) = O(1)",
-            "recursive_case": "T(n) = T(n-1) + O(1)",
-            "explanation": "The function makes exactly one recursive call with n-1, and performs constant work (multiplication and addition)"
-          },
-          "space_complexity_analysis": {
-            "call_stack_depth": "n",
-            "space_per_call": "O(1)",
-            "explanation": "Each recursive call stores constant data on the call stack. The maximum recursion depth is n (from n down to 0), so the call stack uses O(n) space.",
-            "note": "The multiplication by 7 and addition of 1 are constant operations that don't require additional space proportional to n"
-          },
-          "auxiliary_space_analysis": {
-            "definition": "Auxiliary space is extra space used by the algorithm excluding the input",
-            "analysis": "The function uses O(n) space for the recursion call stack. No additional data structures are created.",
-            "conclusion": "Auxiliary space is O(n) due to recursion depth"
-          },
-          "time_complexity_analysis": {
-            "recurrence_solution": {
-              "recurrence": "T(n) = T(n-1) + O(1)",
-              "expansion": "T(n) = T(n-1) + c = T(n-2) + 2c = ... = T(0) + nc",
-              "solution": "O(n)",
-              "explanation": "The function makes exactly n recursive calls (from n down to 0), each doing constant work"
-            },
-            "operations_per_level": "O(1) - multiplication, addition, comparison",
-            "number_of_levels": "n",
-            "total_time": "O(n)"
-          }
-        }
+        "code": "def mystery(n):\n    if n == 0:\n        return 1\n    else:\n        return 7*mystery(n-1)+1"
       },
-      "answer_choices": {
-        "space_complexity_options": [
-          {
-            "id": "space_1",
-            "text": "The worst-case space complexity is \u0398(1).",
-            "correct": false,
-            "explanation": "Incorrect. The recursion call stack grows to depth n, requiring O(n) space."
-          },
-          {
-            "id": "space_2",
-            "text": "The worst-case space complexity is \u0398((log N)^c) for a positive integer constant c.",
-            "correct": false,
-            "explanation": "Incorrect. The space complexity is linear, not logarithmic."
-          },
-          {
-            "id": "space_3",
-            "text": "The worst-case space complexity is \u0398(N).",
-            "correct": true,
-            "explanation": "Correct. The recursion depth is n, and each call frame uses constant space, giving total space complexity of \u0398(n)."
-          },
-          {
-            "id": "space_4",
-            "text": "The worst-case space complexity is \u0398(N *(log N)^c) for a positive integer constant c.",
-            "correct": false,
-            "explanation": "Incorrect. This would be worse than linear complexity, but the function only uses linear space."
-          },
-          {
-            "id": "space_5",
-            "text": "The worst-case space complexity is \u0398(N^2).",
-            "correct": false,
-            "explanation": "Incorrect. The space complexity is linear, not quadratic."
-          }
-        ],
-        "auxiliary_space_options": [
-          {
-            "id": "aux_space_1",
-            "text": "The worst-case auxiliary space complexity is \u0398(1).",
-            "correct": false,
-            "explanation": "Incorrect. The recursion call stack uses O(n) auxiliary space."
-          },
-          {
-            "id": "aux_space_2",
-            "text": "The worst-case auxiliary space complexity is \u0398((log N)^c) for a positive integer constant c.",
-            "correct": false,
-            "explanation": "Incorrect. The auxiliary space is linear, not logarithmic."
-          },
-          {
-            "id": "aux_space_3",
-            "text": "The worst-case auxiliary space complexity is \u0398(N).",
-            "correct": true,
-            "explanation": "Correct. The recursion call stack grows to depth n, using \u0398(n) auxiliary space."
-          },
-          {
-            "id": "aux_space_4",
-            "text": "The worst-case auxiliary space complexity is \u0398(N *(log N)^c) for a positive integer constant c.",
-            "correct": false,
-            "explanation": "Incorrect. This is worse than the actual linear auxiliary space complexity."
-          },
-          {
-            "id": "aux_space_5",
-            "text": "The worst-case auxiliary space complexity is \u0398(N^2).",
-            "correct": false,
-            "explanation": "Incorrect. The auxiliary space is linear, not quadratic."
-          }
-        ],
-        "time_complexity_options": [
-          {
-            "id": "time_1",
-            "text": "The worst-case time complexity is \u0398(1).",
-            "correct": false,
-            "explanation": "Incorrect. The function makes n recursive calls, so time complexity cannot be constant."
-          },
-          {
-            "id": "time_2",
-            "text": "The worst-case time complexity is \u0398((log N)^c) for a positive integer constant c.",
-            "correct": true,
-            "user_selected": true,
-            "explanation": "This was selected by the user, but this is INCORRECT. The time complexity is \u0398(n), not logarithmic. The function makes exactly n recursive calls, each doing constant work, resulting in linear time complexity."
-          },
-          {
-            "id": "time_3",
-            "text": "The worst-case time complexity is \u0398(N).",
-            "correct": true,
-            "explanation": "Correct. The function makes exactly n recursive calls (from n to 0), each performing O(1) work, giving \u0398(n) time complexity."
-          },
-          {
-            "id": "time_4",
-            "text": "The worst-case time complexity is \u0398(N *(log N)^c) for a positive integer constant c.",
-            "correct": false,
-            "explanation": "Incorrect. This is worse than the actual linear time complexity."
-          },
-          {
-            "id": "time_5",
-            "text": "The worst-case time complexity is \u0398(N^2).",
-            "correct": false,
-            "explanation": "Incorrect. The time complexity is linear, not quadratic."
-          }
-        ]
+
+      "answer_options": {
+        "space": ["Θ(1)", "Θ((log N)^c)", "Θ(N)", "Θ(N·(log N)^c)", "Θ(N²)"],
+        "aux_space": ["Θ(1)", "Θ((log N)^c)", "Θ(N)", "Θ(N·(log N)^c)", "Θ(N²)"],
+        "time": ["Θ(1)", "Θ((log N)^c)", "Θ(N)", "Θ(N·(log N)^c)", "Θ(N²)"]
       },
+
       "student_answer": {
-        "submitted": true,
-        "selected_options": [
-          "time_2"
-        ],
-        "correctness": "incorrect",
-        "note": "Student selected only the logarithmic time complexity option, which is incorrect. The correct answers should include space_3, aux_space_3, and time_3."
+        "selected": ["time_2"],
+        "correct": false
       },
-      "expected_solution": {
-        "correct_options": [
-          "space_3",
-          "aux_space_3",
-          "time_3"
-        ],
-        "key_insights": [
-          "The recurrence T(n) = T(n-1) + O(1) solves to O(n)",
-          "Linear recursion (n \u2192 n-1 \u2192 ... \u2192 0) creates n stack frames",
-          "Each stack frame uses constant space",
-          "Total space = recursion depth \u00d7 space per frame = n \u00d7 O(1) = O(n)",
-          "Auxiliary space equals total space for this algorithm since input is just an integer",
-          "The multiplication by 7 does not affect asymptotic complexity"
-        ],
-        "common_mistakes": [
-          {
-            "mistake": "Selecting logarithmic time complexity",
-            "reason": "Students may confuse linear recursion (n \u2192 n-1) with divide-and-conquer recursion (n \u2192 n/2)",
-            "correction": "Linear recursion makes n calls, not log(n) calls"
-          },
-          {
-            "mistake": "Selecting constant space complexity",
-            "reason": "Students may forget to account for the implicit call stack",
-            "correction": "Recursion uses stack space proportional to recursion depth"
-          },
-          {
-            "mistake": "Thinking the multiplication by 7 affects complexity",
-            "reason": "Misunderstanding that constant factors don't affect Big-\u0398 notation",
-            "correction": "Constant operations remain O(1) regardless of the constant value"
-          }
-        ]
-      },
-      "llm_reference_notes": {
-        "complexity_patterns": {
-          "linear_recursion": "Pattern: f(n) = operation + f(n-1). Result: O(n) time, O(n) space",
-          "divide_and_conquer": "Pattern: f(n) = operations + f(n/2). Result: O(log n) time typically",
-          "tree_recursion": "Pattern: f(n) = f(n-1) + f(n-1). Result: O(2^n) time typically"
-        },
-        "key_formulas": {
-          "linear_recurrence": "T(n) = T(n-1) + c solves to T(n) = O(n)",
-          "logarithmic_recurrence": "T(n) = T(n/2) + c solves to T(n) = O(log n)",
-          "space_for_recursion": "Space = recursion_depth \u00d7 space_per_call"
-        },
-        "teaching_points": [
-          "Always count the recursion depth for space complexity",
-          "Linear recursion (decrement by 1) gives O(n), not O(log n)",
-          "Divide-and-conquer (divide by 2) gives O(log n)",
-          "The value multiplied or added (like 7 or 1) doesn't change asymptotic complexity",
-          "Space complexity includes the call stack for recursive algorithms"
-        ]
-      },
-      "marking_scheme": {
-        "total_marks": 3,
-        "marks_obtained": 0,
-        "deduction_reasons": [
-          "Student only selected time_2 (logarithmic complexity) which is incorrect",
-          "Did not select any of the three correct options: space_3, aux_space_3, time_3"
-        ],
-        "grading_criteria": "All three correct options (space_3, aux_space_3, time_3) must be selected for full marks. "
-      }
-    },
-    {
-      "exam_metadata": {
-        "course": "FIT2004 Algorithms and data structures",
-        "institution": "Monash University",
-        "exam_type": "Online Assessment",
-        "question_number": 2,
-        "total_questions": 15,
-        "marks": 3,
-        "time_remaining": "0:07:37",
-        "questions_attempted": "15/15",
-        "student_name": "Rhyme Bulbul"
-      },
-      "question": {
-        "type": "Multiple Choice",
-        "topic": "Loop Invariants and Heap Data Structures",
-        "subtopics": [
-          "Max Heap",
-          "Loop Invariants",
-          "Algorithm Correctness",
-          "Heap Operations"
-        ],
-        "difficulty": "Medium",
-        "pseudocode": {
-          "function_signature": "function MYSTERY(A[1...n], k)",
-          "description": "Initialise an empty MaxHeap named mh with the k first elements of A",
-          "algorithm": [
-            "i = k + 1",
-            "while i \u2264 n do",
-            "    if A[i] < mh.max_element() then",
-            "        mh.pop()",
-            "        mh.push(A[i])",
-            "    // Loop invariant here",
-            "    i = i + 1",
-            "return mh"
-          ],
-          "initial_condition": "MaxHeap mh initialized with first k elements of A[1...k]",
-          "loop_variable": "i",
-          "loop_range": "k+1 to n",
-          "heap_operations": [
-            "mh.max_element() - returns maximum element without removing",
-            "mh.pop() - removes maximum element",
-            "mh.push(x) - inserts element x"
-          ]
-        },
-        "problem_statement": "Which of the following loop invariants is correct?",
-        "explanation": {
-          "algorithm_purpose": "This algorithm maintains a MaxHeap of size k containing specific elements from the array A as it processes elements from index k+1 to n",
-          "key_observation": "The algorithm replaces the maximum element in the heap with a smaller element from the remaining array when such an element is found",
-          "invariant_requirements": [
-            "Must be true before the loop starts",
-            "Must be maintained after each iteration",
-            "Must be true when the loop terminates",
-            "Should help prove algorithm correctness"
-          ],
-          "heap_property": "MaxHeap property means parent \u2265 children, so root is maximum element"
-        },
-        "answer_choices": [
-          {
-            "option": "a",
-            "text": "mh contains the i biggest elements of A[1...k]",
-            "analysis": {
-              "correctness": false,
-              "reasoning": "Range is incorrect - only considers first k elements, ignoring that i > k"
-            }
-          },
-          {
-            "option": "b",
-            "text": "mh contains the k biggest elements of A[1...i+1]",
-            "analysis": {
-              "correctness": false,
-              "reasoning": "Off-by-one error - at start of iteration i, we've only processed up to i-1"
-            }
-          },
-          {
-            "option": "c",
-            "text": "mh contains the i biggest elements of A[1...k+i]",
-            "analysis": {
-              "correctness": false,
-              "reasoning": "Both the count and range are incorrect"
-            }
-          },
-          {
-            "option": "d",
-            "text": "mh contains the k smallest elements of A[1...i]",
-            "analysis": {
-              "correctness": true,
-              "reasoning": "At the loop invariant point (start of iteration when i has a value), we have processed A[1...i-1]. Since the invariant is checked at the beginning of the loop body after i is incremented conceptually, mh contains the k smallest elements seen so far in A[1...i-1], which at the invariant point before processing A[i] means we've seen A[1...i-1]. However, the standard interpretation is that the invariant holds at the marked location, where i represents the next element to process. The algorithm maintains the k smallest by keeping a MaxHeap and replacing the max when a smaller element is found."
-            }
-          },
-          {
-            "option": "e",
-            "text": "mh contains the k biggest elements of A[1...i]",
-            "analysis": {
-              "correctness": false,
-              "reasoning": "Incorrect - the algorithm finds smallest elements, not biggest. By maintaining a MaxHeap and removing the max when finding smaller elements, it keeps the k smallest"
-            }
-          },
-          {
-            "option": "f",
-            "text": "mh contains the i smallest elements of A[1...k]",
-            "analysis": {
-              "correctness": false,
-              "reasoning": "Range is too restrictive - doesn't account for elements beyond index k"
-            }
-          },
-          {
-            "option": "g",
-            "text": "mh contains the i smallest elements of A[1...k+i]",
-            "analysis": {
-              "correctness": false,
-              "reasoning": "The heap size remains k, not i"
-            }
-          },
-          {
-            "option": "h",
-            "text": "mh contains the k smallest elements of A[1...i+1]",
-            "analysis": {
-              "correctness": false,
-              "reasoning": "Off-by-one error in range"
-            }
-          }
-        ],
-        "student_answer": {
-          "selected_option": "d",
-          "status": "answered",
-          "timestamp": "0:07:39 remaining"
-        },
-        "correct_answer": {
-          "option": "d",
-          "detailed_explanation": "The loop invariant 'mh contains the k smallest elements of A[1...i]' is correct because:\n\n1. **Initialization**: Before the loop (i = k+1), mh contains the first k elements of A, which are trivially the k smallest of A[1...k].\n\n2. **Maintenance**: At the start of each iteration with index i, assume mh contains the k smallest of A[1...i-1]. After processing A[i]:\n   - If A[i] < mh.max_element(): A[i] is smaller than the largest in mh, so it belongs in the k smallest. We remove the max and insert A[i], maintaining the k smallest of A[1...i].\n   - If A[i] \u2265 mh.max_element(): A[i] is not among the k smallest, so mh still contains the k smallest of A[1...i].\n\n3. **Termination**: When the loop ends (i = n+1), mh contains the k smallest elements of A[1...n].\n\n4. **Why MaxHeap**: Using a MaxHeap allows O(1) access to the largest of the k smallest elements, which is the threshold for determining if a new element should be included.",
-          "algorithm_purpose": "Find the k smallest elements from an array of n elements using a MaxHeap of size k",
-          "time_complexity": "O(n log k)",
-          "space_complexity": "O(k)"
-        },
-        "learning_objectives": [
-          "Understanding loop invariants and their role in proving correctness",
-          "Recognizing the relationship between heap type (Max/Min) and algorithm purpose",
-          "Analyzing how data structure operations maintain invariants",
-          "Understanding the k-smallest-elements problem and its MaxHeap solution"
-        ],
-        "common_mistakes": [
-          "Confusing smallest with biggest elements",
-          "Incorrect range specification (off-by-one errors)",
-          "Not considering what has been processed at the invariant point",
-          "Misunderstanding when the invariant is checked in the loop"
-        ],
-        "related_concepts": [
-          "Selection algorithms",
-          "Heap-based priority queues",
-          "Top-K problems",
-          "QuickSelect algorithm",
-          "Heap sort"
-        ]
-      },
-      "grading": {
-        "marks_available": 3,
-        "marks_obtained": 3,
-        "auto_graded": true,
-        "feedback": "Correct answer selected"
-      }
-    },
-    {
-      "exam_metadata": {
-        "course": "FIT2004 Algorithms and Data Structures",
-        "institution": "Monash University",
-        "question_number": 3,
-        "total_questions": 15,
-        "marks": 3,
-        "time_remaining_at_screenshot": "0:07:40",
-        "questions_attempted": "15/15",
-        "question_status": "attempted"
-      },
-      "question": {
-        "type": "multiple_select",
-        "category": "Graph Algorithms - Time Complexity Analysis",
-        "subcategory": "Graph Representations and Algorithm Complexity",
-        "difficulty": "medium",
-        "topics": [
-          "Graph Representations",
-          "Adjacency Matrix",
-          "Adjacency List",
-          "Time Complexity Analysis",
-          "Dijkstra's Algorithm",
-          "Prim's Algorithm",
-          "Depth-First Search (DFS)",
-          "Sparse Graphs",
-          "Dense Graphs"
-        ],
-        "problem_statement": {
-          "text": "Consider a graph G = (V, E). Select all true statements.",
-          "instruction": "Select one or more:",
-          "graph_notation": {
-            "V": "Set of vertices",
-            "E": "Set of edges",
-            "notation": "Standard graph notation G = (V, E)"
-          }
-        },
-        "options": [
-          {
-            "id": "a",
-            "text": "In the case the graph is represented using adjacency matrix, the worst-case time complexity to check if there is an edge between vertices u and v is \u0398(1).",
-            "mathematical_formulation": {
-              "operation": "Edge existence check",
-              "representation": "Adjacency Matrix",
-              "complexity": "\u0398(1)",
-              "explanation": "In an adjacency matrix, checking if edge (u,v) exists is a direct array access: matrix[u][v], which is constant time regardless of graph size"
-            },
-            "correctness": "TRUE",
-            "reasoning": "Adjacency matrix allows O(1) random access to check matrix[u][v] for edge existence",
-            "my_answer": true
-          },
-          {
-            "id": "b",
-            "text": "In the case the graph is sparse and represented using adjacency matrix, the worst-case time complexity of Dijkstra's algorithm is \u0398(|V| log |V|).",
-            "mathematical_formulation": {
-              "algorithm": "Dijkstra's Algorithm",
-              "representation": "Adjacency Matrix",
-              "graph_property": "Sparse (|E| << |V|\u00b2)",
-              "claimed_complexity": "\u0398(|V| log |V|)",
-              "actual_complexity_analysis": {
-                "with_binary_heap": "\u0398((|V| + |E|) log |V|) for adjacency list",
-                "with_adjacency_matrix": "\u0398(|V|\u00b2) with simple array or \u0398(|V|\u00b2 log |V|) with heap",
-                "reason": "Adjacency matrix requires \u0398(|V|) time to find all neighbors of each vertex, leading to \u0398(|V|\u00b2) overall regardless of sparsity"
-              }
-            },
-            "correctness": "FALSE",
-            "reasoning": "With adjacency matrix representation, you must scan entire row (|V| cells) to find neighbors, giving \u0398(|V|\u00b2) time regardless of whether graph is sparse. The \u0398(|V| log |V|) complexity only applies to very specific scenarios (like using adjacency list with Fibonacci heap on sparse graphs where |E| \u2248 |V|)",
-            "my_answer": false
-          },
-          {
-            "id": "c",
-            "text": "In the case the graph is sparse and represented using adjacency list, the worst-case time complexity of Prim's algorithm is \u0398(|V| log |V|).",
-            "mathematical_formulation": {
-              "algorithm": "Prim's Algorithm (MST)",
-              "representation": "Adjacency List",
-              "graph_property": "Sparse (|E| << |V|\u00b2)",
-              "claimed_complexity": "\u0398(|V| log |V|)",
-              "actual_complexity_analysis": {
-                "with_binary_heap": "\u0398((|V| + |E|) log |V|)",
-                "for_sparse_graph": "If |E| = \u0398(|V|), then \u0398(|V| log |V|)",
-                "worst_case_general": "\u0398(|E| log |V|) which can be \u0398(|V|\u00b2 log |V|) for dense graphs"
-              }
-            },
-            "correctness": "FALSE (context-dependent)",
-            "reasoning": "Prim's with binary heap on adjacency list has complexity \u0398((|V| + |E|) log |V|). For sparse graphs where |E| = \u0398(|V|), this becomes \u0398(|V| log |V|). However, 'sparse' typically means |E| = O(|V|) but doesn't guarantee |E| = \u0398(|V|). Worst-case for any graph is when |E| is maximized, giving \u0398(|V|\u00b2 log |V|). The statement is ambiguous.",
-            "my_answer": false
-          },
-          {
-            "id": "d",
-            "text": "In the case the graph is represented using adjacency matrix, the worst-case time complexity of DFS is \u0398(|V|+|E|).",
-            "mathematical_formulation": {
-              "algorithm": "Depth-First Search (DFS)",
-              "representation": "Adjacency Matrix",
-              "claimed_complexity": "\u0398(|V| + |E|)",
-              "actual_complexity_analysis": {
-                "vertex_visits": "\u0398(|V|) - visit each vertex once",
-                "edge_checks": "For each vertex, scan entire row of matrix: \u0398(|V|) per vertex",
-                "total": "\u0398(|V|\u00b2)",
-                "reason": "Must scan all |V| columns for each vertex to find adjacent vertices, even if few edges exist"
-              }
-            },
-            "correctness": "FALSE",
-            "reasoning": "With adjacency matrix, DFS must check all |V| entries in each vertex's row to find neighbors, resulting in \u0398(|V|\u00b2) time. The \u0398(|V| + |E|) complexity only applies to adjacency list representation.",
-            "my_answer": false
-          }
-        ],
-        "my_answers": {
-          "selected_options": [
-            "a"
-          ],
-          "submission_status": "submitted",
-          "confidence": "high"
-        },
-        "expected_solution": {
-          "correct_answers": [
-            "a"
-          ],
-          "detailed_explanations": {
-            "option_a": {
-              "verdict": "TRUE",
-              "explanation": "Adjacency matrix stores edges in a 2D array where matrix[i][j] indicates if edge (i,j) exists. Accessing any cell is O(1) array indexing.",
-              "complexity_proof": "Time = \u0398(1) for single array access"
-            },
-            "option_b": {
-              "verdict": "FALSE",
-              "explanation": "Dijkstra's algorithm with adjacency matrix must scan all |V| entries to find neighbors of each vertex. Even with a priority queue, the neighbor-finding dominates.",
-              "complexity_proof": "For each vertex (|V| times), scan its row (|V| entries) \u2192 \u0398(|V|\u00b2). Priority queue operations add log factors but don't reduce the quadratic scan.",
-              "correct_complexity": "\u0398(|V|\u00b2) or \u0398(|V|\u00b2 log |V|) with heap, not \u0398(|V| log |V|)"
-            },
-            "option_c": {
-              "verdict": "TRUE",
-              "explanation": "Prim's algorithm with binary heap and adjacency list has complexity \u0398((|V| + |E|) log |V|). For the sparsest graphs where |E| = \u0398(|V|), this becomes \u0398(|V| log |V|). However, 'sparse' doesn't strictly mean |E| = \u0398(|V|); it could be any |E| = o(|V|\u00b2). The worst-case over all graphs is still \u0398(|E| log |V|).",
-              "complexity_proof": "|V| vertex extractions from heap: \u0398(|V| log |V|). |E| edge relaxations with decrease-key: \u0398(|E| log |V|). Total: \u0398((|V| + |E|) log |V|)",
-              "note": "If question intended 'sparse' to mean |E| = \u0398(|V|), then TRUE. Otherwise FALSE for general worst-case."
-            },
-            "option_d": {
-              "verdict": "FALSE",
-              "explanation": "DFS with adjacency matrix requires checking all |V| potential neighbors for each of |V| vertices, regardless of actual edge count.",
-              "complexity_proof": "Visit each vertex: \u0398(|V|). For each vertex, scan matrix row: \u0398(|V|). Total: \u0398(|V|\u00b2)",
-              "correct_complexity": "\u0398(|V|\u00b2) with adjacency matrix, \u0398(|V| + |E|) with adjacency list"
-            }
-          },
-          "key_concepts": {
-            "adjacency_matrix": {
-              "space": "\u0398(|V|\u00b2)",
-              "edge_check": "\u0398(1)",
-              "find_all_neighbors": "\u0398(|V|)",
-              "best_for": "Dense graphs, |E| \u2248 |V|\u00b2"
-            },
-            "adjacency_list": {
-              "space": "\u0398(|V| + |E|)",
-              "edge_check": "\u0398(degree(v))",
-              "find_all_neighbors": "\u0398(degree(v))",
-              "best_for": "Sparse graphs, |E| << |V|\u00b2"
-            },
-            "sparse_graph_definition": {
-              "formal": "|E| = o(|V|\u00b2)",
-              "typical": "|E| = \u0398(|V|) or |E| = \u0398(|V| log |V|)",
-              "note": "Not precisely defined; often means |E| is much less than |V|\u00b2"
-            },
-            "algorithm_complexities": {
-              "dijkstra": {
-                "adjacency_matrix": "\u0398(|V|\u00b2) simple, \u0398(|V|\u00b2) with heap",
-                "adjacency_list_binary_heap": "\u0398((|V| + |E|) log |V|)",
-                "adjacency_list_fibonacci_heap": "\u0398(|E| + |V| log |V|)"
-              },
-              "prim": {
-                "adjacency_matrix": "\u0398(|V|\u00b2) simple",
-                "adjacency_list_binary_heap": "\u0398((|V| + |E|) log |V|)",
-                "adjacency_list_fibonacci_heap": "\u0398(|E| + |V| log |V|)"
-              },
-              "dfs": {
-                "adjacency_matrix": "\u0398(|V|\u00b2)",
-                "adjacency_list": "\u0398(|V| + |E|)"
-              }
-            }
-          },
-          "common_mistakes": [
-            "Confusing adjacency list and adjacency matrix complexities",
-            "Assuming 'sparse' means |E| = \u0398(|V|) when it could mean any |E| = o(|V|\u00b2)",
-            "Forgetting that adjacency matrix always requires \u0398(|V|) time to find all neighbors",
-            "Not recognizing that graph representation affects algorithm complexity significantly"
-          ]
-        },
-        "learning_objectives": [
-          "Understand how graph representation affects algorithm performance",
-          "Analyze worst-case time complexity for different graph representations",
-          "Recognize when sparsity affects algorithm complexity",
-          "Apply complexity analysis to classic graph algorithms (Dijkstra, Prim, DFS)",
-          "Distinguish between \u0398(|V| + |E|) and \u0398(|V|\u00b2) complexities"
-        ],
-        "edge_cases_and_special_conditions": [
-          {
-            "case": "Complete graph (dense)",
-            "properties": "|E| = \u0398(|V|\u00b2)",
-            "implications": "Adjacency matrix may be more efficient due to cache locality"
-          },
-          {
-            "case": "Tree or forest (sparse)",
-            "properties": "|E| = \u0398(|V|) or |E| < |V|",
-            "implications": "Adjacency list dramatically outperforms matrix for traversal algorithms"
-          },
-          {
-            "case": "Disconnected graph",
-            "properties": "May have |E| << |V|",
-            "implications": "DFS/BFS complexity still depends on representation used"
-          }
-        ],
-        "related_concepts": [
-          "Graph representation tradeoffs",
-          "Priority queue implementations (binary heap vs Fibonacci heap)",
-          "Amortized analysis",
-          "Space-time tradeoffs in data structures"
-        ]
-      },
-      "metadata": {
-        "conversion_date": "2025-11-13",
-        "converter_notes": "Question focuses on understanding how graph representation (adjacency matrix vs list) fundamentally affects algorithm complexity, particularly for sparse graphs. Key insight: adjacency matrix always requires \u0398(|V|) to find neighbors, making it \u0398(|V|\u00b2) for algorithms that visit all vertices, regardless of actual edge count.",
-        "difficulty_assessment": "Medium - requires solid understanding of graph representations and ability to reason about worst-case complexity",
-        "estimated_time": "3-4 minutes",
-        "prerequisite_knowledge": [
-          "Graph representations",
-          "Big-Theta notation",
-          "Dijkstra's algorithm",
-          "Prim's algorithm",
-          "DFS algorithm",
-          "Sparse vs dense graphs"
-        ],
-        "grading": {
-          "marks_available": 3,
-          "marks_obtained": 1.5,
-          "feedback": "Correct answer selected"
-        }
-      }
-    },
-    {
-      "exam_metadata": {
-        "course": "FIT2004 Algorithms and Data Structures",
-        "institution": "Monash University",
-        "question_number": 4,
-        "total_questions": 15,
-        "questions_attempted": "15/15",
-        "marks_available": 3,
-        "time_saved": "0:07:43",
-        "student_answer": "12",
-        "answer_status": "attempted"
-      },
-      "question_content": {
-        "problem_type": "Dynamic Programming - Minimum Operations",
-        "domain": "Integer Operations / Number Theory",
-        "difficulty_indicators": [
-          "Recurrence relation design",
-          "Multiple operation types with constraints",
-          "Optimal substructure identification"
-        ],
-        "problem_statement": {
-          "main_description": "Consider the problem in which you are given as input a positive integer to be used as the starting value, and you want to return the minimum number of operations to go from the starting value to 1 given that the allowed operations are:",
-          "allowed_operations": [
-            {
-              "operation": "Subtract 1",
-              "constraint": "none",
-              "description": "Always available"
-            },
-            {
-              "operation": "Divide by 2",
-              "constraint": "current value is divisible by 2 over the integers",
-              "description": "Only available when current value is even"
-            },
-            {
-              "operation": "Divide by 3",
-              "constraint": "current value is divisible by 3 over the integers",
-              "description": "Only available when current value is divisible by 3"
-            }
-          ],
-          "notation": {
-            "function_name": "MIN_OP(n)",
-            "definition": "the minimum number of operations to go from n to 1"
-          }
-        },
-        "specific_question": {
-          "expression": "x = MIN_OP(10) + MIN_OP(14) + MIN_OP(15)",
-          "task": "What is the value of x? Just type the numerical answer."
-        }
-      },
-      "solution_framework": {
-        "algorithm_type": "Dynamic Programming",
-        "approach": "Bottom-up or Top-down with memoization",
-        "state_definition": {
-          "state": "MIN_OP(n)",
-          "meaning": "Minimum operations to reduce n to 1"
-        },
-        "base_case": {
-          "condition": "n = 1",
-          "value": "MIN_OP(1) = 0",
-          "explanation": "Already at target, no operations needed"
-        },
-        "recurrence_relation": {
-          "general_form": "MIN_OP(n) = 1 + min(available_operations)",
-          "cases": [
-            {
-              "condition": "n is divisible by both 2 and 3 (i.e., divisible by 6)",
-              "formula": "MIN_OP(n) = 1 + min(MIN_OP(n-1), MIN_OP(n/2), MIN_OP(n/3))",
-              "choices": 3
-            },
-            {
-              "condition": "n is divisible by 2 only",
-              "formula": "MIN_OP(n) = 1 + min(MIN_OP(n-1), MIN_OP(n/2))",
-              "choices": 2
-            },
-            {
-              "condition": "n is divisible by 3 only",
-              "formula": "MIN_OP(n) = 1 + min(MIN_OP(n-1), MIN_OP(n/3))",
-              "choices": 2
-            },
-            {
-              "condition": "n is not divisible by 2 or 3",
-              "formula": "MIN_OP(n) = 1 + MIN_OP(n-1)",
-              "choices": 1
-            }
-          ]
-        },
-        "optimal_substructure": {
-          "property": "The minimum operations to reach 1 from n depends on the minimum operations from the states reachable in one step",
-          "justification": "Any optimal solution must use an optimal solution to the subproblem"
-        },
-        "overlapping_subproblems": {
-          "property": "Computing MIN_OP(n) may require computing the same MIN_OP(k) multiple times through different paths",
-          "example": "MIN_OP(12) needs MIN_OP(11), MIN_OP(6), MIN_OP(4), and these may overlap with other computations"
-        }
-      },
-      "computational_examples": {
-        "required_computations": [
-          {
-            "target": "MIN_OP(10)",
-            "trace": {
-              "description": "Compute minimum operations from 10 to 1",
-              "manual_computation_needed": true
-            }
-          },
-          {
-            "target": "MIN_OP(14)",
-            "trace": {
-              "description": "Compute minimum operations from 14 to 1",
-              "manual_computation_needed": true
-            }
-          },
-          {
-            "target": "MIN_OP(15)",
-            "trace": {
-              "description": "Compute minimum operations from 15 to 1",
-              "manual_computation_needed": true
-            }
-          }
-        ],
-        "sample_traces": {
-          "example_small_values": {
-            "MIN_OP(1)": 0,
-            "MIN_OP(2)": 1,
-            "MIN_OP(3)": 1,
-            "MIN_OP(4)": {
-              "value": 2,
-              "path": "4 \u2192 2 \u2192 1 (divide by 2, divide by 2)"
-            },
-            "MIN_OP(5)": {
-              "value": 3,
-              "path": "5 \u2192 4 \u2192 2 \u2192 1 (subtract 1, divide by 2, divide by 2)"
-            },
-            "MIN_OP(6)": {
-              "value": 2,
-              "path": "6 \u2192 3 \u2192 1 (divide by 2, divide by 3) OR 6 \u2192 2 \u2192 1 (divide by 3, divide by 2)"
-            }
-          }
-        }
-      },
-      "complexity_analysis": {
-        "time_complexity": {
-          "naive_recursive": "O(3^n)",
-          "with_memoization": "O(n)",
-          "bottom_up_dp": "O(n)",
-          "explanation": "Each state computed once, constant work per state"
-        },
-        "space_complexity": {
-          "memoization": "O(n)",
-          "bottom_up_dp": "O(n)",
-          "explanation": "Need to store MIN_OP values for all integers from 1 to n"
-        }
-      },
-      "implementation_considerations": {
-        "approaches": [
-          {
-            "method": "Top-down with memoization",
-            "pseudocode_outline": [
-              "function MIN_OP(n, memo):",
-              "  if n == 1: return 0",
-              "  if n in memo: return memo[n]",
-              "  result = 1 + MIN_OP(n-1, memo)  // subtract option always available",
-              "  if n % 2 == 0: result = min(result, 1 + MIN_OP(n/2, memo))",
-              "  if n % 3 == 0: result = min(result, 1 + MIN_OP(n/3, memo))",
-              "  memo[n] = result",
-              "  return result"
-            ]
-          },
-          {
-            "method": "Bottom-up DP",
-            "pseudocode_outline": [
-              "function MIN_OP_bottomup(n):",
-              "  dp = array of size n+1",
-              "  dp[1] = 0",
-              "  for i from 2 to n:",
-              "    dp[i] = 1 + dp[i-1]  // subtract option",
-              "    if i % 2 == 0: dp[i] = min(dp[i], 1 + dp[i/2])",
-              "    if i % 3 == 0: dp[i] = min(dp[i], 1 + dp[i/3])",
-              "  return dp[n]"
-            ]
-          }
-        ]
-      },
-      "edge_cases": {
-        "cases": [
-          {
-            "case": "n = 1",
-            "result": "0 operations (base case)"
-          },
-          {
-            "case": "n is a power of 2",
-            "observation": "Can repeatedly divide by 2 efficiently"
-          },
-          {
-            "case": "n is a power of 3",
-            "observation": "Can repeatedly divide by 3 efficiently"
-          },
-          {
-            "case": "n is prime and > 3",
-            "observation": "Must subtract 1 first, then proceed from n-1"
-          },
-          {
-            "case": "Large values of n",
-            "consideration": "May need to compute many intermediate values"
-          }
-        ]
-      },
-      "related_problems": {
-        "similar_concepts": [
-          "Classic DP problem similar to 'Minimum steps to 1' or 'Reach 1'",
-          "Coin change problem (minimum coins)",
-          "BFS shortest path on implicit graph",
-          "Collatz conjecture exploration"
-        ],
-        "variations": [
-          "Different set of allowed operations",
-          "Finding the actual sequence of operations, not just count",
-          "Weighted operations (different costs)",
-          "Multiple target values"
-        ]
-      },
-      "student_submission": {
-        "submitted_answer": "12",
-        "submission_format": "numerical_only",
-        "requires_computation": true,
-        "computation_breakdown": {
-          "MIN_OP_10": {
-            "computed_value": null,
-            "optimal_path": null
-          },
-          "MIN_OP_14": {
-            "computed_value": null,
-            "optimal_path": null
-          },
-          "MIN_OP_15": {
-            "computed_value": null,
-            "optimal_path": null
-          },
-          "sum": 12
-        }
-      },
-      "expected_solution": {
-        "correct_answer": "11",
-        "detailed_computation": {
-          "MIN_OP_10_solution": {
-            "value": "3",
-            "optimal_path": "10 → 9 → 3 → 1",
-            "step_by_step": ["10-1=9", "9÷3=3", "3÷3=1"]
-          },
-          "MIN_OP_14_solution": {
-            "value": "4",
-            "optimal_path": "14 → 7 → 6 → 3 → 1",
-            "step_by_step": ["14÷2=7", "7-1=6", "6÷3=2 or 6÷2=3", "final step to 1"]
-          },
-          "MIN_OP_15_solution": {
-            "value": "4",
-            "optimal_path": "15 → 5 → 4 → 2 → 1",
-            "step_by_step": ["15÷3=5", "5-1=4", "4÷2=2", "2÷2=1"]
-          }
-        },
-        "marking_criteria": {
-          "total_marks": 3,
-          "marks_obtained": 0,
-          "allocation": "All-or-nothing for correct numerical answer",
-          "student_answer": "12",
-          "feedback": "Incorrect. Student answered 12, correct answer is 11 (3+4+4)"
-        }
-      },
-      "teaching_notes": {
-        "key_concepts_tested": [
-          "Dynamic programming problem recognition",
-          "Recurrence relation formulation",
-          "Base case identification",
-          "Optimal substructure property",
-          "Manual computation of small DP instances"
-        ],
-        "common_mistakes": [
-          "Forgetting divisibility constraints on operations",
-          "Not considering all three possible operations when applicable",
-          "Off-by-one errors in counting operations",
-          "Greedy approach (always choosing division) which may not be optimal",
-          "Computational errors in manual calculation"
-        ],
-        "problem_solving_strategy": [
-          "Start with base case MIN_OP(1) = 0",
-          "Build up values systematically for small n",
-          "For each n, consider which operations are valid",
-          "Take minimum over valid choices",
-          "Compute MIN_OP(10), MIN_OP(14), MIN_OP(15) separately",
-          "Sum the three values"
-        ],
-        "greedy_vs_dp": {
-          "note": "A greedy approach of always dividing when possible may not be optimal",
-          "counterexample": "For n=15: greedy might do 15\u21925\u21924\u21922\u21921 (4 ops), but 15\u219214\u21927\u21926\u21923\u21921 might be different",
-          "lesson": "Need to explore all possibilities via DP"
-        }
-      },
-      "verification_approach": {
-        "methods": [
-          "Compute bottom-up from 1 to max(10, 14, 15) = 15",
-          "Verify each step follows recurrence relation",
-          "Cross-check with alternative computation method",
-          "Trace back optimal paths to verify operation counts"
-        ]
-      }
-    },
-    {
-      "exam_metadata": {
-        "course": "FIT2004 Algorithms and Data Structures",
-        "institution": "Monash University",
-        "question_number": 5,
-        "total_questions": 15,
-        "marks": 3,
-        "time_remaining": "0:07:44",
-        "questions_attempted": "15/15"
-      },
-      "question": {
-        "id": "q5",
-        "type": "multiple_choice_multiple_answer",
-        "category": "Graph Algorithms",
-        "subcategory": "Greedy Algorithms - Correctness Conditions",
-        "difficulty": "medium",
-        "marks_allocated": 3,
-        "topic_tags": [
-          "greedy_algorithms",
-          "shortest_path",
-          "minimum_spanning_tree",
-          "dijkstra",
-          "prim",
-          "kruskal",
-          "negative_weights",
-          "negative_cycles",
-          "graph_properties"
-        ],
-        "prompt": "Select all true statements regarding the correctness of greedy graph algorithms.",
-        "instruction": "Select one or more:",
-        "options": [
-          {
-            "id": "a",
-            "text": "Dijkstra's algorithm works correctly for directed graphs with negative cycle(s).",
-            "mathematical_context": {
-              "algorithm": "Dijkstra's algorithm",
-              "graph_type": "directed",
-              "edge_weights": "general (allowing negative)",
-              "special_condition": "negative cycles present",
-              "correctness_claim": false,
-              "reasoning": "Dijkstra's algorithm assumes non-negative edge weights. With negative cycles, the algorithm cannot guarantee shortest paths as distances can decrease indefinitely by traversing the cycle repeatedly. The greedy choice of always selecting the minimum distance vertex becomes invalid."
-            }
-          },
-          {
-            "id": "b",
-            "text": "Both Prims and Kruskal's algorithm work correctly for undirected graphs with negative weights but no negative cycle.",
-            "mathematical_context": {
-              "algorithms": [
-                "Prim's algorithm",
-                "Kruskal's algorithm"
-              ],
-              "graph_type": "undirected",
-              "edge_weights": "negative allowed",
-              "special_condition": "no negative cycles",
-              "correctness_claim": true,
-              "reasoning": "Both Prim's and Kruskal's algorithms find minimum spanning trees (MSTs) and their correctness depends only on being able to compare edge weights, not on the signs of the weights. Negative weights are perfectly acceptable. The absence of negative cycles is mentioned but is actually irrelevant for MST algorithms since they don't traverse cycles - they build acyclic spanning trees. The algorithms work correctly even with negative weights."
-            }
-          },
-          {
-            "id": "c",
-            "text": "Dijkstra's algorithm works correctly for directed graphs with negative weights but no negative cycle.",
-            "mathematical_context": {
-              "algorithm": "Dijkstra's algorithm",
-              "graph_type": "directed",
-              "edge_weights": "negative allowed",
-              "special_condition": "no negative cycles",
-              "correctness_claim": false,
-              "reasoning": "Dijkstra's algorithm requires non-negative edge weights for correctness. Even without negative cycles, negative edges can invalidate the greedy choice. Once a vertex is finalized with its shortest distance, Dijkstra never revisits it. However, with negative edges, a path through a later-discovered vertex might provide a shorter path to an already-finalized vertex. The algorithm's correctness proof breaks down without the non-negative weight assumption."
-            }
-          },
-          {
-            "id": "d",
-            "text": "Both Prims and Kruskal's algorithm work correctly for undirected graphs with negative cycle(s).",
-            "mathematical_context": {
-              "algorithms": [
-                "Prim's algorithm",
-                "Kruskal's algorithm"
-              ],
-              "graph_type": "undirected",
-              "edge_weights": "general (allowing negative)",
-              "special_condition": "negative cycles present",
-              "correctness_claim": true,
-              "reasoning": "MST algorithms work correctly even with negative cycles. The algorithms build spanning trees, which by definition are acyclic. Any negative cycle in the original graph cannot be included in a spanning tree because it would create a cycle. The algorithms correctly identify and avoid creating cycles while finding the minimum weight spanning tree. The presence of negative cycles in the graph doesn't affect the correctness of MST construction."
-            }
-          }
-        ],
-        "algorithmic_context": {
-          "dijkstra_requirements": {
-            "correctness_conditions": [
-              "Non-negative edge weights (strictly required)",
-              "Graph can be directed or undirected",
-              "Greedy choice: always process minimum distance vertex",
-              "Once finalized, distance is optimal"
-            ],
-            "failure_modes": {
-              "negative_edges": "Breaks greedy choice optimality - finalized vertices might have shorter paths discovered later",
-              "negative_cycles": "Shortest paths undefined - can achieve arbitrarily small distances"
-            }
-          },
-          "mst_requirements": {
-            "correctness_conditions": [
-              "Graph must be connected (or find MST for each component)",
-              "Can handle any edge weights (positive, negative, zero)",
-              "Greedy choice: add minimum weight safe edge",
-              "Cut property ensures correctness"
-            ],
-            "key_insight": "MST algorithms build acyclic structures, so cycles (negative or otherwise) in the original graph are irrelevant to correctness"
-          },
-          "prim_algorithm": {
-            "approach": "Vertex-based greedy growth",
-            "data_structure": "Priority queue keyed by edge weights to tree",
-            "invariant": "Maintains single tree, adds minimum edge connecting tree to non-tree vertex",
-            "weight_dependency": "Only compares weights, sign irrelevant"
-          },
-          "kruskal_algorithm": {
-            "approach": "Edge-based greedy selection",
-            "data_structure": "Sort all edges, use union-find for cycle detection",
-            "invariant": "Maintains forest, adds minimum edge that doesn't create cycle",
-            "weight_dependency": "Only compares and sorts weights, sign irrelevant"
-          }
-        },
-        "conceptual_distinctions": {
-          "shortest_path_vs_mst": {
-            "shortest_path": {
-              "problem": "Find minimum total weight path between vertices",
-              "traverses_edges": "Can use same edge multiple times in different paths",
-              "negative_weight_impact": "Fundamental issue - can invalidate optimal substructure",
-              "algorithms": [
-                "Dijkstra (non-negative)",
-                "Bellman-Ford (allows negative)"
-              ]
-            },
-            "mst": {
-              "problem": "Find minimum total weight acyclic connected subgraph",
-              "structure": "Tree - inherently acyclic",
-              "negative_weight_impact": "No issue - just affects total weight value",
-              "algorithms": [
-                "Prim",
-                "Kruskal"
-              ]
-            }
-          },
-          "negative_cycles_impact": {
-            "shortest_path": "Makes problem ill-defined (can achieve -\u221e distance)",
-            "mst": "Irrelevant (cycles excluded by tree structure)"
-          }
-        }
-      },
-      "student_answer": {
-        "selected_options": [
-          "b"
-        ],
-        "timestamp": "saved at 0:07:45",
-        "status": "submitted",
-        "confidence": null,
-        "working": null
-      },
+
       "correct_answer": {
-        "correct_options": ["b", "d"],
-        "explanation": "Options b and d are correct. MST algorithms (Prim and Kruskal) work with negative weights and even negative cycles because they build acyclic spanning trees. Dijkstra requires non-negative weights.",
-        "detailed_analysis": {
-          "option_a": {
-            "correct": false,
-            "key_concepts": [
-              "Dijkstra correctness requirements",
-              "Negative cycle impact on shortest paths",
-              "Greedy algorithm failure modes"
-            ]
-          },
-          "option_b": {
-            "correct": true,
-            "key_concepts": [
-              "MST algorithm weight independence",
-              "Acyclic structure property",
-              "Cut property"
-            ]
-          },
-          "option_c": {
-            "correct": false,
-            "key_concepts": [
-              "Dijkstra non-negative weight requirement",
-              "Counterexample with negative edges",
-              "Bellman-Ford as alternative"
-            ]
-          },
-          "option_d": {
-            "correct": true,
-            "key_concepts": [
-              "MST and cycles relationship",
-              "Spanning tree definition",
-              "Cycle detection in Kruskal"
-            ]
-          }
-        }
+        "options": ["space_3", "aux_space_3", "time_3"],
+        "brief": "Space: Θ(N) - recursion depth. Aux Space: Θ(N) - call stack. Time: Θ(N) - n recursive calls."
       },
-      "assessment": {
-        "marks_obtained": 1.5,
-        "feedback": "Partial credit: Selected b (correct) but missed d",
-        "common_mistakes": [
-          "Confusing shortest path and MST problem requirements",
-          "Assuming negative cycles affect MST correctness",
-          "Not recognizing that Dijkstra fails with any negative edges, not just cycles",
-          "Forgetting that spanning trees are acyclic by definition"
-        ]
+
+      "grading": {
+        "marks_obtained": 0,
+        "feedback": "Incorrect. Selected logarithmic time complexity, but this is linear recursion."
+      }
+    },
+
+    {
+      "q_num": 2,
+      "marks": 3,
+      "type": "multiple_choice",
+      "topic": "Loop Invariants - MaxHeap k-smallest",
+      "solution_file": "25-2_question_2_solution.md",
+
+      "problem_statement": {
+        "description": "Given a MaxHeap-based algorithm, which loop invariant is correct?",
+        "pseudocode": "function MYSTERY(A[1...n], k)\n    # Initialize MaxHeap mh with first k elements\n    i = k + 1\n    while i ≤ n do\n        if A[i] < mh.max_element() then\n            mh.pop()\n            mh.push(A[i])\n        // Loop invariant here\n        i = i + 1\n    return mh"
       },
-      "learning_objectives": [
-        "Understand correctness conditions for greedy graph algorithms",
-        "Distinguish between shortest path and MST problem requirements",
-        "Recognize when negative weights invalidate algorithm correctness",
-        "Understand the relationship between graph properties (cycles) and algorithm applicability"
+
+      "answer_options": [
+        "mh contains the i biggest elements of A[1...k]",
+        "mh contains the k biggest elements of A[1...i+1]",
+        "mh contains the i biggest elements of A[1...k+i]",
+        "mh contains the k smallest elements of A[1...i]",
+        "mh contains the k biggest elements of A[1...i]",
+        "mh contains the i smallest elements of A[1...k]",
+        "mh contains the i smallest elements of A[1...k+i]",
+        "mh contains the k smallest elements of A[1...i+1]"
       ],
-      "related_concepts": {
-        "algorithms": [
-          {
-            "name": "Dijkstra's Algorithm",
-            "time_complexity": "O((V + E) log V) with binary heap",
-            "space_complexity": "O(V)",
-            "requirements": [
-              "non-negative weights"
-            ],
-            "outputs": "Single-source shortest paths"
-          },
-          {
-            "name": "Bellman-Ford Algorithm",
-            "time_complexity": "O(VE)",
-            "space_complexity": "O(V)",
-            "requirements": [
-              "can handle negative weights",
-              "detects negative cycles"
-            ],
-            "outputs": "Single-source shortest paths or negative cycle detection"
-          },
-          {
-            "name": "Prim's Algorithm",
-            "time_complexity": "O((V + E) log V) with binary heap",
-            "space_complexity": "O(V)",
-            "requirements": [
-              "connected graph"
-            ],
-            "outputs": "Minimum spanning tree"
-          },
-          {
-            "name": "Kruskal's Algorithm",
-            "time_complexity": "O(E log E) or O(E log V)",
-            "space_complexity": "O(V) for union-find",
-            "requirements": [
-              "none specific to weights"
-            ],
-            "outputs": "Minimum spanning tree (or forest)"
-          }
-        ],
-        "graph_properties": {
-          "negative_edges": {
-            "definition": "Edges with weight < 0",
-            "impact_on_dijkstra": "Breaks correctness - algorithm may return incorrect shortest paths",
-            "impact_on_mst": "No impact - algorithms compare weights only"
-          },
-          "negative_cycles": {
-            "definition": "Cycle where sum of edge weights < 0",
-            "impact_on_shortest_path": "Makes problem ill-defined - can achieve arbitrarily small distances",
-            "impact_on_mst": "No impact - cycles not included in spanning trees",
-            "detection": "Bellman-Ford can detect in O(VE) time"
-          }
-        }
+
+      "student_answer": {
+        "selected": "d",
+        "correct": true
       },
-      "exam_strategy": {
-        "key_discriminators": [
-          "Separate shortest path algorithms from MST algorithms",
-          "Remember: Dijkstra requires non-negative weights (strict requirement)",
-          "Remember: MST algorithms don't care about edge weight signs",
-          "Trees are acyclic, so cycles in graph don't affect MST construction"
-        ],
-        "time_management": "3 marks, should take ~2-3 minutes",
-        "difficulty_indicators": [
-          "Requires understanding multiple algorithms",
-          "Tests conceptual understanding vs memorization",
-          "Multiple correct answers possible"
-        ]
+
+      "correct_answer": {
+        "option": "d",
+        "brief": "MaxHeap maintains k smallest elements. Root is largest of k smallest (threshold). Algorithm finds k smallest, not biggest."
+      },
+
+      "grading": {
+        "marks_obtained": 3,
+        "feedback": "Correct!"
+      }
+    },
+
+    {
+      "q_num": 3,
+      "marks": 3,
+      "type": "multiple_select",
+      "topic": "Graph Algorithms - Complexity by Representation",
+      "solution_file": "25-2_question_3_solution.md",
+
+      "problem_statement": {
+        "description": "Consider a graph G = (V, E). Select all true statements.",
+        "options_summary": "Statements about adjacency matrix/list time complexities for edge check, Dijkstra, Prim, and DFS."
+      },
+
+      "answer_options": [
+        "a) Adjacency matrix edge check is Θ(1)",
+        "b) Sparse graph + adjacency matrix + Dijkstra = Θ(|V| log |V|)",
+        "c) Sparse graph + adjacency list + Prim = Θ(|V| log |V|)",
+        "d) Adjacency matrix + DFS = Θ(|V|+|E|)"
+      ],
+
+      "student_answer": {
+        "selected": ["a"],
+        "correct": "partial"
+      },
+
+      "correct_answer": {
+        "options": ["a", "c"],
+        "brief": "(a) Matrix allows O(1) edge check. (c) Prim with list on sparse graph (|E|=Θ(|V|)) is Θ(|V| log |V|). (b) False - matrix always Θ(|V|²). (d) False - matrix DFS is Θ(|V|²)."
+      },
+
+      "grading": {
+        "marks_obtained": 1.5,
+        "feedback": "Partial credit. Selected (a) correctly but missed (c)."
+      }
+    },
+
+    {
+      "q_num": 4,
+      "marks": 3,
+      "type": "numerical",
+      "topic": "Dynamic Programming - Minimum Operations to 1",
+      "solution_file": "25-2_question_4_solution.md",
+
+      "problem_statement": {
+        "description": "Given operations: subtract 1 (always), divide by 2 (if even), divide by 3 (if divisible by 3). Find MIN_OP(n) = minimum operations to go from n to 1.",
+        "question": "Calculate: x = MIN_OP(10) + MIN_OP(14) + MIN_OP(15)"
+      },
+
+      "student_answer": {
+        "value": "12",
+        "correct": false
+      },
+
+      "correct_answer": {
+        "value": "11",
+        "breakdown": {
+          "MIN_OP(10)": {"value": 3, "path": "10→9→3→1"},
+          "MIN_OP(14)": {"value": 4, "path": "14→7→6→3→1"},
+          "MIN_OP(15)": {"value": 4, "path": "15→5→4→2→1"}
+        },
+        "brief": "3 + 4 + 4 = 11. Use DP: MIN_OP(n) = 1 + min of available operations."
+      },
+
+      "grading": {
+        "marks_obtained": 0,
+        "feedback": "Incorrect. Answer was 12, correct is 11. Likely miscounted one value."
+      }
+    },
+
+    {
+      "q_num": 5,
+      "marks": 3,
+      "type": "multiple_select",
+      "topic": "Greedy Algorithms - Correctness Conditions",
+      "solution_file": "25-2_question_5_solution.md",
+
+      "problem_statement": {
+        "description": "Select all true statements regarding the correctness of greedy graph algorithms.",
+        "options_summary": "Statements about Dijkstra, Prim, Kruskal with negative weights and/or negative cycles."
+      },
+
+      "answer_options": [
+        "a) Dijkstra works for directed graphs with negative cycles",
+        "b) Prim and Kruskal work for undirected graphs with negative weights (no negative cycles)",
+        "c) Dijkstra works for directed graphs with negative weights (no negative cycles)",
+        "d) Prim and Kruskal work for undirected graphs with negative cycles"
+      ],
+
+      "student_answer": {
+        "selected": ["b"],
+        "correct": "partial"
+      },
+
+      "correct_answer": {
+        "options": ["b", "d"],
+        "brief": "(b) MST algorithms work with negative weights. (d) MSTs are acyclic, so graph cycles (even negative) are irrelevant. (a,c) False - Dijkstra requires non-negative weights."
+      },
+
+      "grading": {
+        "marks_obtained": 1.5,
+        "feedback": "Partial credit. Selected (b) correctly but missed (d). MSTs are trees - cycles in graph don't matter."
       }
     }
   ]
