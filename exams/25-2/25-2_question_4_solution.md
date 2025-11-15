@@ -124,20 +124,20 @@ Let me build the complete table:
 | n | Divisible by | Available Operations | Calculation | MIN_OP(n) | Optimal Path |
 |---|--------------|---------------------|-------------|-----------|--------------|
 | 1 | - | - | Base case | **0** | - |
-| 2 | 2 | -1, /2 | min(1+0, 1+0) | **1** | 2’1 |
-| 3 | 3 | -1, /3 | min(1+1, 1+0) | **1** | 3’1 |
-| 4 | 2 | -1, /2 | min(1+1, 1+1) | **2** | 4’2’1 |
-| 5 | - | -1 | 1+2 | **3** | 5’4’2’1 |
-| 6 | 2,3 | -1, /2, /3 | min(1+3, 1+1, 1+1) | **2** | 6’3’1 or 6’2’1 |
-| 7 | - | -1 | 1+2 | **3** | 7’6’3’1 |
-| 8 | 2 | -1, /2 | min(1+3, 1+2) | **3** | 8’4’2’1 |
-| 9 | 3 | -1, /3 | min(1+3, 1+1) | **2** | 9’3’1 |
-| **10** | **2** | **-1, /2** | **min(1+2, 1+3)** | **3** | **10’5’4’2’1** |
-| 11 | - | -1 | 1+3 | **4** | 11’10’5’4’2’1 |
-| 12 | 2,3 | -1, /2, /3 | min(1+4, 1+2, 1+2) | **3** | 12’6’3’1 or 12’4’2’1 |
-| 13 | - | -1 | 1+3 | **4** | 13’12’6’3’1 |
-| **14** | **2** | **-1, /2** | **min(1+4, 1+2)** | **4** | **14’7’6’3’1** |
-| **15** | **3** | **-1, /3** | **min(1+4, 1+3)** | **4** | **15’5’4’2’1** |
+| 2 | 2 | -1, /2 | min(1+0, 1+0) | **1** | 2â†’1 |
+| 3 | 3 | -1, /3 | min(1+1, 1+0) | **1** | 3â†’1 |
+| 4 | 2 | -1, /2 | min(1+1, 1+1) | **2** | 4â†’2â†’1 |
+| 5 | - | -1 | 1+2 | **3** | 5â†’4â†’2â†’1 |
+| 6 | 2,3 | -1, /2, /3 | min(1+3, 1+1, 1+1) | **2** | 6â†’3â†’1 or 6â†’2â†’1 |
+| 7 | - | -1 | 1+2 | **3** | 7â†’6â†’3â†’1 |
+| 8 | 2 | -1, /2 | min(1+3, 1+2) | **3** | 8â†’4â†’2â†’1 |
+| 9 | 3 | -1, /3 | min(1+3, 1+1) | **2** | 9â†’3â†’1 |
+| **10** | **2** | **-1, /2** | **min(1+2, 1+3)** | **3** | **10â†’9â†’3â†’1** |
+| 11 | - | -1 | 1+3 | **4** | 11â†’10â†’9â†’3â†’1 |
+| 12 | 2,3 | -1, /2, /3 | min(1+4, 1+2, 1+2) | **3** | 12â†’6â†’3â†’1 or 12â†’4â†’2â†’1 |
+| 13 | - | -1 | 1+3 | **4** | 13â†’12â†’6â†’3â†’1 |
+| **14** | **2** | **-1, /2** | **min(1+4, 1+2)** | **4** | **14â†’7â†’6â†’3â†’1** |
+| **15** | **3** | **-1, /3** | **min(1+4, 1+3)** | **4** | **15â†’5â†’4â†’2â†’1** |
 
 ### Step-by-Step Computation
 
@@ -146,19 +146,19 @@ Let me build the complete table:
 ```
 10 is even (divisible by 2)
 Options:
-  - Subtract 1: 10 ’ 9, then MIN_OP(9) = 2
+  - Subtract 1: 10 â†’ 9, then MIN_OP(9) = 2
     Total: 1 + 2 = 3
-  - Divide by 2: 10 ’ 5, then MIN_OP(5) = 3
+  - Divide by 2: 10 â†’ 5, then MIN_OP(5) = 3
     Total: 1 + 3 = 4
 
 MIN_OP(10) = min(3, 4) = 3
-Optimal path: 10 ’ 9 ’ 3 ’ 1
+Optimal path: 10 â†’ 9 â†’ 3 â†’ 1
 ```
 
 **Verification:**
-- 10 ’ 9 (subtract 1)
-- 9 ’ 3 (divide by 3)
-- 3 ’ 1 (divide by 3)
+- 10 â†’ 9 (subtract 1)
+- 9 â†’ 3 (divide by 3)
+- 3 â†’ 1 (divide by 3)
 - **Total: 3 operations** 
 
 #### MIN_OP(14)
@@ -166,20 +166,20 @@ Optimal path: 10 ’ 9 ’ 3 ’ 1
 ```
 14 is even (divisible by 2)
 Options:
-  - Subtract 1: 14 ’ 13, then MIN_OP(13) = 4
+  - Subtract 1: 14 â†’ 13, then MIN_OP(13) = 4
     Total: 1 + 4 = 5
-  - Divide by 2: 14 ’ 7, then MIN_OP(7) = 3
+  - Divide by 2: 14 â†’ 7, then MIN_OP(7) = 3
     Total: 1 + 3 = 4
 
 MIN_OP(14) = min(5, 4) = 4
-Optimal path: 14 ’ 7 ’ 6 ’ 3 ’ 1
+Optimal path: 14 â†’ 7 â†’ 6 â†’ 3 â†’ 1
 ```
 
 **Verification:**
-- 14 ’ 7 (divide by 2)
-- 7 ’ 6 (subtract 1)
-- 6 ’ 3 (divide by 2) or 6 ’ 2 (divide by 3)
-- 3 ’ 1 (divide by 3) or 2 ’ 1 (divide by 2)
+- 14 â†’ 7 (divide by 2)
+- 7 â†’ 6 (subtract 1)
+- 6 â†’ 3 (divide by 2) or 6 â†’ 2 (divide by 3)
+- 3 â†’ 1 (divide by 3) or 2 â†’ 1 (divide by 2)
 - **Total: 4 operations** 
 
 #### MIN_OP(15)
@@ -187,20 +187,20 @@ Optimal path: 14 ’ 7 ’ 6 ’ 3 ’ 1
 ```
 15 is divisible by 3
 Options:
-  - Subtract 1: 15 ’ 14, then MIN_OP(14) = 4
+  - Subtract 1: 15 â†’ 14, then MIN_OP(14) = 4
     Total: 1 + 4 = 5
-  - Divide by 3: 15 ’ 5, then MIN_OP(5) = 3
+  - Divide by 3: 15 â†’ 5, then MIN_OP(5) = 3
     Total: 1 + 3 = 4
 
 MIN_OP(15) = min(5, 4) = 4
-Optimal path: 15 ’ 5 ’ 4 ’ 2 ’ 1
+Optimal path: 15 â†’ 5 â†’ 4 â†’ 2 â†’ 1
 ```
 
 **Verification:**
-- 15 ’ 5 (divide by 3)
-- 5 ’ 4 (subtract 1)
-- 4 ’ 2 (divide by 2)
-- 2 ’ 1 (divide by 2)
+- 15 â†’ 5 (divide by 3)
+- 5 â†’ 4 (subtract 1)
+- 4 â†’ 2 (divide by 2)
+- 2 â†’ 1 (divide by 2)
 - **Total: 4 operations** 
 
 ### Final Answer
@@ -226,18 +226,18 @@ x = 11
 
 Greedy path:
 ```
-10 ’ 5 (divide by 2)
-5 ’ 4 (subtract 1)
-4 ’ 2 (divide by 2)
-2 ’ 1 (divide by 2)
+10 â†’ 5 (divide by 2)
+5 â†’ 4 (subtract 1)
+4 â†’ 2 (divide by 2)
+2 â†’ 1 (divide by 2)
 Total: 4 operations
 ```
 
 Optimal path:
 ```
-10 ’ 9 (subtract 1)
-9 ’ 3 (divide by 3)
-3 ’ 1 (divide by 3)
+10 â†’ 9 (subtract 1)
+9 â†’ 3 (divide by 3)
+3 â†’ 1 (divide by 3)
 Total: 3 operations 
 ```
 
@@ -277,7 +277,7 @@ Total: 3 operations 
 
 ### Mistake 3: Off-by-one errors in counting operations
 **Error:** Counting states instead of transitions
-**Correction:** Each operation is a transition. Path 10’9’3’1 has 3 transitions, not 4 states
+**Correction:** Each operation is a transition. Path 10â†’9â†’3â†’1 has 3 transitions, not 4 states
 
 ### Mistake 4: Greedy approach
 **Error:** Always choosing division over subtraction
@@ -297,12 +297,12 @@ Total: 3 operations 
 
 ### Case 2: n is a power of 2 (e.g., 8, 16, 32)
 - **Observation:** Can repeatedly divide by 2 efficiently
-- **Example:** 8 ’ 4 ’ 2 ’ 1 (3 operations)
+- **Example:** 8 â†’ 4 â†’ 2 â†’ 1 (3 operations)
 - **Formula:** MIN_OP(2^k) = k
 
 ### Case 3: n is a power of 3 (e.g., 9, 27, 81)
 - **Observation:** Can repeatedly divide by 3 efficiently
-- **Example:** 9 ’ 3 ’ 1 (2 operations)
+- **Example:** 9 â†’ 3 â†’ 1 (2 operations)
 - **Formula:** MIN_OP(3^k) = k
 
 ### Case 4: n is prime and > 3
@@ -423,9 +423,9 @@ For small values during exams:
 
 | Value | Computation | MIN_OP | Optimal Path |
 |-------|-------------|--------|--------------|
-| **10** | min(1+MIN_OP(9), 1+MIN_OP(5)) = min(3,4) | **3** | 10’9’3’1 |
-| **14** | min(1+MIN_OP(13), 1+MIN_OP(7)) = min(5,4) | **4** | 14’7’6’3’1 |
-| **15** | min(1+MIN_OP(14), 1+MIN_OP(5)) = min(5,4) | **4** | 15’5’4’2’1 |
+| **10** | min(1+MIN_OP(9), 1+MIN_OP(5)) = min(3,4) | **3** | 10â†’9â†’3â†’1 |
+| **14** | min(1+MIN_OP(13), 1+MIN_OP(7)) = min(5,4) | **4** | 14â†’7â†’6â†’3â†’1 |
+| **15** | min(1+MIN_OP(14), 1+MIN_OP(5)) = min(5,4) | **4** | 15â†’5â†’4â†’2â†’1 |
 | **x** | 3 + 4 + 4 | **11** | - |
 
 **My Answer:** 12 
